@@ -1,0 +1,180 @@
+<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script src="https://api.trello.com/1/client.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+<link rel="stylesheet" href="style.css" >
+
+<div style="height: 100%; overflow: hidden; font-size: 24px;">
+    <div id="first_div" style="height:100%; background: #36609B; text-align: center;">
+        <div class="centered_content" >
+            <p>Paste the url of one card from the column you need to prioritize and press The button</p>
+            <p>
+                <input type="text" id="card_url"/>
+            </p>
+            <p>
+                <button class="btn btn-large" id="retrieve_cards">The button
+                </button>
+            </p>
+        </div>
+    </div>
+    <div id="second_div" class="centered_content" style="height:100%; background: #5A9E73; text-align: center;">
+        <div class="centered_content row" >
+            <div class="col-md-6" >
+                <div class="jumbotron choice_button" id="left_button" data-cardId="0">
+                    <h1></h1>
+                    <p class="card_content"></p>
+                    <p><a class="btn btn-primary btn-lg card_link" href="#" target="_blank" role="button">See card</a></p>
+                </div>
+            </div>
+            <div class="col-md-6" >
+                <div class="jumbotron choice_button" id="right_button" data-cardId="0">
+                    <h1></h1>
+                    <p class="card_content"></p>
+                    <p><a class="btn btn-primary btn-lg card_link" href="#" target="_blank" role="button">See card</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="third_div" class="centered_content" style="height:100%; background: #703D2F; text-align: center;">
+        <div class="centered_content" >
+        <button class="btn btn-large" id="update_board">Send ordered data to board</button>
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+
+    var cards = [];
+
+    jQuery('#retrieve_cards').click(function () {
+        var cardUrl = jQuery('#card_url').val().replace("https://trello.com/c/", "");
+        cardId = cardUrl.replace(/\/(.*)/g, "")
+        Trello.cards.get(cardId, null, function (data) {
+            var idList = data.idList;
+            jQuery.ajax({
+                url: "https://api.trello.com/1/lists/" + idList + "/cards?key="+apiKey+"&token=" + Trello.token(),
+            }).done(function (data) {
+                listCards = data;
+                handleCards(listCards);
+                cards = listCards;
+            });
+        }, function () {
+            console.log("Error in Trello.cards.get");
+        });
+    });
+
+    var positions = [];
+    var matches = [];
+
+    function handleCards(listCards) {
+        for (var i = 0; i < listCards.length; i++) {
+            positions.push(listCards[i].pos);
+
+            for (var j = i + 1; j < listCards.length; j++) {
+                matches.push([listCards[i], listCards[j]]);
+            }
+        }
+        goToSecondDiv();
+        startChoices(0);
+    }
+
+    function startChoices(currMatch) {
+        if(currMatch < matches.length){
+            getChoice(currMatch);
+        }else{
+            jQuery("#left_button").html("");
+            jQuery("#right_button").html("");
+            goToThirdDiv();
+        }
+    }
+
+    function getChoice(currMatch){
+        jQuery("#left_button h1").html(matches[currMatch][0].name);
+        jQuery("#left_button .card_content").html(matches[currMatch][0].desc);
+        jQuery("#left_button .card_link").prop("href", matches[currMatch][0].shortUrl);
+        jQuery("#right_button h1").html(matches[currMatch][1].name);
+        jQuery("#right_button .card_content").html(matches[currMatch][1].desc);
+        jQuery("#right_button .card_link").prop("href", matches[currMatch][1].shortUrl);
+        jQuery(".choice_button").click(function () {
+            if($(this).attr("id") == "left_button"){
+                selChoice = matches[currMatch][0];
+            }else if($(this).attr("id") == "right_button"){
+                selChoice = matches[currMatch][1];
+            }
+            jQuery(".choice_button").unbind("click");
+            addOnePoint(selChoice);
+            startChoices(currMatch + 1 );
+        });
+
+    }
+
+    function addOnePoint(theCard){
+        for (var j = 0; j < cards.length; j++) {
+            if(cards[j].points === undefined){
+                cards[j].points = 0;
+            }
+            if(cards[j] === theCard){
+                cards[j].points = cards[j].points + 1;
+            }
+        }
+    }
+
+    function goToSecondDiv(){
+        jQuery('#first_div').animate({'margin-top' : -1 * jQuery('#first_div').outerHeight()});
+    }
+
+    function goToThirdDiv(){
+        jQuery('#first_div').animate({'margin-top' : -2 * jQuery('#first_div').outerHeight()});
+    }
+
+    jQuery('#update_board').click(function () {
+        for (var j = 0; j < cards.length; j++) {
+            var position = (cards.length - cards[j].points ) *100;
+            Trello.put('/cards/'+cards[j].id, {pos: '' + position});
+        }
+    });
+
+    var apiKey = false;
+
+    jQuery(document).ready(function(){
+
+        apiKey = localStorage.getItem("sortelloTrelloDevApiKey");
+        while(!apiKey){
+            apiKey = prompt("Please insert your api key here. You can find it here https://trello.com/app-key");
+            localStorage.setItem('sortelloTrelloDevApiKey', apiKey);
+        }
+
+        var authenticationSuccess = function (data) {
+            console.log("Successful authentication");
+        };
+        var authenticationFailure = function () {
+            console.log("Failed authentication");
+        };
+        Trello.setKey(apiKey);
+        Trello.authorize({
+            type: 'popup',
+            name: 'Getting Started Application',
+            scope: {
+                read: 'true',
+                write: 'true'
+            },
+            expiration: 'never',
+            success: authenticationSuccess,
+            error: authenticationFailure
+        });
+
+        jQuery(".centered_content").each(function(){
+            var content_height = jQuery(this).outerHeight();
+            var viewport_height = jQuery(document).innerHeight();
+            var padding_top = (viewport_height/2) - content_height/2;
+            jQuery(this).css('padding-top', padding_top+'px');
+        });
+    });
+
+
+    jQuery('.choice_button .card_link').click(function(e){
+        e.stopPropagation();
+    });
+</script>
+
