@@ -1,5 +1,6 @@
 <script src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
 <script src="https://api.trello.com/1/client.js"></script>
+<script src="tree-node.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="style.css">
 
@@ -79,24 +80,22 @@
         });
     });
 
-    var positions = [];
-    var matches = [];
+    var nodes = Array();
+    var rootNode;
 
     function handleCards(listCards) {
-        for (var i = 0; i < listCards.length; i++) {
-            positions.push(listCards[i].pos);
-
-            for (var j = i + 1; j < listCards.length; j++) {
-                matches.push([listCards[i], listCards[j]]);
-            }
+        for(var i = 0; i < listCards.length; i++){
+            var node = new TreeNode(listCards[i]);
+            nodes.push(node);
         }
+        rootNode = nodes[0];
         navigateTo("second_div");
-        startChoices(0);
+        startChoices(1);
     }
 
-    function startChoices(currMatch) {
-        if (currMatch < matches.length) {
-            getChoice(currMatch);
+    function startChoices(currNode) {
+        if (currNode < nodes.length) {
+            getChoice(nodes[currNode], rootNode, currNode);
         } else {
             jQuery("#left_button").html("");
             jQuery("#right_button").html("");
@@ -104,35 +103,27 @@
         }
     }
 
-    function getChoice(currMatch) {
-        jQuery("#left_button h1").html(matches[currMatch][0].name);
-        jQuery("#left_button .card_content").html(matches[currMatch][0].desc);
-        jQuery("#left_button .card_link").prop("href", matches[currMatch][0].shortUrl);
-        jQuery("#right_button h1").html(matches[currMatch][1].name);
-        jQuery("#right_button .card_content").html(matches[currMatch][1].desc);
-        jQuery("#right_button .card_link").prop("href", matches[currMatch][1].shortUrl);
+    function getChoice(node, compareNode, currNode) {
+        jQuery("#left_button h1").html(node.value.name);
+        jQuery("#left_button .card_content").html(node.value.desc);
+        jQuery("#left_button .card_link").prop("href", node.value.shortUrl);
+        jQuery("#right_button h1").html(compareNode.value.name);
+        jQuery("#right_button .card_content").html(compareNode.value.desc);
+        jQuery("#right_button .card_link").prop("href", compareNode.value.shortUrl);
         jQuery(".choice_button").click(function () {
             if ($(this).attr("id") == "left_button") {
-                selChoice = matches[currMatch][0];
+                compareNode = node.goLeft(compareNode);
             } else if ($(this).attr("id") == "right_button") {
-                selChoice = matches[currMatch][1];
+                compareNode = node.goRight(compareNode);
             }
             jQuery(".choice_button").unbind("click");
-            addOnePoint(selChoice);
-            startChoices(currMatch + 1);
+            if(node.isPositioned){
+                startChoices(currNode + 1);
+            }else{
+                getChoice(node, compareNode, currNode);
+            }
         });
 
-    }
-
-    function addOnePoint(theCard) {
-        for (var j = 0; j < cards.length; j++) {
-            if (cards[j].points === undefined) {
-                cards[j].points = 0;
-            }
-            if (cards[j] === theCard) {
-                cards[j].points = cards[j].points + 1;
-            }
-        }
     }
 
     function navigateTo(divId) {
@@ -150,9 +141,12 @@
     }
 
     jQuery('#update_board').click(function () {
-        for (var j = 0; j < cards.length; j++) {
-            var position = (cards.length - cards[j].points ) * 100;
-            Trello.put('/cards/' + cards[j].id, {pos: '' + position});
+
+        var reorderedNodes = traverseTree(rootNode);
+        var position = 100;
+        for (var j = 0; j < reorderedNodes.length; j++) {
+            Trello.put('/cards/' + reorderedNodes[j].value.id, {pos: '' + position});
+            position += 100;
         }
     });
 
