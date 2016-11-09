@@ -34,7 +34,6 @@ function traverseTree(RootNode){
 
     results = [];
 
-    //helper function
     function inOrder(node){
         if (node){
             if (node.left !== null){
