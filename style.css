@@ -1,3 +1,17 @@
-.choice_button{
+.choice_button {
     cursor: pointer;
+}
+
+.forkMeRibbon {
+    z-index: 2;
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+
+.forkMeRibbon img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 0;
 }
