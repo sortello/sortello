@@ -15,3 +15,58 @@
     right: 0;
     border: 0;
 }
+
+.btn {
+    border: 2px solid white;
+    background: transparent;
+    font-size: 18px;
+    color: black;
+}
+
+.btn:hover {
+    border: 2px solid white;
+    background-color: rgba(0, 0, 0, 0.25);
+    font-size: 18px;
+    color: white;
+}
+
+input[type="text"]{
+    color: black;
+    border: 0 none;
+    padding: 4px 10px;
+}
+
+a{
+    color: #080808;
+    cursor: pointer;
+}
+
+a:hover{
+    color: #333;
+}
+
+p.card_link{
+    text-align: right;
+}
+
+p.card_link a{
+    margin: 45px 20px -45px 0px;
+    background-color: rgb(89, 210, 254);
+}
+
+.choice_button{
+    transition: all 0.5s ease;
+    border-radius: 5px;
+    border: 2px solid transparent;
+    opacity: 0.8;
+}
+
+.choice_button:hover{
+    border: 2px solid greenyellow;
+    opacity: 1;
+}
+
+.checkboard{
+    display: none;
+    transition: all 0.5s ease;
+}

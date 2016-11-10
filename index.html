@@ -40,7 +40,9 @@
                 <div class="jumbotron choice_button" id="left_button" data-cardId="0">
                     <h1></h1>
                     <p class="card_content"></p>
-                    <p><a class="btn btn-primary btn-lg card_link" href="#" target="_blank" role="button">See card</a>
+                    <p class="card_link">
+                        <a class="btn btn-primary btn-lg card_link" href="#" target="_blank"
+                           role="button">See card</a>
                     </p>
                 </div>
             </div>
@@ -48,7 +50,8 @@
                 <div class="jumbotron choice_button" id="right_button" data-cardId="0">
                     <h1></h1>
                     <p class="card_content"></p>
-                    <p><a class="btn btn-primary btn-lg card_link" href="#" target="_blank" role="button">See card</a>
+                    <p class="card_link">
+                        <a class="btn btn-primary btn-lg card_link" href="#" target="_blank" role="button">See card</a>
                     </p>
                 </div>
             </div>
@@ -57,8 +60,10 @@
     <div id="last_div" class="centered_content"
          style="height:100%; background: #CCC9E7; color: #333; text-align: center;">
         <div class="centered_content">
-            Click here:
+            <span class="almost">Almost</span> <span class="done"> done:</span>
+            <br>
             <button class="btn btn-large btn-success" id="update_board">Send ordered data to board</button>
+            <span class="checkboard"> Check your Trello board :)</span>
         </div>
     </div>
 </div>
@@ -92,7 +97,7 @@
     var rootNode;
 
     function handleCards(listCards) {
-        for(var i = 0; i < listCards.length; i++){
+        for (var i = 0; i < listCards.length; i++) {
             var node = new TreeNode(listCards[i]);
             nodes.push(node);
         }
@@ -125,9 +130,9 @@
                 compareNode = node.goRight(compareNode);
             }
             jQuery(".choice_button").unbind("click");
-            if(node.isPositioned){
+            if (node.isPositioned) {
                 startChoices(currNode + 1);
-            }else{
+            } else {
                 getChoice(node, compareNode, currNode);
             }
         });
@@ -135,12 +140,13 @@
     }
 
     function navigateTo(divId) {
-        if ("api_key_div" == divId) {
+        if ("card_url_div" == divId) {
             jQuery('#api_key_div').animate({'margin-top': -1 * jQuery('#api_key_div').outerHeight()});
         }
 
         if ("second_div" == divId) {
             jQuery('#card_url_div').animate({'margin-top': -1 * jQuery('#card_url_div').outerHeight()});
+            jQuery('#card_url').click();
         }
 
         if ("last_div" == divId) {
@@ -148,12 +154,30 @@
         }
     }
 
-    jQuery('#update_board').click(function () {
+    function showUploadDone() {
+        jQuery(".almost").css("text-decoration", "line-through");
+        jQuery(".done").text("Done!");
+        jQuery("#update_board").fadeTo(500, 0, function () {
+            jQuery("#update_board").animate({
+                "width": "0px",
+                "padding": "0px"
+            });
+            jQuery(".checkboard").css("display", "inline-block");
+        });
+    }
 
+
+    jQuery('#update_board').click(function () {
         var reorderedNodes = traverseTree(rootNode);
+        var putCalls = reorderedNodes.length;
         var position = 100;
         for (var j = 0; j < reorderedNodes.length; j++) {
-            Trello.put('/cards/' + reorderedNodes[j].value.id, {pos: '' + position});
+            Trello.put('/cards/' + reorderedNodes[j].value.id, {pos: '' + position}, function () {
+                putCalls--;
+                if (putCalls == 0) {
+                    showUploadDone();
+                }
+            });
             position += 100;
         }
     });
@@ -180,7 +204,7 @@
 
         var authenticationSuccess = function (data) {
             console.log("Successful authentication");
-            navigateTo("api_key_div");
+            navigateTo("card_url_div");
         };
         var authenticationFailure = function () {
             console.log("Failed authentication");
@@ -209,5 +233,6 @@
     jQuery('.choice_button .card_link').click(function (e) {
         e.stopPropagation();
     });
+
 </script>
 
