@@ -1,78 +1,17 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="style.css">
-
-<div style="height: 100%; overflow: hidden; font-size: 24px;">
-    <div id="api_key_div" style="height:100%; background: #5C7AFF; color: #eee; text-align: center;">
-        <div class="centered_content">
-            <p>Please insert your api key in the field below. You can find it here:
-                <a href="https://trello.com/app-key" target="_blank">https://trello.com/app-key</a></p>
-            <p>
-                <input type="text" id="api_key"/>
-            </p>
-            <p>
-                <button class="btn btn-large" id="check_api_key">Continue
-                </button>
-            </p>
-        </div>
-    </div>
-    <div id="card_url_div" style="height:100%; background: #4A8FE7; color: #eee; text-align: center;">
-        <div class="centered_content">
-            <p>Paste the url of one card from the column you need to prioritize and press The button</p>
-            <p>
-                <input type="text" id="card_url"/>
-            </p>
-            <p>
-                <button class="btn btn-large" id="retrieve_cards">The button
-                </button>
-            </p>
-        </div>
-    </div>
-    <div id="second_div" class="centered_content"
-         style="height:100%; background: #59D2FE; color: #1F2D3D; text-align: center;">
-        <div class="row">
-            <h2>Select the highest priority card</h2>
-        </div>
-        <div class="centered_content row" style="margin-top: -100px;">
-            <div class="col-md-6">
-                <div class="jumbotron choice_button" id="left_button" data-cardId="0">
-                    <h1></h1>
-                    <p class="card_content"></p>
-                    <p class="card_link">
-                        <a class="btn btn-primary btn-lg card_link" href="#" target="_blank"
-                           role="button">See card</a>
-                    </p>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="jumbotron choice_button" id="right_button" data-cardId="0">
-                    <h1></h1>
-                    <p class="card_content"></p>
-                    <p class="card_link">
-                        <a class="btn btn-primary btn-lg card_link" href="#" target="_blank" role="button">See card</a>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="last_div" class="centered_content"
-         style="height:100%; background: #CCC9E7; color: #333; text-align: center;">
-        <div class="centered_content">
-            <span class="almost">Almost</span> <span class="done"> done:</span>
-            <br>
-            <button class="btn btn-large btn-success" id="update_board">Send ordered data to board</button>
-            <span class="checkboard"> Check your Trello board :)</span>
-        </div>
-    </div>
-</div>
-
+<html>
+<head>
+    <title>Sortello</title>
+</head>
+<body>
+<div id="container"></div>
 <a class="forkMeRibbon" href="https://github.com/mazzcris/sortello" target="_blank">
     <img src="assets/forkme_orange.png" alt="Fork me on GitHub">
 </a>
-
+<script src="build/bundle.js"></script>
 
 <script src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
 <script src="https://api.trello.com/1/client.js"></script>
 <script src="tree-node.js"></script>
 <script src="script.js"></script>
-
-
+</body>
+</html>
