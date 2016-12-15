@@ -1,4 +1,3 @@
-
 var cards = [];
 
 jQuery('#retrieve_cards').click(function(){
