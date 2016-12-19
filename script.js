@@ -67,20 +67,20 @@ function getChoice(node, compareNode, currNode) {
 
 }
 
-function navigateTo(divId) {
-    if ("card_url_div" == divId) {
-        jQuery('#api_key_div').animate({'margin-top': -1 * jQuery('#api_key_div').outerHeight()});
-    }
-
-    if ("second_div" == divId) {
-        jQuery('#card_url_div').animate({'margin-top': -1 * jQuery('#card_url_div').outerHeight()});
-        jQuery('#card_url').click();
-    }
-
-    if ("last_div" == divId) {
-        jQuery('#card_url_div').animate({'margin-top': -2 * jQuery('#card_url_div').outerHeight()});
-    }
-}
+// function navigateTo(divId) {
+//     if ("card_url_div" == divId) {
+//         jQuery('#api_key_div').animate({'margin-top': -1 * jQuery('#api_key_div').outerHeight()});
+//     }
+//
+//     if ("second_div" == divId) {
+//         jQuery('#card_url_div').animate({'margin-top': -1 * jQuery('#card_url_div').outerHeight()});
+//         jQuery('#card_url').click();
+//     }
+//
+//     if ("last_div" == divId) {
+//         jQuery('#card_url_div').animate({'margin-top': -2 * jQuery('#card_url_div').outerHeight()});
+//     }
+// }
 
 function showUploadDone() {
     jQuery(".almost").css("text-decoration", "line-through");
@@ -113,54 +113,6 @@ function updateBoard(){
         });
         position += 100;
     }
-}
-
-
-
-var apiKey = false;
-
-jQuery(document).ready(function () {
-
-    apiKey = localStorage.getItem("sortelloTrelloDevApiKey");
-
-    jQuery("#check_api_key").click(function () {
-        saveAPIKey();
-    });
-
-    if (apiKey) {
-        authenticateTrello();
-    }
-
-});
-
-function saveAPIKey(){
-    apiKey = jQuery("#api_key").val();
-    localStorage.setItem('sortelloTrelloDevApiKey', apiKey);
-    authenticateTrello();
-}
-
-function authenticateTrello() {
-    console.log(apiKey);
-
-    var authenticationSuccess = function (data) {
-        console.log("Successful authentication");
-        navigateTo("card_url_div");
-    };
-    var authenticationFailure = function () {
-        console.log("Failed authentication");
-    };
-    Trello.setKey(apiKey);
-    Trello.authorize({
-        type: 'popup',
-        name: 'Getting Started Application',
-        scope: {
-            read: 'true',
-            write: 'true'
-        },
-        expiration: 'never',
-        success: authenticationSuccess,
-        error: authenticationFailure
-    });
 }
 
 jQuery(".centered_content").each(function () {
