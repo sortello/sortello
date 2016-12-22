@@ -3,7 +3,6 @@ import React from "react"
 const Choices = React.createClass({
   getInitialState: function(){
     return {
-      apiKey: this.props.apiKey,
       Trello: this.props.Trello,
     }
   },
