@@ -3,7 +3,6 @@ import React from "react"
 const Results = React.createClass({
   updateBoard: function () {
 
-
     function showUploadDone() {
       jQuery(".almost").css("text-decoration", "line-through");
       jQuery(".done").text("Done!");

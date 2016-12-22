@@ -5,7 +5,7 @@ import Choices from "./components/Choices.jsx"
 import Results from "./components/Results.jsx"
 
 const App = React.createClass({
-  getInitialState: function(){
+  getInitialState: function () {
     return {
       apiKey: false,
       Trello: Trello,
@@ -13,7 +13,7 @@ const App = React.createClass({
       rootNode: null
     };
   },
-  componentDidMount: function(){
+  componentDidMount: function () {
     jQuery(".centered_content").each(function () {
       var content_height = jQuery(this).outerHeight();
       var viewport_height = jQuery(document).innerHeight();
@@ -25,10 +25,12 @@ const App = React.createClass({
       e.stopPropagation();
     });
   },
-  setApiKey : function(apiKey){
-    this.state.apiKey = apiKey
+  setApiKey: function (apiKey) {
+    this.setState({
+      apiKey: apiKey
+    });
   },
-  navigateTo: function navigateTo(divId) {
+  navigateTo: function navigateTo (divId) {
     if ("card_url_div" == divId) {
       document.getElementById("api_key_div").style.marginTop = -1 * document.getElementById("api_key_div").offsetHeight
     }
@@ -42,33 +44,41 @@ const App = React.createClass({
     }
   },
   handleCards: function (listCards) {
+    var nodes = [];
     for (var i = 0; i < listCards.length; i++) {
       var node = new TreeNode(listCards[i]);
-      this.state.nodes.push(node);
+      nodes.push(node);
     }
-    this.state.rootNode = this.state.nodes[0];
+    this.setState({
+      nodes: nodes,
+      rootNode: nodes[0]
+    })
     this.navigateTo("second_div");
     this.refs.choices.startChoices();
   },
-  getNodes: function(){
+  getNodes: function () {
     return this.state.nodes
   },
-  getRootNode: function(){
+  getRootNode: function () {
     return this.state.rootNode
   },
-  setSortedRootNode: function(rootNode){
-    this.state.rootNode = rootNode
+  setSortedRootNode: function (rootNode) {
+    this.setState({
+      rootNode: rootNode
+    })
   },
-  render: function() {
-        return (
-            <div id="container_div">
-                <ApiKey apikey={this.state.apiKey} Trello={this.state.Trello} setApiKey={this.setApiKey} navigateTo={this.navigateTo}/>
-                <ColumnSelection apikey={this.state.apiKey} Trello={this.state.Trello} handleCards={this.handleCards}/>
-                <Choices ref="choices" setSortedRootNode={this.setSortedRootNode} getNodes={this.getNodes} getRootNode={this.getRootNode} navigateTo={this.navigateTo}/>
-                <Results getRootNode={this.getRootNode} Trello={this.state.Trello}/>
-            </div>
-        )
-    },
+  render: function () {
+    return (
+        <div id="container_div">
+          <ApiKey apikey={this.state.apiKey} Trello={this.state.Trello} setApiKey={this.setApiKey}
+                  navigateTo={this.navigateTo}/>
+          <ColumnSelection apikey={this.state.apiKey} Trello={this.state.Trello} handleCards={this.handleCards}/>
+          <Choices ref="choices" setSortedRootNode={this.setSortedRootNode} getNodes={this.getNodes}
+                   getRootNode={this.getRootNode} navigateTo={this.navigateTo}/>
+          <Results getRootNode={this.getRootNode} Trello={this.state.Trello}/>
+        </div>
+    )
+  },
 })
 
 export default App // important
