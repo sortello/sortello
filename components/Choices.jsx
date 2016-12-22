@@ -1,6 +1,55 @@
 import React from "react"
 
 const Choices = React.createClass({
+  getInitialState: function(){
+    return {
+      apiKey: this.props.apiKey,
+      Trello: this.props.Trello,
+    }
+  },
+  startChoices: function(){
+
+    var nodes = this.props.getNodes();
+    var rootNode = this.props.getRootNode();
+    var that = this;
+
+
+    function getChoice(node, compareNode, currNode) {
+      jQuery("#left_button h1").html(node.value.name);
+      jQuery("#left_button .card_content").html(node.value.desc);
+      jQuery("#left_button .card_link").prop("href", node.value.shortUrl);
+      jQuery("#right_button h1").html(compareNode.value.name);
+      jQuery("#right_button .card_content").html(compareNode.value.desc);
+      jQuery("#right_button .card_link").prop("href", compareNode.value.shortUrl);
+      jQuery(".choice_button").click(function () {
+        if ($(this).attr("id") == "left_button") {
+          compareNode = node.goLeft(compareNode);
+        } else if ($(this).attr("id") == "right_button") {
+          compareNode = node.goRight(compareNode);
+        }
+        jQuery(".choice_button").unbind("click");
+        if (node.isPositioned) {
+          startChoices(currNode + 1);
+        } else {
+          getChoice(node, compareNode, currNode);
+        }
+      });
+
+    }
+
+    function startChoices(currNode) {
+      if (currNode < nodes.length) {
+        getChoice(nodes[currNode], rootNode, currNode);
+      } else {
+        jQuery("#left_button").html("");
+        jQuery("#right_button").html("");
+        that.props.setSortedRootNode(rootNode);
+        that.props.navigateTo("last_div");
+      }
+    }
+
+    startChoices(1);
+  },
   render: function() {
     return (
         <div id="second_div" className={"centered_content"}>

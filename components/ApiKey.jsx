@@ -13,6 +13,7 @@ const ApiKey = React.createClass({
     this.state.navigateTo = this.props.navigateTo
 
     if (localStorage.getItem("sortelloTrelloDevApiKey")) {
+      this.state.apiKey = localStorage.getItem("sortelloTrelloDevApiKey")
       this.authenticateTrello();
     }
   },
