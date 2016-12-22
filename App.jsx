@@ -29,18 +29,16 @@ const App = React.createClass({
     this.state.apiKey = apiKey
   },
   navigateTo: function navigateTo(divId) {
-
     if ("card_url_div" == divId) {
-      jQuery('#api_key_div').animate({'margin-top': -1 * jQuery('#api_key_div').outerHeight()});
+      document.getElementById("api_key_div").style.marginTop = -1 * document.getElementById("api_key_div").offsetHeight
     }
 
     if ("second_div" == divId) {
-      jQuery('#card_url_div').animate({'margin-top': -1 * jQuery('#card_url_div').outerHeight()});
-      jQuery('#card_url').click();
+      document.getElementById("card_url_div").style.marginTop = -1 * document.getElementById("card_url_div").offsetHeight
     }
 
     if ("last_div" == divId) {
-      jQuery('#card_url_div').animate({'margin-top': -2 * jQuery('#card_url_div').outerHeight()});
+      document.getElementById("card_url_div").style.marginTop = -2 * document.getElementById("card_url_div").offsetHeight
     }
   },
   handleCards: function (listCards) {

@@ -82,6 +82,7 @@ p.card_link a{
     background: #5C7AFF;
     color: #eee;
     text-align: center;
+    transition: all 1s ease;
 }
 
 #card_url_div{
@@ -89,6 +90,7 @@ p.card_link a{
     background: #4A8FE7;
     color: #eee;
     text-align: center;
+    transition: all 1s ease;
 }
 
 #second_div{
