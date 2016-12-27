@@ -5,12 +5,10 @@ const ApiKey = React.createClass({
     return {
       apiKey: this.props.apiKey,
       Trello: this.props.Trello,
-      navigateTo: null
+      setApiKey : this.props.setApiKey
     };
   },
   componentDidMount: function () {
-
-    this.state.navigateTo = this.props.navigateTo
 
     if (localStorage.getItem("sortelloTrelloDevApiKey")) {
       this.state.apiKey = localStorage.getItem("sortelloTrelloDevApiKey")
@@ -26,7 +24,7 @@ const ApiKey = React.createClass({
     var that = this;
     var authenticationSuccess = function (data) {
       console.log("Successful authentication");
-      that.state.navigateTo("card_url_div");
+      that.props.setApiKey(that.state.apiKey);
     };
     var authenticationFailure = function () {
       console.log("Failed authentication");

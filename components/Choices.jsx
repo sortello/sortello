@@ -43,7 +43,6 @@ const Choices = React.createClass({
         jQuery("#left_button").html("");
         jQuery("#right_button").html("");
         that.props.setSortedRootNode(rootNode);
-        that.props.navigateTo("last_div");
       }
     }
 

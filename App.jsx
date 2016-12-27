@@ -10,7 +10,8 @@ const App = React.createClass({
       apiKey: false,
       Trello: Trello,
       nodes: Array(),
-      rootNode: null
+      rootNode: null,
+      currentView: 1 // 1-ApiKey 2-ColumnSelect 3-Choices 4-SendDataToServer
     };
   },
   componentDidMount: function () {
@@ -27,21 +28,9 @@ const App = React.createClass({
   },
   setApiKey: function (apiKey) {
     this.setState({
-      apiKey: apiKey
+      apiKey: apiKey,
+      currentView : 2
     });
-  },
-  navigateTo: function navigateTo (divId) {
-    if ("card_url_div" == divId) {
-      document.getElementById("api_key_div").style.marginTop = -1 * document.getElementById("api_key_div").offsetHeight
-    }
-
-    if ("second_div" == divId) {
-      document.getElementById("card_url_div").style.marginTop = -1 * document.getElementById("card_url_div").offsetHeight
-    }
-
-    if ("last_div" == divId) {
-      document.getElementById("card_url_div").style.marginTop = -2 * document.getElementById("card_url_div").offsetHeight
-    }
   },
   handleCards: function (listCards) {
     var nodes = [];
@@ -51,9 +40,9 @@ const App = React.createClass({
     }
     this.setState({
       nodes: nodes,
-      rootNode: nodes[0]
+      rootNode: nodes[0],
+      currentView: 3
     })
-    this.navigateTo("second_div");
     this.refs.choices.startChoices();
   },
   getNodes: function () {
@@ -64,17 +53,27 @@ const App = React.createClass({
   },
   setSortedRootNode: function (rootNode) {
     this.setState({
-      rootNode: rootNode
+      rootNode: rootNode,
+      currentView: 4
     })
   },
   render: function () {
+    if (2 == this.state.currentView) {
+      document.getElementById("api_key_div").style.marginTop = -1 * document.getElementById("api_key_div").offsetHeight
+    }
+    if (3 == this.state.currentView) {
+      document.getElementById("card_url_div").style.marginTop = -1 * document.getElementById("card_url_div").offsetHeight
+    }
+    if (4 == this.state.currentView) {
+      document.getElementById("card_url_div").style.marginTop = -2 * document.getElementById("card_url_div").offsetHeight
+    }
+
     return (
         <div id="container_div">
-          <ApiKey apikey={this.state.apiKey} Trello={this.state.Trello} setApiKey={this.setApiKey}
-                  navigateTo={this.navigateTo}/>
+          <ApiKey apikey={this.state.apiKey} Trello={this.state.Trello} setApiKey={this.setApiKey} />
           <ColumnSelection apikey={this.state.apiKey} Trello={this.state.Trello} handleCards={this.handleCards}/>
           <Choices ref="choices" setSortedRootNode={this.setSortedRootNode} getNodes={this.getNodes}
-                   getRootNode={this.getRootNode} navigateTo={this.navigateTo}/>
+                   getRootNode={this.getRootNode} />
           <Results getRootNode={this.getRootNode} Trello={this.state.Trello}/>
         </div>
     )
