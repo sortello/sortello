@@ -14,7 +14,8 @@
     "start": "webpack-dev-server --progress --inline --hot --port 4000",
     "build": "npm run clean && npm run build:bundle",
     "clean": "rimraf build",
-    "build:bundle": "webpack -p"
+    "build:bundle": "webpack -p",
+    "test": "jest"
   },
   "devDependencies": {
     "babel-core": "^6.20.0",
