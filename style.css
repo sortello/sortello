@@ -55,7 +55,7 @@ p.card_link a{
 }
 
 .choice_button{
-    transition: all 0.5s ease;
+    transition: all 0.3s ease;
     border-radius: 5px;
     border: 2px solid transparent;
     opacity: 0.8;
@@ -68,5 +68,45 @@ p.card_link a{
 
 .checkboard{
     display: none;
-    transition: all 0.5s ease;
+    transition: all 0.3s ease;
+}
+
+#container_div{
+    height: 100%;
+    overflow: hidden;
+    font-size: 24px;
+}
+
+#api_key_div{
+    height:100%;
+    background: #5C7AFF;
+    color: #eee;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+#card_url_div{
+    height:100%;
+    background: #4A8FE7;
+    color: #eee;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+#second_div{
+    height:100%;
+    background: #59D2FE;
+    color: #1F2D3D;
+    text-align: center;
+}
+
+.centered_content.row{
+    margin-top: -100px;
+}
+
+#last_div{
+    height:100%;
+    background: #CCC9E7;
+    color: #333;
+    text-align: center;
 }
