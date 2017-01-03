@@ -6,12 +6,14 @@ const Choices = React.createClass({
       Trello: this.props.Trello,
     }
   },
+  endChoices: function(rootNode){
+    this.props.setSortedRootNode(rootNode);
+  },
   startChoices: function(){
 
     var nodes = this.props.getNodes();
     var rootNode = this.props.getRootNode();
     var that = this;
-
 
     function getChoice(node, compareNode, currNode) {
       jQuery("#left_button h1").html(node.value.name);
@@ -28,7 +30,7 @@ const Choices = React.createClass({
         }
         jQuery(".choice_button").unbind("click");
         if (node.isPositioned) {
-          startChoices(currNode + 1);
+          choicesCycle(currNode + 1);
         } else {
           getChoice(node, compareNode, currNode);
         }
@@ -36,17 +38,17 @@ const Choices = React.createClass({
 
     }
 
-    function startChoices(currNode) {
+    function choicesCycle(currNode) {
       if (currNode < nodes.length) {
         getChoice(nodes[currNode], rootNode, currNode);
       } else {
         jQuery("#left_button").html("");
         jQuery("#right_button").html("");
-        that.props.setSortedRootNode(rootNode);
+        that.endChoices(rootNode);
       }
     }
 
-    startChoices(1);
+    choicesCycle(1);
   },
   render: function() {
     return (

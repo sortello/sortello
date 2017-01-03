@@ -9,7 +9,6 @@ const ApiKey = React.createClass({
     };
   },
   componentDidMount: function () {
-
     if (localStorage.getItem("sortelloTrelloDevApiKey")) {
       this.state.apiKey = localStorage.getItem("sortelloTrelloDevApiKey")
       this.authenticateTrello();
@@ -20,15 +19,11 @@ const ApiKey = React.createClass({
     localStorage.setItem('sortelloTrelloDevApiKey', this.state.apiKey);
     this.authenticateTrello();
   },
+  handleButtonClick: function(){
+    this.saveAPIKey()
+  },
   authenticateTrello : function(){
     var that = this;
-    var authenticationSuccess = function (data) {
-      console.log("Successful authentication");
-      that.props.setApiKey(that.state.apiKey);
-    };
-    var authenticationFailure = function () {
-      console.log("Failed authentication");
-    };
     this.state.Trello.setKey(this.state.apiKey);
     this.state.Trello.authorize({
       type: 'popup',
@@ -38,9 +33,16 @@ const ApiKey = React.createClass({
         write: 'true'
       },
       expiration: 'never',
-      success: authenticationSuccess,
-      error: authenticationFailure
+      success: that.authenticationSuccess,
+      error: that.authenticationFailure
     });
+  },
+  authenticationSuccess : function () {
+    console.log("Successful authentication");
+    this.props.setApiKey(this.state.apiKey);
+  },
+  authenticationFailure : function(){
+    console.log("Failed authentication");
   },
   render: function () {
     return (
@@ -52,7 +54,7 @@ const ApiKey = React.createClass({
               <input type="text" id="api_key" value={this.state.apiKey}/>
             </p>
             <p>
-              <button className={"btn btn-large"} id="check_api_key" onClick={this.saveAPIKey}>Continue
+              <button className={"btn btn-large"} id="check_api_key" onClick={this.handleButtonClick}>Continue
               </button>
             </p>
           </div>

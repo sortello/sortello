@@ -37,6 +37,7 @@ const App = React.createClass({
     for (var i = 0; i < listCards.length; i++) {
       var node = new TreeNode(listCards[i]);
       nodes.push(node);
+      console.log(listCards[i])
     }
     this.setState({
       nodes: nodes,
