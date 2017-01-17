@@ -1,7 +1,38 @@
 import React from "react"
 
 const ColumnSelection = React.createClass({
+  getInitialState: function () {
+    return {
+      boards: [],
+      lists: [],
+      groupedboards: [],
+    }
+  },
+  componentDidMount: function () {
+    var Trello = this.props.Trello;
+    var that = this;
 
+    Trello.members.get('mazzcris', {organization: "true", boards: "open", board_lists: "open"}, function (data) {
+
+      var boardGroups = [];
+      var boards = data.boards
+      for (var i = 0; i < boards.length; i++) {
+        var groupName = boards[i].idOrganization;
+        if (!boardGroups[groupName]) {
+          boardGroups[groupName] = [];
+        }
+        boardGroups[groupName].push(boards[i]);
+      }
+
+      that.setState({
+        boards: boards,
+        groupedboards: boardGroups,
+      })
+
+    }, function (e) {
+      console.log(e);
+    });
+  },
   retrieveCards: function () {
     var that = this
     var cardUrl = this.refs.card_url.value.replace("https://trello.com/c/", "");
@@ -20,7 +51,21 @@ const ColumnSelection = React.createClass({
       console.log(e);
     });
   },
-  handleWrongUrl: function(){
+  retrieveCardsByList: function (list) {
+    var that = this;
+    this.props.Trello.lists.get(list.id, {cards: "all"}, function (data) {
+      var listCards = data.cards;
+      that.props.handleCards(listCards);
+    }, function (e) {
+      console.log(e);
+    });
+  },
+  getBoardColumns: function (board) {
+    this.setState({
+      lists: board.lists
+    });
+  },
+  handleWrongUrl: function () {
     alert("This doesn't seem to be the url of a card :)");
     return;
   },
@@ -30,20 +75,47 @@ const ColumnSelection = React.createClass({
     }
     this.retrieveCards();
   },
-  handleInputChange: function(){
-    console.log(this.refs.card_url.value);
+  handleInputChange: function () {
+    // console.log(this.refs.card_url.value);
+    if (this.refs.card_url.value.indexOf("https://trello.com/c/") < 0) {
+      this.handleWrongUrl();
+    }
+    this.retrieveCards();
+  },
+  handleBoardClicked: function (board) {
+    this.getBoardColumns(board)
+  },
+  handleListClicked: function (list) {
+    this.retrieveCardsByList(list);
   },
   render: function () {
     return (
         <div id="card_url_div">
           <div className={"centered_content"}>
-            <p>Paste the url of one card from the column you need to prioritize and press The button</p>
+            {
+              Object.keys(this.state.groupedboards).map(function (key) {
+                var group = this.state.groupedboards[key]
+                return [<div></div>, (
+                    group.map(function (board) {
+                      return <button key={board.id} className={"btn btn-large"}
+                                     onClick={() => this.handleBoardClicked(board)}>{board.name}</button>
+                    }.bind(this))
+                )]
+              }.bind(this))
+            }
+            <div>
+              <hr/>
+            </div>
+            {
+              this.state.lists.map(function (list) {
+                return <button key={list.id} className={"btn btn-large"}
+                               onClick={() => this.handleListClicked(list)}>{list.name}</button>
+              }.bind(this))
+            }
+
+            <p>Or just paste the url of one card from the list you need to prioritize</p>
             <p>
               <input type="text" id="card_url" ref="card_url" defaultValue={""} onChange={this.handleInputChange}/>
-            </p>
-            <p>
-              <button className={"btn btn-large"} id="retrieve_cards" onClick={this.handleButtonClick}>The button
-              </button>
             </p>
           </div>
         </div>
