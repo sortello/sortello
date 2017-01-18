@@ -1,4 +1,6 @@
 import React from "react"
+import {find} from "lodash"
+import BoardSelector from './BoardSelector.jsx'
 
 const ColumnSelection = React.createClass({
   getInitialState: function () {
@@ -82,7 +84,10 @@ const ColumnSelection = React.createClass({
     }
     this.retrieveCards();
   },
-  handleBoardClicked: function (board) {
+  handleBoardClicked: function (boardId) {
+
+    var board = find(this.state.boards, { 'id' : boardId })
+
     this.getBoardColumns(board)
   },
   handleListClicked: function (list) {
@@ -92,17 +97,7 @@ const ColumnSelection = React.createClass({
     return (
         <div id="card_url_div">
           <div className={"centered_content"}>
-            {
-              Object.keys(this.state.groupedboards).map(function (key) {
-                var group = this.state.groupedboards[key]
-                return [<div></div>, (
-                    group.map(function (board) {
-                      return <button key={board.id} className={"btn btn-large"}
-                                     onClick={() => this.handleBoardClicked(board)}>{board.name}</button>
-                    }.bind(this))
-                )]
-              }.bind(this))
-            }
+            <BoardSelector groupedboards={this.state.groupedboards} onChange={this.handleBoardClicked} ></BoardSelector>
             <div>
               <hr/>
             </div>
