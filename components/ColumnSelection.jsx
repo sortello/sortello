@@ -1,6 +1,7 @@
 import React from "react"
 import {find} from "lodash"
 import BoardSelector from './BoardSelector.jsx'
+import ListSelector from './ListSelector.jsx'
 
 const ColumnSelection = React.createClass({
   getInitialState: function () {
@@ -8,27 +9,32 @@ const ColumnSelection = React.createClass({
       boards: [],
       lists: [],
       groupedboards: [],
+        organizations : []
     }
   },
   componentDidMount: function () {
     var Trello = this.props.Trello;
     var that = this;
 
-    Trello.members.get('mazzcris', {organization: "true", boards: "open", board_lists: "open"}, function (data) {
-
+    Trello.members.get('mazzcris', { organizations: "all", organization_fields : "all", boards: "open", board_lists: "open"}, function (data) {
       var boardGroups = [];
-      var boards = data.boards
+      var boards = data.boards;
+        var organizations= data.organizations;
       for (var i = 0; i < boards.length; i++) {
-        var groupName = boards[i].idOrganization;
-        if (!boardGroups[groupName]) {
+        var organization = find(organizations, { 'id' : boards[i].idOrganization })
+          var groupName = "Other";
+          if(organization !== undefined){
+              groupName = organization.displayName;
+          }
+          if (!boardGroups[groupName]) {
           boardGroups[groupName] = [];
         }
         boardGroups[groupName].push(boards[i]);
       }
-
       that.setState({
         boards: boards,
         groupedboards: boardGroups,
+          organizations: organizations
       })
 
     }, function (e) {
@@ -90,8 +96,9 @@ const ColumnSelection = React.createClass({
 
     this.getBoardColumns(board)
   },
-  handleListClicked: function (list) {
-    this.retrieveCardsByList(list);
+  handleListClicked: function (listId) {
+      var list = find(this.state.lists, { 'id' : listId })
+      this.retrieveCardsByList(list);
   },
   render: function () {
     return (
@@ -101,12 +108,8 @@ const ColumnSelection = React.createClass({
             <div>
               <hr/>
             </div>
-            {
-              this.state.lists.map(function (list) {
-                return <button key={list.id} className={"btn btn-large"}
-                               onClick={() => this.handleListClicked(list)}>{list.name}</button>
-              }.bind(this))
-            }
+
+            <ListSelector lists={this.state.lists} onChange={this.handleListClicked} ></ListSelector>
 
             <p>Or just paste the url of one card from the list you need to prioritize</p>
             <p>
