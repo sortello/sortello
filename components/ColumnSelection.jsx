@@ -12,7 +12,7 @@ const ColumnSelection = React.createClass({
         organizations : []
     }
   },
-  componentDidMount: function () {
+  componentDidUpdate: function () {
     var Trello = this.props.Trello;
     var that = this;
 
@@ -21,7 +21,7 @@ const ColumnSelection = React.createClass({
       var boards = data.boards;
         var organizations= data.organizations;
       for (var i = 0; i < boards.length; i++) {
-        var organization = find(organizations, { 'id' : boards[i].idOrganization })
+        var organization = find(organizations, { 'id' : boards[i].idOrganization });
           var groupName = "Other";
           if(organization !== undefined){
               groupName = organization.displayName;
@@ -42,13 +42,13 @@ const ColumnSelection = React.createClass({
     });
   },
   retrieveCards: function () {
-    var that = this
+    var that = this;
     var cardUrl = this.refs.card_url.value.replace("https://trello.com/c/", "");
-    var cardId = cardUrl.replace(/\/(.*)/g, "")
+    var cardId = cardUrl.replace(/\/(.*)/g, "");
 
     this.props.Trello.cards.get(cardId, null, function (data) {
       var idList = data.idList;
-      var apiKey = localStorage.getItem('sortelloTrelloDevApiKey')
+      var apiKey = localStorage.getItem('sortelloTrelloDevApiKey');
       jQuery.ajax({
         url: "https://api.trello.com/1/lists/" + idList + "/cards?key=" + apiKey + "&token=" + that.props.Trello.token(),
       }).done(function (data) {
@@ -75,7 +75,7 @@ const ColumnSelection = React.createClass({
   },
   handleWrongUrl: function () {
     alert("This doesn't seem to be the url of a card :)");
-    return;
+
   },
   handleButtonClick: function () {
     if (this.refs.card_url.value.indexOf("https://trello.com/c/") < 0) {
@@ -83,42 +83,31 @@ const ColumnSelection = React.createClass({
     }
     this.retrieveCards();
   },
-  handleInputChange: function () {
-    // console.log(this.refs.card_url.value);
-    if (this.refs.card_url.value.indexOf("https://trello.com/c/") < 0) {
-      this.handleWrongUrl();
-    }
-    this.retrieveCards();
-  },
   handleBoardClicked: function (boardId) {
 
-    var board = find(this.state.boards, { 'id' : boardId })
+    var board = find(this.state.boards, { 'id' : boardId });
 
     this.getBoardColumns(board)
   },
   handleListClicked: function (listId) {
-      var list = find(this.state.lists, { 'id' : listId })
+      var list = find(this.state.lists, { 'id' : listId });
       this.retrieveCardsByList(list);
   },
   render: function () {
     return (
         <div id="card_url_div">
           <div className={"centered_content"}>
-            <BoardSelector groupedboards={this.state.groupedboards} onChange={this.handleBoardClicked} ></BoardSelector>
-            <div>
-              <hr/>
-            </div>
-
-            <ListSelector lists={this.state.lists} onChange={this.handleListClicked} ></ListSelector>
-
-            <p>Or just paste the url of one card from the list you need to prioritize</p>
+            <p>Select a list to prioritize:</p>
             <p>
-              <input type="text" id="card_url" ref="card_url" defaultValue={""} onChange={this.handleInputChange}/>
+            Board: <br/> <BoardSelector groupedboards={this.state.groupedboards} onChange={this.handleBoardClicked} ></BoardSelector>
+            </p>
+            <p>
+            List: <br/> <ListSelector lists={this.state.lists} onChange={this.handleListClicked} ></ListSelector>
             </p>
           </div>
         </div>
     )
   }
-})
+});
 
 export default ColumnSelection
