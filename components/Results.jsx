@@ -1,4 +1,5 @@
 import React from "react"
+import traverseTree from "../model/traverseTree"
 
 const Results = React.createClass({
   updateBoard: function () {

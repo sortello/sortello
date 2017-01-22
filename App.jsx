@@ -3,6 +3,7 @@ import ApiKey from "./components/ApiKey.jsx"
 import ColumnSelection from "./components/ColumnSelection.jsx"
 import Choices from "./components/Choices.jsx"
 import Results from "./components/Results.jsx"
+import treeNodeFactory from "./model/treeNodeFactory"
 
 const App = React.createClass({
   getInitialState: function () {
@@ -35,7 +36,7 @@ const App = React.createClass({
   handleCards: function (listCards) {
     var nodes = [];
     for (var i = 0; i < listCards.length; i++) {
-      var node = new TreeNode(listCards[i]);
+      var node = treeNodeFactory(listCards[i]);
       nodes.push(node);
       console.log(listCards[i])
     }
