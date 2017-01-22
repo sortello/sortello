@@ -12,7 +12,7 @@ const ColumnSelection = React.createClass({
         organizations : []
     }
   },
-  componentDidUpdate: function () {
+  componentDidMount: function () {
     var Trello = this.props.Trello;
     var that = this;
 

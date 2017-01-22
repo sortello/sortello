@@ -7,20 +7,20 @@ export default value => {
         isPositioned:false
     }
 
-    toReturn.goLeft = parentNode => {
-        if (parentNode.left != null) {
+    toReturn.goLeft =  function(parentNode){
+        if(parentNode.left != null){
             return parentNode.left;
-        } else {
+        }else{
             parentNode.left = this;
             toReturn.isPositioned = true;
             return false;
         }
     }
 
-    toReturn.goRight = parentNode => {
-        if (parentNode.right != null) {
+    toReturn.goRight = function(parentNode){
+        if(parentNode.right != null){
             return parentNode.right;
-        } else {
+        }else{
             parentNode.right = this;
             toReturn.isPositioned = true;
             return false;
