@@ -19,7 +19,7 @@ const App = React.createClass({
     jQuery(".centered_content").each(function () {
       var content_height = jQuery(this).outerHeight();
       var viewport_height = jQuery(document).innerHeight();
-      var padding_top = (viewport_height / 2) - content_height / 2;
+      var padding_top = (viewport_height / 2) - content_height;
       jQuery(this).css('padding-top', padding_top + 'px');
     });
 
