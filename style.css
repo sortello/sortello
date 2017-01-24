@@ -19,25 +19,26 @@
 .btn {
     border: 2px solid white;
     background: transparent;
+    color: white;
     font-size: 18px;
-    color: black;
+    font-family: "montserrat", sans-serif;
+    -webkit-appearance: none;
+    margin-bottom: 20px;
+
 }
 
 .btn:hover {
-    border: 2px solid white;
-    background-color: rgba(0, 0, 0, 0.25);
-    font-size: 18px;
-    color: white;
+    background: white;
+    color: #0000a3;
+    transition: all 0.3s ease;
 }
 
 input[type="text"]{
-    color: black;
     border: 0 none;
     padding: 4px 10px;
 }
 
 a{
-    color: #080808;
     cursor: pointer;
 }
 
@@ -51,19 +52,41 @@ p.card_link{
 
 p.card_link a{
     margin: 45px 20px -45px 0px;
-    background-color: rgb(89, 210, 254);
+    background: #0000a3; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left top, #0099ff, #0000a3); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right, #0099ff, #0000a3); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, #0099ff, #0000a3); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right, #0099ff, #0000a3); /* Standard syntax */
 }
 
 .choice_button{
     transition: all 0.3s ease;
     border-radius: 5px;
-    border: 2px solid transparent;
-    opacity: 0.8;
+    border: 2px solid white;
+    background: none;
+}
+
+.choice_button h1{
+  font-family: "montserrat", sans-serif;
+}
+
+.choice_button:hover h1{
+  color: #0000a3;
+}
+
+h2{
+  font-family: "montserrat", sans-serif;
+}
+
+p {
+  font-family: "montserrat", sans-serif;
+  font-size: 21px;
+  font-weight: 300;
 }
 
 .choice_button:hover{
-    border: 2px solid greenyellow;
-    opacity: 1;
+    background: white;
+    font-size: 21px;
 }
 
 .checkboard{
@@ -79,7 +102,11 @@ p.card_link a{
 
 #api_key_div{
     height:100%;
-    background: #5C7AFF;
+    background: #0000a3; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left top, #0099ff, #0000a3); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right, #0099ff, #0000a3); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, #0099ff, #0000a3); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right, #0099ff, #0000a3); /* Standard syntax */
     color: #eee;
     text-align: center;
     transition: all 0.3s ease;
@@ -87,16 +114,23 @@ p.card_link a{
 
 #card_url_div{
     height:100%;
-    background: #4A8FE7;
-    color: #eee;
+    background: #0000a3; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left top, #0099ff, #0000a3); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right, #0099ff, #0000a3); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, #0099ff, #0000a3); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right, #0099ff, #0000a3); /* Standard syntax */    color: #eee;
     text-align: center;
     transition: all 0.3s ease;
 }
 
 #second_div{
     height:100%;
-    background: #59D2FE;
-    color: #1F2D3D;
+    background: #0000a3; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left top, #0099ff, #0000a3); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right, #0099ff, #0000a3); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, #0099ff, #0000a3); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right, #0099ff, #0000a3); /* Standard syntax */
+    color: white;
     text-align: center;
 }
 
@@ -109,4 +143,36 @@ p.card_link a{
     background: #CCC9E7;
     color: #333;
     text-align: center;
+}
+
+/*new css by Phil-Z*/
+.api_input {
+  margin: 10px;
+}
+.api-suggestion {
+  font-size: 18px;
+  margin: 20px 0;
+  font-family: "montserrat", sans-serif;
+}
+#api_key_div input {
+  width: 30%;
+  background: none;
+  border-bottom: solid 2px white;
+  text-align: center;
+}
+a {
+  color: #0099ff;
+}
+
+a:hover {
+  color: white;
+}
+
+.st0 {
+  fill: white;
+  display: inline-block;
+}
+
+.centered-logo {
+  margin: 0 20px 100px;
 }
