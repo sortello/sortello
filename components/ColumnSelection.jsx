@@ -7,27 +7,33 @@ import ListSelector from './ListSelector.jsx'
 const ColumnSelection = React.createClass({
   getInitialState: function () {
     return {
+      apiKey: this.props.apiKey,
       boards: [],
       lists: [],
       groupedboards: [],
-        organizations : []
+      organizations: []
     }
   },
-  componentDidMount: function () {
+  componentDidUpdate: function () {
+
+    if(this.state.organizations.length > 0){
+      return;
+    }
+
     var Trello = this.props.Trello;
     var that = this;
 
     Trello.members.get('me', { organizations: "all", organization_fields : "all", boards: "open", board_lists: "open"}, function (data) {
       var boardGroups = [];
       var boards = data.boards;
-        var organizations= data.organizations;
+      var organizations = data.organizations;
       for (var i = 0; i < boards.length; i++) {
-        var organization = find(organizations, { 'id' : boards[i].idOrganization });
-          var groupName = "Other";
-          if(organization !== undefined){
-              groupName = organization.displayName;
-          }
-          if (!boardGroups[groupName]) {
+        var organization = find(organizations, {'id': boards[i].idOrganization});
+        var groupName = "Other";
+        if (organization !== undefined) {
+          groupName = organization.displayName;
+        }
+        if (!boardGroups[groupName]) {
           boardGroups[groupName] = [];
         }
         boardGroups[groupName].push(boards[i]);
@@ -35,7 +41,7 @@ const ColumnSelection = React.createClass({
       that.setState({
         boards: boards,
         groupedboards: boardGroups,
-          organizations: organizations
+        organizations: organizations
       })
 
     }, function (e) {
@@ -86,16 +92,17 @@ const ColumnSelection = React.createClass({
   },
   handleBoardClicked: function (boardId) {
 
-    var board = find(this.state.boards, { 'id' : boardId });
+    var board = find(this.state.boards, {'id': boardId});
 
     this.getBoardColumns(board)
   },
   handleListClicked: function (listId) {
-      var list = find(this.state.lists, { 'id' : listId });
-      this.retrieveCardsByList(list);
+    var list = find(this.state.lists, {'id': listId});
+    this.retrieveCardsByList(list);
   },
   render: function () {
     return (
+<<<<<<< 579b2a602e289d64b24f9316a781faeb18ef0210
         <div id="card_url_div">
           <Header />
           <div className={"centered_content"}>
@@ -111,7 +118,20 @@ const ColumnSelection = React.createClass({
               </p>
             }
           </div>
+=======
+      <div id="card_url_div">
+        <div className={"centered_content"}>
+          <p>Select a list to prioritize:</p>
+          <p>
+            Board: <br/> <BoardSelector groupedboards={this.state.groupedboards}
+                                        onChange={this.handleBoardClicked}></BoardSelector>
+          </p>
+          <p>
+            List: <br/> <ListSelector lists={this.state.lists} onChange={this.handleListClicked}></ListSelector>
+          </p>
+>>>>>>> Fix empty select on first authentication issue
         </div>
+      </div>
     )
   }
 });
