@@ -101,9 +101,13 @@ const ColumnSelection = React.createClass({
             <p>
             Board: <br/> <BoardSelector groupedboards={this.state.groupedboards} onChange={this.handleBoardClicked} ></BoardSelector>
             </p>
-            <p>
-            List: <br/> <ListSelector lists={this.state.lists} onChange={this.handleListClicked} ></ListSelector>
-            </p>
+            {
+              this.state.lists.length === 0 ?
+              "" :
+              <p>
+              List: <br/> <ListSelector lists={this.state.lists} onChange={this.handleListClicked} ></ListSelector>
+              </p>
+            }
           </div>
         </div>
     )
