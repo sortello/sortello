@@ -1,4 +1,5 @@
-import React from "react"
+import React from "react";
+import Header from './Header.jsx';
 
 const Choices = React.createClass({
   getInitialState: function(){
@@ -53,6 +54,7 @@ const Choices = React.createClass({
   render: function() {
     return (
         <div id="second_div" className={"centered_content"}>
+          <Header />
           <div className={"row"}>
             <h2>Select the highest priority card</h2>
           </div>
