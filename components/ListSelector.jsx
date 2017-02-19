@@ -6,7 +6,7 @@ export default ({lists, onChange}) => {
         {
 
             lists.map(function (list) {
-                return <option key={list.id} className={"btn btn-large"} value={list.id}>{list.name}</option>
+                return <option key={list.id}  value={list.id}>{list.name}</option>
             }.bind(this))
         }
     </select>
