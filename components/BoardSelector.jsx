@@ -7,6 +7,7 @@ export default ({groupedboards, onChange}) => {
       Object.keys(groupedboards).map(function (key) {
         var group = groupedboards[key];
         return <optgroup key={key} label={key}>
+          <option>-- Select a board --</option>
           {(
               group.map(function (board) {
                 return <option key={board.id} className={"btn btn-large"} value={board.id}>{board.name}</option>
