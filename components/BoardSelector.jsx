@@ -10,7 +10,7 @@ export default ({groupedboards, onChange}) => {
           <option>-- Select a board --</option>
           {(
               group.map(function (board) {
-                return <option key={board.id} className={"btn btn-large"} value={board.id}>{board.name}</option>
+                return <option key={board.id} value={board.id}>{board.name}</option>
               }.bind(this))
           )} </optgroup>
       }.bind(this))
