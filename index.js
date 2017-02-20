@@ -1,7 +1,7 @@
 import {render} from 'react-dom'
 import React from 'react'
 import App from './App.jsx'
-import Bootstrap from 'bootstrap/dist/css/bootstrap.css'
+import Bootstrap from 'bootstrap/dist/css/bootstrap.min.css'
 require("./style.css");
 
 const containerEl = document.getElementById("container")
