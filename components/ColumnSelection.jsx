@@ -102,23 +102,6 @@ const ColumnSelection = React.createClass({
   },
   render: function () {
     return (
-<<<<<<< 579b2a602e289d64b24f9316a781faeb18ef0210
-        <div id="card_url_div">
-          <Header />
-          <div className={"centered_content"}>
-            <p>Select a list to prioritize:</p>
-            <p>
-            Board: <br/> <BoardSelector groupedboards={this.state.groupedboards} onChange={this.handleBoardClicked} ></BoardSelector>
-            </p>
-            {
-              this.state.lists.length === 0 ?
-              "" :
-              <p>
-              List: <br/> <ListSelector lists={this.state.lists} onChange={this.handleListClicked} ></ListSelector>
-              </p>
-            }
-          </div>
-=======
       <div id="card_url_div">
         <div className={"centered_content"}>
           <p>Select a list to prioritize:</p>
@@ -126,10 +109,11 @@ const ColumnSelection = React.createClass({
             Board: <br/> <BoardSelector groupedboards={this.state.groupedboards}
                                         onChange={this.handleBoardClicked}></BoardSelector>
           </p>
+          this.state.lists.length === 0 ?
+          "" :
           <p>
             List: <br/> <ListSelector lists={this.state.lists} onChange={this.handleListClicked}></ListSelector>
           </p>
->>>>>>> Fix empty select on first authentication issue
         </div>
       </div>
     )
