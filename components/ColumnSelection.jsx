@@ -1,5 +1,6 @@
 import React from "react"
 import {find} from "lodash"
+import Header from './Header.jsx';
 import BoardSelector from './BoardSelector.jsx'
 import ListSelector from './ListSelector.jsx'
 
@@ -96,6 +97,7 @@ const ColumnSelection = React.createClass({
   render: function () {
     return (
         <div id="card_url_div">
+          <Header />
           <div className={"centered_content"}>
             <p>Select a list to prioritize:</p>
             <p>

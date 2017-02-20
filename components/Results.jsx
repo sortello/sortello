@@ -1,4 +1,5 @@
 import React from "react"
+import Header from './Header.jsx';
 import traverseTree from "../model/traverseTree"
 
 const Results = React.createClass({
@@ -33,6 +34,7 @@ const Results = React.createClass({
   render: function () {
     return (
         <div id="last_div" className={"centered_content"}>
+          <Header />
           <div className={"centered_content"}>
             <span className={"almost"}>Almost</span> <span className={"done"}> done:</span>
             <br/>
