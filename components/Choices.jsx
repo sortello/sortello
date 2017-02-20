@@ -1,6 +1,6 @@
 import React from "react";
 import Header from './Header.jsx';
-import treeRebalancer from "./treeRebalancer";
+import treeRebalancer from "../model/treeRebalancer";
 
 const Choices = React.createClass({
   getInitialState: function(){
