@@ -1,5 +1,6 @@
 import React from "react";
 import Header from './Header.jsx';
+import treeRebalancer from "./treeRebalancer";
 
 const Choices = React.createClass({
   getInitialState: function(){
@@ -31,6 +32,7 @@ const Choices = React.createClass({
         }
         jQuery(".choice_button").unbind("click");
         if (node.isPositioned) {
+          rootNode = treeRebalancer(rootNode);
           choicesCycle(currNode + 1);
         } else {
           getChoice(node, compareNode, currNode);
