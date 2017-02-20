@@ -17,7 +17,7 @@ const ColumnSelection = React.createClass({
     var Trello = this.props.Trello;
     var that = this;
 
-    Trello.members.get('mazzcris', { organizations: "all", organization_fields : "all", boards: "open", board_lists: "open"}, function (data) {
+    Trello.members.get('me', { organizations: "all", organization_fields : "all", boards: "open", board_lists: "open"}, function (data) {
       var boardGroups = [];
       var boards = data.boards;
         var organizations= data.organizations;
