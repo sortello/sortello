@@ -26,7 +26,7 @@ describe('treeNodeFactory', () => {
 
     expect(traverseTree(rootNode).length).toBe(6);
 
-  })
+  });
 
   // Try also with very small tree. Example: 2-nodes
   it('should build and reorder the nodes correctly', () => {

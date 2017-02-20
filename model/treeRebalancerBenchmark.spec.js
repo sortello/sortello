@@ -14,7 +14,7 @@ describe('treeNodeFactory', () => {
       for (var i = 1; i <= 50; i++) {
         nodes.push(treeNodeFactory(i));
       }
-      // nodes = shuffle(nodes);
+      nodes = shuffle(nodes);
 
       var [reorderedNodesArray, steps] = buildAndReorderTree(nodes, false);
 
@@ -32,7 +32,7 @@ describe('treeNodeFactory', () => {
       for (var i = 1; i <= 50; i++) {
         nodes.push(treeNodeFactory(i));
       }
-      // nodes = shuffle(nodes);
+      nodes = shuffle(nodes);
 
       var [reorderedNodesArray, steps] = buildAndReorderTree(nodes, true);
 
