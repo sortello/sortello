@@ -18,7 +18,6 @@ it('shows error on click if apiKey field empty', () => {
   //
   // columnButton.simulate('click')
   // expect(component.instance().handleWrongUrl).toBeCalled()
-
 });
 
 
