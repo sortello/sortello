@@ -1,3 +1,13 @@
 machine:
   node:
     version: 6.7.0
+
+dependencies:
+  override:
+    - npm install
+    - npm install webpack -g
+    - webpack
+
+test:
+  override:
+    - npm test
