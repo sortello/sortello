@@ -264,13 +264,23 @@ a:hover {
 .logout--header {
   margin-top: 50px;
 }
+
 .logout--header > p > button {
   background: none;
   border: solid 3px #0000a3;
+  border-bottom: 5px solid #0000a3;
   color: #0000a3;
   border-radius: 3px;
   padding: 10px 20px;
   font-size: 0.75em;
+  transition: all .5s ease-in-out;
+}
+
+.logout--header > p > button:hover {
+  background: #0000a3;
+  border: solid 3px #0000a3;
+  border-bottom: 5px solid #0000a3;
+  color: white;
 }
 
 .centered_content > .almost-done--position {

@@ -8,7 +8,7 @@ const Header = React.createClass({
     render: function() {
         return (
             <p>
-                <button className="btn--on-white" onClick={this.handleLogout}>Logout</button>
+                <button className="" onClick={this.handleLogout}>Logout</button>
             </p>
         );
     }
