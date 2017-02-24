@@ -1,14 +1,10 @@
 
-
-
-
 jQuery(document).ready(function(){
 
-  $('choices--button').onmouseover = function() {
+  $('.choices--button').hover( function(){
 
-      $('button--on-white').addClass('button--on-white-hover');
-      $('button--on-white-hover').removeClass('button--on-white');
+    $('.button--on-white').toggleClass("button--on-white-hover");
 
-  };
+    });
 
 });
