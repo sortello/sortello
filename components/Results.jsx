@@ -33,15 +33,14 @@ const Results = React.createClass({
   },
   render: function () {
     return (
-        <div id="last_div" className={"centered_content"}>
-          <Header />
-          <div className={"centered_content"}>
-            <span className={"almost"}>Almost</span> <span className={"done"}> done:</span>
-            <br/>
-            <button className={"btn btn-large btn-success"} id="update_board" onClick={this.updateBoard}>Send ordered
-              data to board
+        <div id="last_div" className={"centered_content send-ordered--container"}>
+          <div className={"centered_content almost-done--position"}>
+            <p>Almost done!</p>
+          </div>
+          <div className="send-ordered-data--button">
+            <button className={"btn"} id="update_board" onClick={this.updateBoard}>
+              Send ordered data to your board
             </button>
-            <span className={"checkboard"}> Check your Trello board :)</span>
           </div>
         </div>
     )
