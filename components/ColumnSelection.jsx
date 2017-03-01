@@ -102,22 +102,22 @@ const ColumnSelection = React.createClass({
   },
   render: function () {
     return (
-      <div id="card_url_div">
-        <div className={"centered_content"}>
-          <p>Select a list to prioritize:</p>
-          <p>
-            Board: <br/> <BoardSelector groupedboards={this.state.groupedboards}
-                                        onChange={this.handleBoardClicked}></BoardSelector>
-          </p>
-          {
-            this.state.lists.length === 0 ?
-              "" :
-              <p>
-                List: <br/> <ListSelector lists={this.state.lists} onChange={this.handleListClicked} ></ListSelector>
-              </p>
-          }
+        <div id="card_url_div">
+            <div className={"centered_content"}>
+                <div className="select-list--text-container">
+                    <p>Select the board you want to prioritize</p>
+                </div>
+                <p>
+                  <BoardSelector groupedboards={this.state.groupedboards}
+                                              onChange={this.handleBoardClicked}></BoardSelector>
+                </p>
+                {
+                    this.state.lists.length === 0 ?
+                    "" :
+                    <p><ListSelector lists={this.state.lists} onChange={this.handleListClicked} ></ListSelector></p>
+                }
+            </div>
         </div>
-      </div>
     )
   }
 });

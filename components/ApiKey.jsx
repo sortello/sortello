@@ -93,14 +93,17 @@ const ApiKey = React.createClass({
             </svg>
             <p>Prioritize your Trello's board in just a few steps</p>
           </div>
+
             <p>
               <input type="text" id="api_key" value={this.state.apiKey} className={"api_input"} placeholder="Please insert your api key on this field"/>
             </p>
-            <button className={"btn btn-large"} id="check_api_key" onClick={this.handleButtonClick}>Continue
-            </button>
-            <div className={"api-suggestion"}>You can find it here:
-              <a href="https://trello.com/app-key" target="_blank"> https://trello.com/app-key</a>
-            </div>
+            <p>
+                <button className="continue-to-choices--button" id="check_api_key" onClick={this.handleButtonClick}>Continue
+                </button>
+            </p>
+            <a href="https://trello.com/app-key" target="_blank">
+                <div className={"api-suggestion"}>Click here to get your API key</div>
+            </a>
           </div>
         </div>
     )

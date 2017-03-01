@@ -1,7 +1,7 @@
 import React from "react"
 
 export default ({lists, onChange}) => {
-    return <select onChange={(event) => onChange(event.target.value)} className={"btn btn-large btn-select"}>
+    return <select onChange={(event) => onChange(event.target.value)} className={"select-field__select"}>
         <option>Select a List</option>
         {
 

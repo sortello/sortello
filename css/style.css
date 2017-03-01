@@ -1,0 +1,288 @@
+
+
+
+.choice_button {
+    cursor: pointer;
+}
+
+.forkMeRibbon {
+    z-index: 2;
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+
+.forkMeRibbon img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 0;
+}
+
+.btn {
+    border: 2px solid white;
+    background: transparent;
+    color: white;
+    font-family: "montserrat", sans-serif;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    padding: 10px 20px;
+}
+
+.button--on-white {
+    border: 3px solid #0000a3;
+    border-bottom: 5px solid #0000a3;
+    background: transparent;
+    color: #0000a3;
+    font-family: "montserrat", sans-serif;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    border-radius: 3px;
+}
+
+.button--on-white-hover {
+    border: 3px solid white;
+    border-bottom: 5px solid white;
+    background: transparent;
+    color: white;
+    font-family: "montserrat", sans-serif;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    border-radius: 3px;
+}
+
+.btn:hover {
+    background: white;
+    color: #0000a3;
+}
+
+.button--on-white:hover {
+    border: 3px solid white;
+    border-bottom: 5px solid white;
+    color: white;
+    background: none;
+}
+
+input[type="text"]{
+    border: 0 none;
+    padding: 4px 10px;
+}
+
+a{
+    cursor: pointer;
+}
+
+a:hover{
+    color: #333;
+}
+
+p.card_link{
+    text-align: right;
+}
+
+.choices--button{
+    transition: all 0.3s ease-in-out;
+    border-radius: 3px;
+    border: 3px solid #0000a3;
+    border-bottom: 5px solid #0000a3;
+    background: none;
+    margin: 10px;
+    padding: 30px 20px;
+    cursor: pointer;
+}
+
+
+
+.choices--button:hover h1{
+  color: white;
+}
+
+h2{
+  font-family: "montserrat", sans-serif;
+}
+
+.choices--button:hover{
+    background: #0000a3;
+}
+
+.checkboard{
+    display: none;
+    transition: all 0.3s ease;
+}
+
+#container_div{
+    height: 100%;
+    overflow: hidden;
+    font-size: 24px;
+}
+
+#api_key_div{
+    height:100%;
+    background: #0000a3; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left top, #0099ff, #0000a3); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right, #0099ff, #0000a3); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, #0099ff, #0000a3); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right, #0099ff, #0000a3); /* Standard syntax */
+    text-align: center;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+#card_url_div{
+    height:100%;
+    background: #0000a3; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left top, #0099ff, #0000a3); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right, #0099ff, #0000a3); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, #0099ff, #0000a3); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right, #0099ff, #0000a3); /* Standard syntax */
+    text-align: center;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+#second_div{
+    height: 100%;
+    padding: 75px 150px 100px;
+    background: white;
+    color: #0000a3;
+    text-align: center;
+}
+
+
+#last_div{
+    height:100%;
+    background: #0000a3; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left top, #0099ff, #0000a3); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right, #0099ff, #0000a3); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, #0099ff, #0000a3); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right, #0099ff, #0000a3); /* Standard syntax */
+    text-align: center;
+    color: white;
+}
+
+#completed_div {
+  height:100%;
+  background: #0000a3; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left top, #0099ff, #0000a3); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(bottom right, #0099ff, #0000a3); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(bottom right, #0099ff, #0000a3); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom right, #0099ff, #0000a3); /* Standard syntax */
+  text-align: center;
+  color: white;
+}
+
+.api_input {
+  margin: 10px;
+}
+.api-suggestion {
+  font-size: 18px;
+  margin: 20px 0;
+  font-family: "montserrat", sans-serif;
+}
+#api_key_div input {
+  width: 50%;
+  background: none;
+  border-bottom: solid 2px white;
+  text-align: center;
+}
+a {
+  color: #0099ff;
+}
+
+a:hover {
+  color: white;
+}
+
+.st0 {
+  fill: white;
+  display: inline-block;
+}
+
+.centered-logo {
+  margin: 0 20px 100px;
+}
+
+
+/*--------------------------------------------------------------------------------------------------*/
+
+
+.select-list--text-container {
+  margin-bottom: 50px;
+}
+
+@supports (-webkit-appearance: button) or (-o-appearance: button) {
+  .select-field__select {
+    -webkit-appearance: button;
+    -o-appearance: button;
+    background: transparent;
+    padding: 10px 300px;
+    margin-bottom: 50px;
+    border-radius: 0;
+    border: 0;
+    border-bottom: solid 3px white;
+    font-family: "montserrat", sans-serif;
+    font-size: 1em;
+    color: white;
+  }
+}
+
+.select-field__select {
+  padding: 10px 200px;
+  margin: 10px 0 50px;
+  font-family: "montserrat", sans-serif;
+  font-size: 1em;
+  color: white;
+}
+
+.continue-to-choices--button > button {
+  margin: 10px 40%;
+  border: solid 2px white;
+  background: none;
+  border-radius: 3px;
+  height: 50px;
+  padding: 20px;
+  line-height: 1.5em;
+  cursor: pointer;
+  transition: all 0.5s ease-in-out;
+}
+
+.choices--title {
+  margin: 0 0 25px;
+  color: #0000a3!important;
+}
+
+.choices--container {
+  padding-top: 0!important;
+}
+
+.logout--header {
+  margin-top: 50px;
+}
+
+.logout--header > p > button {
+  background: none;
+  border: solid 3px #0000a3;
+  border-bottom: 5px solid #0000a3;
+  color: #0000a3;
+  border-radius: 3px;
+  padding: 10px 20px;
+  font-size: 0.75em;
+  transition: all .5s ease-in-out;
+}
+
+.logout--header > p > button:hover {
+  background: #0000a3;
+  border: solid 3px #0000a3;
+  border-bottom: 5px solid #0000a3;
+  color: white;
+}
+
+.centered_content > .almost-done--position {
+  padding-top: 200px!important;
+}

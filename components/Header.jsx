@@ -7,10 +7,9 @@ const Header = React.createClass({
     },
     render: function() {
         return (
-            <h1 style={{marginTop: "0"}}>
-                Sortello
-                <button className="btn btn-small pull-left" onClick={this.handleLogout}>Logout</button>
-            </h1>
+            <p>
+                <button className="" onClick={this.handleLogout}>Logout</button>
+            </p>
         );
     }
 
