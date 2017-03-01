@@ -24,13 +24,14 @@ const Choices = React.createClass({
       jQuery("#right_button h1").html(compareNode.value.name);
       jQuery("#right_button .card_content").html(compareNode.value.desc);
       jQuery("#right_button .card_link").prop("href", compareNode.value.shortUrl);
-      jQuery(".choice_button").click(function () {
+      jQuery(".choices--button").click(function () {
+        console.log("button clicked");
         if ($(this).attr("id") == "left_button") {
           compareNode = node.goLeft(compareNode);
         } else if ($(this).attr("id") == "right_button") {
           compareNode = node.goRight(compareNode);
         }
-        jQuery(".choice_button").unbind("click");
+        jQuery(".choices--button").unbind("click");
         if (node.isPositioned) {
           rootNode = treeRebalancer(rootNode);
           choicesCycle(currNode + 1);

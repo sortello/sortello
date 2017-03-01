@@ -6,14 +6,12 @@ const Results = React.createClass({
   updateBoard: function () {
 
     function showUploadDone() {
-      jQuery(".almost").css("text-decoration", "line-through");
-      jQuery(".done").text("Done!");
+      jQuery(".centered_content.almost-done--position p").text("Done! Check your Trello board.");
       jQuery("#update_board").fadeTo(500, 0, function () {
         jQuery("#update_board").animate({
           "width": "0px",
           "padding": "0px"
         });
-        jQuery(".checkboard").css("display", "inline-block");
       });
     }
 
