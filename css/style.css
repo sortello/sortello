@@ -1,6 +1,4 @@
 
-
-
 .choice_button {
     cursor: pointer;
 }
@@ -69,24 +67,24 @@
     background: none;
 }
 
-input[type="text"]{
+input[type="text"] {
     border: 0 none;
     padding: 4px 10px;
 }
 
-a{
+a {
     cursor: pointer;
 }
 
-a:hover{
+a:hover {
     color: #333;
 }
 
-p.card_link{
+p.card_link {
     text-align: right;
 }
 
-.choices--button{
+.choices--button {
     transition: all 0.3s ease-in-out;
     border-radius: 3px;
     border: 3px solid #0000a3;
@@ -97,33 +95,31 @@ p.card_link{
     cursor: pointer;
 }
 
-
-
-.choices--button:hover h1{
-  color: white;
+.choices--button:hover h1 {
+    color: white;
 }
 
-h2{
-  font-family: "montserrat", sans-serif;
+h2 {
+    font-family: "montserrat", sans-serif;
 }
 
-.choices--button:hover{
+.choices--button:hover {
     background: #0000a3;
 }
 
-.checkboard{
+.checkboard {
     display: none;
     transition: all 0.3s ease;
 }
 
-#container_div{
+#container_div {
     height: 100%;
     overflow: hidden;
     font-size: 24px;
 }
 
-#api_key_div{
-    height:100%;
+#api_key_div {
+    height: 100%;
     background: #0000a3; /* For browsers that do not support gradients */
     background: -webkit-linear-gradient(left top, #0099ff, #0000a3); /* For Safari 5.1 to 6.0 */
     background: -o-linear-gradient(bottom right, #0099ff, #0000a3); /* For Opera 11.1 to 12.0 */
@@ -134,8 +130,8 @@ h2{
     transition: all 0.3s ease;
 }
 
-#card_url_div{
-    height:100%;
+#card_url_div {
+    height: 100%;
     background: #0000a3; /* For browsers that do not support gradients */
     background: -webkit-linear-gradient(left top, #0099ff, #0000a3); /* For Safari 5.1 to 6.0 */
     background: -o-linear-gradient(bottom right, #0099ff, #0000a3); /* For Opera 11.1 to 12.0 */
@@ -146,7 +142,7 @@ h2{
     transition: all 0.3s ease;
 }
 
-#second_div{
+#second_div {
     height: 100%;
     padding: 75px 150px 100px;
     background: white;
@@ -154,9 +150,8 @@ h2{
     text-align: center;
 }
 
-
-#last_div{
-    height:100%;
+#last_div {
+    height: 100%;
     background: #0000a3; /* For browsers that do not support gradients */
     background: -webkit-linear-gradient(left top, #0099ff, #0000a3); /* For Safari 5.1 to 6.0 */
     background: -o-linear-gradient(bottom right, #0099ff, #0000a3); /* For Opera 11.1 to 12.0 */
@@ -167,77 +162,79 @@ h2{
 }
 
 #completed_div {
-  height:100%;
-  background: #0000a3; /* For browsers that do not support gradients */
-  background: -webkit-linear-gradient(left top, #0099ff, #0000a3); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(bottom right, #0099ff, #0000a3); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(bottom right, #0099ff, #0000a3); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(to bottom right, #0099ff, #0000a3); /* Standard syntax */
-  text-align: center;
-  color: white;
+    height: 100%;
+    background: #0000a3; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left top, #0099ff, #0000a3); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right, #0099ff, #0000a3); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, #0099ff, #0000a3); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right, #0099ff, #0000a3); /* Standard syntax */
+    text-align: center;
+    color: white;
 }
 
 .api_input {
-  margin: 10px;
+    margin: 10px;
 }
+
 .api-suggestion {
-  font-size: 18px;
-  margin: 20px 0;
-  font-family: "montserrat", sans-serif;
+    font-size: 18px;
+    margin: 20px 0;
+    font-family: "montserrat", sans-serif;
 }
+
 #api_key_div input {
-  width: 50%;
-  background: none;
-  border-bottom: solid 2px white;
-  text-align: center;
+    width: 50%;
+    background: none;
+    border-bottom: solid 2px white;
+    text-align: center;
 }
+
 a {
-  color: #fff;
+    color: #fff;
 }
 
 a:hover {
-  color: white;
+    color: white;
 }
 
 .st0 {
-  fill: white;
-  display: inline-block;
+    fill: white;
+    display: inline-block;
 }
 
 .centered-logo {
-  margin: 0 20px 100px;
+    margin: 0 20px 100px;
 }
-
 
 /*--------------------------------------------------------------------------------------------------*/
 
-
 .select-list--text-container {
-  margin-bottom: 50px;
+    margin-bottom: 50px;
 }
 
-@supports (-webkit-appearance: button) or (-o-appearance: button) {
-  .select-field__select {
-    -webkit-appearance: button;
-    -o-appearance: button;
-    background: transparent;
-    padding: 10px 300px;
-    margin-bottom: 50px;
-    border-radius: 0;
-    border: 0;
-    border-bottom: solid 3px white;
+    .select-field__select {
+        -webkit-appearance: button;
+        -moz-appearance: none;
+        text-indent:  0.01px;
+        text-overflow: '';
+        -o-appearance: button;
+        background: transparent;
+        padding: 10px 300px;
+        margin-bottom: 50px;
+        border-radius: 0;
+        border: 0;
+        border-bottom: solid 3px white;
+        font-family: "montserrat", sans-serif;
+        font-size: 1em;
+        color: white;
+    }
+
+.select-field__select {
+    padding: 10px 200px;
+    margin: 10px 0 50px;
     font-family: "montserrat", sans-serif;
     font-size: 1em;
     color: white;
-  }
-}
-
-.select-field__select {
-  padding: 10px 200px;
-  margin: 10px 0 50px;
-  font-family: "montserrat", sans-serif;
-  font-size: 1em;
-  color: white;
 }
 
 button.continue-to-choices--button {
@@ -252,36 +249,36 @@ button.continue-to-choices--button {
 }
 
 .choices--title {
-  margin: 0 0 25px;
-  color: #0000a3!important;
+    margin: 0 0 25px;
+    color: #0000a3 !important;
 }
 
 .choices--container {
-  padding-top: 0!important;
+    padding-top: 0 !important;
 }
 
 .logout--header {
-  margin-top: 50px;
+    margin-top: 50px;
 }
 
 .logout--header > p > button {
-  background: none;
-  border: solid 3px #0000a3;
-  border-bottom: 5px solid #0000a3;
-  color: #0000a3;
-  border-radius: 3px;
-  padding: 10px 20px;
-  font-size: 0.75em;
-  transition: all .5s ease-in-out;
+    background: none;
+    border: solid 3px #0000a3;
+    border-bottom: 5px solid #0000a3;
+    color: #0000a3;
+    border-radius: 3px;
+    padding: 10px 20px;
+    font-size: 0.75em;
+    transition: all .5s ease-in-out;
 }
 
 .logout--header > p > button:hover {
-  background: #0000a3;
-  border: solid 3px #0000a3;
-  border-bottom: 5px solid #0000a3;
-  color: white;
+    background: #0000a3;
+    border: solid 3px #0000a3;
+    border-bottom: 5px solid #0000a3;
+    color: white;
 }
 
 .centered_content > .almost-done--position {
-  padding-top: 200px!important;
+    padding-top: 200px !important;
 }
