@@ -240,16 +240,15 @@ a:hover {
   color: white;
 }
 
-.continue-to-choices--button > button {
-  margin: 10px 40%;
-  border: solid 2px white;
-  background: none;
-  border-radius: 3px;
-  height: 50px;
-  padding: 20px;
-  line-height: 1.5em;
-  cursor: pointer;
-  transition: all 0.5s ease-in-out;
+button.continue-to-choices--button {
+    background: none;
+    border: solid 3px #fff;
+    border-bottom: 5px solid #fff;
+    color: #fff;
+    border-radius: 3px;
+    padding: 10px 20px;
+    font-size: 0.75em;
+    transition: all .5s ease-in-out;
 }
 
 .choices--title {
