@@ -46,9 +46,6 @@ const App = React.createClass({
     })
     this.refs.choices.startChoices();
   },
-  getRootNode: function () {
-    return this.state.rootNode
-  },
   setSortedRootNode: function (rootNode) {
     this.setState({
       rootNode: rootNode,
