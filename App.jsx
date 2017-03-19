@@ -71,7 +71,7 @@ const App = React.createClass({
           <ApiKey apikey={this.state.apiKey} Trello={this.state.Trello} setApiKey={this.setApiKey} />
           <ColumnSelection apikey={this.state.apiKey} Trello={this.state.Trello} handleCards={this.handleCards}/>
           <Choices ref="choices" setSortedRootNode={this.setSortedRootNode} nodes={this.state.nodes} rootNode={this.state.rootNode} />
-          <Results rootNode={this.rootNode} Trello={this.state.Trello}/>
+          <Results rootNode={this.state.rootNode} Trello={this.state.Trello}/>
         </div>
     )
   },
