@@ -46,9 +46,6 @@ const App = React.createClass({
     })
     this.refs.choices.startChoices();
   },
-  getNodes: function () {
-    return this.state.nodes
-  },
   getRootNode: function () {
     return this.state.rootNode
   },
@@ -73,9 +70,8 @@ const App = React.createClass({
         <div id="container_div">
           <ApiKey apikey={this.state.apiKey} Trello={this.state.Trello} setApiKey={this.setApiKey} />
           <ColumnSelection apikey={this.state.apiKey} Trello={this.state.Trello} handleCards={this.handleCards}/>
-          <Choices ref="choices" setSortedRootNode={this.setSortedRootNode} getNodes={this.getNodes}
-                   getRootNode={this.getRootNode} />
-          <Results getRootNode={this.getRootNode} Trello={this.state.Trello}/>
+          <Choices ref="choices" setSortedRootNode={this.setSortedRootNode} nodes={this.state.nodes} rootNode={this.state.rootNode} />
+          <Results rootNode={this.rootNode} Trello={this.state.Trello}/>
         </div>
     )
   },

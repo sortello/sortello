@@ -14,8 +14,8 @@ const Choices = React.createClass({
   },
   startChoices: function(){
 
-    var nodes = this.props.getNodes();
-    var rootNode = this.props.getRootNode();
+    var nodes = this.props.nodes;
+    var rootNode = this.props.rootNode;
     var that = this;
 
     function getChoice(node, compareNode, currNode) {
@@ -26,7 +26,6 @@ const Choices = React.createClass({
       jQuery("#right_button .card_content").html(compareNode.value.desc);
       jQuery("#right_button .card_link").prop("href", compareNode.value.shortUrl);
       jQuery(".choices--button").click(function () {
-        console.log("button clicked");
         if ($(this).attr("id") == "left_button") {
           compareNode = node.goLeft(compareNode);
         } else if ($(this).attr("id") == "right_button") {
