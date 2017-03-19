@@ -1,4 +1,4 @@
-import React from "react" // ES6 import
+import React from "react"
 import ApiKey from "./components/ApiKey.jsx"
 import ColumnSelection from "./components/ColumnSelection.jsx"
 import Choices from "./components/Choices.jsx"
@@ -38,7 +38,6 @@ const App = React.createClass({
     for (var i = 0; i < listCards.length; i++) {
       var node = treeNodeFactory(listCards[i]);
       nodes.push(node);
-      console.log(listCards[i])
     }
     this.setState({
       nodes: nodes,
@@ -82,4 +81,4 @@ const App = React.createClass({
   },
 })
 
-export default App // important
+export default App
