@@ -1,11 +1,12 @@
 import React from "react";
 import Header from './Header.jsx';
+import Card from './Card.jsx';
 import treeRebalancer from "../model/treeRebalancer";
 
 const Choices = React.createClass({
   getInitialState: function(){
     return {
-      Trello: this.props.Trello,
+      Trello: this.props.Trello
     }
   },
   endChoices: function(rootNode){
@@ -57,28 +58,12 @@ const Choices = React.createClass({
   render: function() {
     return (
         <div id="second_div" className={"centered_content"}>
-
           <div className={"row choices--title"}>
             <p>Select the highest priority card</p>
           </div>
           <div className={"centered_content row choices--container"}>
-            <div className={"col-md-6"}>
-              <div className={"choices--button"} id="left_button" data-cardId="0">
-                <h1></h1>
-                <p className={"card_link"}>
-                  <a className={"button--on-white btn-primary btn-lg"} href="#" target="_blank"
-                     role="button">See card</a>
-                </p>
-              </div>
-            </div>
-            <div className={"col-md-6"}>
-              <div className={"choices--button"} id="right_button" data-cardId="0">
-                <h1></h1>
-                <p className={"card_link"}>
-                  <a className={"button--on-white btn-primary btn-lg"} href="#" target="_blank" role="button">See card</a>
-                </p>
-              </div>
-            </div>
+            <Card id="left_button" />
+            <Card id="right_button" />
           </div>
           <div className={"row logout--header"}>
             <Header />
