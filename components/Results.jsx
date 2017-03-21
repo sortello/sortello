@@ -16,7 +16,7 @@ const Results = React.createClass({
       })
     }
 
-    var reorderedNodes = traverseTree(this.props.getRootNode());
+    var reorderedNodes = traverseTree(this.props.rootNode);
     var putCalls = reorderedNodes.length;
     var position = 100;
     var Trello = this.props.Trello;
@@ -40,7 +40,7 @@ const Results = React.createClass({
                   <br/>
                   <br/>
                   <div className="send-ordered-data--button">
-                    <a href={ "https://trello.com/b/" + this.props.getRootNode().value.idBoard} target="_blank"
+                    <a href={ "https://trello.com/b/" + this.props.rootNode.value.idBoard} target="_blank"
                        className={"btn"}>
                       <i className="fa fa-trello"></i>&nbsp;
                       Check your Trello board

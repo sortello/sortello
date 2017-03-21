@@ -1,4 +1,4 @@
-import React from "react" // ES6 import
+import React from "react"
 import ApiKey from "./components/ApiKey.jsx"
 import ColumnSelection from "./components/ColumnSelection.jsx"
 import Choices from "./components/Choices.jsx"
@@ -38,7 +38,6 @@ const App = React.createClass({
     for (var i = 0; i < listCards.length; i++) {
       var node = treeNodeFactory(listCards[i]);
       nodes.push(node);
-      console.log(listCards[i])
     }
     this.setState({
       nodes: nodes,
@@ -46,12 +45,6 @@ const App = React.createClass({
       currentView: 3
     })
     this.refs.choices.startChoices();
-  },
-  getNodes: function () {
-    return this.state.nodes
-  },
-  getRootNode: function () {
-    return this.state.rootNode
   },
   setSortedRootNode: function (rootNode) {
     this.setState({
@@ -74,12 +67,11 @@ const App = React.createClass({
         <div id="container_div">
           <ApiKey apikey={this.state.apiKey} Trello={this.state.Trello} setApiKey={this.setApiKey} />
           <ColumnSelection apikey={this.state.apiKey} Trello={this.state.Trello} handleCards={this.handleCards}/>
-          <Choices ref="choices" setSortedRootNode={this.setSortedRootNode} getNodes={this.getNodes}
-                   getRootNode={this.getRootNode} />
-          <Results getRootNode={this.getRootNode} Trello={this.state.Trello}/>
+          <Choices ref="choices" setSortedRootNode={this.setSortedRootNode} nodes={this.state.nodes} rootNode={this.state.rootNode} />
+          <Results rootNode={this.state.rootNode} Trello={this.state.Trello}/>
         </div>
     )
   },
 })
 
-export default App // important
+export default App
