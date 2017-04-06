@@ -13,7 +13,7 @@ const ColumnSelection = React.createClass({
       organizations: []
     }
   },
-  componentDidUpdate: function () {
+  componentDidMount: function () {
 
     if(this.state.organizations.length > 0){
       return;

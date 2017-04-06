@@ -8,7 +8,6 @@ import treeNodeFactory from "./model/treeNodeFactory"
 const App = React.createClass({
   getInitialState: function () {
     return {
-      apiKey: false,
       Trello: Trello,
       nodes: Array(),
       rootNode: null,
@@ -56,7 +55,7 @@ const App = React.createClass({
       case 1:
         return (<ApiKey Trello={this.state.Trello} onAuthentication={this.handleAuthentication}/>);
       case 2:
-        return (<ColumnSelection apikey={this.state.apiKey} Trello={this.state.Trello} handleCards={this.handleCards} />);
+        return (<ColumnSelection Trello={this.state.Trello} handleCards={this.handleCards} />);
       case 3:
         return (<Choices ref="choices" setSortedRootNode={this.setSortedRootNode} nodes={this.state.nodes} rootNode={this.state.rootNode} />);
       case 4:
