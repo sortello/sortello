@@ -32,7 +32,7 @@ const ApiKey = React.createClass({
     });
   },
   authenticationSuccess : function () {
-    this.props.setApiKey(this.apiKey.value);
+    this.props.onAuthentication();
   },
   authenticationFailure : function(){
     console.log("Failed authentication");

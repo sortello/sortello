@@ -7,7 +7,6 @@ import ListSelector from './ListSelector.jsx'
 const ColumnSelection = React.createClass({
   getInitialState: function () {
     return {
-      apiKey: this.props.apiKey,
       boards: [],
       lists: [],
       groupedboards: [],
@@ -103,13 +102,12 @@ const ColumnSelection = React.createClass({
   render: function () {
     return (
         <div id="card_url_div">
-            <div className={"centered_content"}>
+            <div className="centered_content">
                 <div className="select-list--text-container">
                     <p>Select the board you want to prioritize</p>
                 </div>
                 <p>
-                  <BoardSelector groupedboards={this.state.groupedboards}
-                                              onChange={this.handleBoardClicked}></BoardSelector>
+                  <BoardSelector groupedboards={this.state.groupedboards} onChange={this.handleBoardClicked}></BoardSelector>
                 </p>
                 {
                     this.state.lists.length === 0 ?

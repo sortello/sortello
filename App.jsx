@@ -27,9 +27,8 @@ const App = React.createClass({
       e.stopPropagation();
     });
   },
-  setApiKey: function (apiKey) {
+  handleAuthentication: function () {
     this.setState({
-      apiKey: apiKey,
       currentView : 2
     });
   },
@@ -55,7 +54,7 @@ const App = React.createClass({
   getCurrentView: function (viewNumber) {
     switch (this.state.currentView) {
       case 1:
-        return (<ApiKey apikey={this.state.apiKey} Trello={this.state.Trello} setApiKey={this.setApiKey}/>);
+        return (<ApiKey Trello={this.state.Trello} onAuthentication={this.handleAuthentication}/>);
       case 2:
         return (<ColumnSelection apikey={this.state.apiKey} Trello={this.state.Trello} handleCards={this.handleCards} />);
       case 3:
