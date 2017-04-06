@@ -6,7 +6,7 @@ var message = process.argv.slice(2)[1];
 console.log(version);
 console.log(message);
 
-var cmd = 'git checkout master && git pull && git tag -a ' + version + ' -m "' + message + '" && git push --tags && npm run build && git checkout gh-pages && git merge master && npm test && git push origin gh-pages && git checkout master';
+var cmd = 'git checkout master && git pull && npm run build && git tag -a ' + version + ' -m "' + message + '" && git push --tags && git checkout gh-pages && git merge master && npm test && git push origin gh-pages && git checkout master';
 
 console.log("Command: " + cmd);
 
