@@ -1,3 +1,6 @@
+html, body, #container, #container_div {
+    height: 100%;
+}
 
 .choice_button {
     cursor: pointer;
