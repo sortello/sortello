@@ -13,7 +13,7 @@ var message = process.argv.slice(2)[1];
 console.log("Release " + version + ":" + message);
 
 var getMasterUpdated = 'git checkout master && git pull && ';
-var compileJsForProduction = 'npm run build && git commit -m "update js production build" && ';
+var compileJsForProduction = 'npm run build && git commit -am "update js production build" && git push && ';
 var tagNewRelease = 'git tag -a ' + version + ' -m "' + message + '" && git push --tags && ';
 var pushToGithubPages = 'git checkout gh-pages && git merge master && npm test && git push origin gh-pages && ';
 var backToMasterBranch = 'git checkout master';
