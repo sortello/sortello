@@ -1,31 +1,25 @@
 import React from "react"
 
+
+var LOCAL_STORAGE_KEY = "sortelloTrelloDevApiKey";
+
 const ApiKey = React.createClass({
-  getInitialState: function(){
-    return {
-      apiKey: this.props.apiKey,
-      Trello: this.props.Trello,
-      setApiKey : this.props.setApiKey
-    };
-  },
   componentDidMount: function () {
-    if (localStorage.getItem("sortelloTrelloDevApiKey")) {
-      this.state.apiKey = localStorage.getItem("sortelloTrelloDevApiKey")
-      this.authenticateTrello();
+    if (localStorage.getItem(LOCAL_STORAGE_KEY)) {
+      this.authenticateTrello(localStorage.getItem(LOCAL_STORAGE_KEY));
     }
   },
   saveAPIKey : function(){
-    this.state.apiKey = document.getElementById("api_key").value
-    localStorage.setItem('sortelloTrelloDevApiKey', this.state.apiKey);
-    this.authenticateTrello();
+    localStorage.setItem(LOCAL_STORAGE_KEY, this.apiKey.value);
+    this.authenticateTrello(this.apiKey.value);
   },
   handleButtonClick: function(){
     this.saveAPIKey()
   },
-  authenticateTrello : function(){
+  authenticateTrello : function(apiKey){
     var that = this;
-    this.state.Trello.setKey(this.state.apiKey);
-    this.state.Trello.authorize({
+    this.props.Trello.setKey(apiKey);
+    this.props.Trello.authorize({
       type: 'popup',
       name: 'Getting Started Application',
       scope: {
@@ -38,8 +32,7 @@ const ApiKey = React.createClass({
     });
   },
   authenticationSuccess : function () {
-    console.log("Successful authentication");
-    this.props.setApiKey(this.state.apiKey);
+    this.props.setApiKey(this.apiKey.value);
   },
   authenticationFailure : function(){
     console.log("Failed authentication");
@@ -47,10 +40,30 @@ const ApiKey = React.createClass({
   render: function () {
     return (
         <div id="api_key_div">
-          <div className={"centered_content"}>
+          <div className="centered_content">
 
           <div className="centered-logo">
-            <svg
+            {this.logo()}
+            <p>Prioritize your Trello's board in just a few steps</p>
+          </div>
+
+            <p>
+              <input type="text" id="api_key" className={"api_input"} ref={(apiKey) => this.apiKey = apiKey} placeholder="Please insert your api key on this field"/>
+            </p>
+            <p>
+                <button className="continue-to-choices--button" id="check_api_key" onClick={this.handleButtonClick}>Continue
+                </button>
+            </p>
+            <a href="https://trello.com/app-key" target="_blank">
+                <div className={"api-suggestion"}>Click here to get your API key</div>
+            </a>
+          </div>
+        </div>
+    )
+  },
+  logo: function () {
+    return (
+        <svg
               xmlns="http://www.w3.org/2000/svg"
               xmlnsXlink="http://www.w3.org/1999/xlink"
         	    width="150px" height="150px"
@@ -90,23 +103,8 @@ const ApiKey = React.createClass({
       					c0.9,0,1.6,0.6,1.9,1.4c0.3,0.8,0,1.7-0.8,2.2l-5.8,4.1l2.2,6.8c0.3,0.8,0,1.7-0.7,2.2C82.8,66.1,82.4,66.2,82,66.2z M74.9,57.1
       					c0.4,0,0.8,0.1,1.2,0.4l2,1.5l-0.8-2.3c-0.3-0.8,0-1.7,0.7-2.3L80,53h-2.4c-0.9,0-1.6-0.6-1.9-1.4l-0.8-2.4l-0.8,2.4
       					c-0.3,0.8-1,1.4-1.9,1.4h-2.4l1.9,1.4c0.7,0.5,1,1.4,0.7,2.3l-0.8,2.3l2-1.5C74.1,57.2,74.5,57.1,74.9,57.1z"/>
-            </svg>
-            <p>Prioritize your Trello's board in just a few steps</p>
-          </div>
-
-            <p>
-              <input type="text" id="api_key" value={this.state.apiKey} className={"api_input"} placeholder="Please insert your api key on this field"/>
-            </p>
-            <p>
-                <button className="continue-to-choices--button" id="check_api_key" onClick={this.handleButtonClick}>Continue
-                </button>
-            </p>
-            <a href="https://trello.com/app-key" target="_blank">
-                <div className={"api-suggestion"}>Click here to get your API key</div>
-            </a>
-          </div>
-        </div>
-    )
+        </svg>
+    );
   }
 })
 
