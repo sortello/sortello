@@ -1,5 +1,6 @@
 import React from "react";
 import Header from './Header.jsx';
+import TreeDraw from './TreeDraw.jsx';
 import Card from './Card.jsx';
 import treeRebalancer from "../model/treeRebalancer";
 
@@ -8,7 +9,8 @@ const Choices = React.createClass({
     return {
       Trello: this.props.Trello,
       leftNode: null,
-      rightNode: null
+      rightNode: null,
+      currentTree: {value: 0 , left: 0 , right : 0}
     }
   },
   endChoices: function(rootNode){
@@ -35,6 +37,9 @@ const Choices = React.createClass({
         jQuery(".choices--button").unbind("click");
         if (node.isPositioned) {
           rootNode = treeRebalancer(rootNode);
+          component.setState({
+            currentTree: rootNode
+          });
           choicesCycle(currNode + 1);
         } else {
           getChoice(node, compareNode, currNode);
@@ -70,6 +75,7 @@ const Choices = React.createClass({
           <div className={"row logout--header"}>
             <Header />
           </div>
+          {/*<TreeDraw tree={this.state.currentTree}></TreeDraw>*/}
         </div>
     )
   }
