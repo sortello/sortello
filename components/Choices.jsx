@@ -13,6 +13,12 @@ const Choices = React.createClass({
       currentTree: {value: 0 , left: 0 , right : 0}
     }
   },
+  componentDidUpdate(){
+    this.props.centerContent();
+  },
+  componentDidMount(){
+    this.props.centerContent();
+  },
   endChoices: function(rootNode){
     this.props.setSortedRootNode(rootNode);
   },
@@ -68,7 +74,7 @@ const Choices = React.createClass({
           <div className={"row choices--title"}>
             <p>Select the highest priority card</p>
           </div>
-          <div className={"centered_content row choices--container"}>
+          <div className={"row choices--container"}>
             <Card id="left_button" data={this.state.leftNode.value}/>
             <Card id="right_button" data={this.state.rightNode.value}/>
           </div>

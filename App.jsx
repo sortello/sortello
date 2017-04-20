@@ -15,20 +15,29 @@ const App = React.createClass({
     };
   },
   componentDidMount: function () {
-    jQuery(".centered_content").each(function () {
-      var content_height = jQuery(this).outerHeight();
-      var viewport_height = jQuery(document).innerHeight();
-      var padding_top = (viewport_height / 2) - content_height;
-      jQuery(this).css('padding-top', padding_top + 'px');
-    });
-
     jQuery('.choice_button .card_link').click(function (e) {
       e.stopPropagation();
     });
   },
+  centerContent: function () {
+    function centerTheContent () {
+      jQuery(".centered_content").each(function () {
+        var content_height = jQuery(this).height();
+        var viewport_height = jQuery(document).innerHeight();
+        var padding_top = (viewport_height / 2) - (content_height / 2);
+        jQuery(this).css('padding-top', padding_top + 'px');
+      });
+    }
+
+    centerTheContent();
+
+    jQuery(window).resize(function () {
+      centerTheContent();
+    });
+  },
   handleAuthentication: function () {
     this.setState({
-      currentView : 2
+      currentView: 2
     });
   },
   handleCards: function (listCards) {
@@ -53,13 +62,17 @@ const App = React.createClass({
   getCurrentView: function (viewNumber) {
     switch (this.state.currentView) {
       case 1:
-        return (<ApiKey Trello={this.state.Trello} onAuthentication={this.handleAuthentication}/>);
+        return (<ApiKey Trello={this.state.Trello} onAuthentication={this.handleAuthentication}
+                        centerContent={this.centerContent}/>);
       case 2:
-        return (<ColumnSelection Trello={this.state.Trello} handleCards={this.handleCards} />);
+        return (<ColumnSelection Trello={this.state.Trello} handleCards={this.handleCards}
+                                 centerContent={this.centerContent}/>);
       case 3:
-        return (<Choices ref="choices" setSortedRootNode={this.setSortedRootNode} nodes={this.state.nodes} rootNode={this.state.rootNode} />);
+        return (<Choices ref="choices" setSortedRootNode={this.setSortedRootNode} nodes={this.state.nodes}
+                         rootNode={this.state.rootNode} centerContent={this.centerContent}/>);
       case 4:
-        return (<Results rootNode={this.state.rootNode} Trello={this.state.Trello}/>);
+        return (
+            <Results rootNode={this.state.rootNode} Trello={this.state.Trello} centerContent={this.centerContent}/>);
       default:
         return (<h3>Error</h3>);
     }
