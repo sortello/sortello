@@ -6,7 +6,12 @@ const Results = React.createClass({
   getInitialState: function () {
     return {uploadDone: false};
   },
-
+  componentDidUpdate(){
+    this.props.centerContent();
+  },
+  componentDidMount(){
+    this.props.centerContent();
+  },
   updateBoard: function () {
     var component = this;
 
@@ -33,7 +38,7 @@ const Results = React.createClass({
   },
   render: function () {
     return (
-        <div id="last_div" className={"centered_content send-ordered--container"}>
+        <div id="last_div" className={"send-ordered--container"}>
           <div className={"centered_content almost-done--position"}>
             { this.state.uploadDone ?
                 <p>Done!

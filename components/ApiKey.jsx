@@ -8,6 +8,10 @@ const ApiKey = React.createClass({
     if (localStorage.getItem(LOCAL_STORAGE_KEY)) {
       this.authenticateTrello(localStorage.getItem(LOCAL_STORAGE_KEY));
     }
+    this.props.centerContent();
+  },
+  componentDidUpdate(){
+    this.props.centerContent();
   },
   saveAPIKey : function(){
     localStorage.setItem(LOCAL_STORAGE_KEY, this.apiKey.value);

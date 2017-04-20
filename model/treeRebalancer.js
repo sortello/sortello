@@ -11,11 +11,11 @@ export default unbalancedTree => {
   }
 
   function rebuildTree (orderedNodes) {
-    if (orderedNodes.length == 1) {
+    if (orderedNodes.length === 1) {
       return orderedNodes[0]
     }
 
-    if (orderedNodes.length == 0) {
+    if (orderedNodes.length === 0) {
       return null
     }
 
