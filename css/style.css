@@ -20,6 +20,20 @@ html, body, #container, #container_div {
     border: 0;
 }
 
+.footer{
+    position: fixed;
+    bottom: 5px;
+    left: 5px;
+    padding: 5px;
+}
+
+.footer a{
+    color: black;
+}
+.footer a:hover{
+    color: grey;
+}
+
 .btn {
     border: 2px solid white;
     background: transparent;
