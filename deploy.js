@@ -15,7 +15,7 @@ console.log("Release " + version + ":" + message);
 var getMasterUpdated = 'git checkout master && git pull && ';
 var compileJsForProduction = 'npm run build && git commit -am "update js production build" && git push && ';
 var tagNewRelease = 'git tag -a ' + version + ' -m "' + message + '" && git push --tags && ';
-var pushToGithubPages = 'git checkout gh-pages && git merge master && npm test && git push origin gh-pages && ';
+var pushToGithubPages = 'git checkout gh-pages && git pull && git merge master && npm test && git push origin gh-pages && ';
 var backToMasterBranch = 'git checkout master';
 
 var cmd = getMasterUpdated +  compileJsForProduction + tagNewRelease + pushToGithubPages + backToMasterBranch;
