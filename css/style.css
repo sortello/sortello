@@ -261,6 +261,12 @@ a:hover {
     font-family: "montserrat", sans-serif;
     font-size: 1em;
     color: #bbb;
+    transition: all .5s ease-in-out;
+    cursor: pointer;
+}
+
+.select-field__select:hover {
+  background: rgba(0, 0, 0, 0.1);
 }
 
 button.continue-to-choices--button {
