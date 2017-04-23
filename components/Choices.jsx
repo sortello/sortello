@@ -80,8 +80,8 @@ const Choices = React.createClass({
             <Card id="left_button" data={this.state.leftNode.value}/>
             <Card id="right_button" data={this.state.rightNode.value}/>
           </div>
-          <div className={"progress"}>
-            <div className={"progress-bar"} role="progressbar" aria-valuenow={this.state.progress} aria-valuemin="0"
+          <div className={"choices--progress"}>
+            <div className={"choices--progress-bar"} role="progressbar" aria-valuenow={this.state.progress} aria-valuemin="0"
                  aria-valuemax="100" style={{width: this.state.progress + '%'}}>
             </div>
           </div>
