@@ -50,27 +50,9 @@ const ColumnSelection = React.createClass({
       console.log(e);
     });
   },
-  retrieveCards: function () {
-    var that = this;
-    var cardUrl = this.refs.card_url.value.replace("https://trello.com/c/", "");
-    var cardId = cardUrl.replace(/\/(.*)/g, "");
-
-    this.props.Trello.cards.get(cardId, null, function (data) {
-      var idList = data.idList;
-      var apiKey = localStorage.getItem('sortelloTrelloDevApiKey');
-      jQuery.ajax({
-        url: "https://api.trello.com/1/lists/" + idList + "/cards?key=" + apiKey + "&token=" + that.props.Trello.token(),
-      }).done(function (data) {
-        var listCards = data;
-        that.props.handleCards(listCards);
-      });
-    }, function (e) {
-      console.log(e);
-    });
-  },
   retrieveCardsByList: function (list) {
     var that = this;
-    this.props.Trello.lists.get(list.id, {cards: "all"}, function (data) {
+    this.props.Trello.lists.get(list.id, {cards: "open"}, function (data) {
       var listCards = data.cards;
       that.props.handleCards(listCards);
     }, function (e) {
@@ -81,16 +63,6 @@ const ColumnSelection = React.createClass({
     this.setState({
       lists: board.lists
     });
-  },
-  handleWrongUrl: function () {
-    alert("This doesn't seem to be the url of a card :)");
-
-  },
-  handleButtonClick: function () {
-    if (this.refs.card_url.value.indexOf("https://trello.com/c/") < 0) {
-      this.handleWrongUrl();
-    }
-    this.retrieveCards();
   },
   handleBoardClicked: function (boardId) {
 
