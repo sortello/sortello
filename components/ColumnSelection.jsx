@@ -3,6 +3,7 @@ import {find} from "lodash"
 import Header from './Header.jsx';
 import BoardSelector from './BoardSelector.jsx'
 import ListSelector from './ListSelector.jsx'
+import queryString from "query-string";
 
 const ColumnSelection = React.createClass({
   getInitialState: function () {
@@ -19,12 +20,11 @@ const ColumnSelection = React.createClass({
   componentDidMount: function () {
     var Trello = this.props.Trello;
 
-    var paramListId = window.location.search.replace('?_listId=', '');
     var that = this;
-    if (paramListId.indexOf('_|_|_') > -1) {
-      var parts = paramListId.split('_|_|_');
-      var boardId = parts[0];
-      var listName = decodeURIComponent(parts[1]);
+    const params = queryString.parse(location.search);
+    if (params.boardId !== undefined && params.listName !== undefined) {
+      var boardId = params.boardId;
+      var listName = params.listName;
       Trello.boards.get(boardId, {
         organizations: "all",
         organization_fields: "all",
