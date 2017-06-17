@@ -2,6 +2,9 @@ import React from "react"
 
 const ApiKey = React.createClass({
   componentDidMount: function () {
+    if (localStorage.getItem("trello_token")) {
+      this.authenticateTrello();
+    }
     this.props.centerContent();
   },
   componentDidUpdate(){
