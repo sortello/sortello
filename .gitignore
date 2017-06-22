@@ -6,3 +6,5 @@ gen
 .DS_Store
 assets/.DS_Store
 node_modules
+parameters.js
+Makefile
