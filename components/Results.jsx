@@ -26,7 +26,7 @@ const Results = React.createClass({
     var position = 100;
     var Trello = this.props.Trello;
     for (var j = 0; j < reorderedNodes.length; j++) {
-      console.log(reorderedNodes[j]);
+      // console.log(reorderedNodes[j]);
       Trello.put('/cards/' + reorderedNodes[j].value.id, {pos: '' + position}, function () {
         putCalls--;
         if (putCalls == 0) {
