@@ -8,3 +8,6 @@ assets/.DS_Store
 node_modules
 parameters.js
 Makefile
+.rsync_exclude
+build
+build/
