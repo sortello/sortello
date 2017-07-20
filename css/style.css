@@ -286,6 +286,12 @@ button.continue-to-choices--button {
     transition: all .5s ease-in-out;
 }
 
+button.continue-to-choices--button:hover {
+    background: #fff;
+    color: #0000e8;
+    text-decoration: underline;
+}
+
 .choices--title {
     margin: 0 0 25px;
     color: #0000a3 !important;
