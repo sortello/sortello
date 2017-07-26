@@ -11,7 +11,8 @@ const App = React.createClass({
       Trello: Trello,
       nodes: Array(),
       rootNode: null,
-      currentView: 1 // 1-ApiKey 2-ColumnSelect 3-Choices 4-SendDataToServer
+      currentView: 1,
+      startTimeStamp: null// 1-ApiKey 2-ColumnSelect 3-Choices 4-SendDataToServer
     };
   },
   componentDidMount: function () {
@@ -59,6 +60,11 @@ const App = React.createClass({
       currentView: 4
     })
   },
+  setStartTimeStamp: function (timeStamp) {
+    this.setState({
+      startTimeStamp: timeStamp
+    })
+  },
   getCurrentView: function (viewNumber) {
     switch (this.state.currentView) {
       case 1:
@@ -68,11 +74,11 @@ const App = React.createClass({
         return (<ColumnSelection Trello={this.state.Trello} handleCards={this.handleCards}
                                  centerContent={this.centerContent}/>);
       case 3:
-        return (<Choices ref="choices" setSortedRootNode={this.setSortedRootNode} nodes={this.state.nodes}
+        return (<Choices ref="choices" setSortedRootNode={this.setSortedRootNode} setStartTimeStamp={this.setStartTimeStamp} nodes={this.state.nodes}
                          rootNode={this.state.rootNode} centerContent={this.centerContent}/>);
       case 4:
         return (
-            <Results rootNode={this.state.rootNode} Trello={this.state.Trello} centerContent={this.centerContent}/>);
+            <Results rootNode={this.state.rootNode} Trello={this.state.Trello} startTimeStamp={this.state.startTimeStamp} centerContent={this.centerContent}/>);
       default:
         return (<h3>Error</h3>);
     }

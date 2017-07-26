@@ -25,6 +25,8 @@ const Choices = React.createClass({
   },
   startChoices: function () {
 
+    this.props.setStartTimeStamp(Date.now())
+
     var nodes = this.props.nodes;
     var rootNode = this.props.rootNode;
     var component = this;
