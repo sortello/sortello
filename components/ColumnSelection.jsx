@@ -14,7 +14,7 @@ const ColumnSelection = React.createClass({
       organizations: []
     }
   },
-  componentDidUpdate(){
+  componentDidUpdate () {
     this.props.centerContent();
   },
   componentDidMount: function () {
@@ -22,23 +22,15 @@ const ColumnSelection = React.createClass({
 
     var that = this;
     const params = queryString.parse(location.search);
+
     if (params.boardId !== undefined && params.listName !== undefined) {
-      var boardId = params.boardId;
-      var listName = params.listName;
-      Trello.boards.get(boardId, {
-        organizations: "all",
-        organization_fields: "all",
-        lists: "open",
-        list_fields: "all"
-      }, function (board) {
-        for (var i = 0; i < board.lists.length; i++) {
-          var list = board.lists[i];
-          if (list.name === listName) {
-            that.retrieveCardsByList(list)
-          }
-        }
-      }, function (e) {
-        console.log(e);
+      alert("Looks like you are using and outdated version of the Sortello Chrome Extension, please update. Thank you!");
+    }
+
+    if (params.extId !== undefined) {
+
+      Trello.cards.get(params.extId, null, function (card) {
+        that.retrieveCardsByList(card.idList)
       });
     }
 
@@ -46,7 +38,6 @@ const ColumnSelection = React.createClass({
     if (this.state.organizations.length > 0) {
       return;
     }
-
 
     Trello.members.get('me', {
       organizations: "all",
@@ -78,9 +69,9 @@ const ColumnSelection = React.createClass({
       console.log(e);
     });
   },
-  retrieveCardsByList: function (list) {
+  retrieveCardsByList: function (listId) {
     var that = this;
-    this.props.Trello.lists.get(list.id, {cards: "open"}, function (data) {
+    this.props.Trello.lists.get(listId, {cards: "open"}, function (data) {
       var listCards = data.cards;
       that.props.handleCards(listCards);
     }, function (e) {
