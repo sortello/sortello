@@ -30,7 +30,7 @@ const ColumnSelection = React.createClass({
     if (params.extId !== undefined) {
 
       Trello.cards.get(params.extId, null, function (card) {
-        that.retrieveCardsByList(card.idList)
+        that.retrieveCardsByListId(card.idList)
       });
     }
 
@@ -69,7 +69,7 @@ const ColumnSelection = React.createClass({
       console.log(e);
     });
   },
-  retrieveCardsByList: function (listId) {
+  retrieveCardsByListId: function (listId) {
     var that = this;
     this.props.Trello.lists.get(listId, {cards: "open"}, function (data) {
       var listCards = data.cards;
@@ -91,7 +91,7 @@ const ColumnSelection = React.createClass({
   },
   handleListClicked: function (listId) {
     var list = find(this.state.lists, {'id': listId});
-    this.retrieveCardsByList(list);
+    this.retrieveCardsByListId(list.id);
   },
   render: function () {
     return (
