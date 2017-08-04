@@ -1,0 +1,17 @@
+.button__suggestion {
+	color: white;
+	font-family: "Fira Sans", sans-serif;
+	font-size: 18px;
+	text-decoration: underline;
+	margin: 32px 0;
+}
+
+.input__api-key {
+	font-size: 18px;
+    margin: 56px 0 16px;
+    font-family: "Fira Sans", sans-serif;
+}
+
+.wrapper__api-key {
+	padding: 172px 96px 96px;
+}

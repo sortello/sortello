@@ -68,29 +68,28 @@ const ApiKey = React.createClass({
       </p>);
     }
 
-    return (<p>
-      <p>
-        <input type="text" id="api_key" className={"api_input"} ref={(apiKey) => this.apiKey = apiKey}
-               placeholder="Please insert your api key on this field"/>
-      </p>
-      <p>
-        <button className="continue-to-choices--button" id="check_api_key" onClick={this.handleButtonClick}>Continue
-        </button>
-      </p>
-
-      <a href="https://trello.com/app-key" target="_blank">
-        <div className={"api-suggestion"}>Click here to get your API key</div>
-      </a>
-    </p>);
+    return (
+      <div>
+        <input type="text" id="api_key" className={"input__api-key"} ref={(apiKey) => this.apiKey = apiKey}
+                 placeholder="Please insert your api key on this field"/>
+        <div className="button__text">
+          <button className="button__primary" id="check_api_key" onClick={this.handleButtonClick}>Continue
+          </button>
+        </div>
+        <a href="https://trello.com/app-key" target="_blank">
+          <div className={"button__suggestion"}>Click here to get your API key</div>
+        </a>
+      </div>
+    );
   },
   render: function () {
     return (
         <div id="api_key_div">
-          <div className="centered_content">
+          <div className="wrapper__api-key">
 
             <div className="centered-logo">
               {this.logo()}
-              <p>Prioritize your Trello's board in just a few steps</p>
+              <div className="api-key__claim">Prioritize your Trello's board in just a few steps</div>
             </div>
             {this.getContent()}
 

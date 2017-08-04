@@ -142,16 +142,15 @@ h2 {
 #container_div {
     height: 100%;
     overflow: hidden;
-    font-size: 24px;
 }
 
 #api_key_div {
     height: 100%;
     background: #0000a3; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left top, #0099ff, #0000a3); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(bottom right, #0099ff, #0000a3); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(bottom right, #0099ff, #0000a3); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to bottom right, #0099ff, #0000a3); /* Standard syntax */
+    background: -webkit-linear-gradient(left top, #68E0E6, #005AFF); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right, #68E0E6, #005AFF); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, #68E0E6, #005AFF); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right, #68E0E6, #005AFF); /* Standard syntax */
     text-align: center;
     color: white;
     transition: all 0.3s ease;
@@ -160,10 +159,10 @@ h2 {
 #card_url_div {
     height: 100%;
     background: #0000a3; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left top, #0099ff, #0000a3); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(bottom right, #0099ff, #0000a3); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(bottom right, #0099ff, #0000a3); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to bottom right, #0099ff, #0000a3); /* Standard syntax */
+    background: -webkit-linear-gradient(left top, #68E0E6, #005AFF); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right, #68E0E6, #005AFF); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, #68E0E6, #005AFF); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right, #68E0E6, #005AFF); /* Standard syntax */
     text-align: center;
     color: white;
     transition: all 0.3s ease;
@@ -179,10 +178,10 @@ h2 {
 #last_div {
     height: 100%;
     background: #0000a3; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left top, #0099ff, #0000a3); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(bottom right, #0099ff, #0000a3); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(bottom right, #0099ff, #0000a3); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to bottom right, #0099ff, #0000a3); /* Standard syntax */
+    background: -webkit-linear-gradient(left top, #68E0E6, #005AFF); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right, #68E0E6, #005AFF); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, #68E0E6, #005AFF); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right, #68E0E6, #005AFF); /* Standard syntax */
     text-align: center;
     color: white;
 }
@@ -190,10 +189,10 @@ h2 {
 #completed_div {
     height: 100%;
     background: #0000a3; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left top, #0099ff, #0000a3); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(bottom right, #0099ff, #0000a3); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(bottom right, #0099ff, #0000a3); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to bottom right, #0099ff, #0000a3); /* Standard syntax */
+    background: -webkit-linear-gradient(left top, #68E0E6, #005AFF); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right, #68E0E6, #005AFF); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, #68E0E6, #005AFF); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right, #68E0E6, #005AFF); /* Standard syntax */
     text-align: center;
     color: white;
 }
@@ -202,11 +201,6 @@ h2 {
     margin: 10px;
 }
 
-.api-suggestion {
-    font-size: 18px;
-    margin: 20px 0;
-    font-family: "montserrat", sans-serif;
-}
 
 #api_key_div input {
     width: 50%;
@@ -229,7 +223,7 @@ a:hover {
 }
 
 .centered-logo {
-    margin: 0 20px 100px;
+    margin: 0 16px 32px;
 }
 
 /*--------------------------------------------------------------------------------------------------*/
@@ -348,3 +342,43 @@ button.continue-to-choices--button {
     transition: width .6s ease;
 
 }
+
+
+/*API KEY PAGE*/
+
+.api-key__claim {
+    font-family: "Fira Sans", sans-serif;
+    font-size: 24px;
+}
+
+.input__suggestion {
+    font-size: 18px;
+    margin: 16px 0;
+    font-family: "Fira Sans", sans-serif;
+}
+
+
+
+/*Styleguide*/
+
+.button__primary {
+  background-color: white;
+  box-shadow: 0 2px 4px 0;
+  color: #4A4A4A;
+  padding: 20px 32px;
+  border-radius: 4px;
+  margin: 8px 160px;
+
+}
+
+.button__primary:hover {
+  background-color: #F3F3F3;
+  }
+
+.button__text {
+  font-family: "Fira Sans", sans-serif;
+  font-size: 18px;
+}
+
+
+
