@@ -6,6 +6,8 @@ require("./css/style.css");
 require("./css/animate-sortello.css");
 require("./css/buttons.css");
 require("./css/api-key.css");
+require("./css/board-column__selection.css");
+
 
 
 

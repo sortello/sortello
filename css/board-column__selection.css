@@ -1,0 +1,20 @@
+.selection__heading {
+	font-size: 32px;
+	font-family: "Fira Sans", sans-serif;
+	color: #4A4A4A;
+	font-weight: bold;
+	margin-bottom: 40px;
+}
+
+.selection__container {
+	background-color: white;
+	border-radius: 4px;
+	box-shadow: 0 2px 4px 0;
+	padding: 54px 80px;
+
+}
+
+.selection__wrapper {
+	padding: 160px 120px 56px;
+
+}

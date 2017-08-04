@@ -22,26 +22,33 @@ html, body, #container, #container_div {
 
 .footer{
     position: fixed;
-    bottom: 20px;
-    left: 5px;
-    padding: 5px;
+    bottom: 32px;
+    width: 100%;
+
 }
 
-.footer--item {
-    margin: 10px;
-    border: solid 2px white;
-    padding: 10px;
-    border-radius: 4px;
+.footer__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer__item {
+    margin: 8px 0 0;
     color: white;
-    font-family: "montserrat", sans-serif;
-    font-size: 1.2em;
+    font-family: "Fira Sans", sans-serif;
+    font-size: 14px;
     transition: all .5s ease-in-out;
 
 }
 
-.footer--item:hover {
-  background: white;
-  color: #0000e8;
+.footer__link {
+    color: white;
+}
+
+.footer__link:hover {
+    text-decoration: underline;
+    color: white;
 }
 
 .btn {
@@ -228,36 +235,28 @@ a:hover {
 
 /*--------------------------------------------------------------------------------------------------*/
 
-.select-list--text-container {
-    margin-bottom: 50px;
-}
-
-    .select-field__select {
-        -webkit-appearance: button;
-        -moz-appearance: none;
-        text-indent:  0.01px;
-        text-overflow: '';
-        -o-appearance: button;
-        background: transparent;
-        padding: 10px 300px;
-        margin-bottom: 50px;
-        border-radius: 0;
-        border: 0;
-        border-bottom: solid 3px white;
-        font-family: "montserrat", sans-serif;
-        font-size: 1em;
-        color: white;
-    }
 
 .select-field__select {
-    padding: 10px 200px;
-    margin: 10px 0 50px;
-    font-family: "montserrat", sans-serif;
-    font-size: 1em;
-    color: #bbb;
-    transition: all .5s ease-in-out;
-    cursor: pointer;
+    -webkit-appearance: button;
+    -moz-appearance: none;
+    text-indent:  0.01px;
+    text-overflow: '';
+    -o-appearance: button;
+    background: #F3F3F3;
+    border-radius: 4px;
+    font-family: "Fira Sans", sans-serif;
+    font-size: 18px;
+    color: #4A4A4A;
+    box-shadow: 0 2px 2px -2px;
+    height: 64px;
+    padding: 16px 40px;
+    max-width: 600px;
+    min-width: 480px;
+    margin: 16px 0;
+
 }
+
+
 
 .select-field__select:hover {
   background: rgba(0, 0, 0, 0.1);
