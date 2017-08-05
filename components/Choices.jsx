@@ -76,13 +76,9 @@ const Choices = React.createClass({
     return (
       <div id="second_div">
         <div className="container__choose-card">
-          <div className={"row choices--title"}>
-            <div className="choose-card__heading">Select the highest priority card</div>
-          </div>
-          <div className={"row choices--container"}>
-            <Card id="left_button" data={this.state.leftNode.value}/>
-            <Card id="right_button" data={this.state.rightNode.value}/>
-          </div>
+          <div className="choose-card__heading">Select the highest priority card</div>
+          <Card id="left_button" data={this.state.leftNode.value}/>
+          <Card id="right_button" data={this.state.rightNode.value}/>
           <div className={"row logout--header"}>
             <Header />
           </div>

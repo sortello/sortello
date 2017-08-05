@@ -45,6 +45,7 @@
   font-size: 24px;
   font-family: "Fira Sans", sans-serif;
   line-height: 1.4;
+  text-align: left;
 }
 
 .container__labels {
@@ -147,6 +148,7 @@
   color: white;  
   font-family: "Fira Sans", sans-serif;
   font-size: 16px;
+  margin-top: 32px;
 }
 
 .progressive-bar__status-structure {

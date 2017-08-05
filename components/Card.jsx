@@ -3,14 +3,18 @@ import React from "react"
 const Card = React.createClass({
     render: function() {
         return (
-            <div className="col-md-6">
-              <div className="choices--button" id={this.props.id} data-cardId="0">
-                <h1>{this.props.data.name}</h1>
-                <p className="card_link">
-                  <a className="button--on-white btn-primary btn-lg" href={this.props.data.shortUrl} target="_blank"
-                     role="button">See card</a>
-                </p>
+            <div className={"wrapper__card"}>
+              <div className="container__card" id={this.props.id} data-cardId="0">
+                <div className="card__title">{this.props.data.name}</div>
               </div>
+              <div className="wrapper__card-buttons">
+                <a href={this.props.data.shortUrl} target="_blank" role="button">
+                     <div className="card-button__see-card">See card</div>
+                </a>
+                <a target="_blank" role="button">
+                     <div className="card-button__vote">Vote</div>
+                </a>
+              </div> 
             </div>
         );
     }
