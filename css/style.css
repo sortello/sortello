@@ -175,12 +175,6 @@ h2 {
     transition: all 0.3s ease;
 }
 
-#second_div {
-    padding: 75px 150px 100px;
-    background: white;
-    color: #0000a3;
-    text-align: center;
-}
 
 #last_div {
     height: 100%;
@@ -273,14 +267,7 @@ button.continue-to-choices--button {
     transition: all .5s ease-in-out;
 }
 
-.choices--title {
-    margin: 0 0 25px;
-    color: #0000a3 !important;
-}
 
-.choices--container {
-    padding-top: 0 !important;
-}
 
 .logout--header {
     margin-top: 50px;

@@ -1,0 +1,166 @@
+#second_div {
+    height: 100%;
+    background: #0000a3; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left top, #68E0E6, #005AFF); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right, #68E0E6, #005AFF); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, #68E0E6, #005AFF); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right, #68E0E6, #005AFF); /* Standard syntax */
+    text-align: center;
+    transition: all 0.3s ease;
+    padding: 96px 96px 32px;
+
+}
+
+.choose-card__heading {
+  margin: 16px 0 32px;
+  font-size: 32px;
+  font-family: "Fira Sans", sans-serif;
+  font-weight: bold;
+}
+
+.wrapper__card {
+  display: flex;
+  flex-direction: row;
+  padding: 16px 56px;
+}
+
+.container__card {
+  padding: 32px;
+  border-radius: 4px;
+  box-shadow: 0px 2px 4px -2px;
+  width: 70%;
+  background-color: #F3F3F3;
+}
+
+.container__choose-card {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0px 2px 4px -2px;
+    padding: 32px 0 72px;
+}
+
+.card__title {
+  font-size: 24px;
+  font-family: "Fira Sans", sans-serif;
+  line-height: 1.4;
+}
+
+.container__labels {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+}
+
+.item__label {
+  padding: 8px 12px;
+  margin: 0 2px;
+  font-size: 20px;
+  font-family: "Fira Sans", sans-serif;
+  border-radius: 4px;
+}
+
+.label__color-1 {
+  background-color: red;
+  color: white;
+}
+
+.label__color-2 {
+  background-color: blue;
+  color: white;
+}
+
+.label__color-3 {
+  background-color: purple;
+  color: white;
+}
+
+.wrapper__card-buttons {
+  display: flex;
+  flex-direction: column;
+  padding-left: 16px;
+  width: 30%;
+}
+
+.card-button__vote {
+  padding: 20px 20px;
+  box-shadow: 0px 2px 4px -2px;
+  text-align: center;
+  margin-bottom: 8px;
+  font-family: "Fira Sans", sans-serif;
+  font-size: 20px;
+  color: white;
+  border-radius: 4px;
+  background-color: #4A90E2;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.card-button__vote:hover {
+  background-color: #005AFF;
+}
+
+.card-button__esclude {
+  padding: 20px 20px;
+  box-shadow: 0px 2px 4px -2px;
+  text-align: center;
+  margin-bottom: 8px;
+  font-family: "Fira Sans", sans-serif;
+  font-size: 20px;
+  color: white;
+  border-radius: 4px;
+  background-color: #FF6565;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.card-button__esclude:hover {
+  background-color: #EE6565;  
+}
+
+.card-button__see-card {
+  padding: 20px 20px;
+  box-shadow: 0px 2px 4px -2px;
+  text-align: center;
+  margin-bottom: 8px;
+  font-family: "Fira Sans", sans-serif;
+  font-size: 20px;
+  color: #4A4A4A;
+  border-radius: 4px;
+  background-color: #F3F3F3;
+  transition: background-color 0.2s ease-in-out;
+
+}
+
+.card-button__see-card:hover {
+  background-color: #E3E3E3;
+}
+
+
+
+.container__prioritization-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.text__prioritization-status {
+  color: white;  
+  font-family: "Fira Sans", sans-serif;
+  font-size: 16px;
+}
+
+.progressive-bar__status-structure {
+  margin: 16px 56px 32px;
+  width: 100%;
+  height: 16px;
+  border-radius: 4px;
+  background-color: #F3F3F3;
+
+}
+
+.progressive-bar__status {
+  height: 16px;
+  background-color: #68E0E6;
+  border-radius: 4px;
+  width: 800px;
+}

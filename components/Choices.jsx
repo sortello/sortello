@@ -74,24 +74,29 @@ const Choices = React.createClass({
       return (<span>Loading...</span>);
     }
     return (
-        <div id="second_div" className={"centered_content"}>
+      <div id="second_div">
+        <div className="container__choose-card">
           <div className={"row choices--title"}>
-            <p>Select the highest priority card</p>
+            <div className="choose-card__heading">Select the highest priority card</div>
           </div>
           <div className={"row choices--container"}>
             <Card id="left_button" data={this.state.leftNode.value}/>
             <Card id="right_button" data={this.state.rightNode.value}/>
-          </div>
-          <div className={"choices--progress"}>
-            <div className={"choices--progress-bar"} role="progressbar" aria-valuenow={this.state.progress} aria-valuemin="0"
-                 aria-valuemax="100" style={{width: this.state.progress + '%'}}>
-            </div>
           </div>
           <div className={"row logout--header"}>
             <Header />
           </div>
           {/*<TreeDraw tree={this.state.currentTree}></TreeDraw>*/}
         </div>
+        <div className="container__prioritization-status">
+          <div className="text__prioritization-status">Prioritization status</div>
+          <div className={"progressive-bar__status-structure"}>
+            <div className={"progressive-bar__status"} role="progressbar" aria-valuenow={this.state.progress} aria-valuemin="0"
+                 aria-valuemax="100" style={{width: this.state.progress + '%'}}>
+            </div>
+          </div>
+        </div>
+      </div>
     )
   }
 })
