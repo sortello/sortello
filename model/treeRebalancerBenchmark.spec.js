@@ -3,7 +3,7 @@ import traverseTree from "./traverseTree"
 import treeRebalancer from "./treeRebalancer"
 import {shuffle} from "lodash"
 
-describe('treeNodeFactory', () => {
+describe('treeNodeFactoryBenchmark', () => {
 
   // Try also with very small tree. Example: 2-nodes
   it('should be slower without rebalancing', () => {
