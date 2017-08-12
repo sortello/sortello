@@ -28,7 +28,6 @@ const ColumnSelection = React.createClass({
     }
 
     if (params.extId !== undefined) {
-
       Trello.cards.get(params.extId, null, function (card) {
         that.retrieveCardsByListId(card.idList)
       });
