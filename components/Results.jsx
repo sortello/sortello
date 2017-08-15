@@ -64,7 +64,7 @@ const Results = React.createClass({
                   <br/>
                   <div className="send-ordered-data--button">
                     <a href={"https://trello.com/b/" + this.props.rootNode.value.idBoard} target="_blank"
-                       className={"btn"}>
+                       className={"btn"} id="check-board">
                       <i className="fa fa-trello"></i>&nbsp;
                       Check your Trello board
                     </a>
