@@ -1,5 +1,5 @@
 exports.config = {
-  specs: ['__tests__/protractor/*spec.js'],
+  specs: ['tests/protractor/*spec.js'],
   capabilities: {
     browserName: 'chrome'
   },
