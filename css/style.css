@@ -348,3 +348,7 @@ button.continue-to-choices--button {
     transition: width .6s ease;
 
 }
+
+#tree_draw{
+ padding-top: 0px !important;
+}

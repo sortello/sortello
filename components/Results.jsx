@@ -43,6 +43,7 @@ const Results = React.createClass({
       });
     }
     var Trello = this.props.Trello;
+
     for (var j = 0; j < reorderedNodes.length; j++) {
       // console.log(reorderedNodes[j]);
       Trello.put('/cards/' + reorderedNodes[j].value.id, {pos: '' + position}, function () {
@@ -56,36 +57,36 @@ const Results = React.createClass({
   },
   render: function () {
     return (
-        <div id="last_div" className={"send-ordered--container"}>
-          <div className={"centered_content almost-done--position"}>
-            {this.state.uploadDone ?
-                <p>Done!
-                  <br/>
-                  <br/>
-                  <div className="send-ordered-data--button">
-                    <a href={"https://trello.com/b/" + this.props.rootNode.value.idBoard} target="_blank"
-                       className={"btn"} id="check-board">
-                      <i className="fa fa-trello"></i>&nbsp;
-                      Check your Trello board
-                    </a>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="/" className={"btn"}>
-                      <i className="fa fa-repeat"></i>&nbsp;
-                      Prioritize another list
-                    </a>
-                  </div>
-                </p> :
-                <div>
-                  <p>Almost done!</p>
-                  <div className="send-ordered-data--button">
-                    <button className={"btn"} id="update_board" onClick={this.updateBoard}>
-                      Send ordered data to your board
-                    </button>
-                  </div>
-                </div>
-            }
-          </div>
+      <div id="last_div" className={"send-ordered--container"}>
+        <div className={"centered_content almost-done--position"}>
+          {this.state.uploadDone ?
+            <p>Done!
+              <br/>
+              <br/>
+              <div className="send-ordered-data--button">
+                <a href={"https://trello.com/b/" + this.props.rootNode.value.idBoard} target="_blank"
+                   className={"btn"} id="check-board">
+                  <i className="fa fa-trello"></i>&nbsp;
+                  Check your Trello board
+                </a>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="/" className={"btn"}>
+                  <i className="fa fa-repeat"></i>&nbsp;
+                  Prioritize another list
+                </a>
+              </div>
+            </p> :
+            <div>
+              <p>Almost done!</p>
+              <div className="send-ordered-data--button">
+                <button className={"btn"} id="update_board" onClick={this.updateBoard}>
+                  Send ordered data to your board
+                </button>
+              </div>
+            </div>
+          }
         </div>
+      </div>
     )
   }
 })
