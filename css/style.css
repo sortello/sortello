@@ -230,31 +230,7 @@ a:hover {
 /*--------------------------------------------------------------------------------------------------*/
 
 
-.select-field__select {
-    -webkit-appearance: button;
-    -moz-appearance: none;
-    text-indent:  0.01px;
-    text-overflow: '';
-    -o-appearance: button;
-    background: #F3F3F3;
-    border-radius: 4px;
-    font-family: "Fira Sans", sans-serif;
-    font-size: 18px;
-    color: #4A4A4A;
-    box-shadow: 0 2px 2px -2px;
-    height: 64px;
-    padding: 16px 40px;
-    max-width: 600px;
-    min-width: 480px;
-    margin: 16px 0;
 
-}
-
-
-
-.select-field__select:hover {
-  background: rgba(0, 0, 0, 0.1);
-}
 
 button.continue-to-choices--button {
     background: none;

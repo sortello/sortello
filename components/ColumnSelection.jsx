@@ -96,7 +96,7 @@ const ColumnSelection = React.createClass({
     return (
         <div id="card_url_div">
           <div className="selection__wrapper">
-            <div className="selection__container">
+            <div className="selection__container selection__container--animation">
               <div className="select-list--text-container selection__heading">
                 First of all, select the board you want to prioritize
               </div>
