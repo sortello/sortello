@@ -79,7 +79,7 @@ const Choices = React.createClass({
           <div className="choose-card__heading">Select the highest priority card</div>
           <Card id="left_button" data={this.state.leftNode.value}/>
           <Card id="right_button" data={this.state.rightNode.value}/>
-          <div className={"row logout--header"}>
+          <div className={"logout__button"}>
             <Header />
           </div>
           {/*<TreeDraw tree={this.state.currentTree}></TreeDraw>*/}

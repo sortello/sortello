@@ -7,42 +7,53 @@
     background: linear-gradient(to bottom right, #68E0E6, #005AFF); /* Standard syntax */
     text-align: center;
     transition: all 0.3s ease;
-    padding: 96px 96px 32px;
+    padding: 56px 96px 32px;
 
 }
 
 .choose-card__heading {
-  margin: 16px 0 32px;
-  font-size: 32px;
+  margin: 16px 0 48px;
+  font-size: 24px;
   font-family: "Fira Sans", sans-serif;
   font-weight: bold;
+  width: 100%;
 }
 
 .wrapper__card {
   display: flex;
-  flex-direction: row;
-  padding: 16px 56px;
+  flex-direction: column;
+  padding: 8px;
+  width: 50%;
 }
 
 .container__card {
   padding: 32px;
   border-radius: 4px;
   box-shadow: 0px 2px 4px -2px;
-  width: 70%;
   background-color: #F3F3F3;
+  width: 100%;
+  cursor: pointer;
 }
 
 .container__choose-card {
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    border-radius: 4px;
-    box-shadow: 0px 2px 4px -2px;
-    padding: 32px 0 72px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0px 2px 4px -2px;
+  padding: 32px 56px 72px;
+  transition: all 0.5s ease-in;
+  -moz-transition: all 0.5s ease-in;
+  
+}
+.container__card:hover {
+  background-color: #4A90E2;
+  color: white;
 }
 
 .card__title {
-  font-size: 24px;
+  font-size: 18px;
   font-family: "Fira Sans", sans-serif;
   line-height: 1.4;
   text-align: left;
@@ -79,61 +90,64 @@
 
 .wrapper__card-buttons {
   display: flex;
-  flex-direction: column;
-  padding-left: 16px;
-  width: 30%;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
-.card-button__vote {
-  padding: 20px 20px;
+/*.card-button__vote {
+  padding: 16px;
   box-shadow: 0px 2px 4px -2px;
   text-align: center;
   margin-bottom: 8px;
   font-family: "Fira Sans", sans-serif;
-  font-size: 20px;
+  font-size: 16px;
   color: white;
   border-radius: 4px;
   background-color: #4A90E2;
   transition: background-color 0.2s ease-in-out;
+  margin: 16px 8px;
 }
 
 .card-button__vote:hover {
   background-color: #005AFF;
-}
+}*/
 
-.card-button__esclude {
-  padding: 20px 20px;
+/*.card-button__esclude {
+  padding: 16px;
   box-shadow: 0px 2px 4px -2px;
   text-align: center;
   margin-bottom: 8px;
   font-family: "Fira Sans", sans-serif;
-  font-size: 20px;
+  font-size: 16px;
   color: white;
   border-radius: 4px;
   background-color: #FF6565;
   transition: background-color 0.2s ease-in-out;
+  margin: 16px 8px;
 }
 
 .card-button__esclude:hover {
   background-color: #EE6565;  
-}
+}*/
 
 .card-button__see-card {
-  padding: 20px 20px;
+  padding: 16px;
   box-shadow: 0px 2px 4px -2px;
   text-align: center;
-  margin-bottom: 8px;
   font-family: "Fira Sans", sans-serif;
-  font-size: 20px;
+  font-size: 16px;
   color: #4A4A4A;
   border-radius: 4px;
   background-color: #F3F3F3;
   transition: background-color 0.2s ease-in-out;
+  margin: 16px 0px;
+  text-decoration: none;
 
 }
 
 .card-button__see-card:hover {
   background-color: #E3E3E3;
+  text-decoration: none;
 }
 
 
@@ -147,22 +161,38 @@
 .text__prioritization-status {
   color: white;  
   font-family: "Fira Sans", sans-serif;
-  font-size: 16px;
+  font-size: 12px;
   margin-top: 32px;
 }
 
 .progressive-bar__status-structure {
-  margin: 16px 56px 32px;
-  width: 100%;
-  height: 16px;
-  border-radius: 4px;
+  margin: 8px 56px 32px;
+  width: 90%;
+  height: 8px;
+  border-radius: 8px;
   background-color: #F3F3F3;
+  max-width: 800px;
+
 
 }
 
 .progressive-bar__status {
-  height: 16px;
+  height: 8px;
   background-color: #68E0E6;
-  border-radius: 4px;
+  border-radius: 8px;
   width: 800px;
+}
+
+.logout__button {
+  position: fixed;
+  left: 32px;
+  bottom: 32px;
+}
+
+.logout__button--style {
+  color: white;
+  background: transparent;
+  border: none;
+  font-family: "Fira Sans", sans-serif;
+  text-decoration: underline;
 }
