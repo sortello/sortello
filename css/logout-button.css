@@ -1,0 +1,11 @@
+.logout__button {
+	margin: 0 0 32px;
+}
+
+.logout__button--style {
+  color: white;
+  background: transparent;
+  border: none;
+  font-family: "Fira Sans", sans-serif;
+  text-decoration: underline;
+}

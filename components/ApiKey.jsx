@@ -69,7 +69,7 @@ const ApiKey = React.createClass({
     }
 
     return (
-      <div>
+      <div className="container__api-key-input">
         <input type="text" id="api_key" className={"input__api-key"} ref={(apiKey) => this.apiKey = apiKey}
                  placeholder="Please insert your api key on this field"/>
         <div className="button__text">

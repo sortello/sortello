@@ -1,7 +1,7 @@
-@media (max-width: 1366px) {
+@media (min-width: 1280px) {
 
 	.selection__wrapper {
-		padding: 96px 120px 80px;
+		padding: 96px 25% 80px;
 	}
 	.selection__heading {
 		font-size: 32px;

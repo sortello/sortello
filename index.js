@@ -10,6 +10,10 @@ require("./css/board-column__selection.css");
 require("./css/choices.css");
 require("./css/responsive/board-column-selection__responsive.css");
 require("./css/responsive/choices__responsive.css");
+require("./css/logout-button.css");
+require("./css/responsive/logout-button__responsive.css");
+require("./css/footer.css");
+require("./css/responsive/api-key__responsive.css");
 
 
 

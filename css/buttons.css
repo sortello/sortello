@@ -4,7 +4,12 @@
   color: #4A4A4A;
   padding: 20px 32px;
   border-radius: 4px;
-  margin: 8px 160px;
+  margin: 8px;
+  border-top-style: none;
+  border-right-style: none;
+  border-left-style: none;
+  border-bottom-style: none;
+  transition: background-color 0.2s ease-in-out;
 
 }
 

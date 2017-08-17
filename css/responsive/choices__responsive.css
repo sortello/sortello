@@ -1,3 +1,39 @@
+@media (min-width: 1280px) {
+	.container__choose-card {
+    	padding: 56px 72px 72px;
+	}
+	#second_div {
+		padding: 72px 96px 56px;
+	}
+	.choose-card__heading {
+		font-size: 32px;
+	}
+	.card__title {
+    	font-size: 24px;
+    }
+    .card-button__see-card {
+		font-size: 18px;
+	}
+	.text__prioritization-status {
+		font-size: 20px;
+		margin-top: 56px;
+	}
+	.progressive-bar__status-structure {
+	  margin: 32px 56px 32px;
+	  width: 90%;
+	  height: 16px;
+	  border-radius: 16px;
+	  background-color: #F3F3F3;
+	  max-width: 800px;
+	}
+
+	.progressive-bar__status {
+	  height: 16px;
+	  border-radius: 16px;
+	  width: 800px;
+		}
+}
+
 @media (max-width: 1024px) {
 
 	.choose-card__heading {
