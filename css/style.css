@@ -126,16 +126,16 @@ h2 {
 }
 
 
-#last_div {
+/*#last_div {
     height: 100%;
-    background: #0000a3; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left top, #68E0E6, #005AFF); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(bottom right, #68E0E6, #005AFF); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(bottom right, #68E0E6, #005AFF); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to bottom right, #68E0E6, #005AFF); /* Standard syntax */
+    background: #0000a3; 
+    background: -webkit-linear-gradient(left top, #68E0E6, #005AFF); 
+    background: -o-linear-gradient(bottom right, #68E0E6, #005AFF); 
+    background: -moz-linear-gradient(bottom right, #68E0E6, #005AFF); 
+    background: linear-gradient(to bottom right, #68E0E6, #005AFF); 
     text-align: center;
     color: white;
-}
+}*/
 
 #completed_div {
     height: 100%;
@@ -176,28 +176,6 @@ a:hover {
 .centered-logo {
     margin: 0 16px 32px;
 }
-
-/*--------------------------------------------------------------------------------------------------*/
-
-
-
-
-button.continue-to-choices--button {
-    background: none;
-    border: solid 3px #fff;
-    border-bottom: 5px solid #fff;
-    color: #fff;
-    border-radius: 3px;
-    padding: 10px 20px;
-    font-size: 0.75em;
-    transition: all .5s ease-in-out;
-}
-
-
-.centered_content > .almost-done--position {
-    padding-top: 200px !important;
-}
-
 
 
 

@@ -1,6 +1,7 @@
 import React from "react"
 import Header from './Header.jsx';
 import traverseTree from "../model/traverseTree"
+import AlmostDoneAnimation from './AlmostDoneAnimation.jsx';
 
 const Results = React.createClass({
   getInitialState: function () {
@@ -56,34 +57,37 @@ const Results = React.createClass({
   },
   render: function () {
     return (
-        <div id="last_div" className={"send-ordered--container"}>
-          <div className={"centered_content almost-done--position"}>
-            {this.state.uploadDone ?
-                <p>Done!
-                  <br/>
-                  <br/>
-                  <div className="send-ordered-data--button">
-                    <a href={"https://trello.com/b/" + this.props.rootNode.value.idBoard} target="_blank"
-                       className={"btn"}>
-                      <i className="fa fa-trello"></i>&nbsp;
-                      Check your Trello board
-                    </a>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="/" className={"btn"}>
-                      <i className="fa fa-repeat"></i>&nbsp;
-                      Prioritize another list
-                    </a>
+        <div className={"send-ordered__wrapper"}>
+          <div id="last_div" className={"send-ordered__container"}>
+            <div className={""}>
+              {this.state.uploadDone ?
+                  <div>Done!
+                    <br/>
+                    <br/>
+                    <div className="send-ordered__button button__primary">
+                      <a href={"https://trello.com/b/" + this.props.rootNode.value.idBoard} target="_blank"
+                         className={"btn"}>
+                        <i className="fa fa-trello"></i>&nbsp;
+                        Check your Trello board
+                      </a>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <a href="/" className={"btn"}>
+                        <i className="fa fa-repeat"></i>&nbsp;
+                        Prioritize another list
+                      </a>
+                    </div>
+                  </div> :
+                  <div>
+                    <AlmostDoneAnimation />
+                    <div className="send-ordered__heading">Almost done!</div>
+                    <div className="send-ordered__button button__primary button__text">
+                      <button id="update_board" onClick={this.updateBoard}>
+                        Send ordered data to your board
+                      </button>
+                    </div>
                   </div>
-                </p> :
-                <div>
-                  <p>Almost done!</p>
-                  <div className="send-ordered-data--button">
-                    <button className={"btn"} id="update_board" onClick={this.updateBoard}>
-                      Send ordered data to your board
-                    </button>
-                  </div>
-                </div>
-            }
+              }
+            </div>
           </div>
         </div>
     )

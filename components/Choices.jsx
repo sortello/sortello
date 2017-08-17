@@ -37,13 +37,13 @@ const Choices = React.createClass({
         rightNode: compareNode
       });
 
-      jQuery(".card-button__vote").click(function () {
+      jQuery(".wrapper__card").click(function () {
         if ($(this).attr("id") == "left_button") {
           compareNode = node.goLeft(compareNode);
         } else if ($(this).attr("id") == "right_button") {
           compareNode = node.goRight(compareNode);
         }
-        jQuery(".card-button__vote").unbind("click");
+        jQuery(".wrapper__card").unbind("click");
         if (node.isPositioned) {
           rootNode = treeRebalancer(rootNode);
           component.setState({

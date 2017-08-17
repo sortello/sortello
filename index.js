@@ -16,6 +16,7 @@ require("./css/footer.css");
 require("./css/responsive/api-key__responsive.css");
 require("./css/responsive/disclaimer__responsive.css");
 require("./css/disclaimer.css");
+require("./css/send-ordered.css");
 
 
 
