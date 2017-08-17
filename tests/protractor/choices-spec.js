@@ -71,13 +71,13 @@ describe('sort list asc', function () {
     }
 
     nextChoice();
-    browser.wait(browser.executeScript("return arguments[0].innerHTML;", element(by.id('update_board'))), 10000).then(
+    browser.wait(browser.executeScript("return arguments[0].innerHTML;", element(by.id('update_board'))), 50000).then(
       function () {
         $("#update_board").click();
       });
-    browser.driver.sleep(2000);
+    browser.driver.sleep(5000);
 
-    browser.wait(browser.executeScript("return arguments[0].innerHTML;", element(by.id('check-board'))), 10000).then(
+    browser.wait(browser.executeScript("return arguments[0].innerHTML;", element(by.id('check-board'))), 50000).then(
       function () {
         $("#check-board").click();
       });
@@ -130,7 +130,7 @@ describe('sort list asc', function () {
       function () {
         $("#update_board").click();
       });
-    browser.driver.sleep(2000);
+    browser.driver.sleep(5000);
 
     browser.wait(browser.executeScript("return arguments[0].innerHTML;", element(by.id('check-board'))), 20000).then(
       function () {
@@ -200,7 +200,7 @@ describe('sort list asc', function () {
       function () {
         $("#update_board").click();
       });
-    browser.driver.sleep(2000);
+    browser.driver.sleep(5000);
 
     browser.wait(browser.executeScript("return arguments[0].innerHTML;", element(by.id('check-board'))), 20000).then(
       function () {
