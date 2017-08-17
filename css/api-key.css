@@ -17,6 +17,8 @@
 	display: flex;
     flex-direction: column;
     align-items: center;
+    color: white;
+    text-align: center;
 }
 
 .container__api-key-input {

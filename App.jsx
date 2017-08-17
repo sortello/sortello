@@ -6,6 +6,7 @@ import Results from "./components/Results.jsx"
 import treeNodeFactory from "./model/treeNodeFactory"
 import Footer from "./components/Footer.jsx"
 
+
 const App = React.createClass({
   getInitialState: function () {
     return {
@@ -88,7 +89,9 @@ const App = React.createClass({
     return (
         <div id="container_div">
           {this.getCurrentView()}
-          <Footer />
+          <div className={"footer"}>
+            <Footer />
+          </div>
         </div>
     )
   },

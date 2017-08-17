@@ -92,7 +92,7 @@ const Choices = React.createClass({
         <div className={"logout__button"}>
             <Header />
         </div>
-            
+        
       </div>
     )
   }

@@ -6,15 +6,13 @@
     <meta name="Description" content="Sort your trello list, comparing the priority of your cards two by two.">
     <link rel="shortcut icon" href="assets/favicon/favicon.ico">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/typography.css">
-    <link rel="stylesheet" href="css/animate-sortello.css">
-    <link rel="stylesheet" href="css/style.css">
-
+    <link rel="stylesheet" href="css/disclaimer.css">
+    <link rel="stylesheet" href="css/responsive/disclaimer__responsive.css">
 
 </head>
 <body>
 <div id="disclaimer">
-    <p class="logo">
+    <div class="disclaimer__logo-container">
         <svg
                 xmlns="http://www.w3.org/2000/svg"
                 xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -56,13 +54,13 @@
       					c0.4,0,0.8,0.1,1.2,0.4l2,1.5l-0.8-2.3c-0.3-0.8,0-1.7,0.7-2.3L80,53h-2.4c-0.9,0-1.6-0.6-1.9-1.4l-0.8-2.4l-0.8,2.4
       					c-0.3,0.8-1,1.4-1.9,1.4h-2.4l1.9,1.4c0.7,0.5,1,1.4,0.7,2.3l-0.8,2.3l2-1.5C74.1,57.2,74.5,57.1,74.9,57.1z"/>
         </svg>
-    </p>
-    <h1>Disclaimer</h1>
-    <p class="content">
+    </div>
+    <div class="disclaimer__heading">Disclaimer</div>
+    <div class="disclaimer__content">
         Sortello is a free tool, provided as free software under the <a
-            href="https://github.com/mazzcris/sortello/blob/master/LICENSE">MIT License</a> and served as a hosted
-        version (<strong>website</strong>) at <a href="http://sortello.ideato.it" target="_blank">sortello.ideato.it</a> and <a
-            href="http://mazzcris.github.io/sortello/" target="_blank">mazzcris.github.io/sortello</a>
+            href="https://github.com/mazzcris/sortello/blob/master/LICENSE" class="disclaimer__link">MIT License</a> and served as a hosted
+        version (<strong>website</strong>) at <a href="http://sortello.ideato.it" target="_blank" class="disclaimer__link">sortello.ideato.it</a> and <a
+            href="http://mazzcris.github.io/sortello/" target="_blank" class="disclaimer__link">mazzcris.github.io/sortello</a>
         <br>
         By using the hosted version (<strong>website</strong>) mentioned above, you agree to use it "as is", without
         warranty of any
@@ -72,29 +70,10 @@
         In no event shall the authors, publishers or copyright holders be liable for any claim, damages or other
         liability, whether in an action of contract, tort or otherwise, arising from, out of or in connection with the
         <strong>website</strong> or the use or other dealings in the <strong>website</strong>.
-    </p>
-    <p><a href="javascript:window.close();">Close disclaimer</a>
-    </p>
+    </div>
+    <div class="disclaimer__close-button"><a href="javascript:window.close();" class="disclaimer__close-link">CLOSE DISCLAIMER</a>
+    </div>
 </div>
-<style>
-    #disclaimer {
-        width: 50%;
-        margin: auto;
-        margin-top: 50px;
-        text-align: justify;
-    }
 
-    #disclaimer p:first-child {
-        text-align: center;
-    }
-
-    #disclaimer p.content {
-        line-height: 1.5em;
-    }
-
-    #disclaimer p:last-child {
-        text-align: right;
-    }
-</style>
 </body>
 </html>
