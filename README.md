@@ -22,6 +22,18 @@ Sortello will be available at localhost:4000
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
 
+## Running Protractor end-to-end tests
+
+`./node_modules/protractor/bin/protractor protractor.conf.js --params.username=<username> --params.password=<password> --params.extId=<cardId>`
+
+username: the username for your Trello test account
+
+password: the password for your Trello test account
+
+cardId: the ID of any card from the test list
+
+*Please note: For the tests to work, at the moment, the titles of the cards in the list must be integers from 1 to 10.*
+
 <!--
 ## History
 

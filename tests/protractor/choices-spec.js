@@ -19,9 +19,6 @@ describe('sort list asc', function () {
 
   accessFromChromeExtension = function () {
     browser.get('/?extId=' + browser.params.extId);
-    // browser.executeScript('window.localStorage.clear();');
-    // browser.executeScript('window.sessionStorage.clear();');
-    // browser.driver.manage().deleteAllCookies();
     browser.wait(browser.executeScript("return arguments[0].innerHTML;", element(by.css('.continue-to-choices--button'))), 10000).then(
       function () {
         $(".continue-to-choices--button").click();
