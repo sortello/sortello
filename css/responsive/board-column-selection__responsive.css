@@ -74,7 +74,7 @@
 	}
 }
 
-@media (max-width: 480px), (-webkit-min-device-pixel-ratio: 1) {
+@media (max-width: 480px) {
 
 	.selection__wrapper {
 		padding: 40px 32px 32px;
