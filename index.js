@@ -13,6 +13,7 @@ require("./css/responsive/choices__responsive.css");
 require("./css/logout-button.css");
 require("./css/responsive/logout-button__responsive.css");
 require("./css/footer.css");
+require("./css/responsive/footer__responsive.css");
 require("./css/responsive/api-key__responsive.css");
 require("./css/responsive/disclaimer__responsive.css");
 require("./css/disclaimer.css");

@@ -11,9 +11,8 @@
 .footer__item {
     color: white;
     font-family: "Fira Sans", sans-serif;
-    font-size: 10px;
+    font-size: 12px;
     transition: all .5s ease-in-out;
-
 }
 
 .footer__link {

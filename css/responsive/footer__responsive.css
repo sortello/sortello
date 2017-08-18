@@ -1,0 +1,5 @@
+@media (max-width: 768px) {
+	.footer__item {
+	    font-size: 10px;
+	}
+}
