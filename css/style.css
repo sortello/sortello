@@ -36,12 +36,17 @@ html, body, #container, #container_div {
     font-family: "montserrat", sans-serif;
     font-size: 1.2em;
     transition: all .5s ease-in-out;
-
 }
 
 .footer--item:hover {
-  background: white;
-  color: #0000e8;
+    background: white;
+    color: #0000e8;
+}
+
+.footer--item:focus {
+    background: inherit;
+    color: #ffffff;
+    text-decoration: none;
 }
 
 .btn {
@@ -87,11 +92,12 @@ html, body, #container, #container_div {
     color: #0000a3;
 }
 
-.button--on-white:hover {
-    border: 3px solid white;
-    border-bottom: 5px solid white;
-    color: white;
-    background: none;
+.button--on-white:focus {
+    border:3px solid #0000a3;
+    border-bottom:5px solid #0000a3;
+    color: inherit;
+    background: inherit;
+    text-decoration: none;
 }
 
 input[type="text"] {
@@ -238,22 +244,22 @@ a:hover {
     margin-bottom: 50px;
 }
 
-    .select-field__select {
-        -webkit-appearance: button;
-        -moz-appearance: none;
-        text-indent:  0.01px;
-        text-overflow: '';
-        -o-appearance: button;
-        background: transparent;
-        padding: 10px 300px;
-        margin-bottom: 50px;
-        border-radius: 0;
-        border: 0;
-        border-bottom: solid 3px white;
-        font-family: "montserrat", sans-serif;
-        font-size: 1em;
-        color: white;
-    }
+.select-field__select {
+    -webkit-appearance: button;
+    -moz-appearance: none;
+    text-indent:  0.01px;
+    text-overflow: '';
+    -o-appearance: button;
+    background: transparent;
+    padding: 10px 300px;
+    margin-bottom: 50px;
+    border-radius: 0;
+    border: 0;
+    border-bottom: solid 3px white;
+    font-family: "montserrat", sans-serif;
+    font-size: 1em;
+    color: white;
+}
 
 .select-field__select {
     padding: 10px 200px;
@@ -278,6 +284,12 @@ button.continue-to-choices--button {
     padding: 10px 20px;
     font-size: 0.75em;
     transition: all .5s ease-in-out;
+}
+
+button.continue-to-choices--button:hover {
+    background: #fff;
+    color: #0000e8;
+    text-decoration: underline;
 }
 
 .choices--title {
