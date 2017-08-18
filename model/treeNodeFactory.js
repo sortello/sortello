@@ -3,7 +3,7 @@ export default value => {
     const toReturn = {
         left:null,
         right:null,
-        value,
+        value: value,
         isPositioned:false
     }
 

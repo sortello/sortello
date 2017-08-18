@@ -33,7 +33,6 @@ const Results = React.createClass({
 
     var reorderedNodes = traverseTree(this.props.rootNode);
     var putCalls = reorderedNodes.length;
-    var position = 100;
     if (gaTrackingId && this.state.duration !== null) {
       console.log('Finished in ' + this.state.duration + ' ms with ' + putCalls + ' cards');
       ga('send', {
@@ -44,16 +43,25 @@ const Results = React.createClass({
       });
     }
     var Trello = this.props.Trello;
-    for (var j = 0; j < reorderedNodes.length; j++) {
-      // console.log(reorderedNodes[j]);
-      Trello.put('/cards/' + reorderedNodes[j].value.id, {pos: '' + position}, function () {
-        putCalls--;
-        if (putCalls == 0) {
-          showUploadDone();
-        }
-      });
-      position += 100;
+
+    let j=0;
+
+    function placeNextCard(previousPlacedData){
+      // console.log(previousPlacedData.pos);
+      const nextCardIndex = ++j;
+      if(nextCardIndex >= reorderedNodes.length){
+        showUploadDone();
+        return;
+      }
+      Trello.put('/cards/' + reorderedNodes[j].value.id, {pos: 'bottom'}, placeNextCard, restart);
     }
+
+    function restart(){
+      j=0;
+      placeNextCard({pos: null});
+    }
+
+    placeNextCard({pos: null});
   },
   render: function () {
     return (
@@ -90,6 +98,7 @@ const Results = React.createClass({
             </div>
           </div>
         </div>
+      </div>
     )
   }
 })

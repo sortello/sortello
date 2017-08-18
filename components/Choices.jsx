@@ -30,11 +30,30 @@ const Choices = React.createClass({
     var nodes = this.props.nodes;
     var rootNode = this.props.rootNode;
     var component = this;
+    var blacklist = [];
+
+
 
     function getChoice (node, compareNode, currNode) {
       component.setState({
         leftNode: node,
         rightNode: compareNode
+      });
+      jQuery(".button-blacklist").unbind("click");
+      jQuery(".button-blacklist").click(function(e){
+        e.stopPropagation();
+        var card = $(this).closest(".choices--button");
+        if ($(card).attr("id") == "left_button") {
+          blacklist.push(node.value.id);
+          autoChoice();
+        } else if ($(card).attr("id") == "right_button") {
+          blacklist.push(compareNode.value.id);
+          autoChoice();
+        }
+      });
+
+      jQuery(".button-seecard").click(function(e){
+        e.stopPropagation();
       });
 
       jQuery(".wrapper__card").click(function () {
@@ -55,6 +74,18 @@ const Choices = React.createClass({
           getChoice(node, compareNode, currNode);
         }
       });
+
+      function autoChoice(){
+        if(blacklist.indexOf(node.value.id) > -1){
+          $("#right_button").click();
+        }
+        else if(blacklist.indexOf(compareNode.value.id) > -1){
+          $("#left_button").click();
+        }
+      }
+
+
+      autoChoice();
     }
 
     function choicesCycle (currNode) {
