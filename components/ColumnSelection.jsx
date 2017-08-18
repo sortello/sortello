@@ -111,6 +111,9 @@ const ColumnSelection = React.createClass({
               }
             </div>
           </div>
+          <div className={"logout__button"}>
+            <Header />
+          </div>
         </div>
     )
   }
