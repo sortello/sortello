@@ -3,6 +3,8 @@ import Header from './Header.jsx';
 import TreeDraw from './TreeDraw.jsx';
 import Card from './Card.jsx';
 import treeRebalancer from "../model/treeRebalancer";
+import Footer from "./Footer.jsx"
+
 
 const Choices = React.createClass({
   getInitialState: function () {
@@ -122,6 +124,9 @@ const Choices = React.createClass({
         </div>
         <div className={"logout__button"}>
             <Header />
+        </div>
+        <div className={"footer"}>
+          <Footer/>
         </div>
         
       </div>

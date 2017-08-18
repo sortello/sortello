@@ -4,7 +4,6 @@ import ColumnSelection from "./components/ColumnSelection.jsx"
 import Choices from "./components/Choices.jsx"
 import Results from "./components/Results.jsx"
 import treeNodeFactory from "./model/treeNodeFactory"
-import Footer from "./components/Footer.jsx"
 
 
 const App = React.createClass({
@@ -89,9 +88,6 @@ const App = React.createClass({
     return (
         <div id="container_div">
           {this.getCurrentView()}
-          <div className={"footer"}>
-            <Footer />
-          </div>
         </div>
     )
   },

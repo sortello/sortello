@@ -10,3 +10,8 @@
   font-family: "Fira Sans", sans-serif;
   text-decoration: underline;
 }
+
+.logout__fade-in {
+  animation-name: fade-in-container;
+  animation-duration: 1.75s;
+}

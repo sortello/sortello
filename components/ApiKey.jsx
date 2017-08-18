@@ -67,7 +67,7 @@ const ApiKey = React.createClass({
         <button className="continue-to-choices--button button__primary button__text" onClick={this.handleStartButtonClick}>Authorize Sortello and
           let's start!
         </button>
-        <a><div className="button__suggestion">You want to learn more about sortello?</div></a>
+        <a href="/landing-page.html"><div className="button__suggestion">You want to learn more about sortello?</div></a>
       </div>);
     }
 

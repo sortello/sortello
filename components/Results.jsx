@@ -3,6 +3,8 @@ import Header from './Header.jsx';
 import traverseTree from "../model/traverseTree"
 import AlmostDoneAnimation from './AlmostDoneAnimation.jsx';
 import SuccessAnimation from './SuccessAnimation.jsx';
+import Footer from "./Footer.jsx"
+
 
 
 const Results = React.createClass({
@@ -99,6 +101,9 @@ const Results = React.createClass({
               }
             </div>
           </div>
+        <div className={"footer results__footer"}>
+            <Footer/>
+        </div>
         </div>
     )
   }

@@ -4,6 +4,8 @@ import Header from './Header.jsx';
 import BoardSelector from './BoardSelector.jsx'
 import ListSelector from './ListSelector.jsx'
 import queryString from "query-string";
+import Footer from "./Footer.jsx"
+
 
 const ColumnSelection = React.createClass({
   getInitialState: function () {
@@ -111,8 +113,11 @@ const ColumnSelection = React.createClass({
               }
             </div>
           </div>
-          <div className={"logout__button"}>
+          <div className={"logout__button logout__fade-in"}>
             <Header />
+          </div>
+          <div className={"footer footer__fade-in"}>
+            <Footer />
           </div>
         </div>
     )

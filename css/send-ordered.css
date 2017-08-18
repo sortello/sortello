@@ -53,3 +53,7 @@
     stroke-dashoffset: 0;
   }
 }
+
+.results__footer {
+	margin-top: 56px;
+}
