@@ -19,6 +19,8 @@ require("./css/responsive/disclaimer__responsive.css");
 require("./css/disclaimer.css");
 require("./css/send-ordered.css");
 require("./css/send-success.css");
+require("./css/responsive/send-success__responsive.css");
+require("./css/responsive/send-ordered__responsive.css");
 
 
 

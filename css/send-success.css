@@ -26,6 +26,14 @@
     min-width: 480px;
 }
 
+.prioritize-again__button:hover {
+    text-decoration: none;
+}
+
+.check-trello__button:hover {
+    text-decoration: none;
+}
+
 .success-animation__stroke-secondary {
     fill:none;
     stroke:#4A90E2;

@@ -15,6 +15,7 @@
 
 .button__primary:hover {
   background-color: #efefef;
+  color: #4A4A4A;
   }
 
 .button__text {
