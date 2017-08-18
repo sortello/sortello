@@ -106,23 +106,34 @@
   background-color: #005AFF;
 }*/
 
-/*.card-button__esclude {
+.card-button__esclude {
   padding: 16px;
   box-shadow: 0px 2px 4px -2px;
-  text-align: center;
   margin-bottom: 8px;
-  font-family: "Fira Sans", sans-serif;
-  font-size: 16px;
-  color: white;
+  color: black;
   border-radius: 4px;
   background-color: #FF6565;
-  transition: background-color 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
   margin: 16px 8px;
+  cursor: pointer;
 }
 
 .card-button__esclude:hover {
-  background-color: #EE6565;  
-}*/
+  background-color: #EE6565;
+  box-shadow: 0px 2px 4px -2px;
+}
+.button-text__esclude {
+
+  text-align: center;
+  font-family: "Fira Sans", sans-serif;
+  font-size: 16px;
+  color: white;
+}
+
+.button-text__esclude:hover {
+  color: white;
+  text-decoration: none;
+}
 
 .card-button__see-card {
   padding: 16px;

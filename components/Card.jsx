@@ -8,11 +8,13 @@ const Card = React.createClass({
                 <div className="card__title">{this.props.data.name}</div>
               </div>
               <div className="wrapper__card-buttons">
-                <a href={this.props.data.shortUrl} target="_blank" role="button" className="button-seecard">
-                     <div className="card-button__see-card">See card</div>
+                <a href={this.props.data.shortUrl} target="_blank" role="button" className="button-seecard card-button__see-card">
+                     <div className="button-text__see-card">See card</div>
                 </a>
-                <a className="button--on-white btn-primary btn-lg button-blacklist" target="_blank"
-                     role="button">I really don't care</a>
+                <div className="card-button__esclude">
+                    <a className="button-blacklist button-text__esclude" target="_blank"
+                        role="button">Forget this card</a>
+                </div>
               </div> 
             </div>
         );

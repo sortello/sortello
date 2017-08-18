@@ -1,6 +1,6 @@
 .button__primary {
   background-color: #F3F3F3;
-  box-shadow: 0 2px 4px 0;
+  box-shadow: 0 2px 2px -2px;
   color: #4A4A4A;
   padding: 20px 32px;
   border-radius: 4px;
@@ -14,7 +14,7 @@
 }
 
 .button__primary:hover {
-  background-color: #F3F3F3;
+  background-color: #efefef;
   }
 
 .button__text {
