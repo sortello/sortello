@@ -4,6 +4,8 @@ import Header from './Header.jsx';
 import BoardSelector from './BoardSelector.jsx'
 import ListSelector from './ListSelector.jsx'
 import queryString from "query-string";
+import Footer from "./Footer.jsx"
+
 
 const ColumnSelection = React.createClass({
   getInitialState: function () {
@@ -28,7 +30,6 @@ const ColumnSelection = React.createClass({
     }
 
     if (params.extId !== undefined) {
-
       Trello.cards.get(params.extId, null, function (card) {
         that.retrieveCardsByListId(card.idList)
       });
@@ -96,19 +97,27 @@ const ColumnSelection = React.createClass({
   render: function () {
     return (
         <div id="card_url_div">
-          <div className="centered_content">
-            <div className="select-list--text-container">
-              <p>Select the board you want to prioritize</p>
+          <div className="selection__wrapper">
+            <div className="selection__container selection__container--animation">
+              <div className="select-list--text-container selection__heading">
+                First of all, select the board you want to prioritize
+              </div>
+              <div className="">
+                <BoardSelector groupedboards={this.state.groupedboards}
+                               onChange={this.handleBoardClicked}></BoardSelector>
+              </div>
+              {
+                this.state.lists.length === 0 ?
+                    "" :
+                    <p><ListSelector lists={this.state.lists} onChange={this.handleListClicked}></ListSelector></p>
+              }
             </div>
-            <p>
-              <BoardSelector groupedboards={this.state.groupedboards}
-                             onChange={this.handleBoardClicked}></BoardSelector>
-            </p>
-            {
-              this.state.lists.length === 0 ?
-                  "" :
-                  <p><ListSelector lists={this.state.lists} onChange={this.handleListClicked}></ListSelector></p>
-            }
+          </div>
+          <div className={"logout__button logout__fade-in"}>
+            <Header />
+          </div>
+          <div className={"footer footer__fade-in"}>
+            <Footer />
           </div>
         </div>
     )

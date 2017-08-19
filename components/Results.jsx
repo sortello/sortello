@@ -1,6 +1,12 @@
 import React from "react"
 import Header from './Header.jsx';
 import traverseTree from "../model/traverseTree"
+import AlmostDoneAnimation from './AlmostDoneAnimation.jsx';
+import Recap from './Recap.jsx';
+import SuccessAnimation from './SuccessAnimation.jsx';
+import Footer from "./Footer.jsx"
+
+
 
 const Results = React.createClass({
   getInitialState: function () {
@@ -21,6 +27,9 @@ const Results = React.createClass({
       duration: end - start
     })
   },
+  getReorderedNodes: function(){
+    return traverseTree(this.props.rootNode)
+  },
   updateBoard: function () {
     var component = this;
 
@@ -30,7 +39,7 @@ const Results = React.createClass({
       })
     }
 
-    var reorderedNodes = traverseTree(this.props.rootNode);
+    var reorderedNodes = this.getReorderedNodes();
     var putCalls = reorderedNodes.length;
     if (gaTrackingId && this.state.duration !== null) {
       console.log('Finished in ' + this.state.duration + ' ms with ' + putCalls + ' cards');
@@ -64,36 +73,43 @@ const Results = React.createClass({
   },
   render: function () {
     return (
-      <div id="last_div" className={"send-ordered--container"}>
-        <div className={"centered_content almost-done--position"}>
-          {this.state.uploadDone ?
-            <p>Done!
-              <br/>
-              <br/>
-              <div className="send-ordered-data--button">
-                <a href={"https://trello.com/b/" + this.props.rootNode.value.idBoard} target="_blank"
-                   className={"btn"} id="check-board">
-                  <i className="fa fa-trello"></i>&nbsp;
-                  Check your Trello board
-                </a>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="/" className={"btn"}>
-                  <i className="fa fa-repeat"></i>&nbsp;
-                  Prioritize another list
-                </a>
-              </div>
-            </p> :
-            <div>
-              <p>Almost done!</p>
-              <div className="send-ordered-data--button">
-                <button className={"btn"} id="update_board" onClick={this.updateBoard}>
-                  Send ordered data to your board
-                </button>
-              </div>
+        <div className={"send-ordered__wrapper"}>
+          <div id="last_div" className={"send-ordered__container"}>
+            <div className={""}>
+              {this.state.uploadDone ?
+                    <div className="send-success__container">
+                      <SuccessAnimation/>
+                      <div className="send-success__heading">Prioritization complete!</div>
+                      <div className="success-buttons__container">
+                          <a href={"https://trello.com/b/" + this.props.rootNode.value.idBoard} target="_blank"
+                             className={"button__primary button__text check-trello__button"}>
+                            <i className="fa fa-trello"></i>&nbsp;
+                            Check your Trello board
+                          </a>
+                          <a href="/" className={"button__primary button__text prioritize-again__button"}>
+                            <i className="fa fa-repeat"></i>&nbsp;
+                            Prioritize another list
+                          </a>
+                      </div>
+                    </div>
+                    : 
+                    <div>
+                      <AlmostDoneAnimation />
+                      <div className="send-ordered__heading">Almost done!</div>
+                      <div className="send-ordered__button button__primary button__text">
+                        <button id="update_board" onClick={this.updateBoard}>
+                          Send ordered data to your board
+                        </button>
+                      </div>
+                      <Recap cards={this.getReorderedNodes()}></Recap>
+                    </div>
+              }
             </div>
-          }
+          </div>
+        <div className={"footer results__footer"}>
+            <Footer/>
         </div>
-      </div>
+        </div>
     )
   }
 })

@@ -1,0 +1,143 @@
+body {
+    margin: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.hero__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 56px 320px 56px;
+    background: #005AFF;
+    background: -webkit-linear-gradient(left top, #68E0E6, #005AFF);
+    background: -moz-linear-gradient(bottom right, #68E0E6, #005AFF);
+    background: linear-gradient(to bottom right, #68E0E6, #005AFF);
+}
+
+.hero__claim {
+    font-size: 24px;
+    font-family: "Fira Sans", sans-serif;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 16px;
+}
+
+.hero__description {
+    font-size: 18px;
+    font-family: "Fira Sans", sans-serif;
+    color: white;
+    margin-bottom: 40px;
+    line-height: 1.75;
+    text-align: center;
+}
+
+.hero__navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 80px;
+}
+
+.hero-navbar__item {
+    color: white;
+    font-family: "Fira Sans", sans-serif;
+    font-size: 16px;
+    margin: 0 16px;
+}
+
+.hero__suggestion-button {
+    color: white;
+    font-size: 16px;
+    font-family: "Fira Sans", sans-serif;
+    margin: 16px;
+}
+
+.how-works__container {
+    margin: 0;
+    padding: 120px 320px 56px;
+    text-align: center;
+}
+.how-works__heading {
+    font-size: 24px;
+    font-family: "Fira Sans", sans-serif;
+    color: white;
+    margin-bottom: 16px;
+    color: #0099ff;
+}
+
+.how-works__description {
+    font-size: 18px;
+    color: #4A4A4A;
+    font-family: "Fira Sans", sans-serif;
+    line-height: 1.75;
+}
+
+.steps__container {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    margin: 0;
+    padding: 56px 320px 56px;
+}
+
+.step__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 64px;
+}
+
+.step__title {
+    font-size: 24px;
+    font-family: "Fira Sans", sans-serif;
+    color: white;
+    margin-bottom: 16px;
+    color: #0099ff;
+}
+
+.step__description {
+    font-size: 16px;
+    color: #4A4A4A;
+    font-family: "Fira Sans", sans-serif;
+    line-height: 1.3;
+    text-align: center;
+}
+
+.why-works__wrapper {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.why-works__container {
+    display: grid;
+    grid-template-columns: 32% 32% 32%;
+    grid-column-gap: 32px;
+    margin: 16px 120px;
+    padding: 16px 56px;
+}
+
+.why-works__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.why-works__description {
+    text-align: center;
+    font-size: 16px;
+    font-family: "Fira Sans", sans-serif;
+    line-height: 1.4;
+}
+
+.why-works__heading {
+    font-size: 24px;
+    font-family: "Fira Sans", sans-serif;
+    margin-bottom: 16px;
+    color: #0099ff;
+}

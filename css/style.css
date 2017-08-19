@@ -20,31 +20,8 @@ html, body, #container, #container_div {
     border: 0;
 }
 
-.footer{
-    position: fixed;
-    bottom: 20px;
-    left: 5px;
-    padding: 5px;
-}
 
-.footer--item {
-    margin: 10px;
-    border: solid 2px white;
-    padding: 10px;
-    border-radius: 4px;
-    color: white;
-    font-family: "montserrat", sans-serif;
-    font-size: 1.2em;
-    transition: all .5s ease-in-out;
-
-}
-
-.footer--item:hover {
-  background: white;
-  color: #0000e8;
-}
-
-.btn {
+/*.btn {
     border: 2px solid white;
     background: transparent;
     color: white;
@@ -67,9 +44,9 @@ html, body, #container, #container_div {
     margin-bottom: 20px;
     transition: all 0.3s ease;
     border-radius: 3px;
-}
+}*/
 
-.choices--button:hover .button--on-white {
+/*.choices--button:hover .button--on-white {
     border: 3px solid white;
     border-bottom: 5px solid white;
     background: transparent;
@@ -80,38 +57,31 @@ html, body, #container, #container_div {
     margin-bottom: 20px;
     transition: all 0.3s ease;
     border-radius: 3px;
-}
+}*/
 
-.btn:hover {
+/*.btn:hover {
     background: white;
     color: #0000a3;
 }
-
-.button--on-white:hover {
+*/
+/*.button--on-white:hover {
     border: 3px solid white;
     border-bottom: 5px solid white;
     color: white;
     background: none;
-}
+}*/
 
 input[type="text"] {
     border: 0 none;
     padding: 4px 10px;
 }
 
-a {
-    cursor: pointer;
-}
-
-a:hover {
-    color: #333;
-}
 
 p.card_link {
     text-align: right;
 }
 
-.choices--button {
+/*.choices--button {
     transition: all 0.3s ease-in-out;
     border-radius: 3px;
     border: 3px solid #0000a3;
@@ -120,19 +90,15 @@ p.card_link {
     margin: 10px;
     padding: 30px 20px;
     cursor: pointer;
-}
+}*/
 
-.choices--button:hover h1 {
+/*.choices--button:hover h1 {
     color: white;
-}
+}*/
 
-h2 {
-    font-family: "montserrat", sans-serif;
-}
-
-.choices--button:hover {
+/*.choices--button:hover {
     background: #0000a3;
-}
+}*/
 
 .checkboard {
     display: none;
@@ -141,79 +107,36 @@ h2 {
 
 #container_div {
     height: 100%;
-    overflow: hidden;
-    font-size: 24px;
+    background: #005AFF; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left top, #68E0E6, #005AFF); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right, #68E0E6, #005AFF); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, #68E0E6, #005AFF); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right, #68E0E6, #005AFF); /* Standard syntax */
 }
 
-#api_key_div {
+
+/*#last_div {
     height: 100%;
-    background: #0000a3; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left top, #0099ff, #0000a3); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(bottom right, #0099ff, #0000a3); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(bottom right, #0099ff, #0000a3); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to bottom right, #0099ff, #0000a3); /* Standard syntax */
+    background: #0000a3; 
+    background: -webkit-linear-gradient(left top, #68E0E6, #005AFF); 
+    background: -o-linear-gradient(bottom right, #68E0E6, #005AFF); 
+    background: -moz-linear-gradient(bottom right, #68E0E6, #005AFF); 
+    background: linear-gradient(to bottom right, #68E0E6, #005AFF); 
     text-align: center;
     color: white;
-    transition: all 0.3s ease;
-}
+}*/
 
-#card_url_div {
+/*#completed_div {
     height: 100%;
-    background: #0000a3; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left top, #0099ff, #0000a3); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(bottom right, #0099ff, #0000a3); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(bottom right, #0099ff, #0000a3); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to bottom right, #0099ff, #0000a3); /* Standard syntax */
+    background: #0000a3; 
+    background: -webkit-linear-gradient(left top, #68E0E6, #005AFF); 
+    background: -o-linear-gradient(bottom right, #68E0E6, #005AFF); 
+    background: -moz-linear-gradient(bottom right, #68E0E6, #005AFF); 
+    background: linear-gradient(to bottom right, #68E0E6, #005AFF); 
     text-align: center;
     color: white;
-    transition: all 0.3s ease;
-}
+}*/
 
-#second_div {
-    padding: 75px 150px 100px;
-    background: white;
-    color: #0000a3;
-    text-align: center;
-}
-
-#last_div {
-    height: 100%;
-    background: #0000a3; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left top, #0099ff, #0000a3); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(bottom right, #0099ff, #0000a3); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(bottom right, #0099ff, #0000a3); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to bottom right, #0099ff, #0000a3); /* Standard syntax */
-    text-align: center;
-    color: white;
-}
-
-#completed_div {
-    height: 100%;
-    background: #0000a3; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left top, #0099ff, #0000a3); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(bottom right, #0099ff, #0000a3); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(bottom right, #0099ff, #0000a3); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to bottom right, #0099ff, #0000a3); /* Standard syntax */
-    text-align: center;
-    color: white;
-}
-
-.api_input {
-    margin: 10px;
-}
-
-.api-suggestion {
-    font-size: 18px;
-    margin: 20px 0;
-    font-family: "montserrat", sans-serif;
-}
-
-#api_key_div input {
-    width: 50%;
-    background: none;
-    border-bottom: solid 2px white;
-    text-align: center;
-}
 
 /*a {
     color: #fff;
@@ -229,126 +152,10 @@ a:hover {
 }
 
 .centered-logo {
-    margin: 0 20px 100px;
-}
-
-/*--------------------------------------------------------------------------------------------------*/
-
-.select-list--text-container {
-    margin-bottom: 50px;
-}
-
-    .select-field__select {
-        -webkit-appearance: button;
-        -moz-appearance: none;
-        text-indent:  0.01px;
-        text-overflow: '';
-        -o-appearance: button;
-        background: transparent;
-        padding: 10px 300px;
-        margin-bottom: 50px;
-        border-radius: 0;
-        border: 0;
-        border-bottom: solid 3px white;
-        font-family: "montserrat", sans-serif;
-        font-size: 1em;
-        color: white;
-    }
-
-.select-field__select {
-    padding: 10px 200px;
-    margin: 10px 0 50px;
-    font-family: "montserrat", sans-serif;
-    font-size: 1em;
-    color: #bbb;
-    transition: all .5s ease-in-out;
-    cursor: pointer;
-}
-
-.select-field__select:hover {
-  background: rgba(0, 0, 0, 0.1);
-}
-
-button.continue-to-choices--button {
-    background: none;
-    border: solid 3px #fff;
-    border-bottom: 5px solid #fff;
-    color: #fff;
-    border-radius: 3px;
-    padding: 10px 20px;
-    font-size: 0.75em;
-    transition: all .5s ease-in-out;
-}
-
-.choices--title {
-    margin: 0 0 25px;
-    color: #0000a3 !important;
-}
-
-.choices--container {
-    padding-top: 0 !important;
-}
-
-.logout--header {
-    margin-top: 50px;
-}
-
-.logout--header > p > button {
-    background: none;
-    border: solid 3px #0000a3;
-    border-bottom: 5px solid #0000a3;
-    color: #0000a3;
-    border-radius: 3px;
-    padding: 10px 20px;
-    font-size: 0.75em;
-    transition: all .5s ease-in-out;
-}
-
-.logout--header > p > button:hover {
-    background: #0000a3;
-    border: solid 3px #0000a3;
-    border-bottom: 5px solid #0000a3;
-    color: white;
-}
-
-.centered_content > .almost-done--position {
-    padding-top: 200px !important;
-}
-
-
-/*Progress bar*/
-
-.choices--progress {
-
-    height: 20px;
-    margin: 20px 10px;
-    overflow: hidden;
-    background-color: #f5f5f5;
-    border-radius: 4px;
-    border: solid 3px #0000a3;
-    border-bottom: solid 4px #0000a3;
-    -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
-    box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
-
-}
-
-.choices--progress-bar {
-    float: left;
-    width: 0;
-    height: 100%;
-    font-size: 12px;
-    line-height: 20px;
-    color: #fff;
-    text-align: center;
-    background-color: #0000a3;
-    -webkit-box-shadow: inset 0 -1px 0 rgba(0,0,0,.15);
-    box-shadow: inset 0 -1px 0 rgba(0,0,0,.15);
-    -webkit-transition: width .6s ease;
-    -o-transition: width .6s ease;
-    transition: width .6s ease;
-
+    margin: 0 16px 32px;
 }
 
 #tree_draw{
  padding-top: 0px !important;
 }
+

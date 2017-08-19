@@ -3,6 +3,8 @@ import Header from './Header.jsx';
 import TreeDraw from './TreeDraw.jsx';
 import Card from './Card.jsx';
 import treeRebalancer from "../model/treeRebalancer";
+import Footer from "./Footer.jsx"
+
 
 const Choices = React.createClass({
   getInitialState: function () {
@@ -56,13 +58,13 @@ const Choices = React.createClass({
         e.stopPropagation();
       });
 
-      jQuery(".choices--button").click(function () {
+      jQuery(".wrapper__card").click(function () {
         if ($(this).attr("id") == "left_button") {
           compareNode = node.goLeft(compareNode);
         } else if ($(this).attr("id") == "right_button") {
           compareNode = node.goRight(compareNode);
         }
-        jQuery(".choices--button").unbind("click");
+        jQuery(".wrapper__card").unbind("click");
         if (node.isPositioned) {
           rootNode = treeRebalancer(rootNode);
           component.setState({
@@ -105,24 +107,29 @@ const Choices = React.createClass({
       return (<span>Loading...</span>);
     }
     return (
-        <div id="second_div" className={"centered_content"}>
-          <div className={"row choices--title"}>
-            <p>Select the highest priority card</p>
-          </div>
-          <div className={"row choices--container"}>
-            <Card id="left_button" data={this.state.leftNode.value}/>
-            <Card id="right_button" data={this.state.rightNode.value}/>
-          </div>
-          <div className={"choices--progress"}>
-            <div className={"choices--progress-bar"} role="progressbar" aria-valuenow={this.state.progress} aria-valuemin="0"
+      <div id="second_div">
+        <div className="container__choose-card">
+          <div className="choose-card__heading">Select the highest priority card</div>
+          <Card id="left_button" data={this.state.leftNode.value}/>
+          <Card id="right_button" data={this.state.rightNode.value}/>
+          {/*<TreeDraw tree={this.state.currentTree}></TreeDraw>*/}
+        </div>
+        <div className="container__prioritization-status">
+          <div className="text__prioritization-status">Prioritization status</div>
+          <div className={"progressive-bar__status-structure"}>
+            <div className={"progressive-bar__status"} role="progressbar" aria-valuenow={this.state.progress} aria-valuemin="0"
                  aria-valuemax="100" style={{width: this.state.progress + '%'}}>
             </div>
           </div>
-          <div className={"row logout--header"}>
-            <Header />
-          </div>
-          {/*<TreeDraw tree={this.state.currentTree}></TreeDraw>*/}
         </div>
+        <div className={"logout__button"}>
+            <Header />
+        </div>
+        <div className={"footer"}>
+          <Footer/>
+        </div>
+        
+      </div>
     )
   }
 })

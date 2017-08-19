@@ -1,6 +1,8 @@
 import React from "react"
 
 
+
+
 var LOCAL_STORAGE_KEY = "sortelloTrelloDevApiKey";
 
 const ApiKey = React.createClass({
@@ -61,36 +63,36 @@ const ApiKey = React.createClass({
   },
   getContent: function () {
     if (this.apiKeyIsHardCoded()) {
-      return ( <p>
-        <button className="continue-to-choices--button" onClick={this.handleStartButtonClick}>Authorize Sortello and
+      return ( <div>
+        <button className="continue-to-choices--button button__primary button__text" onClick={this.handleStartButtonClick}>Authorize Sortello and
           let's start!
         </button>
-      </p>);
+        <a href="/landing-page.html"><div className="button__suggestion">You want to learn more about sortello?</div></a>
+      </div>);
     }
 
-    return (<p>
-      <p>
-        <input type="text" id="api_key" className={"api_input"} ref={(apiKey) => this.apiKey = apiKey}
-               placeholder="Please insert your api key on this field"/>
-      </p>
-      <p>
-        <button className="continue-to-choices--button" id="check_api_key" onClick={this.handleButtonClick}>Continue
-        </button>
-      </p>
-
-      <a href="https://trello.com/app-key" target="_blank">
-        <div className={"api-suggestion"}>Click here to get your API key</div>
-      </a>
-    </p>);
+    return (
+      <div className="container__api-key-input">
+        <input type="text" id="api_key" className={"input__api-key"} ref={(apiKey) => this.apiKey = apiKey}
+                 placeholder="Please insert your api key on this field"/>
+        <div className="button__text">
+          <button className="button__primary" id="check_api_key" onClick={this.handleButtonClick}>Continue
+          </button>
+        </div>
+        <a href="https://trello.com/app-key" target="_blank">
+          <div className={"button__suggestion"}>Click here to get your API key</div>
+        </a>
+      </div>
+    );
   },
   render: function () {
     return (
         <div id="api_key_div">
-          <div className="centered_content">
+          <div className="wrapper__api-key">
 
             <div className="centered-logo">
               {this.logo()}
-              <p>Prioritize your Trello's board in just a few steps</p>
+              <div className="api-key__claim">Prioritize your Trello's board in just a few steps</div>
             </div>
             {this.getContent()}
 

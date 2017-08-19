@@ -1,0 +1,30 @@
+.footer{
+    width: 100%;
+}
+
+.footer__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer__item {
+    color: white;
+    font-family: "Fira Sans", sans-serif;
+    font-size: 12px;
+    transition: all .5s ease-in-out;
+}
+
+.footer__link {
+    color: white;
+}
+
+.footer__link:hover {
+    text-decoration: underline;
+    color: white;
+}
+
+.footer__fade-in {
+    animation-name: fade-in-container;
+    animation-duration: 1.75s;
+}
