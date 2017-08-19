@@ -13,7 +13,8 @@ const Choices = React.createClass({
       leftNode: null,
       rightNode: null,
       currentTree: {value: 0, left: 0, right: 0},
-      progress: 0
+      progress: 0,
+      currNode: 1
     }
   },
   componentDidUpdate(){
@@ -69,9 +70,10 @@ const Choices = React.createClass({
           rootNode = treeRebalancer(rootNode);
           component.setState({
             currentTree: rootNode,
-            progress: Math.round(((100 * currNode + 1) / (nodes.length - 1)))
+            progress: Math.round(((100 * currNode + 1) / (nodes.length - 1))),
+            currNode: component.state.currNode + 1
           });
-          choicesCycle(currNode + 1);
+          choicesCycle();
         } else {
           getChoice(node, compareNode, currNode);
         }
@@ -90,7 +92,8 @@ const Choices = React.createClass({
       autoChoice();
     }
 
-    function choicesCycle (currNode) {
+    function choicesCycle () {
+      let currNode = component.state.currNode
       if (currNode < nodes.length) {
         getChoice(nodes[currNode], rootNode, currNode);
       } else {
@@ -100,7 +103,7 @@ const Choices = React.createClass({
       }
     }
 
-    choicesCycle(1);
+    choicesCycle();
   },
   render: function () {
     if (this.state.leftNode == null || this.state.rightNode == null) {
