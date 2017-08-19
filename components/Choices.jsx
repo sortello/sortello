@@ -14,7 +14,7 @@ const Choices = React.createClass({
       rightNode: null,
       currentTree: {value: 0, left: 0, right: 0},
       progress: 0,
-      currNode: 1
+      listNodes: this.props.nodes // the nodes to position in the tree
     }
   },
   componentDidUpdate(){
@@ -27,17 +27,14 @@ const Choices = React.createClass({
     this.props.setSortedRootNode(rootNode);
   },
   startChoices: function () {
-
     this.props.setStartTimeStamp(Date.now())
 
-    var nodes = this.props.nodes;
     var rootNode = this.props.rootNode;
     var component = this;
     var blacklist = [];
+    var nodesListLength = this.props.nodes.length;
 
-
-
-    function getChoice (node, compareNode, currNode) {
+    function getChoice (node, compareNode) {
       component.setState({
         leftNode: node,
         rightNode: compareNode
@@ -70,12 +67,11 @@ const Choices = React.createClass({
           rootNode = treeRebalancer(rootNode);
           component.setState({
             currentTree: rootNode,
-            progress: Math.round(((100 * currNode + 1) / (nodes.length - 1))),
-            currNode: component.state.currNode + 1
+            progress: Math.round(((100 * (nodesListLength - component.state.listNodes.length)) / (nodesListLength)))
           });
           choicesCycle();
         } else {
-          getChoice(node, compareNode, currNode);
+          getChoice(node, compareNode);
         }
       });
 
@@ -93,9 +89,9 @@ const Choices = React.createClass({
     }
 
     function choicesCycle () {
-      let currNode = component.state.currNode
-      if (currNode < nodes.length) {
-        getChoice(nodes[currNode], rootNode, currNode);
+
+      if (0 < component.state.listNodes.length) {
+        getChoice(component.state.listNodes.shift(), rootNode);
       } else {
         jQuery("#left_button").html("");
         jQuery("#right_button").html("");

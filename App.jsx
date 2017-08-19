@@ -49,8 +49,8 @@ const App = React.createClass({
       nodes.push(node);
     }
     this.setState({
+      rootNode: nodes.shift(),
       nodes: nodes,
-      rootNode: nodes[0],
       currentView: 3
     })
     this.refs.choices.startChoices();
