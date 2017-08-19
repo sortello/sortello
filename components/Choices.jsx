@@ -5,7 +5,6 @@ import Card from './Card.jsx';
 import treeRebalancer from "../model/treeRebalancer";
 import Footer from "./Footer.jsx"
 
-
 const Choices = React.createClass({
   getInitialState: function () {
     return {
@@ -14,7 +13,8 @@ const Choices = React.createClass({
       rightNode: null,
       progress: 0,
       listNodes: this.props.nodes,
-      rootNode: this.props.rootNode // the nodes to position in the tree
+      rootNode: this.props.rootNode,
+      blacklist: []// the nodes to position in the tree
     }
   },
   componentDidUpdate(){
@@ -26,11 +26,18 @@ const Choices = React.createClass({
   endChoices: function () {
     this.props.setSortedRootNode(this.state.rootNode);
   },
+  autoChoice: function(){
+    if(this.state.blacklist.indexOf(this.state.leftNode.value.id) > -1){
+      $("#right_button").click();
+    }
+    else if(this.state.blacklist.indexOf(this.state.rightNode.value.id) > -1){
+      $("#left_button").click();
+    }
+  },
   startChoices: function () {
     this.props.setStartTimeStamp(Date.now())
 
     var component = this;
-    var blacklist = [];
     var nodesListLength = this.props.nodes.length;
 
     function getChoice (node, compareNode) {
@@ -43,12 +50,15 @@ const Choices = React.createClass({
         e.stopPropagation();
         var card = $(this).closest(".choices--button");
         if ($(card).attr("id") == "left_button") {
-          blacklist.push(node.value.id);
-          autoChoice();
+          component.setState({
+            blacklist: component.state.blacklist.concat([component.state.leftNode.value.id])
+          });
         } else if ($(card).attr("id") == "right_button") {
-          blacklist.push(compareNode.value.id);
-          autoChoice();
+          component.setState({
+            blacklist: component.state.blacklist.concat([component.state.rightNode.value.id])
+          });
         }
+          component.autoChoice();
       });
 
       jQuery(".button-seecard").click(function(e){
@@ -73,17 +83,8 @@ const Choices = React.createClass({
         }
       });
 
-      function autoChoice(){
-        if(blacklist.indexOf(node.value.id) > -1){
-          $("#right_button").click();
-        }
-        else if(blacklist.indexOf(compareNode.value.id) > -1){
-          $("#left_button").click();
-        }
-      }
 
-
-      autoChoice();
+      component.autoChoice();
     }
 
     function choicesCycle () {
@@ -98,6 +99,17 @@ const Choices = React.createClass({
 
     choicesCycle();
   },
+
+
+
+
+
+
+
+
+
+
+
   render: function () {
     if (this.state.leftNode == null || this.state.rightNode == null) {
       return (<span>Loading...</span>);
