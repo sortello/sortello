@@ -2,6 +2,7 @@ import React from "react"
 import Header from './Header.jsx';
 import traverseTree from "../model/traverseTree"
 import AlmostDoneAnimation from './AlmostDoneAnimation.jsx';
+import Recap from './Recap.jsx';
 import SuccessAnimation from './SuccessAnimation.jsx';
 import Footer from "./Footer.jsx"
 
@@ -26,6 +27,9 @@ const Results = React.createClass({
       duration: end - start
     })
   },
+  getReorderedNodes: function(){
+    return traverseTree(this.props.rootNode)
+  },
   updateBoard: function () {
     var component = this;
 
@@ -35,7 +39,7 @@ const Results = React.createClass({
       })
     }
 
-    var reorderedNodes = traverseTree(this.props.rootNode);
+    var reorderedNodes = this.getReorderedNodes();
     var putCalls = reorderedNodes.length;
     if (gaTrackingId && this.state.duration !== null) {
       console.log('Finished in ' + this.state.duration + ' ms with ' + putCalls + ' cards');
@@ -97,6 +101,7 @@ const Results = React.createClass({
                           Send ordered data to your board
                         </button>
                       </div>
+                      <Recap cards={this.getReorderedNodes()}></Recap>
                     </div>
               }
             </div>
