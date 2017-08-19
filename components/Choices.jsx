@@ -12,9 +12,9 @@ const Choices = React.createClass({
       Trello: this.props.Trello,
       leftNode: null,
       rightNode: null,
-      currentTree: {value: 0, left: 0, right: 0},
       progress: 0,
-      listNodes: this.props.nodes // the nodes to position in the tree
+      listNodes: this.props.nodes,
+      rootNode: this.props.rootNode // the nodes to position in the tree
     }
   },
   componentDidUpdate(){
@@ -23,13 +23,12 @@ const Choices = React.createClass({
   componentDidMount(){
     this.props.centerContent();
   },
-  endChoices: function (rootNode) {
-    this.props.setSortedRootNode(rootNode);
+  endChoices: function () {
+    this.props.setSortedRootNode(this.state.rootNode);
   },
   startChoices: function () {
     this.props.setStartTimeStamp(Date.now())
 
-    var rootNode = this.props.rootNode;
     var component = this;
     var blacklist = [];
     var nodesListLength = this.props.nodes.length;
@@ -64,9 +63,8 @@ const Choices = React.createClass({
         }
         jQuery(".wrapper__card").unbind("click");
         if (node.isPositioned) {
-          rootNode = treeRebalancer(rootNode);
           component.setState({
-            currentTree: rootNode,
+            rootNode: treeRebalancer(component.state.rootNode),
             progress: Math.round(((100 * (nodesListLength - component.state.listNodes.length)) / (nodesListLength)))
           });
           choicesCycle();
@@ -89,13 +87,12 @@ const Choices = React.createClass({
     }
 
     function choicesCycle () {
-
       if (0 < component.state.listNodes.length) {
-        getChoice(component.state.listNodes.shift(), rootNode);
+        getChoice(component.state.listNodes.shift(), component.state.rootNode);
       } else {
         jQuery("#left_button").html("");
         jQuery("#right_button").html("");
-        component.endChoices(rootNode);
+        component.endChoices();
       }
     }
 
@@ -111,7 +108,7 @@ const Choices = React.createClass({
           <div className="choose-card__heading">Select the highest priority card</div>
           <Card id="left_button" data={this.state.leftNode.value}/>
           <Card id="right_button" data={this.state.rightNode.value}/>
-          {/*<TreeDraw tree={this.state.currentTree}></TreeDraw>*/}
+          {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
         </div>
         <div className="container__prioritization-status">
           <div className="text__prioritization-status">Prioritization status</div>
