@@ -46,12 +46,10 @@ const Choices = React.createClass({
     var nodesListLength = this.props.nodes.length;
 
     function getNextChoice () {
-      let node = component.state.node;
-      let compareNode = component.state.compareNode;
 
       component.setState({
-        leftNode: node,
-        rightNode: compareNode
+        leftNode: component.state.node,
+        rightNode: component.state.compareNode
       });
 
       jQuery(".button-blacklist").unbind("click");
@@ -62,23 +60,32 @@ const Choices = React.createClass({
       });
 
       jQuery(".container__card").click(function () {
-        if ($(this).hasClass("left_button")) {
-          compareNode = node.goLeft(compareNode);
-        } else if ($(this).hasClass("right_button")) {
-          compareNode = node.goRight(compareNode);
-        }
         jQuery(".container__card").unbind("click");
-        if (node.isPositioned) {
+
+        if ($(this).hasClass("left_button")) {
+          let compareNode = component.state.node.goLeft(component.state.compareNode);
+          component.setState({
+            compareNode: compareNode,
+            node: component.state.node
+          })
+        } else if ($(this).hasClass("right_button")) {
+          let compareNode = component.state.node.goRight(component.state.compareNode);
+          component.setState({
+            compareNode: compareNode,
+            node: component.state.node
+          })
+        }
+        if (component.state.node.isPositioned) {
           component.setState({
             rootNode: treeRebalancer(component.state.rootNode),
             progress: Math.round(((100 * (nodesListLength - component.state.listNodes.length)) / (nodesListLength)))
           });
           choicesCycle();
         } else {
-          component.setState({
-            node: node,
-            compareNode: compareNode
-          })
+          // component.setState({
+          //   node: node,
+          //   compareNode: compareNode
+          // })
           getNextChoice();
         }
       });
