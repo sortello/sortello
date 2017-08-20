@@ -21,22 +21,6 @@ const App = React.createClass({
       e.stopPropagation();
     });
   },
-  centerContent: function () {
-    function centerTheContent () {
-      jQuery(".centered_content").each(function () {
-        var content_height = jQuery(this).height();
-        var viewport_height = jQuery(document).innerHeight();
-        var padding_top = (viewport_height / 2) - (content_height / 2);
-        jQuery(this).css('padding-top', padding_top + 'px');
-      });
-    }
-
-    centerTheContent();
-
-    jQuery(window).resize(function () {
-      centerTheContent();
-    });
-  },
   handleAuthentication: function () {
     this.setState({
       currentView: 2
@@ -69,17 +53,15 @@ const App = React.createClass({
   getCurrentView: function (viewNumber) {
     switch (this.state.currentView) {
       case 1:
-        return (<ApiKey Trello={this.state.Trello} onAuthentication={this.handleAuthentication}
-                        centerContent={this.centerContent}/>);
+        return (<ApiKey Trello={this.state.Trello} onAuthentication={this.handleAuthentication}/>);
       case 2:
-        return (<ColumnSelection Trello={this.state.Trello} handleCards={this.handleCards}
-                                 centerContent={this.centerContent}/>);
+        return (<ColumnSelection Trello={this.state.Trello} handleCards={this.handleCards}/>);
       case 3:
         return (<Choices ref="choices" setSortedRootNode={this.setSortedRootNode} setStartTimeStamp={this.setStartTimeStamp} nodes={this.state.nodes}
-                         rootNode={this.state.rootNode} centerContent={this.centerContent}/>);
+                         rootNode={this.state.rootNode} />);
       case 4:
         return (
-            <Results rootNode={this.state.rootNode} Trello={this.state.Trello} startTimeStamp={this.state.startTimeStamp} centerContent={this.centerContent}/>);
+            <Results rootNode={this.state.rootNode} Trello={this.state.Trello} startTimeStamp={this.state.startTimeStamp}/>);
       default:
         return (<h3>Error</h3>);
     }

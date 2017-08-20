@@ -27,7 +27,7 @@ const Results = React.createClass({
   },
   render: function () {
     return (
-        <div id="tree_draw" className={"centered_content send-ordered--container"}>
+        <div id="tree_draw" className={"send-ordered--container"}>
           <div>{this.printNode(this.props.tree)}</div>
         </div>
     )

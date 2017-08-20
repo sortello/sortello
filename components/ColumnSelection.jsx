@@ -16,9 +16,6 @@ const ColumnSelection = React.createClass({
       organizations: []
     }
   },
-  componentDidUpdate () {
-    this.props.centerContent();
-  },
   componentDidMount: function () {
     var Trello = this.props.Trello;
 
@@ -35,7 +32,6 @@ const ColumnSelection = React.createClass({
       });
     }
 
-    this.props.centerContent();
     if (this.state.organizations.length > 0) {
       return;
     }

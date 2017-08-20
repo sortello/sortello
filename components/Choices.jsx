@@ -17,12 +17,6 @@ const Choices = React.createClass({
       blacklist: []// the nodes to position in the tree
     }
   },
-  componentDidUpdate(){
-    this.props.centerContent();
-  },
-  componentDidMount(){
-    this.props.centerContent();
-  },
   endChoices: function () {
     this.props.setSortedRootNode(this.state.rootNode);
   },
@@ -40,7 +34,7 @@ const Choices = React.createClass({
     var component = this;
     var nodesListLength = this.props.nodes.length;
 
-    function getChoice (node, compareNode) {
+    function getNextChoice (node, compareNode) {
       component.setState({
         leftNode: node,
         rightNode: compareNode
@@ -61,17 +55,13 @@ const Choices = React.createClass({
           component.autoChoice();
       });
 
-      jQuery(".button-seecard").click(function(e){
-        e.stopPropagation();
-      });
-
-      jQuery(".wrapper__card").click(function () {
-        if ($(this).attr("id") == "left_button") {
+      jQuery(".container__card").click(function () {
+        if ($(this).hasClass("left_button")) {
           compareNode = node.goLeft(compareNode);
-        } else if ($(this).attr("id") == "right_button") {
+        } else if ($(this).hasClass("right_button")) {
           compareNode = node.goRight(compareNode);
         }
-        jQuery(".wrapper__card").unbind("click");
+        jQuery(".container__card").unbind("click");
         if (node.isPositioned) {
           component.setState({
             rootNode: treeRebalancer(component.state.rootNode),
@@ -79,17 +69,15 @@ const Choices = React.createClass({
           });
           choicesCycle();
         } else {
-          getChoice(node, compareNode);
+          getNextChoice(node, compareNode);
         }
       });
-
-
       component.autoChoice();
     }
 
     function choicesCycle () {
       if (0 < component.state.listNodes.length) {
-        getChoice(component.state.listNodes.shift(), component.state.rootNode);
+        getNextChoice(component.state.listNodes.shift(), component.state.rootNode);
       } else {
         jQuery("#left_button").html("");
         jQuery("#right_button").html("");
@@ -99,16 +87,6 @@ const Choices = React.createClass({
 
     choicesCycle();
   },
-
-
-
-
-
-
-
-
-
-
 
   render: function () {
     if (this.state.leftNode == null || this.state.rightNode == null) {

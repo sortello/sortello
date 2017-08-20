@@ -12,11 +12,7 @@ const Results = React.createClass({
   getInitialState: function () {
     return {uploadDone: false, duration: null};
   },
-  componentDidUpdate () {
-    this.props.centerContent();
-  },
   componentDidMount () {
-    this.props.centerContent();
     this.setDuration();
   },
   setDuration: function () {

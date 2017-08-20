@@ -14,11 +14,6 @@ const ApiKey = React.createClass({
     if (this.apiKeyIsHardCoded()) {
       localStorage.setItem(LOCAL_STORAGE_KEY, trelloApiKey);
     }
-
-    this.props.centerContent();
-  },
-  componentDidUpdate(){
-    this.props.centerContent();
   },
   apiKeyIsHardCoded: function () {
     try {
