@@ -20,13 +20,22 @@ const Choices = React.createClass({
   endChoices: function () {
     this.props.setSortedRootNode(this.state.rootNode);
   },
-  autoChoice: function(){
-    if(this.state.blacklist.indexOf(this.state.leftNode.value.id) > -1){
-      $("#right_button").click();
+  autoChoice: function () {
+    if (this.state.blacklist.indexOf(this.state.leftNode.value.id) > -1) {
+      $("#right_button .container__card").click();
     }
-    else if(this.state.blacklist.indexOf(this.state.rightNode.value.id) > -1){
-      $("#left_button").click();
+    else if (this.state.blacklist.indexOf(this.state.rightNode.value.id) > -1) {
+      $("#left_button .container__card").click();
     }
+  },
+  addToBlacklist: function (nodeId) {
+    let bl = this.state.blacklist;
+    bl.push(nodeId);
+    this.setState({
+      blacklist: bl
+    });
+    console.log(this.state.blacklist);
+    this.autoChoice();
   },
   startChoices: function () {
     this.props.setStartTimeStamp(Date.now())
@@ -35,24 +44,17 @@ const Choices = React.createClass({
     var nodesListLength = this.props.nodes.length;
 
     function getNextChoice (node, compareNode) {
+
       component.setState({
         leftNode: node,
         rightNode: compareNode
       });
+
       jQuery(".button-blacklist").unbind("click");
-      jQuery(".button-blacklist").click(function(e){
+      jQuery(".button-blacklist").click(function (e) {
         e.stopPropagation();
-        var card = $(this).closest(".choices--button");
-        if ($(card).attr("id") == "left_button") {
-          component.setState({
-            blacklist: component.state.blacklist.concat([component.state.leftNode.value.id])
-          });
-        } else if ($(card).attr("id") == "right_button") {
-          component.setState({
-            blacklist: component.state.blacklist.concat([component.state.rightNode.value.id])
-          });
-        }
-          component.autoChoice();
+        let nodeId = $(this).attr("data-cardid");
+        component.addToBlacklist(nodeId);
       });
 
       jQuery(".container__card").click(function () {
@@ -103,18 +105,19 @@ const Choices = React.createClass({
         <div className="container__prioritization-status">
           <div className="text__prioritization-status">Prioritization status</div>
           <div className={"progressive-bar__status-structure"}>
-            <div className={"progressive-bar__status"} role="progressbar" aria-valuenow={this.state.progress} aria-valuemin="0"
+            <div className={"progressive-bar__status"} role="progressbar" aria-valuenow={this.state.progress}
+                 aria-valuemin="0"
                  aria-valuemax="100" style={{width: this.state.progress + '%'}}>
             </div>
           </div>
         </div>
         <div className={"logout__button"}>
-            <Header />
+          <Header/>
         </div>
         <div className={"footer"}>
           <Footer/>
         </div>
-        
+
       </div>
     )
   }

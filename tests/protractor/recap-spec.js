@@ -54,9 +54,9 @@ describe('sort list asc', function () {
           let rightValue = rightButton.value_;
           let leftValue = leftButton.value_;
           if (parseInt(rightValue) > parseInt(leftValue)) {
-            element(by.css('#right_button')).click()
+            element(by.css('#right_button .container__card')).click()
           } else {
-            element(by.css('#left_button')).click()
+            element(by.css('#left_button .container__card')).click()
           }
         });
       })
