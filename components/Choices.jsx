@@ -14,7 +14,9 @@ const Choices = React.createClass({
       progress: 0,
       listNodes: this.props.nodes,
       rootNode: this.props.rootNode,
-      blacklist: []// the nodes to position in the tree
+      blacklist: [], // the nodes to position in the tree
+      node: null,
+      compareNode: null,
     }
   },
   endChoices: function () {
@@ -43,7 +45,9 @@ const Choices = React.createClass({
     var component = this;
     var nodesListLength = this.props.nodes.length;
 
-    function getNextChoice (node, compareNode) {
+    function getNextChoice () {
+      let node = component.state.node;
+      let compareNode = component.state.compareNode;
 
       component.setState({
         leftNode: node,
@@ -71,7 +75,11 @@ const Choices = React.createClass({
           });
           choicesCycle();
         } else {
-          getNextChoice(node, compareNode);
+          component.setState({
+            node: node,
+            compareNode: compareNode
+          })
+          getNextChoice();
         }
       });
       component.autoChoice();
@@ -79,7 +87,13 @@ const Choices = React.createClass({
 
     function choicesCycle () {
       if (0 < component.state.listNodes.length) {
-        getNextChoice(component.state.listNodes.shift(), component.state.rootNode);
+        component.setState({
+          node: component.state.listNodes.shift(),
+          compareNode: component.state.rootNode,
+          listNodes: component.state.listNodes
+        });
+
+        getNextChoice();
       } else {
         jQuery("#left_button").html("");
         jQuery("#right_button").html("");
