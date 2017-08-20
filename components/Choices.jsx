@@ -39,76 +39,77 @@ const Choices = React.createClass({
     console.log(this.state.blacklist);
     this.autoChoice();
   },
+  cardClicked: function (side) {
+    let compareNode;
+    if ("left" == side) {
+      compareNode = this.state.node.goLeft(this.state.compareNode);
+    }
+    else if ("right" == side) {
+      compareNode = this.state.node.goRight(this.state.compareNode);
+    }
+    this.setState({
+      compareNode: compareNode,
+      node: this.state.node
+    });
+
+    if (this.state.node.isPositioned) {
+      this.setState({
+        rootNode: treeRebalancer(this.state.rootNode),
+        progress: Math.round(((100 * (this.props.nodes.length - this.state.listNodes.length)) / (this.props.nodes.length)))
+      });
+      this.choicesCycle();
+    } else {
+      this.getNextChoice();
+    }
+  },
+  choicesCycle: function () {
+    if (0 < this.state.listNodes.length) {
+      this.setState({
+        node: this.state.listNodes.shift(),
+        compareNode: this.state.rootNode,
+        listNodes: this.state.listNodes
+      });
+
+      this.getNextChoice();
+    } else {
+      jQuery("#left_button").html("");
+      jQuery("#right_button").html("");
+      this.endChoices();
+    }
+  },
+  getNextChoice: function () {
+    let component = this;
+
+    component.setState({
+      leftNode: component.state.node,
+      rightNode: component.state.compareNode
+    });
+
+    jQuery(".button-blacklist").unbind("click");
+    jQuery(".button-blacklist").click(function (e) {
+      e.stopPropagation();
+      let nodeId = $(this).attr("data-cardid");
+      component.addToBlacklist(nodeId);
+    });
+
+    jQuery(".container__card").click(function () {
+      jQuery(".container__card").unbind("click");
+
+      if ($(this).hasClass("left_button")) {
+        component.cardClicked("left");
+      } else if ($(this).hasClass("right_button")) {
+        component.cardClicked("right");
+      }
+
+    });
+    component.autoChoice();
+  },
   startChoices: function () {
     this.props.setStartTimeStamp(Date.now())
 
     var component = this;
-    var nodesListLength = this.props.nodes.length;
 
-    function getNextChoice () {
-
-      component.setState({
-        leftNode: component.state.node,
-        rightNode: component.state.compareNode
-      });
-
-      jQuery(".button-blacklist").unbind("click");
-      jQuery(".button-blacklist").click(function (e) {
-        e.stopPropagation();
-        let nodeId = $(this).attr("data-cardid");
-        component.addToBlacklist(nodeId);
-      });
-
-      jQuery(".container__card").click(function () {
-        jQuery(".container__card").unbind("click");
-
-        if ($(this).hasClass("left_button")) {
-          let compareNode = component.state.node.goLeft(component.state.compareNode);
-          component.setState({
-            compareNode: compareNode,
-            node: component.state.node
-          })
-        } else if ($(this).hasClass("right_button")) {
-          let compareNode = component.state.node.goRight(component.state.compareNode);
-          component.setState({
-            compareNode: compareNode,
-            node: component.state.node
-          })
-        }
-        if (component.state.node.isPositioned) {
-          component.setState({
-            rootNode: treeRebalancer(component.state.rootNode),
-            progress: Math.round(((100 * (nodesListLength - component.state.listNodes.length)) / (nodesListLength)))
-          });
-          choicesCycle();
-        } else {
-          // component.setState({
-          //   node: node,
-          //   compareNode: compareNode
-          // })
-          getNextChoice();
-        }
-      });
-      component.autoChoice();
-    }
-
-    function choicesCycle () {
-      if (0 < component.state.listNodes.length) {
-        component.setState({
-          node: component.state.listNodes.shift(),
-          compareNode: component.state.rootNode,
-          listNodes: component.state.listNodes
-        });
-
-        getNextChoice();
-      } else {
-        jQuery("#left_button").html("");
-        jQuery("#right_button").html("");
-        component.endChoices();
-      }
-    }
-
-    choicesCycle();
+    component.choicesCycle();
   },
 
   render: function () {
