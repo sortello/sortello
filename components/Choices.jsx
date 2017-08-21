@@ -4,6 +4,7 @@ import TreeDraw from './TreeDraw.jsx';
 import Card from './Card.jsx';
 import treeRebalancer from "../model/treeRebalancer";
 import Footer from "./Footer.jsx"
+import {clone} from "lodash"
 
 const Choices = React.createClass({
   getInitialState: function () {
@@ -12,12 +13,15 @@ const Choices = React.createClass({
       leftCard: null,
       rightCard: null,
       progress: 0,
-      listNodes: this.props.nodes,
-      rootNode: this.props.rootNode,
+      listNodes: clone(this.props.nodes),
+      rootNode: clone(this.props.rootNode),
       blacklist: [], // the nodes to position in the tree
       node: null,
       compareNode: null,
     }
+  },
+  componentDidMount: function () {
+    window.actionsHistory = [];
   },
   endChoices: function () {
     this.props.setSortedRootNode(this.state.rootNode);
@@ -36,6 +40,7 @@ const Choices = React.createClass({
     this.setState({
       blacklist: bl
     }, function () {
+      window.actionsHistory.push({f: this.addToBlacklist, p: nodeId})
       this.autoChoice();
     });
   },
@@ -50,19 +55,20 @@ const Choices = React.createClass({
     this.setState({
       compareNode: compareNode,
       node: this.state.node
-    }, function(){
+    }, function () {
+      window.actionsHistory.push({f: this.cardClicked, p: side})
       this.handleCardPositioned();
     });
   },
-  toTheNextStep: function(){
+  toTheNextStep: function () {
     this.setState({
       rootNode: treeRebalancer(this.state.rootNode),
       progress: Math.round(((100 * (this.props.nodes.length - this.state.listNodes.length)) / (this.props.nodes.length)))
-    }, function(){
+    }, function () {
       this.nextStepOrEnd();
     });
   },
-  handleCardPositioned: function(){
+  handleCardPositioned: function () {
     if (this.state.node.isPositioned) {
       this.toTheNextStep();
     } else {
@@ -75,7 +81,9 @@ const Choices = React.createClass({
         node: this.state.listNodes.shift(),
         compareNode: this.state.rootNode,
         listNodes: this.state.listNodes
-      }, this.getNextChoice);
+      }, function () {
+        this.getNextChoice();
+      });
     } else {
       this.endChoices();
     }
@@ -93,6 +101,41 @@ const Choices = React.createClass({
     this.props.setStartTimeStamp(Date.now())
     this.nextStepOrEnd();
   },
+  replaySteps: function () {
+    let actions = clone(window.actionsHistory);
+    window.actionsHistory = [];
+
+    let repeatSteps = setInterval(function () {
+      doNext()
+    }, 2000)
+
+    function doNext () {
+      if (0 < actions.length) {
+        const action = actions.pop();
+          action.f(action.p);
+      } else {
+        clearInterval(repeatSteps)
+      }
+    }
+  },
+  undo: function () {
+    // Reset initial state
+    // and
+    // Re-execute all steps
+    this.replaceState({
+      leftCard: null,
+      rightCard: null,
+      progress: 0,
+      listNodes: clone(this.props.nodes),
+      rootNode: clone(this.props.rootNode),
+      blacklist: [], // the nodes to position in the tree
+      node: null,
+      compareNode: null
+    }, function () {
+      this.replaySteps();
+      this.startChoices();
+    });
+  },
   render: function () {
     if (this.state.leftCard == null || this.state.rightCard == null) {
       return (<span>Loading...</span>);
@@ -105,7 +148,7 @@ const Choices = React.createClass({
                 forget={this.addToBlacklist} data={this.state.leftCard.value}/>
           <Card id="right_button" side="right" handleClick={this.cardClicked}
                 forget={this.addToBlacklist} data={this.state.rightCard.value}/>
-          {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
+          <TreeDraw tree={this.state.rootNode}></TreeDraw>
         </div>
         <div className="container__prioritization-status">
           <div className="text__prioritization-status">Prioritization status</div>
@@ -116,6 +159,7 @@ const Choices = React.createClass({
             </div>
           </div>
         </div>
+        <button onClick={this.undo}>Undo</button>
         <div className={"logout__button"}>
           <Header/>
         </div>
