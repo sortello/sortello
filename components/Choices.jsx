@@ -24,10 +24,10 @@ const Choices = React.createClass({
   },
   autoChoice: function () {
     if (this.state.blacklist.indexOf(this.state.leftNode.value.id) > -1) {
-      $("#right_button .container__card").click();
+      this.cardClicked("right");
     }
     else if (this.state.blacklist.indexOf(this.state.rightNode.value.id) > -1) {
-      $("#left_button .container__card").click();
+      this.cardClicked("left");
     }
   },
   addToBlacklist: function (nodeId) {
@@ -72,8 +72,6 @@ const Choices = React.createClass({
 
       this.getNextChoice();
     } else {
-      jQuery("#left_button").html("");
-      jQuery("#right_button").html("");
       this.endChoices();
     }
   },
