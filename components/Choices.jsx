@@ -9,8 +9,8 @@ const Choices = React.createClass({
   getInitialState: function () {
     return {
       Trello: this.props.Trello,
-      leftNode: null,
-      rightNode: null,
+      leftCard: null,
+      rightCard: null,
       progress: 0,
       listNodes: this.props.nodes,
       rootNode: this.props.rootNode,
@@ -23,10 +23,10 @@ const Choices = React.createClass({
     this.props.setSortedRootNode(this.state.rootNode);
   },
   autoChoice: function () {
-    if (this.state.blacklist.indexOf(this.state.leftNode.value.id) > -1) {
+    if (this.state.blacklist.indexOf(this.state.leftCard.value.id) > -1) {
       this.cardClicked("right");
     }
-    else if (this.state.blacklist.indexOf(this.state.rightNode.value.id) > -1) {
+    else if (this.state.blacklist.indexOf(this.state.rightCard.value.id) > -1) {
       this.cardClicked("left");
     }
   },
@@ -54,27 +54,28 @@ const Choices = React.createClass({
       this.handleCardPositioned();
     });
   },
+  toTheNextStep: function(){
+    this.setState({
+      rootNode: treeRebalancer(this.state.rootNode),
+      progress: Math.round(((100 * (this.props.nodes.length - this.state.listNodes.length)) / (this.props.nodes.length)))
+    }, function(){
+      this.nextStepOrEnd();
+    });
+  },
   handleCardPositioned: function(){
     if (this.state.node.isPositioned) {
-      this.setState({
-        rootNode: treeRebalancer(this.state.rootNode),
-        progress: Math.round(((100 * (this.props.nodes.length - this.state.listNodes.length)) / (this.props.nodes.length)))
-      }, function(){
-        this.choicesCycle();
-      });
+      this.toTheNextStep();
     } else {
       this.getNextChoice();
     }
   },
-  choicesCycle: function () {
+  nextStepOrEnd: function () {
     if (0 < this.state.listNodes.length) {
       this.setState({
         node: this.state.listNodes.shift(),
         compareNode: this.state.rootNode,
         listNodes: this.state.listNodes
       }, this.getNextChoice);
-
-
     } else {
       this.endChoices();
     }
@@ -82,19 +83,18 @@ const Choices = React.createClass({
   getNextChoice: function () {
     let component = this;
     component.setState({
-      leftNode: component.state.node,
-      rightNode: component.state.compareNode
+      leftCard: component.state.node,
+      rightCard: component.state.compareNode
     }, function () {
       component.autoChoice();
     });
   },
   startChoices: function () {
     this.props.setStartTimeStamp(Date.now())
-    this.choicesCycle();
+    this.nextStepOrEnd();
   },
-
   render: function () {
-    if (this.state.leftNode == null || this.state.rightNode == null) {
+    if (this.state.leftCard == null || this.state.rightCard == null) {
       return (<span>Loading...</span>);
     }
     return (
@@ -102,9 +102,9 @@ const Choices = React.createClass({
         <div className="container__choose-card">
           <div className="choose-card__heading">Select the highest priority card</div>
           <Card id="left_button" side="left" handleClick={this.cardClicked}
-                forget={this.addToBlacklist} data={this.state.leftNode.value}/>
+                forget={this.addToBlacklist} data={this.state.leftCard.value}/>
           <Card id="right_button" side="right" handleClick={this.cardClicked}
-                forget={this.addToBlacklist} data={this.state.rightNode.value}/>
+                forget={this.addToBlacklist} data={this.state.rightCard.value}/>
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
         </div>
         <div className="container__prioritization-status">
