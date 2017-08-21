@@ -35,9 +35,9 @@ const Choices = React.createClass({
     bl.push(nodeId);
     this.setState({
       blacklist: bl
+    }, function () {
+      this.autoChoice();
     });
-    console.log(this.state.blacklist);
-    this.autoChoice();
   },
   cardClicked: function (side) {
     let compareNode;
@@ -50,14 +50,18 @@ const Choices = React.createClass({
     this.setState({
       compareNode: compareNode,
       node: this.state.node
+    }, function(){
+      this.handleCardPositioned();
     });
-
+  },
+  handleCardPositioned: function(){
     if (this.state.node.isPositioned) {
       this.setState({
         rootNode: treeRebalancer(this.state.rootNode),
         progress: Math.round(((100 * (this.props.nodes.length - this.state.listNodes.length)) / (this.props.nodes.length)))
+      }, function(){
+        this.choicesCycle();
       });
-      this.choicesCycle();
     } else {
       this.getNextChoice();
     }
@@ -68,46 +72,25 @@ const Choices = React.createClass({
         node: this.state.listNodes.shift(),
         compareNode: this.state.rootNode,
         listNodes: this.state.listNodes
-      });
+      }, this.getNextChoice);
 
-      this.getNextChoice();
+
     } else {
       this.endChoices();
     }
   },
   getNextChoice: function () {
     let component = this;
-
     component.setState({
       leftNode: component.state.node,
       rightNode: component.state.compareNode
+    }, function () {
+      component.autoChoice();
     });
-
-    jQuery(".button-blacklist").unbind("click");
-    jQuery(".button-blacklist").click(function (e) {
-      e.stopPropagation();
-      let nodeId = $(this).attr("data-cardid");
-      component.addToBlacklist(nodeId);
-    });
-
-    jQuery(".container__card").click(function () {
-      jQuery(".container__card").unbind("click");
-
-      if ($(this).hasClass("left_button")) {
-        component.cardClicked("left");
-      } else if ($(this).hasClass("right_button")) {
-        component.cardClicked("right");
-      }
-
-    });
-    component.autoChoice();
   },
   startChoices: function () {
     this.props.setStartTimeStamp(Date.now())
-
-    var component = this;
-
-    component.choicesCycle();
+    this.choicesCycle();
   },
 
   render: function () {
@@ -118,8 +101,10 @@ const Choices = React.createClass({
       <div id="second_div">
         <div className="container__choose-card">
           <div className="choose-card__heading">Select the highest priority card</div>
-          <Card id="left_button" data={this.state.leftNode.value}/>
-          <Card id="right_button" data={this.state.rightNode.value}/>
+          <Card id="left_button" side="left" handleClick={this.cardClicked}
+                forget={this.addToBlacklist} data={this.state.leftNode.value}/>
+          <Card id="right_button" side="right" handleClick={this.cardClicked}
+                forget={this.addToBlacklist} data={this.state.rightNode.value}/>
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
         </div>
         <div className="container__prioritization-status">
