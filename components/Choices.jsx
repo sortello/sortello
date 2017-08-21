@@ -18,6 +18,7 @@ const Choices = React.createClass({
       blacklist: [], // the nodes to position in the tree
       node: null,
       compareNode: null,
+      replay: []
     }
   },
   componentDidMount: function () {
@@ -26,12 +27,21 @@ const Choices = React.createClass({
   endChoices: function () {
     this.props.setSortedRootNode(this.state.rootNode);
   },
+  executeReplay: function(){
+    if(this.state.replay.length > 0){
+      const nextAction = this.state.replay.pop();
+      nextAction.f(nextAction.p);
+    }
+  },
   autoChoice: function () {
     if (this.state.blacklist.indexOf(this.state.leftCard.value.id) > -1) {
       this.cardClicked("right");
     }
     else if (this.state.blacklist.indexOf(this.state.rightCard.value.id) > -1) {
       this.cardClicked("left");
+    } else {
+      console.log("execreplay");
+      this.executeReplay();
     }
   },
   addToBlacklist: function (nodeId) {
@@ -101,23 +111,6 @@ const Choices = React.createClass({
     this.props.setStartTimeStamp(Date.now())
     this.nextStepOrEnd();
   },
-  replaySteps: function () {
-    let actions = clone(window.actionsHistory);
-    window.actionsHistory = [];
-
-    let repeatSteps = setInterval(function () {
-      doNext()
-    }, 2000)
-
-    function doNext () {
-      if (0 < actions.length) {
-        const action = actions.pop();
-          action.f(action.p);
-      } else {
-        clearInterval(repeatSteps)
-      }
-    }
-  },
   undo: function () {
     // Reset initial state
     // and
@@ -130,9 +123,10 @@ const Choices = React.createClass({
       rootNode: clone(this.props.rootNode),
       blacklist: [], // the nodes to position in the tree
       node: null,
-      compareNode: null
+      compareNode: null,
+      replay: clone(window.actionsHistory)
     }, function () {
-      this.replaySteps();
+      window.actionsHistory = [];
       this.startChoices();
     });
   },
