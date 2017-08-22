@@ -1,0 +1,142 @@
+@media (max-width: 1280px) {
+    .hero__container {
+        padding: 96px 320px 96px;
+    }
+    .steps__container {
+        padding: 56px 32px 56px;
+    }
+    .step__container {
+        margin: 0 16px 64px;
+    }
+}
+
+@media (max-width: 1080px) {
+    .hero__container {
+        padding: 96px 200px 96px;
+    }
+    .how-works__container {
+        padding: 96px 240px 56px;
+    }
+    .steps__container {
+        padding: 56px 56px 56px;
+    }
+    .step__container {
+        margin: 0 16px 64px;
+    }
+    .step__image img {
+        width: 400px;
+    }
+}
+
+@media (max-width: 960px) {
+    .hero__container {
+        padding: 96px 120px 96px;
+    }
+    .how-works__container {
+        padding: 72px 56px 56px;
+    }
+    .steps__container {
+        grid-template-columns: 100%;
+    }
+    .pricing__container {
+        padding: 96px 72px 96px;
+    }
+    .landing-footer__container {
+        padding: 96px 72px 56px;
+    }
+    .why-works__container {
+        grid-column-gap: 16px;
+        margin: 16px 40px 56px;
+        padding: 16px 0;
+    }
+    .step__container {
+        margin: 0 16px 64px;
+    }
+    .steps__container {
+        padding: 56px 96px 56px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero__container {
+        padding: 72px 40px 72px;
+    }
+    .how-works__container {
+        padding: 72px 40px 56px;
+    }
+    .steps__container {
+        grid-template-columns: 100%;
+        padding: 56px 40px 56px;
+    }
+    .why-works__heading {
+        margin: 0;
+    }
+    .why-works__container {
+        grid-template-columns: 100%;
+        margin: 16px 40px 56px;
+        padding: 16px 32px;
+    }
+    .why-works__description {
+        margin-bottom: 16px;
+    }
+    .pricing__container {
+        padding: 56px 32px 56px;
+    }
+    .landing-footer__container {
+        padding: 96px 32px 56px;
+
+    }
+}
+
+@media (max-width: 480px) {
+    .hero__container {
+        padding: 32px 16px 32px;
+        text-align: center;
+    }
+    .hero-navbar__item {
+        font-size: 14px;
+        margin: 8px;
+    }
+    .hero__navbar {
+        margin-bottom: 40px;
+    }
+    .hero__suggestion-button {
+        font-size: 14px;
+        margin: 16px 8px;
+    }
+    .hero__description {
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+    .hero__claim {
+        font-size: 18px;
+    }
+    .hero-logo__container img {
+        width: 120px;
+    }
+    .hero-logo__container {
+        margin-bottom: 32px;
+    }
+    .how-works__container {
+        padding: 32px 16px 32px;
+    }
+    .steps__container {
+        grid-template-columns: 100%;
+        padding: 32px 16px 32px;
+    }
+    .step__image img {
+        width: 100%;
+        margin-bottom: 16px;
+    }
+    .why-works__container {
+        grid-template-columns: 100%;
+        margin: 16px 0 56px;
+        padding: 16px 32px;
+    }
+    .pricing__container {
+        padding: 32px 16px 32px;
+    }
+    .landing-footer__container {
+        padding: 56px 16px 32px;
+    }
+}
