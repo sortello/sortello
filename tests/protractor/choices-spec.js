@@ -47,16 +47,16 @@ describe('sort list asc', function () {
     browser.driver.sleep(1000);
 
     function nextChoice () {
-      let leftButton = browser.executeScript("return arguments[0].innerHTML;", element(by.css('#left_button h1')));
+      let leftButton = browser.executeScript("return arguments[0].innerHTML;", element(by.css('#left_button .card__title')));
       browser.wait(leftButton, 10000).then(function () {
-        let rightButton = browser.executeScript("return arguments[0].innerHTML;", element(by.css('#right_button h1')));
+        let rightButton = browser.executeScript("return arguments[0].innerHTML;", element(by.css('#right_button .card__title')));
         browser.wait(rightButton, 10000).then(function () {
           let rightValue = rightButton.value_;
           let leftValue = leftButton.value_;
           if (parseInt(rightValue) < parseInt(leftValue)) {
-            element(by.css('#right_button')).click()
+            element(by.css('#right_button .container__card')).click()
           } else {
-            element(by.css('#left_button')).click()
+            element(by.css('#left_button .container__card')).click()
           }
         });
       })
@@ -74,9 +74,9 @@ describe('sort list asc', function () {
       });
     browser.driver.sleep(5000);
 
-    browser.wait(browser.executeScript("return arguments[0].innerHTML;", element(by.id('check-board'))), 50000).then(
+    browser.wait(browser.executeScript("return arguments[0].innerHTML;", element(by.css('.check-trello__button'))), 50000).then(
       function () {
-        $("#check-board").click();
+        $(".check-trello__button").click();
       });
     browser.driver.sleep(2000);
     selectWindow(1);
@@ -102,16 +102,16 @@ describe('sort list asc', function () {
     browser.driver.sleep(1000);
 
     function nextChoice () {
-      let leftButton = browser.executeScript("return arguments[0].innerHTML;", element(by.css('#left_button h1')));
+      let leftButton = browser.executeScript("return arguments[0].innerHTML;", element(by.css('#left_button .card__title')));
       browser.wait(leftButton, 10000).then(function () {
-        let rightButton = browser.executeScript("return arguments[0].innerHTML;", element(by.css('#right_button h1')));
+        let rightButton = browser.executeScript("return arguments[0].innerHTML;", element(by.css('#right_button .card__title')));
         browser.wait(rightButton, 10000).then(function () {
           let rightValue = rightButton.value_;
           let leftValue = leftButton.value_;
           if (parseInt(rightValue) > parseInt(leftValue)) {
-            element(by.css('#right_button')).click()
+            element(by.css('#right_button .container__card')).click()
           } else {
-            element(by.css('#left_button')).click()
+            element(by.css('#left_button .container__card')).click()
           }
         });
       })
@@ -129,9 +129,9 @@ describe('sort list asc', function () {
       });
     browser.driver.sleep(5000);
 
-    browser.wait(browser.executeScript("return arguments[0].innerHTML;", element(by.id('check-board'))), 20000).then(
+    browser.wait(browser.executeScript("return arguments[0].innerHTML;", element(by.css('.check-trello__button'))), 50000).then(
       function () {
-        $("#check-board").click();
+        $(".check-trello__button").click();
       });
     browser.driver.sleep(2000);
     selectWindow(2);
@@ -157,9 +157,9 @@ describe('sort list asc', function () {
     browser.driver.sleep(1000);
 
     function nextChoice () {
-      let leftButton = browser.executeScript("return arguments[0].innerHTML;", element(by.css('#left_button h1')));
+      let leftButton = browser.executeScript("return arguments[0].innerHTML;", element(by.css('#left_button .card__title')));
       browser.wait(leftButton, 10000).then(function () {
-        let rightButton = browser.executeScript("return arguments[0].innerHTML;", element(by.css('#right_button h1')));
+        let rightButton = browser.executeScript("return arguments[0].innerHTML;", element(by.css('#right_button .card__title')));
         browser.wait(rightButton, 10000).then(function () {
           let rightValue = rightButton.value_;
           let leftValue = leftButton.value_;
@@ -176,9 +176,9 @@ describe('sort list asc', function () {
 
           if(!autoclicked){
             if (parseInt(rightValue) < parseInt(leftValue)) {
-              element(by.css('#right_button')).click()
+              element(by.css('#right_button .container__card')).click()
             } else {
-              element(by.css('#left_button')).click()
+              element(by.css('#left_button .container__card')).click()
             }
           }
 
@@ -199,9 +199,9 @@ describe('sort list asc', function () {
       });
     browser.driver.sleep(5000);
 
-    browser.wait(browser.executeScript("return arguments[0].innerHTML;", element(by.id('check-board'))), 20000).then(
+    browser.wait(browser.executeScript("return arguments[0].innerHTML;", element(by.css('.check-trello__button'))), 50000).then(
       function () {
-        $("#check-board").click();
+        $(".check-trello__button").click();
       });
     browser.driver.sleep(2000);
     selectWindow(3);

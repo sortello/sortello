@@ -1,0 +1,24 @@
+
+
+@media (min-width: 1920px) {
+	.disclaimer__logo-container {
+		margin: 120px 0 16px;
+		text-align: center;
+		fill: #0099FF;
+	}
+}
+
+@media (min-width: 1280px) {
+	#disclaimer {
+    	width: 60%;
+	}
+}
+
+@media (max-width: 480px) {
+	#disclaimer {
+    	width: 90%;
+	}
+	.disclaimer__content {
+		font-size: 16px;
+	}
+}
