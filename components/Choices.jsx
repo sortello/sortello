@@ -9,7 +9,7 @@ import {clone} from "lodash"
 const Choices = React.createClass({
   getInitialState: function () {
     return {
-      Trello: this.props.Trello,
+      Trello: clone(this.props.Trello),
       leftCard: null,
       rightCard: null,
       progress: 0,
@@ -27,21 +27,26 @@ const Choices = React.createClass({
   endChoices: function () {
     this.props.setSortedRootNode(this.state.rootNode);
   },
-  executeReplay: function(){
-    if(this.state.replay.length > 0){
-      const nextAction = this.state.replay.pop();
+  executeReplay: function () {
+    const nextAction = this.state.replay.shift();
+    this.setState({
+      replay: this.state.replay
+    },function(){
+      console.log(this.state.blacklist)
+      console.log(nextAction.f.name + " " + nextAction.p);
       nextAction.f(nextAction.p);
-    }
+    })
   },
   autoChoice: function () {
-    if (this.state.blacklist.indexOf(this.state.leftCard.value.id) > -1) {
-      this.cardClicked("right");
-    }
-    else if (this.state.blacklist.indexOf(this.state.rightCard.value.id) > -1) {
-      this.cardClicked("left");
-    } else {
-      console.log("execreplay");
+    if (this.state.replay.length > 0) {
       this.executeReplay();
+    } else {
+      if (this.state.blacklist.indexOf(this.state.leftCard.value.id) > -1) {
+        this.cardClicked("right");
+      }
+      else if (this.state.blacklist.indexOf(this.state.rightCard.value.id) > -1) {
+        this.cardClicked("left");
+      }
     }
   },
   addToBlacklist: function (nodeId) {
@@ -99,35 +104,42 @@ const Choices = React.createClass({
     }
   },
   getNextChoice: function () {
-    let component = this;
-    component.setState({
-      leftCard: component.state.node,
-      rightCard: component.state.compareNode
+    this.setState({
+      leftCard: this.state.node,
+      rightCard: this.state.compareNode
     }, function () {
-      component.autoChoice();
+      this.autoChoice();
     });
   },
   startChoices: function () {
     this.props.setStartTimeStamp(Date.now())
     this.nextStepOrEnd();
   },
-  undo: function () {
-    // Reset initial state
-    // and
-    // Re-execute all steps
-    this.replaceState({
-      leftCard: null,
-      rightCard: null,
-      progress: 0,
-      listNodes: clone(this.props.nodes),
-      rootNode: clone(this.props.rootNode),
-      blacklist: [], // the nodes to position in the tree
-      node: null,
-      compareNode: null,
-      replay: clone(window.actionsHistory)
+  clearPositioned: function(cb){
+    let nodes = this.state.listNodes;
+    for(var i = 0; i < nodes.length; i++){
+      nodes[i].isPositioned = false;
+    }
+    this.setState({
+      listNodes: nodes
+    }, cb());
+  },
+  setReplay: function(){
+    window.actionsHistory.pop();
+    let comp = this;
+    this.setState({
+      replay: clone(window.actionsHistory),
+      blacklist: []
     }, function () {
+      comp.clearPositioned(function(){
       window.actionsHistory = [];
-      this.startChoices();
+        comp.nextStepOrEnd();
+      });
+    })
+  },
+  undo: function () {
+    this.setState(this.getInitialState(), function () {
+      this.setReplay()
     });
   },
   render: function () {
