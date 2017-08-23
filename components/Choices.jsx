@@ -32,8 +32,8 @@ const Choices = React.createClass({
     this.setState({
       replay: this.state.replay
     },function(){
-      console.log(this.state.blacklist)
-      console.log(nextAction.f.name + " " + nextAction.p);
+      // console.log(this.state.blacklist)
+      // console.log(nextAction.f.name + " " + nextAction.p);
       nextAction.f(nextAction.p);
     })
   },
@@ -55,7 +55,7 @@ const Choices = React.createClass({
     this.setState({
       blacklist: bl
     }, function () {
-      window.actionsHistory.push({f: this.addToBlacklist, p: nodeId})
+      // window.actionsHistory.push({f: this.addToBlacklist, p: nodeId})
       this.autoChoice();
     });
   },
@@ -128,8 +128,7 @@ const Choices = React.createClass({
     window.actionsHistory.pop();
     let comp = this;
     this.setState({
-      replay: clone(window.actionsHistory),
-      blacklist: []
+      replay: clone(window.actionsHistory)
     }, function () {
       comp.clearPositioned(function(){
       window.actionsHistory = [];
@@ -154,7 +153,7 @@ const Choices = React.createClass({
                 forget={this.addToBlacklist} data={this.state.leftCard.value}/>
           <Card id="right_button" side="right" handleClick={this.cardClicked}
                 forget={this.addToBlacklist} data={this.state.rightCard.value}/>
-          <TreeDraw tree={this.state.rootNode}></TreeDraw>
+          {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
         </div>
         <div className="container__prioritization-status">
           <div className="text__prioritization-status">Prioritization status</div>
@@ -165,7 +164,7 @@ const Choices = React.createClass({
             </div>
           </div>
         </div>
-        <button onClick={this.undo}>Undo</button>
+        <button onClick={this.undo} id="undo_button">Undo</button>
         <div className={"logout__button"}>
           <Header/>
         </div>
