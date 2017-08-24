@@ -72,7 +72,7 @@ describe('sort list asc', function () {
       function () {
         $("#update_board").click();
       });
-    browser.driver.sleep(4000);
+    browser.driver.sleep(5000);
 
     browser.wait(browser.executeScript("return arguments[0].innerHTML;", element(by.css('.check-trello__button'))), 50000).then(
       function () {
@@ -127,7 +127,7 @@ describe('sort list asc', function () {
       function () {
         $("#update_board").click();
       });
-    browser.driver.sleep(4000);
+    browser.driver.sleep(5000);
 
     browser.wait(browser.executeScript("return arguments[0].innerHTML;", element(by.css('.check-trello__button'))), 50000).then(
       function () {
@@ -197,7 +197,7 @@ describe('sort list asc', function () {
       function () {
         $("#update_board").click();
       });
-    browser.driver.sleep(4000);
+    browser.driver.sleep(5000);
 
     browser.wait(browser.executeScript("return arguments[0].innerHTML;", element(by.css('.check-trello__button'))), 50000).then(
       function () {

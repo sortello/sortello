@@ -4,30 +4,49 @@ import TreeDraw from './TreeDraw.jsx';
 import Card from './Card.jsx';
 import treeRebalancer from "../model/treeRebalancer";
 import Footer from "./Footer.jsx"
+import {clone} from "lodash"
 
 const Choices = React.createClass({
   getInitialState: function () {
     return {
-      Trello: this.props.Trello,
-      leftNode: null,
-      rightNode: null,
+      Trello: clone(this.props.Trello),
+      leftCard: null,
+      rightCard: null,
       progress: 0,
-      listNodes: this.props.nodes,
-      rootNode: this.props.rootNode,
+      listNodes: clone(this.props.nodes),
+      rootNode: clone(this.props.rootNode),
       blacklist: [], // the nodes to position in the tree
       node: null,
       compareNode: null,
+      replay: []
     }
+  },
+  componentDidMount: function () {
+    window.actionsHistory = [];
   },
   endChoices: function () {
     this.props.setSortedRootNode(this.state.rootNode);
   },
+  executeReplay: function () {
+    const nextAction = this.state.replay.shift();
+    this.setState({
+      replay: this.state.replay
+    },function(){
+      // console.log(this.state.blacklist)
+      // console.log(nextAction.f.name + " " + nextAction.p);
+      nextAction.f(nextAction.p);
+    })
+  },
   autoChoice: function () {
-    if (this.state.blacklist.indexOf(this.state.leftNode.value.id) > -1) {
-      $("#right_button .container__card").click();
-    }
-    else if (this.state.blacklist.indexOf(this.state.rightNode.value.id) > -1) {
-      $("#left_button .container__card").click();
+    if (this.state.replay.length > 0) {
+      this.executeReplay();
+    } else {
+      if (this.state.blacklist.indexOf(this.state.leftCard.value.id) > -1) {
+        this.cardClicked("right");
+      }
+      else if (this.state.blacklist.indexOf(this.state.rightCard.value.id) > -1) {
+        this.cardClicked("left");
+      }
     }
   },
   addToBlacklist: function (nodeId) {
@@ -35,9 +54,10 @@ const Choices = React.createClass({
     bl.push(nodeId);
     this.setState({
       blacklist: bl
+    }, function () {
+      // window.actionsHistory.push({f: this.addToBlacklist, p: nodeId})
+      this.autoChoice();
     });
-    console.log(this.state.blacklist);
-    this.autoChoice();
   },
   cardClicked: function (side) {
     let compareNode;
@@ -50,78 +70,89 @@ const Choices = React.createClass({
     this.setState({
       compareNode: compareNode,
       node: this.state.node
+    }, function () {
+      window.actionsHistory.push({f: this.cardClicked, p: side})
+      this.handleCardPositioned();
     });
-
+  },
+  toTheNextStep: function () {
+    this.setState({
+      rootNode: treeRebalancer(this.state.rootNode),
+      progress: Math.round(((100 * (this.props.nodes.length - this.state.listNodes.length)) / (this.props.nodes.length)))
+    }, function () {
+      this.nextStepOrEnd();
+    });
+  },
+  handleCardPositioned: function () {
     if (this.state.node.isPositioned) {
-      this.setState({
-        rootNode: treeRebalancer(this.state.rootNode),
-        progress: Math.round(((100 * (this.props.nodes.length - this.state.listNodes.length)) / (this.props.nodes.length)))
-      });
-      this.choicesCycle();
+      this.toTheNextStep();
     } else {
       this.getNextChoice();
     }
   },
-  choicesCycle: function () {
+  nextStepOrEnd: function () {
     if (0 < this.state.listNodes.length) {
       this.setState({
         node: this.state.listNodes.shift(),
         compareNode: this.state.rootNode,
         listNodes: this.state.listNodes
+      }, function () {
+        this.getNextChoice();
       });
-
-      this.getNextChoice();
     } else {
-      jQuery("#left_button").html("");
-      jQuery("#right_button").html("");
       this.endChoices();
     }
   },
   getNextChoice: function () {
-    let component = this;
-
-    component.setState({
-      leftNode: component.state.node,
-      rightNode: component.state.compareNode
+    this.setState({
+      leftCard: this.state.node,
+      rightCard: this.state.compareNode
+    }, function () {
+      this.autoChoice();
     });
-
-    jQuery(".button-blacklist").unbind("click");
-    jQuery(".button-blacklist").click(function (e) {
-      e.stopPropagation();
-      let nodeId = $(this).attr("data-cardid");
-      component.addToBlacklist(nodeId);
-    });
-
-    jQuery(".container__card").click(function () {
-      jQuery(".container__card").unbind("click");
-
-      if ($(this).hasClass("left_button")) {
-        component.cardClicked("left");
-      } else if ($(this).hasClass("right_button")) {
-        component.cardClicked("right");
-      }
-
-    });
-    component.autoChoice();
   },
   startChoices: function () {
     this.props.setStartTimeStamp(Date.now())
-
-    var component = this;
-
-    component.choicesCycle();
+    this.nextStepOrEnd();
   },
-
+  clearPositioned: function(cb){
+    let nodes = this.state.listNodes;
+    for(var i = 0; i < nodes.length; i++){
+      nodes[i].isPositioned = false;
+    }
+    this.setState({
+      listNodes: nodes
+    }, cb());
+  },
+  setReplay: function(){
+    window.actionsHistory.pop();
+    let comp = this;
+    this.setState({
+      replay: clone(window.actionsHistory)
+    }, function () {
+      comp.clearPositioned(function(){
+      window.actionsHistory = [];
+        comp.nextStepOrEnd();
+      });
+    })
+  },
+  undo: function () {
+    this.setState(this.getInitialState(), function () {
+      this.setReplay()
+    });
+  },
   render: function () {
-    if (this.state.leftNode == null || this.state.rightNode == null) {
+    if (this.state.leftCard == null || this.state.rightCard == null) {
       return (<span>Loading...</span>);
     }
     return (
       <div id="second_div">
         <div className="container__choose-card">
           <div className="choose-card__heading">Select the highest priority card</div>
-          <Card id="left_button" data={this.state.leftNode.value}/>
-          <Card id="right_button" data={this.state.rightNode.value}/>
+          <Card id="left_button" side="left" handleClick={this.cardClicked}
+                forget={this.addToBlacklist} data={this.state.leftCard.value}/>
+          <Card id="right_button" side="right" handleClick={this.cardClicked}
+                forget={this.addToBlacklist} data={this.state.rightCard.value}/>
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
         </div>
         <div className="container__prioritization-status">
@@ -133,6 +164,7 @@ const Choices = React.createClass({
             </div>
           </div>
         </div>
+        <button onClick={this.undo} id="undo_button">Undo</button>
         <div className={"logout__button"}>
           <Header/>
         </div>
