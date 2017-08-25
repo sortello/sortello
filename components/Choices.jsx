@@ -154,6 +154,17 @@ const Choices = React.createClass({
           <Card id="right_button" side="right" handleClick={this.cardClicked}
                 forget={this.addToBlacklist} data={this.state.rightCard.value}/>
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
+
+          <button onClick={this.undo} id="undo_button" className="normalize__undo-button">
+            <div className="undo__button">
+              <div className="undo__icon">
+                <img src="assets/icons/undo-icon.svg" alt=""/>
+                Undo choice
+              </div>
+            </div>
+
+          </button>
+
         </div>
         <div className="container__prioritization-status">
           <div className="text__prioritization-status">Prioritization status</div>
@@ -164,7 +175,6 @@ const Choices = React.createClass({
             </div>
           </div>
         </div>
-        <button onClick={this.undo} id="undo_button">Undo</button>
         <div className={"logout__button"}>
           <Header/>
         </div>

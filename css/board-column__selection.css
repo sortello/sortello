@@ -52,3 +52,19 @@
 .select-field__select:hover {
   background: rgba(0, 0, 0, 0.08);
 }
+
+.undo__button {
+    display: flex;
+    flex-direction: row;
+    font-family: "Fira Sans";
+    font-size: 18px;
+}
+.normalize__undo-button {
+    margin-top: 32px;
+    border: none;
+    background: none;
+}
+.undo__button img {
+    width: 24px;
+    margin-right: 8px;
+}
