@@ -93,6 +93,9 @@
 	    min-width: 42px;
 	    margin: 8px 0;
 	}
+	.undo__button {
+		font-size: 14px;
+	}
 }
 
 @media (max-width: 320px) {
