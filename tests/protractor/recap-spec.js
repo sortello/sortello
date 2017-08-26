@@ -19,27 +19,33 @@ describe('sort list asc', function () {
 
   accessFromChromeExtension = function () {
     browser.get('/?extId=' + browser.params.extId);
-    browser.wait(browser.executeScript("return arguments[0].innerHTML;", element(by.css('.continue-to-choices--button'))), 10000).then(
-      function () {
-        $(".continue-to-choices--button").click();
-      });
+
+    let EC = protractor.ExpectedConditions;
+    let continueButton = element(by.css('.continue-to-choices--button'));
+    browser.wait(EC.visibilityOf(continueButton), 10000);
+    browser.actions().mouseMove(continueButton).click().perform();
+    browser.driver.sleep(200);
     selectWindow(1);
 
-    browser.wait(browser.executeScript("return arguments[0].innerHTML;", element(by.css('#surface form a.button.primary'))), 10000).then(
-      function () {
-        $("#surface form a.button.primary").click();
-      });
+    EC = protractor.ExpectedConditions;
+    let acceptButton = element(by.css('#surface form a.button.primary'));
+    browser.wait(EC.visibilityOf(acceptButton), 10000);
+    browser.actions().mouseMove(acceptButton).click().perform();
 
-    browser.wait(browser.executeScript("return arguments[0].innerHTML;", element(by.css('input#user'))), 10000).then(
-      function () {
-        $('input#user').sendKeys(browser.params.username);
-        $('input#password').sendKeys(browser.params.password);
-        $('input#login').click().then(function () {
-          browser.driver.sleep(1000);
-          $("input.primary[name='approve']").click();
-          selectWindow(0);
-        });
-      });
+    EC = protractor.ExpectedConditions;
+    let submitButton = element(by.css('input#user'));
+    browser.wait(EC.visibilityOf(submitButton), 10000);
+
+    let loginButton = element(by.css('input#login'));
+    element(by.css('input#user')).sendKeys(browser.params.username);
+    element(by.css('input#password')).sendKeys(browser.params.password);
+    browser.actions().mouseMove(loginButton).click().perform().then(function () {
+      let EC = protractor.ExpectedConditions;
+      let approveButton = element(by.css("input.primary[name='approve']"));
+      browser.wait(EC.visibilityOf(approveButton), 10000);
+      browser.actions().mouseMove(approveButton).click().perform();
+      selectWindow(0);
+    });
   }
 
   it('shows a recap after the choices', function () {
@@ -47,32 +53,41 @@ describe('sort list asc', function () {
     browser.driver.sleep(1000);
 
     function nextChoice () {
-      let leftButton = browser.executeScript("return arguments[0].innerHTML;", element(by.css('#left_button .card__title')));
-      browser.wait(leftButton, 10000).then(function () {
-        let rightButton = browser.executeScript("return arguments[0].innerHTML;", element(by.css('#right_button .card__title')));
-        browser.wait(rightButton, 10000).then(function () {
-          let rightValue = rightButton.value_;
-          let leftValue = leftButton.value_;
-          if (parseInt(rightValue) > parseInt(leftValue)) {
-            element(by.css('#right_button .container__card')).click()
-          } else {
-            element(by.css('#left_button .container__card')).click()
-          }
+
+      let EC = protractor.ExpectedConditions;
+      let leftButton = element(by.css('#left_button .card__title:first-child'));
+      browser.wait(EC.visibilityOf(leftButton), 10000).then(function () {
+        EC = protractor.ExpectedConditions;
+        let rightButton = element(by.css('#right_button .card__title:first-child'));
+        browser.wait(EC.visibilityOf(rightButton), 10000).then(function () {
+          rightButton.getText().then(function (rv) {
+            let rightValue = rv;
+            leftButton.getText().then(function (lv) {
+              let leftValue = lv;
+
+              if (parseInt(rightValue) > parseInt(leftValue)) {
+                element(by.css('#right_button .container__card')).click()
+              } else {
+                element(by.css('#left_button .container__card')).click()
+              }
+              element.all(by.id("update_board")).count().then(function (size) {
+                if (size == 0) {
+                  nextChoice();
+                }
+              });
+            });
+          });
         });
-      })
-      element.all(by.id("update_board")).count().then(function (size) {
-        if (size == 0) {
-          nextChoice();
-        }
       });
     }
 
     nextChoice();
 
-    browser.driver.sleep(2000);
-    let cards = browser.executeScript("return arguments[0].innerHTML;", element(by.css('div.order-recap')));
-    browser.wait(cards, 10000).then(function (html) {
-      expect(html.indexOf('<p>10</p><p>9</p><p>8</p><p>7</p><p>6</p><p>5</p><p>4</p><p>3</p><p>2</p><p>1</p>') !== -1).toBe(true);
+    let recapDiv = element(by.css('div.order-recap'));
+    let EC = protractor.ExpectedConditions;
+    browser.wait(EC.visibilityOf(recapDiv), 10000).then(function () {
+      let foo = element(by.css('div.order-recap')).all(by.css('p'));
+      expect(foo.getText()).toEqual( [ '10', '9', '8', '7', '6', '5', '4', '3', '2', '1' ] );
     });
   });
 });
