@@ -1,16 +1,10 @@
-describe('sort list asc', function () {
-  it('prioritizes the test column using undo button', function () {
+describe('sort list forget', function () {
+  it('prioritizes the test column in ascending order blacklisting the cards "2" and "7"', function () {
     browser.ignoreSynchronization = true;
     protractor.accessFromChromeExtension.accessFromChromeExtension();
     browser.driver.sleep(1000);
-    let shouldUndo = false;
 
     function nextChoice () {
-      if (shouldUndo) {
-        browser.driver.sleep(500);
-        element(by.css('#undo_button')).click();
-        shouldUndo = false;
-      }
       let leftButton = browser.executeScript("return arguments[0].innerHTML;", element(by.css('#left_button .card__title')));
       browser.wait(leftButton, 10000).then(function () {
         let rightButton = browser.executeScript("return arguments[0].innerHTML;", element(by.css('#right_button .card__title')));
@@ -30,21 +24,12 @@ describe('sort list asc', function () {
 
           if (!autoclicked) {
             if (parseInt(rightValue) < parseInt(leftValue)) {
-              if (Math.random() >= 0.2) {
-                element(by.css('#right_button .container__card')).click()
-              } else {
-                element(by.css('#left_button .container__card')).click()
-                shouldUndo = true;
-              }
+              element(by.css('#right_button .container__card')).click()
             } else {
-              if (Math.random() >= 0.2) {
-                element(by.css('#left_button .container__card')).click()
-              } else {
-                element(by.css('#right_button .container__card')).click()
-                shouldUndo = true;
-              }
+              element(by.css('#left_button .container__card')).click()
             }
           }
+
         });
       })
       element.all(by.id("update_board")).count().then(function (size) {
