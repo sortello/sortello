@@ -10,16 +10,17 @@ exports.config = {
   restartBrowserBetweenTests: true,
   capabilities: {
     browserName: 'chrome',
-    // chromeOptions: {
-      // args: [ "--headless", "--disable-gpu", "--window-size=1200,800" ]
-      // args: [  "--headless", "--window-size=1200,800" ]
-    // }
   },
   baseUrl: 'http://localhost:4000',
   framework: 'jasmine',
-  onPrepare: function() {
-    browser.ignoreSynchronization = true;
-    protractor.accessFromChromeExtension = require('./tests/protractor/accessFromChromeExtension.js');
-    protractor.selectWindow = require('./tests/protractor/selectWindow.js');
-  }
+  params: {
+      testTrelloUsername: '',
+      testTrelloPassword: '',
+      testTrelloExtId: ''
+    },
+    onPrepare: function() {
+      browser.ignoreSynchronization = true;
+      protractor.accessFromChromeExtension = require('./tests/protractor/accessFromChromeExtension.js');
+      protractor.selectWindow = require('./tests/protractor/selectWindow.js');
+    }
 };

@@ -34,23 +34,23 @@ describe('sort list asc', function () {
       });
     });
 
-    browser.wait(browser.executeScript("return arguments[0].innerHTML;", element(by.id('update_board'))), 50000).then(
-      function () {
-        $("#update_board").click();
-      });
-    browser.driver.sleep(5000);
+    let updateBoardButton = element(by.id('update_board'));
+    EC = protractor.ExpectedConditions;
+    browser.wait(EC.visibilityOf(updateBoardButton), 20000).then(function () {
+      browser.actions().mouseMove(updateBoardButton).click().perform();
+    });
 
-    browser.wait(browser.executeScript("return arguments[0].innerHTML;", element(by.css('.check-trello__button'))), 50000).then(
-      function () {
-        $(".check-trello__button").click();
-      });
+    let checkTrelloButton = element(by.css('.check-trello__button'));
+    EC = protractor.ExpectedConditions;
+    browser.wait(EC.visibilityOf(checkTrelloButton), 20000).then(function () {
+      browser.actions().mouseMove(checkTrelloButton).click().perform();
+    });
+
     browser.driver.sleep(2000);
     protractor.selectWindow.selectWindow(1).then(function () {
-
-
       let trelloList = element(by.css('.list-cards'));
       EC = protractor.ExpectedConditions;
-      browser.wait(EC.visibilityOf(trelloList), 10000).then(function () {
+      browser.wait(EC.visibilityOf(trelloList), 20000).then(function () {
         let trelloCards = element(by.css('.list-cards')).all(by.css('.list-card-details > span'));
         expect(trelloCards.getText()).toEqual(recapListText);
       });

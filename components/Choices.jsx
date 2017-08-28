@@ -59,6 +59,11 @@ const Choices = React.createClass({
       this.autoChoice();
     });
   },
+  handleCardClicked(side){
+    if (this.state.replay.length === 0){
+      this.cardClicked(side);
+    }
+  },
   cardClicked: function (side) {
     let compareNode;
     if ("left" == side) {
@@ -149,9 +154,9 @@ const Choices = React.createClass({
       <div id="second_div">
         <div className="container__choose-card">
           <div className="choose-card__heading">Select the highest priority card</div>
-          <Card id="left_button" side="left" handleClick={this.cardClicked}
+          <Card id="left_button" side="left" handleClick={this.handleCardClicked}
                 forget={this.addToBlacklist} data={this.state.leftCard.value}/>
-          <Card id="right_button" side="right" handleClick={this.cardClicked}
+          <Card id="right_button" side="right" handleClick={this.handleCardClicked}
                 forget={this.addToBlacklist} data={this.state.rightCard.value}/>
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
         </div>

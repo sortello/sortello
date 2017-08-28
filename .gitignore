@@ -11,3 +11,4 @@ Makefile
 .rsync_exclude
 build
 build/
+protractor.conf.js

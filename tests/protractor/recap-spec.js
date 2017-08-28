@@ -5,28 +5,23 @@ describe('sorted list recap', function () {
     browser.driver.sleep(1000);
 
     function nextChoice () {
-
       let EC = protractor.ExpectedConditions;
-      let leftButton = element(by.css('#left_button .card__title:first-child'));
-      browser.wait(EC.visibilityOf(leftButton), 10000).then(function () {
-        EC = protractor.ExpectedConditions;
-        let rightButton = element(by.css('#right_button .card__title:first-child'));
-        browser.wait(EC.visibilityOf(rightButton), 10000).then(function () {
-          rightButton.getText().then(function (rv) {
-            let rightValue = rv;
-            leftButton.getText().then(function (lv) {
-              let leftValue = lv;
+      let leftCard = element(by.css('#left_button .card__title'));
+      let rightCard = element(by.css('#right_button .card__title'));
 
-              if (parseInt(rightValue) > parseInt(leftValue)) {
-                element(by.css('#right_button .container__card')).click()
-              } else {
-                element(by.css('#left_button .container__card')).click()
+      browser.wait(EC.and(EC.presenceOf(leftCard), EC.presenceOf(rightCard)), 10000).then(function () {
+        leftCard.getText().then(function (leftValue) {
+          rightCard.getText().then(function (rightValue) {
+
+            if (parseInt(rightValue) > parseInt(leftValue)) {
+              element(by.css('#right_button .container__card')).click()
+            } else {
+              element(by.css('#left_button .container__card')).click()
+            }
+            element.all(by.id("update_board")).count().then(function (size) {
+              if (size == 0) {
+                nextChoice();
               }
-              element.all(by.id("update_board")).count().then(function (size) {
-                if (size == 0) {
-                  nextChoice();
-                }
-              });
             });
           });
         });
@@ -35,11 +30,7 @@ describe('sorted list recap', function () {
 
     nextChoice();
 
-    let recapDiv = element(by.css('div.order-recap'));
-    let EC = protractor.ExpectedConditions;
-    browser.wait(EC.visibilityOf(recapDiv), 10000).then(function () {
-      let foo = element(by.css('div.order-recap')).all(by.css('p'));
-      expect(foo.getText()).toEqual( [ '10', '9', '8', '7', '6', '5', '4', '3', '2', '1' ] );
-    });
+    protractor.expectRecap.toBe(['10', '9', '8', '7', '6', '5', '4', '3', '2', '1']);
+
   });
 });
