@@ -30,7 +30,7 @@ body {
     font-size: 18px;
     font-family: "Fira Sans", sans-serif;
     color: white;
-    margin-bottom: 40px;
+    margin-bottom: 16px;
     line-height: 1.75;
     text-align: center;
 }
@@ -39,7 +39,7 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin-bottom: 80px;
+    margin-bottom: 56px;
 }
 
 .hero-navbar__item {
@@ -71,7 +71,7 @@ body {
 
 .how-works__container {
     margin: 0;
-    padding: 120px 320px 56px;
+    padding: 32px 320px 56px;
     text-align: center;
 }
 .how-works__heading {
@@ -220,4 +220,19 @@ body {
 
 .landing-footer__button {
     text-decoration: none;
+}
+
+.back-to-top__button {
+    margin-top: 32px;
+    font-family: "Fira Sans", sans-serif;
+}
+
+.back-to-top__link {
+    text-decoration: none;
+    color: #0099ff;
+}
+
+.back-to-top__link:hover {
+    color: #005AFF;
+    text-decoration: underline;
 }
