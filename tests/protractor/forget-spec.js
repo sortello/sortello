@@ -2,13 +2,12 @@ describe('sort list forget', function () {
   it('prioritizes the test column in ascending order blacklisting the cards "2" and "7"', function () {
     browser.ignoreSynchronization = true;
     protractor.accessFromChromeExtension.accessFromChromeExtension();
-    browser.driver.sleep(1000);
 
     function nextChoice () {
       let leftButton = browser.executeScript("return arguments[0].innerHTML;", element(by.css('#left_button .card__title')));
-      browser.wait(leftButton, 10000).then(function () {
+      browser.wait(leftButton, 20000).then(function () {
         let rightButton = browser.executeScript("return arguments[0].innerHTML;", element(by.css('#right_button .card__title')));
-        browser.wait(rightButton, 10000).then(function () {
+        browser.wait(rightButton, 20000).then(function () {
           let rightValue = rightButton.value_;
           let leftValue = leftButton.value_;
           let autoclicked = false;
@@ -43,7 +42,7 @@ describe('sort list forget', function () {
 
     let recapDiv = element(by.css('div.order-recap'));
     let EC = protractor.ExpectedConditions;
-    browser.wait(EC.visibilityOf(recapDiv), 10000).then(function () {
+    browser.wait(EC.visibilityOf(recapDiv), 20000).then(function () {
       let recap = element(by.css('div.order-recap')).all(by.css('p'));
       recap.getText().then(function (text) {
         let firstPart = text.splice(0,8);

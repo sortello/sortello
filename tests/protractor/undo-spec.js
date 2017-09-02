@@ -2,50 +2,37 @@ describe('sort list asc', function () {
   it('prioritizes the test column using undo button', function () {
       browser.ignoreSynchronization = true;
       protractor.accessFromChromeExtension.accessFromChromeExtension();
-      browser.driver.sleep(1000);
+
       let shouldUndo = false;
 
       function nextChoice () {
         if (shouldUndo) {
-          browser.driver.sleep(500);
+          // browser.driver.sleep(500);
           element(by.css('#undo_button')).click();
           shouldUndo = false;
         }
-
 
         let EC = protractor.ExpectedConditions;
         let leftCard = element(by.css('#left_button .card__title'));
         let rightCard = element(by.css('#right_button .card__title'));
 
-        browser.wait(EC.and(EC.presenceOf(leftCard), EC.presenceOf(rightCard)), 10000).then(function () {
+        browser.wait(EC.and(EC.presenceOf(leftCard), EC.presenceOf(rightCard)), 20000).then(function () {
           leftCard.getText().then(function (leftValue) {
             rightCard.getText().then(function (rightValue) {
-              let autoclicked = false;
 
-              if (parseInt(rightValue) === 2 || parseInt(rightValue) === 7) {
-                element(by.css('#right_button .button-blacklist')).click();
-                autoclicked = true;
-              }
-              if (parseInt(leftValue) === 2 || parseInt(leftValue) === 7) {
-                element(by.css('#left_button .button-blacklist')).click();
-                autoclicked = true;
-              }
-
-              if (!autoclicked) {
-                if (parseInt(rightValue) < parseInt(leftValue)) {
-                  if (Math.random() >= 0.2) {
-                    element(by.css('#right_button .container__card')).click()
-                  } else {
-                    element(by.css('#left_button .container__card')).click()
-                    shouldUndo = true;
-                  }
+              if (parseInt(rightValue) < parseInt(leftValue)) {
+                if (Math.random() >= 0.2) {
+                  element(by.css('#right_button .container__card')).click()
                 } else {
-                  if (Math.random() >= 0.2) {
-                    element(by.css('#left_button .container__card')).click()
-                  } else {
-                    element(by.css('#right_button .container__card')).click()
-                    shouldUndo = true;
-                  }
+                  element(by.css('#left_button .container__card')).click()
+                  shouldUndo = true;
+                }
+              } else {
+                if (Math.random() >= 0.2) {
+                  element(by.css('#left_button .container__card')).click()
+                } else {
+                  element(by.css('#right_button .container__card')).click()
+                  shouldUndo = true;
                 }
               }
             });
@@ -61,19 +48,7 @@ describe('sort list asc', function () {
 
       nextChoice();
 
-      let recapDiv = element(by.css('div.order-recap'));
-      let EC = protractor.ExpectedConditions;
-      browser.wait(EC.visibilityOf(recapDiv), 20000).then(function () {
-        let recap = element(by.css('div.order-recap')).all(by.css('p'));
-        recap.getText().then(function (text) {
-          let firstPart = text.splice(0, 8);
-          let lastPart = text;
-          expect(firstPart).toEqual(['1', '3', '4', '5', '6', '8', '9', '10']);
-          expect(lastPart.indexOf('2')).toBeGreaterThan(-1);
-          expect(lastPart.indexOf('7')).toBeGreaterThan(-1);
-          expect(lastPart.length).toEqual(2);
-        });
-      });
+      protractor.expectRecap.toBe(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']);
     }
   );
 

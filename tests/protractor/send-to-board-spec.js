@@ -2,13 +2,12 @@ describe('sort list asc', function () {
   it('sends data to board correctly', function () {
     browser.ignoreSynchronization = true;
     protractor.accessFromChromeExtension.accessFromChromeExtension();
-    browser.driver.sleep(1000);
 
     function nextChoice () {
       let leftButton = browser.executeScript("return arguments[0].innerHTML;", element(by.css('#left_button .card__title')));
-      browser.wait(leftButton, 10000).then(function () {
+      browser.wait(leftButton, 20000).then(function () {
         let rightButton = browser.executeScript("return arguments[0].innerHTML;", element(by.css('#right_button .card__title')));
-        browser.wait(rightButton, 10000).then(function () {
+        browser.wait(rightButton, 20000).then(function () {
           if (Math.random() >= 0.5) {
             element(by.css('#right_button .container__card')).click()
           } else {
@@ -28,7 +27,7 @@ describe('sort list asc', function () {
     let recapDiv = element(by.css('div.order-recap'));
     let EC = protractor.ExpectedConditions;
     let recapListText;
-    browser.wait(EC.visibilityOf(recapDiv), 10000).then(function () {
+    browser.wait(EC.visibilityOf(recapDiv), 20000).then(function () {
       element(by.css('div.order-recap')).all(by.css('p')).getText().then(function (text) {
         recapListText = text;
       });

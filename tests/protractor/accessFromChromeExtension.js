@@ -1,8 +1,8 @@
 module.exports.accessFromChromeExtension = function () {
   browser.get('/?extId=' + browser.params.testTrelloExtId);
-  browser.sleep(2000);
-  element.all(by.css(".container__choose-card")).count().then(function (size) {
-    if (size === 0) {
+  let EC = protractor.ExpectedConditions;
+  let continueButton = element(by.css('.continue-to-choices--button'));
+  browser.wait(EC.visibilityOf(continueButton), 2500).then(function () {
       let EC = protractor.ExpectedConditions;
       let continueButton = element(by.css('.continue-to-choices--button'));
       browser.wait(EC.visibilityOf(continueButton), 10000);
@@ -29,7 +29,8 @@ module.exports.accessFromChromeExtension = function () {
         browser.actions().mouseMove(approveButton).click().perform();
         protractor.selectWindow.selectWindow(0);
       });
-    }
+  }, function () {
+    return;
   });
   return;
 }
