@@ -1,5 +1,5 @@
 module.exports.accessFromChromeExtension = function () {
-  browser.get('/?extId=' + browser.params.testTrelloExtId);
+  browser.get('/?extId=' + (process.env.TEST_TRELLO_EXTID || browser.params.testTrelloExtId));
   let EC = protractor.ExpectedConditions;
   let continueButton = element(by.css('.continue-to-choices--button'));
   browser.wait(EC.visibilityOf(continueButton), 2500).then(function () {
@@ -20,8 +20,8 @@ module.exports.accessFromChromeExtension = function () {
       browser.wait(EC.visibilityOf(submitButton), 10000);
 
       let loginButton = element(by.css('input#login'));
-      element(by.css('input#user')).sendKeys(browser.params.testTrelloUsername);
-      element(by.css('input#password')).sendKeys(browser.params.testTrelloPassword);
+      element(by.css('input#user')).sendKeys(process.env.TEST_TRELLO_USERNAME || browser.params.testTrelloUsername);
+      element(by.css('input#password')).sendKeys(process.env.TEST_TRELLO_PASSWORD || browser.params.testTrelloPassword);
       browser.actions().mouseMove(loginButton).click().perform().then(function () {
         let EC = protractor.ExpectedConditions;
         let approveButton = element(by.css("input.primary[name='approve']"));
