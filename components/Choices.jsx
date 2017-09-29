@@ -127,9 +127,9 @@ const Choices = React.createClass({
       listNodes: nodes
     }, cb());
   },
-  popWithAutochoices: function() {
+  popWithAutochoices: function () {
     let previousAction = window.actionsHistory.pop();
-    while(previousAction.s === "auto"){
+    while (previousAction.s === "auto") {
       previousAction = window.actionsHistory.pop();
     }
   },
@@ -147,14 +147,17 @@ const Choices = React.createClass({
     })
   },
   undo: function () {
-    let bl = this.state.blacklist;
-    this.setState(this.getInitialState(), function () {
-      this.setState({
-        blacklist: bl
-      }, function () {
-        this.setReplay()
+    if (window.actionsHistory.length > 0) {
+
+      let bl = this.state.blacklist;
+      this.setState(this.getInitialState(), function () {
+        this.setState({
+          blacklist: bl
+        }, function () {
+          this.setReplay()
+        });
       });
-    });
+    }
   },
   render: function () {
     if (this.state.leftCard == null || this.state.rightCard == null) {
