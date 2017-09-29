@@ -23,8 +23,8 @@ describe('sort list asc', function () {
               let progressBar = element(by.css(".progressive-bar__status"));
               progressBar.getAttribute("aria-valuenow").then(function (value) {
                 let progressValue = value;
-
                 if (parseInt(rightValue) < parseInt(leftValue)) {
+                  // ProgressValue check avoids selecting wrong card as last choice
                   if (Math.random() < 0.2 && progressValue < 80) {
                     // console.log("Making the wrong choice with progressValue = "+progressValue);
                     element(by.css('#left_button .container__card')).click()

@@ -12,3 +12,4 @@ Makefile
 build
 build/
 protractor.conf.js
+npm-debug.log
