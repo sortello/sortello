@@ -9,11 +9,13 @@ module.exports.accessFromChromeExtension = function () {
       browser.actions().mouseMove(continueButton).click().perform();
       browser.driver.sleep(1000);
       protractor.selectWindow.selectWindow(1);
-
       EC = protractor.ExpectedConditions;
+
       let acceptButton = element(by.css('#surface form a.button.primary'));
-      browser.wait(EC.visibilityOf(acceptButton), 10000);
-      browser.actions().mouseMove(acceptButton).click().perform();
+      browser.wait(EC.presenceOf(acceptButton), 10000).then(function(){
+        browser.driver.manage().window().maximize();
+        element(by.css('#surface form a.button.primary')).click();
+      });
 
       EC = protractor.ExpectedConditions;
       let submitButton = element(by.css('input#user'));

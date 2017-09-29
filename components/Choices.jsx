@@ -161,7 +161,7 @@ const Choices = React.createClass({
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
         </div>
         <div className="container__prioritization-status">
-          <div className="text__prioritization-status">Prioritization status</div>
+          <div className="text__prioritization-status">Prioritization progress</div>
           <div className={"progressive-bar__status-structure"}>
             <div className={"progressive-bar__status"} role="progressbar" aria-valuenow={this.state.progress}
                  aria-valuemin="0"
