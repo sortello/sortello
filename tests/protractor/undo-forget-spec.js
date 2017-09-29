@@ -9,6 +9,7 @@ describe('sort list asc', function () {
           // browser.driver.sleep(500);
           element(by.css('#undo_button')).click();
           shouldUndo = false;
+          console.log("undo");
         }
 
         let EC = protractor.ExpectedConditions;
@@ -23,28 +24,42 @@ describe('sort list asc', function () {
               if (parseInt(rightValue) === 2 || parseInt(rightValue) === 7) {
                 element(by.css('#right_button .button-blacklist')).click();
                 autoclicked = true;
+                console.log("forget " + rightValue);
               }
               if (parseInt(leftValue) === 2 || parseInt(leftValue) === 7) {
                 element(by.css('#left_button .button-blacklist')).click();
                 autoclicked = true;
+                console.log("forget " + leftValue);
               }
 
               if (!autoclicked) {
-                if (parseInt(rightValue) < parseInt(leftValue)) {
-                  if (Math.random() >= 0.2) {
-                    element(by.css('#right_button .container__card')).click()
+                let progressBar = element(by.css(".progressive-bar__status"));
+                progressBar.getAttribute("aria-valuenow").then(function (value) {
+                  let progressValue = value;
+
+                  if (parseInt(rightValue) < parseInt(leftValue)) {
+                    // ProgressValue check avoids selecting wrong card as last choice
+                    if (Math.random() < 0.2 && progressValue < 80) {
+                      // console.log("Making the wrong choice with progressValue = "+progressValue);
+                      element(by.css('#left_button .container__card')).click()
+                      console.log(leftValue);
+                      shouldUndo = true;
+                    } else {
+                      element(by.css('#right_button .container__card')).click()
+                      console.log(rightValue);
+                    }
                   } else {
-                    element(by.css('#left_button .container__card')).click()
-                    shouldUndo = true;
+                    if (Math.random() < 0.2 && progressValue < 80) {
+                      console.log("Making the wrong choice with progressValue = "+progressValue);
+                      element(by.css('#right_button .container__card')).click()
+                      console.log(rightValue);
+                      shouldUndo = true;
+                    } else {
+                      element(by.css('#left_button .container__card')).click()
+                      console.log(leftValue);
+                    }
                   }
-                } else {
-                  if (Math.random() >= 0.2) {
-                    element(by.css('#left_button .container__card')).click()
-                  } else {
-                    element(by.css('#right_button .container__card')).click()
-                    shouldUndo = true;
-                  }
-                }
+                });
               }
             });
           });

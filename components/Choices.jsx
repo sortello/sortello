@@ -31,21 +31,19 @@ const Choices = React.createClass({
     const nextAction = this.state.replay.shift();
     this.setState({
       replay: this.state.replay
-    },function(){
-      // console.log(this.state.blacklist)
-      // console.log(nextAction.f.name + " " + nextAction.p);
+    }, function () {
       nextAction.f(nextAction.p);
     })
   },
-  autoChoice: function () {
+  autoChoice: function () { // Auto-click forgotten card
     if (this.state.replay.length > 0) {
       this.executeReplay();
     } else {
       if (this.state.blacklist.indexOf(this.state.leftCard.value.id) > -1) {
-        this.cardClicked("right");
+        this.cardClicked("right", "auto");
       }
       else if (this.state.blacklist.indexOf(this.state.rightCard.value.id) > -1) {
-        this.cardClicked("left");
+        this.cardClicked("left", "auto");
       }
     }
   },
@@ -59,12 +57,12 @@ const Choices = React.createClass({
       this.autoChoice();
     });
   },
-  handleCardClicked(side){
-    if (this.state.replay.length === 0){
-      this.cardClicked(side);
+  handleCardClicked (side) {
+    if (this.state.replay.length === 0) {
+      this.cardClicked(side, "human");
     }
   },
-  cardClicked: function (side) {
+  cardClicked: function (side, source) {
     let compareNode;
     if ("left" == side) {
       compareNode = this.state.node.goLeft(this.state.compareNode);
@@ -76,7 +74,7 @@ const Choices = React.createClass({
       compareNode: compareNode,
       node: this.state.node
     }, function () {
-      window.actionsHistory.push({f: this.cardClicked, p: side})
+      window.actionsHistory.push({f: this.cardClicked, p: side, s: source})
       this.handleCardPositioned();
     });
   },
@@ -120,30 +118,42 @@ const Choices = React.createClass({
     this.props.setStartTimeStamp(Date.now())
     this.nextStepOrEnd();
   },
-  clearPositioned: function(cb){
+  clearPositioned: function (cb) {
     let nodes = this.state.listNodes;
-    for(var i = 0; i < nodes.length; i++){
+    for (var i = 0; i < nodes.length; i++) {
       nodes[i].isPositioned = false;
     }
     this.setState({
       listNodes: nodes
     }, cb());
   },
-  setReplay: function(){
-    window.actionsHistory.pop();
+  popWithAutochoices: function() {
+    let previousAction = window.actionsHistory.pop();
+    while(previousAction.s === "auto"){
+      previousAction = window.actionsHistory.pop();
+    }
+  },
+  setReplay: function () {
+    this.popWithAutochoices();
+    // window.actionsHistory.pop();
     let comp = this;
     this.setState({
       replay: clone(window.actionsHistory)
     }, function () {
-      comp.clearPositioned(function(){
-      window.actionsHistory = [];
+      comp.clearPositioned(function () {
+        window.actionsHistory = [];
         comp.nextStepOrEnd();
       });
     })
   },
   undo: function () {
+    let bl = this.state.blacklist;
     this.setState(this.getInitialState(), function () {
-      this.setReplay()
+      this.setState({
+        blacklist: bl
+      }, function () {
+        this.setReplay()
+      });
     });
   },
   render: function () {
