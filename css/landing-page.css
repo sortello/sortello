@@ -11,7 +11,7 @@ body {
     flex-direction: column;
     align-items: center;
     margin: 0;
-    padding: 56px 320px 56px;
+    padding: 96px 400px 96px;
     background: #005AFF;
     background: -webkit-linear-gradient(left top, #68E0E6, #005AFF);
     background: -moz-linear-gradient(bottom right, #68E0E6, #005AFF);
@@ -30,7 +30,7 @@ body {
     font-size: 18px;
     font-family: "Fira Sans", sans-serif;
     color: white;
-    margin-bottom: 40px;
+    margin-bottom: 16px;
     line-height: 1.75;
     text-align: center;
 }
@@ -39,26 +39,39 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin-bottom: 80px;
+    margin-bottom: 56px;
 }
 
 .hero-navbar__item {
     color: white;
     font-family: "Fira Sans", sans-serif;
-    font-size: 16px;
+    font-size: 18px;
     margin: 0 16px;
 }
 
 .hero__suggestion-button {
     color: white;
-    font-size: 16px;
+    font-size: 18px;
     font-family: "Fira Sans", sans-serif;
     margin: 16px;
+}
+.hero-logo__container {
+    margin-bottom: 48px;
+}
+.hero__link {
+    text-decoration: none;
+}
+.hero__link:hover {
+    text-decoration: underline;
+    color: white;
+}
+.hero__button {
+    text-decoration: none;
 }
 
 .how-works__container {
     margin: 0;
-    padding: 120px 320px 56px;
+    padding: 32px 320px 56px;
     text-align: center;
 }
 .how-works__heading {
@@ -76,11 +89,15 @@ body {
     line-height: 1.75;
 }
 
+.how-works__chevron {
+    margin-bottom: 56px;
+}
+
 .steps__container {
     display: grid;
     grid-template-columns: 50% 50%;
     margin: 0;
-    padding: 56px 320px 56px;
+    padding: 56px 180px 56px;
 }
 
 .step__container {
@@ -88,6 +105,11 @@ body {
     flex-direction: column;
     align-items: center;
     margin-bottom: 64px;
+}
+
+.step__image img {
+    width: 500px;
+    margin-bottom: 32px;
 }
 
 .step__title {
@@ -99,7 +121,7 @@ body {
 }
 
 .step__description {
-    font-size: 16px;
+    font-size: 18px;
     color: #4A4A4A;
     font-family: "Fira Sans", sans-serif;
     line-height: 1.3;
@@ -117,7 +139,7 @@ body {
     display: grid;
     grid-template-columns: 32% 32% 32%;
     grid-column-gap: 32px;
-    margin: 16px 120px;
+    margin: 16px 120px 56px;
     padding: 16px 56px;
 }
 
@@ -130,7 +152,7 @@ body {
 
 .why-works__description {
     text-align: center;
-    font-size: 16px;
+    font-size: 18px;
     font-family: "Fira Sans", sans-serif;
     line-height: 1.4;
 }
@@ -139,5 +161,78 @@ body {
     font-size: 24px;
     font-family: "Fira Sans", sans-serif;
     margin-bottom: 16px;
+    margin-top: 32px;
     color: #0099ff;
+}
+
+.why-works__image {
+    margin: 20px;
+}
+.why-works__image img {
+    width:150px;
+}
+
+.pricing__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 96px 320px 96px;
+    background: #005AFF;
+    background: -webkit-linear-gradient(left top, #68E0E6, #005AFF);
+    background: -moz-linear-gradient(bottom right, #68E0E6, #005AFF);
+    background: linear-gradient(to bottom right, #68E0E6, #005AFF);
+}
+
+.pricing__heading {
+    font-size: 24px;
+    font-family: "Fira Sans", sans-serif;
+    margin-bottom: 16px;
+    color: white;
+    font-weight: bold;
+}
+
+.pricing__button {
+    text-decoration: none;
+}
+
+.landing-footer__container {
+    margin: 0;
+    padding: 120px 320px 56px;
+    text-align: center;
+}
+.landing-footer__item {
+    margin: 32px;
+    font-size: 18px;
+    color: #0099ff;
+    font-family: "Fira Sans", sans-serif;
+}
+
+.landing-footer__link {
+    text-decoration: none;
+    color: #0099ff;
+}
+
+.landing-footer__link:hover {
+    color: #005AFF;
+    text-decoration: underline;
+}
+
+.landing-footer__button {
+    text-decoration: none;
+}
+
+.back-to-top__button {
+    margin-top: 32px;
+    font-family: "Fira Sans", sans-serif;
+}
+
+.back-to-top__link {
+    text-decoration: none;
+    color: #0099ff;
+}
+
+.back-to-top__link:hover {
+    color: #005AFF;
+    text-decoration: underline;
 }

@@ -4,24 +4,41 @@
     <meta charset="UTF-8">
     <title>Sortello | Prioritize your lists, the simple way.</title>
     <link rel="stylesheet" href="css/landing-page.css">
+    <link rel="stylesheet" href="css/responsive/landing-page__responsive.css">
     <link rel="stylesheet" href="css/buttons.css">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
 </head>
 <body>
-    <div class="hero__container">
+    <div class="hero__container" id="landing-top">
         <div class="hero__navbar">
+            <a href="#how-works" class="hero__link">
                 <div class="hero-navbar__item">How it works</div>
+            </a>
+            <a href="#why-works" class="hero__link">
                 <div class="hero-navbar__item">Why it works</div>
+            </a>
+            <a href="#contribute" class="hero__link">
                 <div class="hero-navbar__item">Contribute</div>
+            </a>
         </div>
-        <div class="logo__container"></div>
+        <div class="hero-logo__container">
+            <img src="assets/logo/sortello-white-logo-19.svg" alt="">
+        </div>
         <div class="hero__claim">Prioritize your lists, the simple way.</div>
         <div class="hero__description">Using a binary tree based algorithm,
             Sortello will help you prioritize the cards of a Trello list, proposing
             simple 1vs1 choices</div>
-        <div class="hero__button button__primary button__text">Get the extension</div>
-        <div class="hero__suggestion-button">You can also use the online version, try it here!</div>
+        <a href="https://chrome.google.com/webstore/detail/sortello-chrome-extension/imiedhifioaeddolanigfdkiifnlmfdh" class="hero__button">
+            <div class="button__primary button__text">Get the extension</div>
+        </a>
+        <a href="sortello.com" class="hero__link">
+            <div class="hero__suggestion-button">You can also use the online version, try it here!</div>
+        </a>
     </div>
-    <div class="how-works__container">
+    <div class="how-works__container" id="how-works">
+        <div class="how-works__chevron">
+            <img src="assets/chevron.png" alt="">
+        </div>
         <div class="how-works__heading">HOW IT WORKS</div>
         <div class="how-works__description">Improve your meetings, improve your time.
             With Sortello everyone can participate in prioritizing, bringing pragmatic solutions.</div>
@@ -29,28 +46,40 @@
     <div class="steps__container">
         <div class="step__container">
             <div class="step__title">STEP 1</div>
+            <div class="step__image">
+                <img src="assets/steps/Authorize-sortello.png" alt="">
+            </div>
             <div class="step__description">Download sortello from the chrome store and install the
                 extension on your browser
             </div>
         </div>
         <div class="step__container">
             <div class="step__title">STEP 2</div>
+            <div class="step__image">
+                <img src="assets/steps/Select-board-column.png" alt="">
+            </div>
             <div class="step__description">Go to your Trello board, choose the column to be prioritized
                 and click on the sortello's button
             </div>
         </div>
         <div class="step__container">
             <div class="step__title">STEP 3</div>
+            <div class="step__image">
+                <img src="assets/steps/Compare-cards.png" alt="">
+            </div>
             <div class="step__description">Sortello compares the cards in order to facilitate prioritization
             </div>
         </div>
         <div class="step__container">
             <div class="step__title">STEP 4</div>
+            <div class="step__image">
+                <img src="assets/steps/Success.png" alt="">
+            </div>
             <div class="step__description">Send the ordered cards and look at the prioritization result immediately
             </div>
         </div>
     </div>
-    <div class="why-works__wrapper">
+    <div class="why-works__wrapper" id="why-works">
         <div class="why-works__heading">WHY IT WORKS</div>
         <div class="why-works__container">
             <div class="why-works__item">
@@ -65,21 +94,38 @@
                 <div class="why-works__image">
                     <img src="./assets/icons/tree.png" alt="">
                 </div>
-                <div class="why-works__description">Deciding which one out of two tasks has higher priority, is easier
-                    than having to sort a list of n tasks at once.
+                <div class="why-works__description">Sortello simplifies the prioritization process by leveraging binary
+                    tree sort efficiency, with an added balancing algorithm.
                 </div>
             </div>
             <div class="why-works__item">
                 <div class="why-works__image">
                     <img src="./assets/icons/goal.png" alt="">
                 </div>
-                <div class="why-works__description">Deciding which one out of two tasks has higher priority, is easier
-                    than having to sort a list of n tasks at once.
+                <div class="why-works__description">That’s why you can keep focus on simple choices while Sortello
+                    works to make the process as short as possible.
                 </div>
             </div>
         </div>
     </div>
-    <div class="pricing__container"></div>
-    <div class="landing-footer__container"></div>
+    <div class="pricing__container">
+        <div class="pricing__heading">Pricing? No, it's free!</div>
+        <a href="https://chrome.google.com/webstore/detail/sortello-chrome-extension/imiedhifioaeddolanigfdkiifnlmfdh" class="pricing__button">
+            <div class="button__primary button__text">Get the extension</div>
+        </a>
+    </div>
+    <div class="landing-footer__container" id="contribute">
+        <div class="landing-footer__logo">
+            <img src="assets/logo/logo-footer.png" alt="">
+        </div>
+        <div class="landing-footer__item"><a href="disclaimer.html" class="landing-footer__link">Disclaimer</a>
+            | Proudly supported by <a href="ideato.it" class="landing-footer__link">ideato</a></div>
+        <a href="" class="landing-footer__button">
+            <div class="button__primary button__text">Fork on Github</div>
+        </a>
+        <a href="#top" class="back-to-top__link">
+            <div class="back-to-top__button">Back to top</div>
+        </a>
+    </div>
 </body>
 </html>

@@ -6,6 +6,13 @@ import Recap from './Recap.jsx';
 import SuccessAnimation from './SuccessAnimation.jsx';
 import Footer from "./Footer.jsx"
 
+function openOverlay(){
+    document.getElementById('recap-overlay').style.height = "100%";
+}
+
+function closeOverlay(){
+    document.getElementById('recap-overlay').style.height = "0%";
+}
 
 
 const Results = React.createClass({
@@ -17,8 +24,8 @@ const Results = React.createClass({
   },
   setDuration: function () {
     var component = this;
-    let start = this.props.startTimeStamp
-    let end = Date.now()
+    let start = this.props.startTimeStamp;
+    let end = Date.now();
     component.setState({
       duration: end - start
     })
@@ -67,6 +74,7 @@ const Results = React.createClass({
 
     placeNextCard({pos: null});
   },
+
   render: function () {
     return (
         <div className={"send-ordered__wrapper"}>
@@ -97,7 +105,22 @@ const Results = React.createClass({
                           Send ordered data to your board
                         </button>
                       </div>
-                      <Recap cards={this.getReorderedNodes()}></Recap>
+
+                      <div className="overlay-trigger__button button__primary button__text" onClick={()=>{openOverlay()}}>
+                        <a href="#"  className="trigger-button__link">Take a look at your new list</a>
+                      </div>
+                      <div className="recap__overlay" id="recap-overlay" onClick={()=>{closeOverlay()}}>
+                        <div className="recap-overlay__container">
+                          <div className="recap-overlay__title">Check it out! This is your new list</div>
+                          <Recap cards={this.getReorderedNodes()}/>
+                          <div className="button__primary button__text recap-overlay__button">
+                            <button id="update_board" onClick={this.updateBoard}>
+                              Send ordered data to your board
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
                     </div>
               }
             </div>
@@ -108,6 +131,6 @@ const Results = React.createClass({
         </div>
     )
   }
-})
+});
 
 export default Results

@@ -16,6 +16,7 @@
 
 .send-ordered__button {
 	max-width: 560px;
+	cursor: pointer;
 }
 
 .send-ordered__wrapper {
