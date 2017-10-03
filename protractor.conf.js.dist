@@ -1,13 +1,15 @@
 exports.config = {
   specs: [
-    'tests/protractor/asc-choices-spec.js',
-    'tests/protractor/desc-choices-spec.js',
-    'tests/protractor/forget-spec.js',
-    'tests/protractor/undo-spec.js',
-    'tests/protractor/recap-spec.js',
-    'tests/protractor/send-to-board-spec.js'
+    'tests/protractor/specs/asc-choices-spec.js',
+    'tests/protractor/specs/desc-choices-spec.js',
+    'tests/protractor/specs/forget-spec.js',
+    'tests/protractor/specs/undo-spec.js',
+    'tests/protractor/specs/undo-forget-spec.js',
+    'tests/protractor/specs/undo-multiple-spec.js',
+    'tests/protractor/specs/recap-spec.js',
+    'tests/protractor/specs/send-to-board-spec.js'
   ],
-  restartBrowserBetweenTests: true,
+  restartBrowserBetweenTests: false,
   capabilities: {
     browserName: 'chrome',
   },

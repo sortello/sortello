@@ -36,7 +36,7 @@ describe('sort list asc', function () {
                   }
                 } else {
                   if (Math.random() < 0.2 && progressValue < 80) {
-                    console.log("Making the wrong choice with progressValue = "+progressValue);
+                    // console.log("Making the wrong choice with progressValue = "+progressValue);
                     element(by.css('#right_button .container__card')).click()
                     // console.log(rightValue);
                     shouldUndo = true;

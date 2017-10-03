@@ -114,7 +114,7 @@ const Results = React.createClass({
                           <div className="recap-overlay__title">Check it out! This is your new list</div>
                           <Recap cards={this.getReorderedNodes()}/>
                           <div className="button__primary button__text recap-overlay__button">
-                            <button id="update_board" onClick={this.updateBoard}>
+                            <button id="recap_update_board" onClick={this.updateBoard}>
                               Send ordered data to your board
                             </button>
                           </div>
