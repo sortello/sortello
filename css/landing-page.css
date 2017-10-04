@@ -236,3 +236,7 @@ body {
     color: #005AFF;
     text-decoration: underline;
 }
+
+ .chrome-desktop, .other-desktop, .mobile-other{
+     display: none;
+ }
