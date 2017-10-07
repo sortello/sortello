@@ -22,7 +22,7 @@ require("./css/send-success.css");
 require("./css/responsive/send-success__responsive.css");
 require("./css/responsive/send-ordered__responsive.css");
 require("./css/recap.css");
-
+require("./css/responsive/recap__responsive.css");
 
 
 

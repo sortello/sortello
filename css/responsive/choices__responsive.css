@@ -14,6 +14,9 @@
     .card-button__see-card {
 		font-size: 18px;
 	}
+	.card-button__esclude {
+		font-size: 18px;
+	}
 	.text__prioritization-status {
 		font-size: 20px;
 		margin-top: 56px;
@@ -91,7 +94,7 @@
     .card__title {
     	font-size: 14px;
     }
- 
+
     .card-button__see-card {
     	padding: 12px;
     }
