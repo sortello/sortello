@@ -47,3 +47,16 @@
     border-bottom: solid 2px white;
     text-align: center;
 }
+
+#api_key_div input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: white;
+}
+#api_key_div input::-moz-placeholder { /* Firefox 19+ */
+  color: white;
+}
+#api_key_div input:-ms-input-placeholder { /* IE 10+ */
+  color: white;
+}
+#api_key_div input:-moz-placeholder { /* Firefox 18- */
+  color: white;
+}
