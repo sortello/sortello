@@ -25,6 +25,10 @@
 .check-trello__button {
     min-width: 480px;
 }
+.check-trello__button:focus {
+    color: #4A4A4A;
+    text-decoration: none;
+}
 
 .prioritize-again__button:hover {
     text-decoration: none;
