@@ -31,21 +31,19 @@ const Choices = React.createClass({
     const nextAction = this.state.replay.shift();
     this.setState({
       replay: this.state.replay
-    },function(){
-      // console.log(this.state.blacklist)
-      // console.log(nextAction.f.name + " " + nextAction.p);
+    }, function () {
       nextAction.f(nextAction.p);
     })
   },
-  autoChoice: function () {
+  autoChoice: function () { // Auto-click forgotten card
     if (this.state.replay.length > 0) {
       this.executeReplay();
     } else {
       if (this.state.blacklist.indexOf(this.state.leftCard.value.id) > -1) {
-        this.cardClicked("right");
+        this.cardClicked("right", "auto");
       }
       else if (this.state.blacklist.indexOf(this.state.rightCard.value.id) > -1) {
-        this.cardClicked("left");
+        this.cardClicked("left", "auto");
       }
     }
   },
@@ -59,7 +57,12 @@ const Choices = React.createClass({
       this.autoChoice();
     });
   },
-  cardClicked: function (side) {
+  handleCardClicked (side) {
+    if (this.state.replay.length === 0) {
+      this.cardClicked(side, "human");
+    }
+  },
+  cardClicked: function (side, source) {
     let compareNode;
     if ("left" == side) {
       compareNode = this.state.node.goLeft(this.state.compareNode);
@@ -71,7 +74,7 @@ const Choices = React.createClass({
       compareNode: compareNode,
       node: this.state.node
     }, function () {
-      window.actionsHistory.push({f: this.cardClicked, p: side})
+      window.actionsHistory.push({f: this.cardClicked, p: side, s: source})
       this.handleCardPositioned();
     });
   },
@@ -115,31 +118,46 @@ const Choices = React.createClass({
     this.props.setStartTimeStamp(Date.now())
     this.nextStepOrEnd();
   },
-  clearPositioned: function(cb){
+  clearPositioned: function (cb) {
     let nodes = this.state.listNodes;
-    for(var i = 0; i < nodes.length; i++){
+    for (var i = 0; i < nodes.length; i++) {
       nodes[i].isPositioned = false;
     }
     this.setState({
       listNodes: nodes
     }, cb());
   },
-  setReplay: function(){
-    window.actionsHistory.pop();
+  popWithAutochoices: function () {
+    let previousAction = window.actionsHistory.pop();
+    while (previousAction.s === "auto") {
+      previousAction = window.actionsHistory.pop();
+    }
+  },
+  setReplay: function () {
+    this.popWithAutochoices();
+    // window.actionsHistory.pop();
     let comp = this;
     this.setState({
       replay: clone(window.actionsHistory)
     }, function () {
-      comp.clearPositioned(function(){
-      window.actionsHistory = [];
+      comp.clearPositioned(function () {
+        window.actionsHistory = [];
         comp.nextStepOrEnd();
       });
     })
   },
   undo: function () {
-    this.setState(this.getInitialState(), function () {
-      this.setReplay()
-    });
+    if (window.actionsHistory.length > 0) {
+
+      let bl = this.state.blacklist;
+      this.setState(this.getInitialState(), function () {
+        this.setState({
+          blacklist: bl
+        }, function () {
+          this.setReplay()
+        });
+      });
+    }
   },
   render: function () {
     if (this.state.leftCard == null || this.state.rightCard == null) {
@@ -149,14 +167,25 @@ const Choices = React.createClass({
       <div id="second_div">
         <div className="container__choose-card">
           <div className="choose-card__heading">Select the highest priority card</div>
-          <Card id="left_button" side="left" handleClick={this.cardClicked}
+          <Card id="left_button" side="left" handleClick={this.handleCardClicked}
                 forget={this.addToBlacklist} data={this.state.leftCard.value}/>
-          <Card id="right_button" side="right" handleClick={this.cardClicked}
+          <Card id="right_button" side="right" handleClick={this.handleCardClicked}
                 forget={this.addToBlacklist} data={this.state.rightCard.value}/>
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
+
+          <button onClick={this.undo} id="undo_button" className="normalize__undo-button">
+            <div className="undo__button">
+              <div className="undo__icon">
+                <img src="assets/icons/undo-icon.svg" alt=""/>
+                Undo choice
+              </div>
+            </div>
+
+          </button>
+
         </div>
         <div className="container__prioritization-status">
-          <div className="text__prioritization-status">Prioritization status</div>
+          <div className="text__prioritization-status">Prioritization progress</div>
           <div className={"progressive-bar__status-structure"}>
             <div className={"progressive-bar__status"} role="progressbar" aria-valuenow={this.state.progress}
                  aria-valuemin="0"
@@ -164,7 +193,6 @@ const Choices = React.createClass({
             </div>
           </div>
         </div>
-        <button onClick={this.undo} id="undo_button">Undo</button>
         <div className={"logout__button"}>
           <Header/>
         </div>
