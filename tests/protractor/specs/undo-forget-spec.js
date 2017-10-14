@@ -73,7 +73,11 @@ describe('sort list asc', function () {
         });
       }
 
+    let allLabel = element(by.css('.label.label__none'));
+    browser.wait(EC.presenceOf(allLabel), 20000).then(function () {
+      allLabel.click();
       nextChoice();
+    })
 
 
       let showRecapButton = element(by.css('.trigger-button__link'));

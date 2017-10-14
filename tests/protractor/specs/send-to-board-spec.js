@@ -29,7 +29,11 @@ describe('sort list asc', function () {
       })
     }
 
-    nextChoice();
+    let allLabel = element(by.css('.label.label__none'));
+    browser.wait(EC.presenceOf(allLabel), 20000).then(function () {
+      allLabel.click();
+      nextChoice();
+    })
 
     let recapListText;
 

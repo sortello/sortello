@@ -2,6 +2,7 @@ describe('sort list asc', function () {
   it('prioritizes the test column using undo button', function () {
       browser.ignoreSynchronization = true;
       protractor.accessFromChromeExtension.accessFromChromeExtension();
+      let EC = protractor.ExpectedConditions;
 
       let shouldUndo = false;
 
@@ -12,7 +13,6 @@ describe('sort list asc', function () {
           shouldUndo = false;
         }
 
-        let EC = protractor.ExpectedConditions;
         let leftCard = element(by.css('#left_button .card__title'));
         let rightCard = element(by.css('#right_button .card__title'));
 
@@ -59,7 +59,11 @@ describe('sort list asc', function () {
         });
       }
 
+    let allLabel = element(by.css('.label.label__none'));
+    browser.wait(EC.presenceOf(allLabel), 20000).then(function () {
+      allLabel.click();
       nextChoice();
+    })
 
       protractor.expectRecap.toBe(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']);
     }
