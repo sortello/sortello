@@ -15,7 +15,8 @@ const ColumnSelection = React.createClass({
       lists: [],
       labels: [],
       groupedboards: [],
-      organizations: []
+      organizations: [],
+      fromExtension: false
     }
   },
   componentDidMount: function () {
@@ -29,6 +30,9 @@ const ColumnSelection = React.createClass({
     }
 
     if (params.extId !== undefined) {
+      that.setState({
+        fromExtension: true
+      });
       Trello.cards.get(params.extId, null, function (card) {
         that.retrieveCardsByListId(card.idList)
       });
@@ -68,11 +72,11 @@ const ColumnSelection = React.createClass({
       console.log(e);
     });
   },
-  labelSelected : function(labelId){
+  labelSelected: function (labelId) {
     let listCards = this.state.listCards;
-    if(labelId !== 0){
+    if (labelId !== 0) {
       let label = find(this.state.labels, {'id': labelId});
-      listCards = _.filter(this.state.listCards, function(card) {
+      listCards = _.filter(this.state.listCards, function (card) {
         return find(card.labels, {'id': label.id}) !== undefined;
       });
     }
@@ -117,36 +121,46 @@ const ColumnSelection = React.createClass({
   },
   render: function () {
     return (
-        <div id="card_url_div">
-          <div className="selection__wrapper">
-            <div className="selection__container selection__container--animation">
-              <div className="select-list--text-container selection__heading">
-                First of all, select the board you want to prioritize
-              </div>
-              <div className="">
-                <BoardSelector groupedboards={this.state.groupedboards}
-                               onChange={this.handleBoardClicked}></BoardSelector>
-              </div>
+      <div id="card_url_div">
+        <div className="selection__wrapper">
+          <div className="selection__container selection__container--animation">
+            <div className="select-list--text-container selection__heading">
               {
-                this.state.lists.length === 0 ?
-                    "" :
-                    <p><ListSelector lists={this.state.lists} onChange={this.handleListClicked}></ListSelector></p>
-              }
-              {
-                this.state.labels.length === 0 ?
-                  "" :
-                  <LabelSelector labels={this.state.labels} onClick={this.labelSelected}></LabelSelector>
+                (this.state.fromExtension === true) ?
+                  "Filter by label, or select All" :
+                  "First of all, select the board you want to prioritize"
               }
             </div>
-          </div>
+            <div className="">
+              {
+                (this.state.fromExtension === true) ?
+                  "" :
+                  <BoardSelector groupedboards={this.state.groupedboards}
+                                 onChange={this.handleBoardClicked}></BoardSelector>
+              }
+            </div>
+            {
+              (this.state.lists.length === 0 || this.state.fromExtension === true) ?
+                "" :
+                <p><ListSelector lists={this.state.lists} onChange={this.handleListClicked}></ListSelector></p>
+            }
 
-          <div className={"logout__button logout__fade-in"}>
-            <Header />
-          </div>
-          <div className={"footer footer__fade-in"}>
-            <Footer />
+
+            {
+              this.state.labels.length === 0 ?
+                "" :
+                <LabelSelector labels={this.state.labels} onClick={this.labelSelected}></LabelSelector>
+            }
           </div>
         </div>
+
+        <div className={"logout__button logout__fade-in"}>
+          <Header/>
+        </div>
+        <div className={"footer footer__fade-in"}>
+          <Footer/>
+        </div>
+      </div>
     )
   }
 });
