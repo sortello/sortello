@@ -36,8 +36,9 @@ const App = React.createClass({
       rootNode: nodes.shift(),
       nodes: nodes,
       currentView: 3
+    }, function () {
+      this.refs.choices.startChoices();
     })
-    this.refs.choices.startChoices();
   },
   setSortedRootNode: function (rootNode) {
     this.setState({
@@ -57,20 +58,23 @@ const App = React.createClass({
       case 2:
         return (<ColumnSelection Trello={this.state.Trello} handleCards={this.handleCards}/>);
       case 3:
-        return (<Choices ref="choices" setSortedRootNode={this.setSortedRootNode} setStartTimeStamp={this.setStartTimeStamp} nodes={this.state.nodes}
-                         rootNode={this.state.rootNode} />);
+        return (
+          <Choices ref="choices" setSortedRootNode={this.setSortedRootNode} setStartTimeStamp={this.setStartTimeStamp}
+                   nodes={this.state.nodes}
+                   rootNode={this.state.rootNode}/>);
       case 4:
         return (
-            <Results rootNode={this.state.rootNode} Trello={this.state.Trello} startTimeStamp={this.state.startTimeStamp}/>);
+          <Results rootNode={this.state.rootNode} Trello={this.state.Trello}
+                   startTimeStamp={this.state.startTimeStamp}/>);
       default:
         return (<h3>Error</h3>);
     }
   },
   render: function () {
     return (
-        <div id="container_div">
-          {this.getCurrentView()}
-        </div>
+      <div id="container_div">
+        {this.getCurrentView()}
+      </div>
     )
   },
 })

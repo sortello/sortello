@@ -3,6 +3,7 @@ import {find} from "lodash"
 import Header from './Header.jsx';
 import BoardSelector from './BoardSelector.jsx'
 import ListSelector from './ListSelector.jsx'
+import LabelSelector from './LabelSelector.jsx'
 import queryString from "query-string";
 import Footer from "./Footer.jsx"
 
@@ -12,6 +13,7 @@ const ColumnSelection = React.createClass({
     return {
       boards: [],
       lists: [],
+      labels: [],
       groupedboards: [],
       organizations: []
     }
@@ -66,11 +68,34 @@ const ColumnSelection = React.createClass({
       console.log(e);
     });
   },
+  labelSelected : function(labelId){
+    let listCards = this.state.listCards;
+    if(labelId !== 0){
+      let label = find(this.state.labels, {'id': labelId});
+      listCards = _.filter(this.state.listCards, function(card) {
+        return find(card.labels, {'id': label.id}) !== undefined;
+      });
+    }
+    this.props.handleCards(listCards);
+  },
   retrieveCardsByListId: function (listId) {
     var that = this;
+    let labels = [];
     this.props.Trello.lists.get(listId, {cards: "open"}, function (data) {
       var listCards = data.cards;
-      that.props.handleCards(listCards);
+      that.setState({
+        listCards: listCards
+      });
+      listCards.forEach(function (card) {
+        card.labels.forEach(function (label) {
+          if (find(labels, {'id': label.id}) === undefined) {
+            labels.push(label);
+          }
+        });
+      })
+      that.setState({
+        labels: labels
+      });
     }, function (e) {
       console.log(e);
     });
@@ -107,8 +132,14 @@ const ColumnSelection = React.createClass({
                     "" :
                     <p><ListSelector lists={this.state.lists} onChange={this.handleListClicked}></ListSelector></p>
               }
+              {
+                this.state.labels.length === 0 ?
+                  "" :
+                  <LabelSelector labels={this.state.labels} onClick={this.labelSelected}></LabelSelector>
+              }
             </div>
           </div>
+
           <div className={"logout__button logout__fade-in"}>
             <Header />
           </div>
