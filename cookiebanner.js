@@ -269,8 +269,8 @@ THE SOFTWARE.
         fontFamily: 'arial, sans-serif',
         instance: global_instance_name,
         textAlign: 'center',
-        acceptOnScroll: false,
-        acceptOnClick: false,
+        acceptOnScroll: true,
+        acceptOnClick: true,
         acceptOnTimeout: null,
         acceptOnFirstVisit: false
       };
