@@ -21,6 +21,7 @@ class Choices extends React.Component{
       compareNode: null,
       replay: []
     }
+    this.componentDidMount = this.componentDidMount.bind(this);
     this.autoChoice = this.autoChoice.bind(this);
     this.handleCardClicked = this.handleCardClicked.bind(this);
     this.cardClicked = this.cardClicked.bind(this);

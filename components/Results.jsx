@@ -19,6 +19,7 @@ class Results extends React.Component {
   constructor (props) {
     super(props);
     this.state = {uploadDone: false, duration: null};
+    this.componentDidMount = this.componentDidMount.bind(this);
   }
 
   componentDidMount () {

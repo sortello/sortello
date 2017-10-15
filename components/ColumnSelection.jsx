@@ -20,6 +20,7 @@ class ColumnSelection extends React.Component {
     this.retrieveCardsByListId = this.retrieveCardsByListId.bind(this);
     this.handleBoardClicked = this.handleBoardClicked.bind(this);
     this.handleListClicked = this.handleListClicked.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
 
   }
 
