@@ -7,16 +7,23 @@ import queryString from "query-string";
 import Footer from "./Footer.jsx"
 
 
-const ColumnSelection = React.createClass({
-  getInitialState: function () {
-    return {
+class ColumnSelection extends React.Component {
+  constructor (props) {
+    super(props);
+    this.state = {
       boards: [],
       lists: [],
       groupedboards: [],
       organizations: []
-    }
-  },
-  componentDidMount: function () {
+    };
+    this.getBoardColumns = this.getBoardColumns.bind(this);
+    this.retrieveCardsByListId = this.retrieveCardsByListId.bind(this);
+    this.handleBoardClicked = this.handleBoardClicked.bind(this);
+    this.handleListClicked = this.handleListClicked.bind(this);
+
+  }
+
+  componentDidMount () {
     var Trello = this.props.Trello;
 
     var that = this;
@@ -65,8 +72,9 @@ const ColumnSelection = React.createClass({
     }, function (e) {
       console.log(e);
     });
-  },
-  retrieveCardsByListId: function (listId) {
+  }
+
+  retrieveCardsByListId (listId) {
     var that = this;
     this.props.Trello.lists.get(listId, {cards: "open"}, function (data) {
       var listCards = data.cards;
@@ -74,50 +82,54 @@ const ColumnSelection = React.createClass({
     }, function (e) {
       console.log(e);
     });
-  },
-  getBoardColumns: function (board) {
+  }
+
+  getBoardColumns (board) {
     this.setState({
       lists: board.lists
     });
-  },
-  handleBoardClicked: function (boardId) {
+  }
+
+  handleBoardClicked (boardId) {
 
     var board = find(this.state.boards, {'id': boardId});
 
     this.getBoardColumns(board)
-  },
-  handleListClicked: function (listId) {
+  }
+
+  handleListClicked (listId) {
     var list = find(this.state.lists, {'id': listId});
     this.retrieveCardsByListId(list.id);
-  },
-  render: function () {
+  }
+
+  render () {
     return (
-        <div id="card_url_div">
-          <div className="selection__wrapper">
-            <div className="selection__container selection__container--animation">
-              <div className="select-list--text-container selection__heading">
-                First of all, select the board you want to prioritize
-              </div>
-              <div className="">
-                <BoardSelector groupedboards={this.state.groupedboards}
-                               onChange={this.handleBoardClicked}></BoardSelector>
-              </div>
-              {
-                this.state.lists.length === 0 ?
-                    "" :
-                    <p><ListSelector lists={this.state.lists} onChange={this.handleListClicked}></ListSelector></p>
-              }
+      <div id="card_url_div">
+        <div className="selection__wrapper">
+          <div className="selection__container selection__container--animation">
+            <div className="select-list--text-container selection__heading">
+              First of all, select the board you want to prioritize
             </div>
-          </div>
-          <div className={"logout__button logout__fade-in"}>
-            <Header />
-          </div>
-          <div className={"footer footer__fade-in"}>
-            <Footer />
+            <div className="">
+              <BoardSelector groupedboards={this.state.groupedboards}
+                             onChange={this.handleBoardClicked}></BoardSelector>
+            </div>
+            {
+              this.state.lists.length === 0 ?
+                "" :
+                <p><ListSelector lists={this.state.lists} onChange={this.handleListClicked}></ListSelector></p>
+            }
           </div>
         </div>
+        <div className={"logout__button logout__fade-in"}>
+          <Header/>
+        </div>
+        <div className={"footer footer__fade-in"}>
+          <Footer/>
+        </div>
+      </div>
     )
   }
-});
+};
 
 export default ColumnSelection
