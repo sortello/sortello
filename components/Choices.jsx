@@ -6,8 +6,37 @@ import treeRebalancer from "../model/treeRebalancer";
 import Footer from "./Footer.jsx"
 import {clone} from "lodash"
 
-const Choices = React.createClass({
-  getInitialState: function () {
+class Choices extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      Trello: clone(this.props.Trello),
+      leftCard: null,
+      rightCard: null,
+      progress: 0,
+      listNodes: clone(this.props.nodes),
+      rootNode: clone(this.props.rootNode),
+      blacklist: [], // the nodes to position in the tree
+      node: null,
+      compareNode: null,
+      replay: []
+    }
+    this.autoChoice = this.autoChoice.bind(this);
+    this.handleCardClicked = this.handleCardClicked.bind(this);
+    this.cardClicked = this.cardClicked.bind(this);
+    this.addToBlacklist = this.addToBlacklist.bind(this);
+    this.popWithAutochoices = this.popWithAutochoices.bind(this);
+    this.endChoices = this.endChoices.bind(this);
+    this.executeReplay = this.executeReplay.bind(this);
+    this.toTheNextStep = this.toTheNextStep.bind(this);
+    this.clearPositioned = this.clearPositioned.bind(this);
+    this.setReplay = this.setReplay.bind(this);
+    this.undo = this.undo.bind(this);
+    this.clearPositioned = this.clearPositioned.bind(this);
+    this.nextStepOrEnd = this.nextStepOrEnd.bind(this);
+    this.startChoices = this.startChoices.bind(this);
+  }
+  getInitialState () {
     return {
       Trello: clone(this.props.Trello),
       leftCard: null,
@@ -20,22 +49,22 @@ const Choices = React.createClass({
       compareNode: null,
       replay: []
     }
-  },
-  componentDidMount: function () {
+  }
+  componentDidMount () {
     window.actionsHistory = [];
-  },
-  endChoices: function () {
+  }
+  endChoices () {
     this.props.setSortedRootNode(this.state.rootNode);
-  },
-  executeReplay: function () {
+  }
+  executeReplay () {
     const nextAction = this.state.replay.shift();
     this.setState({
       replay: this.state.replay
     }, function () {
       nextAction.f(nextAction.p);
     })
-  },
-  autoChoice: function () { // Auto-click forgotten card
+  }
+  autoChoice () { // Auto-click forgotten card
     if (this.state.replay.length > 0) {
       this.executeReplay();
     } else {
@@ -46,8 +75,8 @@ const Choices = React.createClass({
         this.cardClicked("left", "auto");
       }
     }
-  },
-  addToBlacklist: function (nodeId) {
+  }
+  addToBlacklist (nodeId) {
     let bl = this.state.blacklist;
     bl.push(nodeId);
     this.setState({
@@ -56,13 +85,13 @@ const Choices = React.createClass({
       // window.actionsHistory.push({f: this.addToBlacklist, p: nodeId})
       this.autoChoice();
     });
-  },
+  }
   handleCardClicked (side) {
     if (this.state.replay.length === 0) {
       this.cardClicked(side, "human");
     }
-  },
-  cardClicked: function (side, source) {
+  }
+  cardClicked (side, source) {
     let compareNode;
     if ("left" == side) {
       compareNode = this.state.node.goLeft(this.state.compareNode);
@@ -77,23 +106,23 @@ const Choices = React.createClass({
       window.actionsHistory.push({f: this.cardClicked, p: side, s: source})
       this.handleCardPositioned();
     });
-  },
-  toTheNextStep: function () {
+  }
+  toTheNextStep () {
     this.setState({
       rootNode: treeRebalancer(this.state.rootNode),
       progress: Math.round(((100 * (this.props.nodes.length - this.state.listNodes.length)) / (this.props.nodes.length)))
     }, function () {
       this.nextStepOrEnd();
     });
-  },
-  handleCardPositioned: function () {
+  }
+  handleCardPositioned () {
     if (this.state.node.isPositioned) {
       this.toTheNextStep();
     } else {
       this.getNextChoice();
     }
-  },
-  nextStepOrEnd: function () {
+  }
+  nextStepOrEnd () {
     if (0 < this.state.listNodes.length) {
       this.setState({
         node: this.state.listNodes.shift(),
@@ -105,20 +134,20 @@ const Choices = React.createClass({
     } else {
       this.endChoices();
     }
-  },
-  getNextChoice: function () {
+  }
+  getNextChoice () {
     this.setState({
       leftCard: this.state.node,
       rightCard: this.state.compareNode
     }, function () {
       this.autoChoice();
     });
-  },
-  startChoices: function () {
+  }
+  startChoices () {
     this.props.setStartTimeStamp(Date.now())
     this.nextStepOrEnd();
-  },
-  clearPositioned: function (cb) {
+  }
+  clearPositioned (cb) {
     let nodes = this.state.listNodes;
     for (var i = 0; i < nodes.length; i++) {
       nodes[i].isPositioned = false;
@@ -126,14 +155,14 @@ const Choices = React.createClass({
     this.setState({
       listNodes: nodes
     }, cb());
-  },
-  popWithAutochoices: function () {
+  }
+  popWithAutochoices () {
     let previousAction = window.actionsHistory.pop();
     while (previousAction.s === "auto") {
       previousAction = window.actionsHistory.pop();
     }
-  },
-  setReplay: function () {
+  }
+  setReplay () {
     this.popWithAutochoices();
     // window.actionsHistory.pop();
     let comp = this;
@@ -145,8 +174,8 @@ const Choices = React.createClass({
         comp.nextStepOrEnd();
       });
     })
-  },
-  undo: function () {
+  }
+  undo () {
     if (window.actionsHistory.length > 0) {
 
       let bl = this.state.blacklist;
@@ -158,8 +187,8 @@ const Choices = React.createClass({
         });
       });
     }
-  },
-  render: function () {
+  }
+  render () {
     if (this.state.leftCard == null || this.state.rightCard == null) {
       return (<span>Loading...</span>);
     }
@@ -173,7 +202,7 @@ const Choices = React.createClass({
                 forget={this.addToBlacklist} data={this.state.rightCard.value}/>
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
 
-          <button onClick={this.undo} id="undo_button" className="normalize__undo-button">
+          <button onClick={() => this.undo()} id="undo_button" className="normalize__undo-button">
             <div className="undo__button">
               <div className="undo__icon">
                 <img src="assets/icons/undo-icon.svg" alt=""/>
@@ -203,6 +232,6 @@ const Choices = React.createClass({
       </div>
     )
   }
-})
+}
 
 export default Choices
