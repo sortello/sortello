@@ -260,7 +260,7 @@ THE SOFTWARE.
         position: 'bottom',
         message: default_text,
         linkmsg: default_link,
-        moreinfo: 'http://aboutcookies.org',
+        moreinfo: 'policy.html',
         moreinfoTarget: '_blank',
         moreinfoDecoration: 'none',
         moreinfoFontWeight: 'normal',
