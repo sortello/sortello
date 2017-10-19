@@ -6,34 +6,40 @@ import Recap from './Recap.jsx';
 import SuccessAnimation from './SuccessAnimation.jsx';
 import Footer from "./Footer.jsx"
 
-function openOverlay(){
-    document.getElementById('recap-overlay').style.height = "100%";
+function openOverlay () {
+  document.getElementById('recap-overlay').style.height = "100%";
 }
 
-function closeOverlay(){
-    document.getElementById('recap-overlay').style.height = "0%";
+function closeOverlay () {
+  document.getElementById('recap-overlay').style.height = "0%";
 }
 
 
-const Results = React.createClass({
-  getInitialState: function () {
-    return {uploadDone: false, duration: null};
-  },
+class Results extends React.Component {
+  constructor (props) {
+    super(props);
+    this.state = {uploadDone: false, duration: null};
+    this.componentDidMount = this.componentDidMount.bind(this);
+  }
+
   componentDidMount () {
     this.setDuration();
-  },
-  setDuration: function () {
+  }
+
+  setDuration () {
     var component = this;
     let start = this.props.startTimeStamp;
     let end = Date.now();
     component.setState({
       duration: end - start
     })
-  },
-  getReorderedNodes: function(){
+  }
+
+  getReorderedNodes () {
     return traverseTree(this.props.rootNode)
-  },
-  updateBoard: function () {
+  }
+
+  updateBoard () {
     var component = this;
 
     function showUploadDone () {
@@ -42,8 +48,8 @@ const Results = React.createClass({
       })
     }
 
-    var reorderedNodes = this.getReorderedNodes();
-    var putCalls = reorderedNodes.length;
+    let reorderedNodes = this.getReorderedNodes().reverse();
+    let putCalls = reorderedNodes.length;
     if (gaTrackingId && this.state.duration !== null) {
       console.log('Finished in ' + this.state.duration + ' ms with ' + putCalls + ' cards');
       ga('send', {
@@ -55,82 +61,85 @@ const Results = React.createClass({
     }
     var Trello = this.props.Trello;
 
-    let j=0;
+    let nextCardIndex = 0;
 
-    function placeNextCard(previousPlacedData){
-      // console.log(previousPlacedData.pos);
-      const nextCardIndex = ++j;
-      if(nextCardIndex >= reorderedNodes.length){
+    function placeNextCard () {
+      if (nextCardIndex >= reorderedNodes.length) {
         showUploadDone();
         return;
       }
-      Trello.put('/cards/' + reorderedNodes[j].value.id, {pos: 'bottom'}, placeNextCard, restart);
+      Trello.put('/cards/' + reorderedNodes[nextCardIndex].value.id, {pos: 'top'}, placeNextCard, restart);
+      nextCardIndex++;
     }
 
-    function restart(){
-      j=0;
+    function restart () {
+      nextCardIndex = 0;
       placeNextCard({pos: null});
     }
 
     placeNextCard({pos: null});
-  },
+  }
 
-  render: function () {
+  render () {
     return (
-        <div className={"send-ordered__wrapper"}>
-          <div id="last_div" className={"send-ordered__container"}>
-            <div className={""}>
-              {this.state.uploadDone ?
-                    <div className="send-success__container">
-                      <SuccessAnimation/>
-                      <div className="send-success__heading">Prioritization complete!</div>
-                      <div className="success-buttons__container">
-                          <a href={"https://trello.com/b/" + this.props.rootNode.value.idBoard} target="_blank"
-                             className={"button__primary button__text check-trello__button"}>
-                            <i className="fa fa-trello"></i>&nbsp;
-                            Check your Trello board
-                          </a>
-                          <a href="/" className={"button__primary button__text prioritize-again__button"}>
-                            <i className="fa fa-repeat"></i>&nbsp;
-                            Prioritize another list
-                          </a>
-                      </div>
-                    </div>
-                    : 
-                    <div>
-                      <AlmostDoneAnimation />
-                      <div className="send-ordered__heading">Almost done!</div>
-                      <div className="send-ordered__button button__primary button__text">
-                        <button id="update_board" onClick={this.updateBoard}>
-                          Send ordered data to your board
-                        </button>
-                      </div>
+      <div className={"send-ordered__wrapper"}>
+        <div id="last_div" className={"send-ordered__container"}>
+          <div className={""}>
+            {this.state.uploadDone ?
+              <div className="send-success__container">
+                <SuccessAnimation/>
+                <div className="send-success__heading">Prioritization complete!</div>
+                <div className="success-buttons__container">
+                  <a href={"https://trello.com/b/" + this.props.rootNode.value.idBoard} target="_blank"
+                     className={"button__primary button__text check-trello__button"}>
+                    <i className="fa fa-trello"></i>&nbsp;
+                    Check your Trello board
+                  </a>
+                  <a href="/" className={"button__primary button__text prioritize-again__button"}>
+                    <i className="fa fa-repeat"></i>&nbsp;
+                    Prioritize another list
+                  </a>
+                </div>
+              </div>
+              :
+              <div>
+                <AlmostDoneAnimation/>
+                <div className="send-ordered__heading">Almost done!</div>
+                <div className="send-ordered__button button__primary button__text">
+                  <button id="update_board" onClick={() => this.updateBoard()}>
+                    Send ordered data to your board
+                  </button>
+                </div>
 
-                      <div className="overlay-trigger__button button__primary button__text" onClick={()=>{openOverlay()}}>
-                        <a href="#"  className="trigger-button__link">Take a look at your new list</a>
-                      </div>
-                      <div className="recap__overlay" id="recap-overlay" onClick={()=>{closeOverlay()}}>
-                        <div className="recap-overlay__container">
-                          <div className="recap-overlay__title">Check it out! This is your new list</div>
-                          <Recap cards={this.getReorderedNodes()}/>
-                          <div className="button__primary button__text recap-overlay__button">
-                            <button id="recap_update_board" onClick={this.updateBoard}>
-                              Send ordered data to your board
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-
+                <div className="overlay-trigger__button button__primary button__text" onClick={() => {
+                  openOverlay()
+                }}>
+                  <a href="#" className="trigger-button__link">Take a look at your new list</a>
+                </div>
+                <div className="recap__overlay" id="recap-overlay" onClick={() => {
+                  closeOverlay()
+                }}>
+                  <div className="recap-overlay__container">
+                    <div className="recap-overlay__title">Check it out! This is your new list</div>
+                    <Recap cards={this.getReorderedNodes()}/>
+                    <div className="button__primary button__text recap-overlay__button">
+                      <button id="recap_update_board" onClick={(e) => this.updateBoard(e)}>
+                        Send ordered data to your board
+                      </button>
                     </div>
-              }
-            </div>
+                  </div>
+                </div>
+
+              </div>
+            }
           </div>
+        </div>
         <div className={"footer results__footer"}>
-            <Footer/>
+          <Footer/>
         </div>
-        </div>
+      </div>
     )
   }
-});
+};
 
 export default Results

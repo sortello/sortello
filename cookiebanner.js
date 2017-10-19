@@ -235,7 +235,7 @@ THE SOFTWARE.
       this.test_mode = false; // TODO: implement
 
       var default_text = 'We use cookies to enhance your experience. ' +
-        'By continuing to visit this site you agree to our use of cookies.';
+        'By continuing to use this site you agree to our use of cookies.';
       var default_link = 'Learn more';
 
       this.default_options = {
@@ -269,8 +269,8 @@ THE SOFTWARE.
         fontFamily: 'fira sans, sans-serif',
         instance: global_instance_name,
         textAlign: 'center',
-        acceptOnScroll: false,
-        acceptOnClick: false,
+        acceptOnScroll: true,
+        acceptOnClick: true,
         acceptOnTimeout: null,
         acceptOnFirstVisit: false
       };
