@@ -9,33 +9,22 @@ import {clone} from "lodash"
 class Choices extends React.Component{
   constructor(props) {
     super(props);
-    this.state = {
-      Trello: clone(this.props.Trello),
-      leftCard: null,
-      rightCard: null,
-      progress: 0,
-      listNodes: clone(this.props.nodes),
-      rootNode: clone(this.props.rootNode),
-      blacklist: [], // the nodes to position in the tree
-      node: null,
-      compareNode: null,
-      replay: []
-    }
-    this.componentDidMount = this.componentDidMount.bind(this);
-    this.autoChoice = this.autoChoice.bind(this);
-    this.handleCardClicked = this.handleCardClicked.bind(this);
-    this.cardClicked = this.cardClicked.bind(this);
-    this.addToBlacklist = this.addToBlacklist.bind(this);
-    this.popWithAutochoices = this.popWithAutochoices.bind(this);
-    this.endChoices = this.endChoices.bind(this);
-    this.executeReplay = this.executeReplay.bind(this);
-    this.toTheNextStep = this.toTheNextStep.bind(this);
-    this.clearPositioned = this.clearPositioned.bind(this);
-    this.setReplay = this.setReplay.bind(this);
-    this.undo = this.undo.bind(this);
-    this.clearPositioned = this.clearPositioned.bind(this);
-    this.nextStepOrEnd = this.nextStepOrEnd.bind(this);
-    this.startChoices = this.startChoices.bind(this);
+    this.state = this.getInitialState()
+    this.componentDidMount = this.componentDidMount.bind(this)
+    this.autoChoice = this.autoChoice.bind(this)
+    this.handleCardClicked = this.handleCardClicked.bind(this)
+    this.cardClicked = this.cardClicked.bind(this)
+    this.addToBlacklist = this.addToBlacklist.bind(this)
+    this.popWithAutochoices = this.popWithAutochoices.bind(this)
+    this.endChoices = this.endChoices.bind(this)
+    this.executeReplay = this.executeReplay.bind(this)
+    this.toTheNextStep = this.toTheNextStep.bind(this)
+    this.clearPositioned = this.clearPositioned.bind(this)
+    this.setReplay = this.setReplay.bind(this)
+    this.undo = this.undo.bind(this)
+    this.clearPositioned = this.clearPositioned.bind(this)
+    this.nextStepOrEnd = this.nextStepOrEnd.bind(this)
+    this.startChoices = this.startChoices.bind(this)
   }
   getInitialState () {
     return {
