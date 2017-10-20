@@ -3,43 +3,40 @@
         margin: auto;
 }
 
-.disclaimer__logo-container {
-	margin: 56px 0 16px;
-	text-align: center;
-	fill: #0099FF;
-}
 
-.disclaimer__heading, .privacy__heading {
-	text-align: center;
+.disclaimer__heading {
 	font-size: 32px;
   	font-family: "Fira Sans", sans-serif;
   	font-weight: bold;
-  	margin: 16px 8px 32px;
+    margin: 72px 8px 32px 0;
+}
+
+.privacy__heading {
+	font-size: 32px;
+  	font-family: "Fira Sans", sans-serif;
+  	font-weight: bold;
+  	margin: 16px 8px 32px 0;
 }
 
 .disclaimer__content, .privacy__content {
-	text-align: center;
 	font-family: "Fira Sans", sans-serif;
 	font-size: 18px;
 	line-height: 1.3;
 }
 
-.privacy__content{
-	text-align: left;
-}
 
 .disclaimer__content br {
 	margin-bottom: 16px;
 }
 
 .disclaimer__close-button {
-	text-align: center;
 	font-family: "Fira Sans", sans-serif;
 	font-size: 18px;
 	line-height: 1.3;
 	color: #005AFF;
 	text-decoration: none;
-	margin: 64px 0;
+	margin: 72px 0 96px;
+  text-align: right;
 }
 
 
