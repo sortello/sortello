@@ -6,11 +6,13 @@ class Engine {
   constructor(listNodes, rootNode){
     this.listNodes = listNodes;
     this.rootNode = rootNode;
-    this.comparenode = null
+    this.compareNode = null
+    this.node = null
     this.initialState = {
       listNodes : clone(listNodes),
       rootNode : clone(rootNode),
-      compareNode : null
+      compareNode : null,
+      node : null
     }
   }
 
@@ -18,6 +20,7 @@ class Engine {
     this.listNodes = clone(this.initialState.listNodes);
     this.rootNode = clone(this.initialState.rootNode);
     this.compareNode = clone(this.initialState.compareNode);
+    this.node = clone(this.initialState.node);
   }
 
   getListNodes(){
@@ -26,6 +29,10 @@ class Engine {
 
   getRootNode(){
     return this.rootNode;
+  }
+
+  getNode(){
+    return this.node;
   }
 
   getNextNode(){
@@ -38,6 +45,10 @@ class Engine {
 
   setCompareNode(compareNode){
     this.compareNode = compareNode
+  }
+
+  setNode(node){
+    this.node = node
   }
 
   clearPositioned(){

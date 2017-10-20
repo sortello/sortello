@@ -36,8 +36,7 @@ class Choices extends React.Component {
       leftCard: null,
       rightCard: null,
       progress: 0,
-      blacklist: [], // the nodes to position in the tree
-      node: null,
+      blacklist: [],
       replay: []
     }
   }
@@ -78,7 +77,6 @@ class Choices extends React.Component {
     this.setState({
       blacklist: bl
     }, function () {
-      // window.actionsHistory.push({f: this.addToBlacklist, p: nodeId})
       this.autoChoice();
     });
   }
@@ -91,19 +89,17 @@ class Choices extends React.Component {
 
   cardClicked (side, source) {
     let newCompareNode;
+    let node = this.engine.getNode();
     if ("left" == side) {
-      newCompareNode = this.state.node.goLeft(this.engine.getCompareNode());
+      newCompareNode = node.goLeft(this.engine.getCompareNode());
     }
     else if ("right" == side) {
-      newCompareNode = this.state.node.goRight(this.engine.getCompareNode());
+      newCompareNode = node.goRight(this.engine.getCompareNode());
     }
     this.engine.setCompareNode(newCompareNode);
-    this.setState({
-      node: this.state.node
-    }, function () {
-      window.actionsHistory.push({f: this.cardClicked, p: side, s: source})
-      this.handleCardPositioned();
-    });
+    this.engine.setNode(node);
+    window.actionsHistory.push({f: this.cardClicked, p: side, s: source})
+    this.handleCardPositioned();
   }
 
   toTheNextStep () {
@@ -116,7 +112,7 @@ class Choices extends React.Component {
   }
 
   handleCardPositioned () {
-    if (this.state.node.isPositioned) {
+    if (this.engine.getNode().isPositioned) {
       this.toTheNextStep();
     } else {
       this.getNextChoice();
@@ -126,11 +122,8 @@ class Choices extends React.Component {
   nextStepOrEnd () {
     if (0 < this.engine.getListNodes().length) {
       this.engine.setCompareNode(this.engine.getRootNode())
-      this.setState({
-        node: this.engine.getNextNode()
-      }, function () {
-        this.getNextChoice();
-      });
+      this.engine.setNode(this.engine.getNextNode());
+      this.getNextChoice();
     } else {
       this.endChoices();
     }
@@ -138,7 +131,7 @@ class Choices extends React.Component {
 
   getNextChoice () {
     this.setState({
-      leftCard: this.state.node,
+      leftCard: this.engine.getNode(),
       rightCard: this.engine.getCompareNode()
     }, function () {
       this.autoChoice();
