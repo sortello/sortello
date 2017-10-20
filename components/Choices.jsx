@@ -5,6 +5,8 @@ import Card from './Card.jsx';
 import treeRebalancer from "../model/treeRebalancer";
 import Footer from "./Footer.jsx"
 import {clone} from "lodash"
+import Room from "./Room.jsx"
+
 
 class Choices extends React.Component{
   constructor(props) {
@@ -37,8 +39,12 @@ class Choices extends React.Component{
       blacklist: [], // the nodes to position in the tree
       node: null,
       compareNode: null,
-      replay: []
+      replay: [],
+      asVoter: false
     }
+  }
+  becomeVoter(){
+
   }
   componentDidMount () {
     window.actionsHistory = [];
@@ -213,7 +219,9 @@ class Choices extends React.Component{
           </div>
         </div>
         <div className={"logout__button"}>
+          <Room becomeVoter={this.becomeVoter}></Room>
           <Header/>
+
         </div>
         <div className={"footer"}>
           <Footer/>
