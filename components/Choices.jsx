@@ -38,7 +38,6 @@ class Choices extends React.Component {
       progress: 0,
       blacklist: [], // the nodes to position in the tree
       node: null,
-      compareNode: null,
       replay: []
     }
   }
@@ -91,15 +90,15 @@ class Choices extends React.Component {
   }
 
   cardClicked (side, source) {
-    let compareNode;
+    let newCompareNode;
     if ("left" == side) {
-      compareNode = this.state.node.goLeft(this.state.compareNode);
+      newCompareNode = this.state.node.goLeft(this.engine.getCompareNode());
     }
     else if ("right" == side) {
-      compareNode = this.state.node.goRight(this.state.compareNode);
+      newCompareNode = this.state.node.goRight(this.engine.getCompareNode());
     }
+    this.engine.setCompareNode(newCompareNode);
     this.setState({
-      compareNode: compareNode,
       node: this.state.node
     }, function () {
       window.actionsHistory.push({f: this.cardClicked, p: side, s: source})
@@ -126,9 +125,9 @@ class Choices extends React.Component {
 
   nextStepOrEnd () {
     if (0 < this.engine.getListNodes().length) {
+      this.engine.setCompareNode(this.engine.getRootNode())
       this.setState({
-        node: this.engine.getNextNode(),
-        compareNode: this.engine.getRootNode()
+        node: this.engine.getNextNode()
       }, function () {
         this.getNextChoice();
       });
@@ -140,7 +139,7 @@ class Choices extends React.Component {
   getNextChoice () {
     this.setState({
       leftCard: this.state.node,
-      rightCard: this.state.compareNode
+      rightCard: this.engine.getCompareNode()
     }, function () {
       this.autoChoice();
     });
