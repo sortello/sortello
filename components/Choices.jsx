@@ -2,14 +2,17 @@ import React from "react";
 import Header from './Header.jsx';
 import TreeDraw from './TreeDraw.jsx';
 import Card from './Card.jsx';
-import treeRebalancer from "../model/treeRebalancer";
 import Footer from "./Footer.jsx"
 import {clone} from "lodash"
+import Engine from "../model/Engine.js"
 
-class Choices extends React.Component{
-  constructor(props) {
+class Choices extends React.Component {
+
+  constructor (props) {
+
     super(props);
-    this.state = this.getInitialState()
+    this.engine = new Engine(clone(this.props.nodes), clone(this.props.rootNode));
+    this.state = this.getInitialState();
     this.componentDidMount = this.componentDidMount.bind(this)
     this.autoChoice = this.autoChoice.bind(this)
     this.handleCardClicked = this.handleCardClicked.bind(this)
@@ -26,26 +29,28 @@ class Choices extends React.Component{
     this.nextStepOrEnd = this.nextStepOrEnd.bind(this)
     this.startChoices = this.startChoices.bind(this)
   }
+
   getInitialState () {
     return {
       Trello: clone(this.props.Trello),
       leftCard: null,
       rightCard: null,
       progress: 0,
-      listNodes: clone(this.props.nodes),
-      rootNode: clone(this.props.rootNode),
       blacklist: [], // the nodes to position in the tree
       node: null,
       compareNode: null,
       replay: []
     }
   }
+
   componentDidMount () {
     window.actionsHistory = [];
   }
+
   endChoices () {
-    this.props.setSortedRootNode(this.state.rootNode);
+    this.props.setSortedRootNode(this.engine.getRootNode());
   }
+
   executeReplay () {
     const nextAction = this.state.replay.shift();
     this.setState({
@@ -54,6 +59,7 @@ class Choices extends React.Component{
       nextAction.f(nextAction.p);
     })
   }
+
   autoChoice () { // Auto-click forgotten card
     if (this.state.replay.length > 0) {
       this.executeReplay();
@@ -66,6 +72,7 @@ class Choices extends React.Component{
       }
     }
   }
+
   addToBlacklist (nodeId) {
     let bl = this.state.blacklist;
     bl.push(nodeId);
@@ -76,11 +83,13 @@ class Choices extends React.Component{
       this.autoChoice();
     });
   }
+
   handleCardClicked (side) {
     if (this.state.replay.length === 0) {
       this.cardClicked(side, "human");
     }
   }
+
   cardClicked (side, source) {
     let compareNode;
     if ("left" == side) {
@@ -97,14 +106,16 @@ class Choices extends React.Component{
       this.handleCardPositioned();
     });
   }
+
   toTheNextStep () {
+    this.engine.rebalanceTree();
     this.setState({
-      rootNode: treeRebalancer(this.state.rootNode),
-      progress: Math.round(((100 * (this.props.nodes.length - this.state.listNodes.length)) / (this.props.nodes.length)))
+      progress: Math.round(((100 * (this.props.nodes.length - this.engine.getListNodes().length)) / (this.props.nodes.length)))
     }, function () {
       this.nextStepOrEnd();
     });
   }
+
   handleCardPositioned () {
     if (this.state.node.isPositioned) {
       this.toTheNextStep();
@@ -112,12 +123,12 @@ class Choices extends React.Component{
       this.getNextChoice();
     }
   }
+
   nextStepOrEnd () {
-    if (0 < this.state.listNodes.length) {
+    if (0 < this.engine.getListNodes().length) {
       this.setState({
-        node: this.state.listNodes.shift(),
-        compareNode: this.state.rootNode,
-        listNodes: this.state.listNodes
+        node: this.engine.getNextNode(),
+        compareNode: this.engine.getRootNode()
       }, function () {
         this.getNextChoice();
       });
@@ -125,6 +136,7 @@ class Choices extends React.Component{
       this.endChoices();
     }
   }
+
   getNextChoice () {
     this.setState({
       leftCard: this.state.node,
@@ -133,25 +145,24 @@ class Choices extends React.Component{
       this.autoChoice();
     });
   }
+
   startChoices () {
     this.props.setStartTimeStamp(Date.now())
     this.nextStepOrEnd();
   }
+
   clearPositioned (cb) {
-    let nodes = this.state.listNodes;
-    for (var i = 0; i < nodes.length; i++) {
-      nodes[i].isPositioned = false;
-    }
-    this.setState({
-      listNodes: nodes
-    }, cb());
+    this.engine.clearPositioned();
+    cb();
   }
+
   popWithAutochoices () {
     let previousAction = window.actionsHistory.pop();
     while (previousAction.s === "auto") {
       previousAction = window.actionsHistory.pop();
     }
   }
+
   setReplay () {
     this.popWithAutochoices();
     // window.actionsHistory.pop();
@@ -165,10 +176,11 @@ class Choices extends React.Component{
       });
     })
   }
+
   undo () {
     if (window.actionsHistory.length > 0) {
-
       let bl = this.state.blacklist;
+      this.engine.resetToInitialState();
       this.setState(this.getInitialState(), function () {
         this.setState({
           blacklist: bl
@@ -178,6 +190,7 @@ class Choices extends React.Component{
       });
     }
   }
+
   render () {
     if (this.state.leftCard == null || this.state.rightCard == null) {
       return (<span>Loading...</span>);
