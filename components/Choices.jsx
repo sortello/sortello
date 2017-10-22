@@ -17,12 +17,10 @@ class Choices extends React.Component {
     this.handleCardClicked = this.handleCardClicked.bind(this)
     this.cardClicked = this.cardClicked.bind(this)
     this.addToBlacklist = this.addToBlacklist.bind(this)
-    this.popWithAutochoices = this.popWithAutochoices.bind(this)
     this.endChoices = this.endChoices.bind(this)
     this.executeReplay = this.executeReplay.bind(this)
     this.toTheNextStep = this.toTheNextStep.bind(this)
     this.clearPositioned = this.clearPositioned.bind(this)
-    this.setReplay = this.setReplay.bind(this)
     this.undo = this.undo.bind(this)
     this.clearPositioned = this.clearPositioned.bind(this)
     this.nextStepOrEnd = this.nextStepOrEnd.bind(this)
@@ -77,7 +75,7 @@ class Choices extends React.Component {
     else if ("right" == side) {
       this.engine.goRight();
     }
-    window.actionsHistory.push({f: this.cardClicked, p: side, s: source})
+    this.engine.addToHistory({f: this.cardClicked, p: side, s: source})
     this.handleCardPositioned();
   }
 
@@ -99,9 +97,9 @@ class Choices extends React.Component {
   }
 
   nextStepOrEnd () {
-    if(this.engine.nextStep()){
+    if (this.engine.nextStep()) {
       this.getNextChoice();
-    }else{
+    } else {
       this.endChoices();
     }
   }
@@ -125,27 +123,15 @@ class Choices extends React.Component {
     cb();
   }
 
-  popWithAutochoices () {
-    let previousAction = window.actionsHistory.pop();
-    while (previousAction.s === "auto") {
-      previousAction = window.actionsHistory.pop();
-    }
-  }
-
-  setReplay () {
-    this.popWithAutochoices();
-    let comp = this;
-    this.engine.setReplay(clone(window.actionsHistory));
-    comp.clearPositioned(function () {
-      window.actionsHistory = [];
-      comp.nextStepOrEnd();
-    });
-  }
 
   undo () {
-    if (window.actionsHistory.length > 0) {
+    if (this.engine.getActionsHistory().length > 0) {
       this.engine.undo();
-      this.setReplay()
+      this.engine.popWithAutochoices()
+      this.engine.setReplay()
+      this.engine.clearPositioned()
+      this.engine.clearActionsHistory()
+      this.nextStepOrEnd();
     }
   }
 

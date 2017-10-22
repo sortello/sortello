@@ -30,8 +30,19 @@ class Engine {
     this.replay = clone(this.initialState.replay);
   }
 
+  popWithAutochoices(){
+    let previousAction = window.actionsHistory.pop();
+    while (previousAction.s === "auto") {
+      previousAction = window.actionsHistory.pop();
+    }
+  }
+
   getActionsHistory(){
     return window.actionsHistory
+  }
+
+  clearActionsHistory(){
+    window.actionsHistory = []
   }
 
   setActionsHistory(history){
@@ -63,8 +74,8 @@ class Engine {
     this.compareNode = this.node.goRight(this.compareNode);
   }
 
-  setReplay (newReplay) {
-    this.replay = newReplay;
+  setReplay () {
+    this.replay = clone(window.actionsHistory);
   }
 
   getReplay () {
