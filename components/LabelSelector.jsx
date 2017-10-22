@@ -15,7 +15,7 @@ export default ({labels, onClick}) => {
     			<div
     				className={"label__item label__none"}
     				onClick={(event) => onClick(0)}>
-            All cards
+            Prioritize all labels
     			</div>
           {labels.map((item, index) => (
           	<div
