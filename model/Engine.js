@@ -57,13 +57,15 @@ class Engine {
     return window.actionsHistory.pop()
   }
 
-  nextStep () {
+  noMoreSteps(){
+    return this.listNodes.length === 0;
+  }
+
+  goToNextStep () {
     if (0 < this.listNodes.length) {
       this.compareNode = this.rootNode
       this.node = this.getNextNode();
-      return true;
     }
-    return false;
   }
 
   goLeft () {

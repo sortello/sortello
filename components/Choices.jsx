@@ -76,7 +76,8 @@ class Choices extends React.Component {
   }
 
   nextStepOrEnd () {
-    if (this.engine.nextStep()) {
+    if (!this.engine.noMoreSteps()) {
+      this.engine.goToNextStep();
       this.getNextChoice();
     } else {
       this.endChoices();
