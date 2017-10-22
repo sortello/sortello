@@ -123,16 +123,9 @@ class Choices extends React.Component {
     cb();
   }
 
-
   undo () {
-    if (this.engine.getActionsHistory().length > 0) {
-      this.engine.undo();
-      this.engine.popWithAutochoices()
-      this.engine.setReplay()
-      this.engine.clearPositioned()
-      this.engine.clearActionsHistory()
-      this.nextStepOrEnd();
-    }
+    this.engine.undo();
+    this.nextStepOrEnd();
   }
 
   render () {

@@ -30,30 +30,30 @@ class Engine {
     this.replay = clone(this.initialState.replay);
   }
 
-  popWithAutochoices(){
+  popWithAutochoices () {
     let previousAction = window.actionsHistory.pop();
     while (previousAction.s === "auto") {
       previousAction = window.actionsHistory.pop();
     }
   }
 
-  getActionsHistory(){
+  getActionsHistory () {
     return window.actionsHistory
   }
 
-  clearActionsHistory(){
+  clearActionsHistory () {
     window.actionsHistory = []
   }
 
-  setActionsHistory(history){
+  setActionsHistory (history) {
     window.actionsHistory = history
   }
 
-  addToHistory(item){
+  addToHistory (item) {
     window.actionsHistory.push(item)
   }
 
-  popActionsHistory(){
+  popActionsHistory () {
     return window.actionsHistory.pop()
   }
 
@@ -88,6 +88,12 @@ class Engine {
 
   undo () {
     this.resetToInitialState();
+    if (this.getActionsHistory().length > 0) {
+      this.popWithAutochoices()
+      this.setReplay()
+      this.clearPositioned()
+      this.clearActionsHistory()
+    }
   }
 
   addToBlackList (nodeId) {
