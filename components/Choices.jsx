@@ -9,10 +9,8 @@ import Engine from "../model/Engine.js"
 class Choices extends React.Component {
 
   constructor (props) {
-
     super(props);
     this.engine = new Engine(clone(this.props.nodes), clone(this.props.rootNode));
-    this.state = this.getInitialState();
     this.autoChoice = this.autoChoice.bind(this)
     this.handleCardClicked = this.handleCardClicked.bind(this)
     this.cardClicked = this.cardClicked.bind(this)
@@ -22,13 +20,10 @@ class Choices extends React.Component {
     this.undo = this.undo.bind(this)
     this.nextStepOrEnd = this.nextStepOrEnd.bind(this)
     this.startChoices = this.startChoices.bind(this)
-  }
 
-  getInitialState () {
-    return {
+    this.state = {
       leftCard: null,
-      rightCard: null,
-      progress: 0
+      rightCard: null
     }
   }
 
@@ -75,11 +70,11 @@ class Choices extends React.Component {
 
   toTheNextStep () {
     this.engine.rebalanceTree();
-    this.setState({
-      progress: Math.round(((100 * (this.props.nodes.length - this.engine.getListNodes().length)) / (this.props.nodes.length)))
-    }, function () {
-      this.nextStepOrEnd();
-    });
+    this.nextStepOrEnd();
+  }
+
+  getProgress () {
+    return Math.round(((100 * (this.props.nodes.length - this.engine.getListNodes().length - 1)) / (this.props.nodes.length)))
   }
 
   handleCardPositioned () {
@@ -145,9 +140,9 @@ class Choices extends React.Component {
         <div className="container__prioritization-status">
           <div className="text__prioritization-status">Prioritization progress</div>
           <div className={"progressive-bar__status-structure"}>
-            <div className={"progressive-bar__status"} role="progressbar" aria-valuenow={this.state.progress}
+            <div className={"progressive-bar__status"} role="progressbar" aria-valuenow={this.getProgress()}
                  aria-valuemin="0"
-                 aria-valuemax="100" style={{width: this.state.progress + '%'}}>
+                 aria-valuemax="100" style={{width: this.getProgress() + '%'}}>
             </div>
           </div>
         </div>
