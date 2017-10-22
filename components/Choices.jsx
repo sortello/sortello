@@ -14,9 +14,8 @@ class Choices extends React.Component {
     this.autoChoice = this.autoChoice.bind(this)
     this.handleCardClicked = this.handleCardClicked.bind(this)
     this.cardClicked = this.cardClicked.bind(this)
-    this.addToBlacklist = this.addToBlacklist.bind(this)
+    this.handleAddToBlacklist = this.handleAddToBlacklist.bind(this)
     this.endChoices = this.endChoices.bind(this)
-    this.toTheNextStep = this.toTheNextStep.bind(this)
     this.undo = this.undo.bind(this)
     this.nextStepOrEnd = this.nextStepOrEnd.bind(this)
     this.startChoices = this.startChoices.bind(this)
@@ -30,7 +29,6 @@ class Choices extends React.Component {
   endChoices () {
     this.props.setSortedRootNode(this.engine.getRootNode());
   }
-
 
   autoChoice () { // Auto-click forgotten card
     if (this.engine.getReplay().length > 0) {
@@ -46,7 +44,7 @@ class Choices extends React.Component {
     }
   }
 
-  addToBlacklist (nodeId) {
+  handleAddToBlacklist (nodeId) {
     this.engine.addToBlackList(nodeId);
     this.autoChoice();
   }
@@ -68,18 +66,14 @@ class Choices extends React.Component {
     this.handleCardPositioned();
   }
 
-  toTheNextStep () {
-    this.engine.rebalanceTree();
-    this.nextStepOrEnd();
-  }
-
   getProgress () {
     return Math.round(((100 * (this.props.nodes.length - this.engine.getListNodes().length - 1)) / (this.props.nodes.length)))
   }
 
   handleCardPositioned () {
     if (this.engine.getNode().isPositioned) {
-      this.toTheNextStep();
+      this.engine.rebalanceTree();
+      this.nextStepOrEnd();
     } else {
       this.getNextChoice();
     }
@@ -121,9 +115,9 @@ class Choices extends React.Component {
         <div className="container__choose-card">
           <div className="choose-card__heading">Select the highest priority card</div>
           <Card id="left_button" side="left" handleClick={this.handleCardClicked}
-                forget={this.addToBlacklist} data={this.state.leftCard.value}/>
+                forget={this.handleAddToBlacklist} data={this.state.leftCard.value}/>
           <Card id="right_button" side="right" handleClick={this.handleCardClicked}
-                forget={this.addToBlacklist} data={this.state.rightCard.value}/>
+                forget={this.handleAddToBlacklist} data={this.state.rightCard.value}/>
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
 
           <button onClick={() => this.undo()} id="undo_button" className="normalize__undo-button">
