@@ -35,8 +35,7 @@ class Choices extends React.Component {
       Trello: clone(this.props.Trello),
       leftCard: null,
       rightCard: null,
-      progress: 0,
-      replay: []
+      progress: 0
     }
   }
 
@@ -49,16 +48,12 @@ class Choices extends React.Component {
   }
 
   executeReplay () {
-    const nextAction = this.state.replay.shift();
-    this.setState({
-      replay: this.state.replay
-    }, function () {
-      nextAction.f(nextAction.p);
-    })
+    const nextAction = this.engine.getNextReplayAction();
+    nextAction.f(nextAction.p);
   }
 
   autoChoice () { // Auto-click forgotten card
-    if (this.state.replay.length > 0) {
+    if (this.engine.getReplay().length > 0) {
       this.executeReplay();
     } else {
       if (this.engine.getBlackList().indexOf(this.state.leftCard.value.id) > -1) {
@@ -76,7 +71,7 @@ class Choices extends React.Component {
   }
 
   handleCardClicked (side) {
-    if (this.state.replay.length === 0) {
+    if (this.engine.getReplay().length === 0) {
       this.cardClicked(side, "human");
     }
   }
@@ -151,21 +146,16 @@ class Choices extends React.Component {
 
   setReplay () {
     this.popWithAutochoices();
-    // window.actionsHistory.pop();
     let comp = this;
-    this.setState({
-      replay: clone(window.actionsHistory)
-    }, function () {
-      comp.clearPositioned(function () {
-        window.actionsHistory = [];
-        comp.nextStepOrEnd();
-      });
-    })
+    this.engine.setReplay(clone(window.actionsHistory));
+    comp.clearPositioned(function () {
+      window.actionsHistory = [];
+      comp.nextStepOrEnd();
+    });
   }
 
   undo () {
     if (window.actionsHistory.length > 0) {
-
       this.engine.undo();
       this.setReplay()
     }

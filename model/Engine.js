@@ -9,12 +9,14 @@ class Engine {
     this.compareNode = null
     this.node = null
     this.blackList = []
+    this.replay = []
     this.initialState = {
       listNodes : clone(listNodes),
       rootNode : clone(rootNode),
       compareNode : null,
       node : null,
-      blackList : []
+      blackList : [],
+      replay: []
     }
   }
 
@@ -24,6 +26,19 @@ class Engine {
     this.compareNode = clone(this.initialState.compareNode);
     this.node = clone(this.initialState.node);
     this.blackList = clone(this.initialState.blackList);
+    this.replay = clone(this.initialState.replay);
+  }
+
+  setReplay(newReplay){
+    this.replay = newReplay;
+  }
+
+  getReplay(){
+    return this.replay;
+  }
+
+  getNextReplayAction(){
+  return this.replay.shift()
   }
 
   undo(){
