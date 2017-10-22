@@ -10,6 +10,7 @@ class Engine {
     this.node = null
     this.blackList = []
     this.replay = []
+    window.actionsHistory = []
     this.initialState = {
       listNodes: clone(listNodes),
       rootNode: clone(rootNode),
@@ -27,6 +28,22 @@ class Engine {
     this.node = clone(this.initialState.node);
     this.blackList = clone(this.initialState.blackList);
     this.replay = clone(this.initialState.replay);
+  }
+
+  getActionsHistory(){
+    return window.actionsHistory
+  }
+
+  setActionsHistory(history){
+    window.actionsHistory = history
+  }
+
+  addToHistory(item){
+    window.actionsHistory.push(item)
+  }
+
+  popActionsHistory(){
+    return window.actionsHistory.pop()
   }
 
   nextStep () {

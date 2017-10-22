@@ -13,7 +13,6 @@ class Choices extends React.Component {
     super(props);
     this.engine = new Engine(clone(this.props.nodes), clone(this.props.rootNode));
     this.state = this.getInitialState();
-    this.componentDidMount = this.componentDidMount.bind(this)
     this.autoChoice = this.autoChoice.bind(this)
     this.handleCardClicked = this.handleCardClicked.bind(this)
     this.cardClicked = this.cardClicked.bind(this)
@@ -36,10 +35,6 @@ class Choices extends React.Component {
       rightCard: null,
       progress: 0
     }
-  }
-
-  componentDidMount () {
-    window.actionsHistory = [];
   }
 
   endChoices () {
