@@ -8,11 +8,13 @@ class Engine {
     this.rootNode = rootNode;
     this.compareNode = null
     this.node = null
+    this.blackList = []
     this.initialState = {
       listNodes : clone(listNodes),
       rootNode : clone(rootNode),
       compareNode : null,
-      node : null
+      node : null,
+      blackList : []
     }
   }
 
@@ -21,6 +23,19 @@ class Engine {
     this.rootNode = clone(this.initialState.rootNode);
     this.compareNode = clone(this.initialState.compareNode);
     this.node = clone(this.initialState.node);
+    this.blackList = clone(this.initialState.blackList);
+  }
+
+  undo(){
+    this.resetToInitialState();
+  }
+
+  addToBlackList(nodeId){
+    this.blackList.push(nodeId);
+  }
+
+  getBlackList(){
+    return this.blackList;
   }
 
   getListNodes(){

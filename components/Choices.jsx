@@ -36,7 +36,6 @@ class Choices extends React.Component {
       leftCard: null,
       rightCard: null,
       progress: 0,
-      blacklist: [],
       replay: []
     }
   }
@@ -62,23 +61,18 @@ class Choices extends React.Component {
     if (this.state.replay.length > 0) {
       this.executeReplay();
     } else {
-      if (this.state.blacklist.indexOf(this.state.leftCard.value.id) > -1) {
+      if (this.engine.getBlackList().indexOf(this.state.leftCard.value.id) > -1) {
         this.cardClicked("right", "auto");
       }
-      else if (this.state.blacklist.indexOf(this.state.rightCard.value.id) > -1) {
+      else if (this.engine.getBlackList().indexOf(this.state.rightCard.value.id) > -1) {
         this.cardClicked("left", "auto");
       }
     }
   }
 
   addToBlacklist (nodeId) {
-    let bl = this.state.blacklist;
-    bl.push(nodeId);
-    this.setState({
-      blacklist: bl
-    }, function () {
-      this.autoChoice();
-    });
+    this.engine.addToBlackList(nodeId);
+    this.autoChoice();
   }
 
   handleCardClicked (side) {
@@ -171,15 +165,9 @@ class Choices extends React.Component {
 
   undo () {
     if (window.actionsHistory.length > 0) {
-      let bl = this.state.blacklist;
-      this.engine.resetToInitialState();
-      this.setState(this.getInitialState(), function () {
-        this.setState({
-          blacklist: bl
-        }, function () {
-          this.setReplay()
-        });
-      });
+
+      this.engine.undo();
+      this.setReplay()
     }
   }
 
