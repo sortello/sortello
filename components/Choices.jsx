@@ -76,16 +76,12 @@ class Choices extends React.Component {
   }
 
   cardClicked (side, source) {
-    let newCompareNode;
-    let node = this.engine.getNode();
     if ("left" == side) {
-      newCompareNode = node.goLeft(this.engine.getCompareNode());
+      this.engine.goLeft();
     }
     else if ("right" == side) {
-      newCompareNode = node.goRight(this.engine.getCompareNode());
+      this.engine.goRight();
     }
-    this.engine.setCompareNode(newCompareNode);
-    this.engine.setNode(node);
     window.actionsHistory.push({f: this.cardClicked, p: side, s: source})
     this.handleCardPositioned();
   }
@@ -108,11 +104,9 @@ class Choices extends React.Component {
   }
 
   nextStepOrEnd () {
-    if (0 < this.engine.getListNodes().length) {
-      this.engine.setCompareNode(this.engine.getRootNode())
-      this.engine.setNode(this.engine.getNextNode());
+    if(this.engine.nextStep()){
       this.getNextChoice();
-    } else {
+    }else{
       this.endChoices();
     }
   }

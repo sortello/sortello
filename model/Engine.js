@@ -3,7 +3,7 @@ import {clone} from "lodash"
 
 class Engine {
 
-  constructor(listNodes, rootNode){
+  constructor (listNodes, rootNode) {
     this.listNodes = listNodes;
     this.rootNode = rootNode;
     this.compareNode = null
@@ -11,16 +11,16 @@ class Engine {
     this.blackList = []
     this.replay = []
     this.initialState = {
-      listNodes : clone(listNodes),
-      rootNode : clone(rootNode),
-      compareNode : null,
-      node : null,
-      blackList : [],
+      listNodes: clone(listNodes),
+      rootNode: clone(rootNode),
+      compareNode: null,
+      node: null,
+      blackList: [],
       replay: []
     }
   }
 
-  resetToInitialState(){
+  resetToInitialState () {
     this.listNodes = clone(this.initialState.listNodes);
     this.rootNode = clone(this.initialState.rootNode);
     this.compareNode = clone(this.initialState.compareNode);
@@ -29,65 +29,82 @@ class Engine {
     this.replay = clone(this.initialState.replay);
   }
 
-  setReplay(newReplay){
+  nextStep () {
+    if (0 < this.listNodes.length) {
+      this.compareNode = this.rootNode
+      this.node = this.getNextNode();
+      return true;
+    }
+    return false;
+  }
+
+  goLeft () {
+    this.compareNode = this.node.goLeft(this.compareNode);
+  }
+
+  goRight () {
+    this.compareNode = this.node.goRight(this.compareNode);
+  }
+
+  setReplay (newReplay) {
     this.replay = newReplay;
   }
 
-  getReplay(){
+  getReplay () {
     return this.replay;
   }
 
-  getNextReplayAction(){
-  return this.replay.shift()
+  getNextReplayAction () {
+    return this.replay.shift()
   }
 
-  undo(){
+  undo () {
     this.resetToInitialState();
   }
 
-  addToBlackList(nodeId){
+  addToBlackList (nodeId) {
     this.blackList.push(nodeId);
   }
 
-  getBlackList(){
+  getBlackList () {
     return this.blackList;
   }
 
-  getListNodes(){
+  getListNodes () {
     return this.listNodes;
   }
 
-  getRootNode(){
+  getRootNode () {
     return this.rootNode;
   }
 
-  getNode(){
+  getNode () {
     return this.node;
   }
 
-  getNextNode(){
+  getNextNode () {
     return this.listNodes.shift();
   }
 
-  getCompareNode(){
+  getCompareNode () {
     return this.compareNode
   }
 
-  setCompareNode(compareNode){
+  setCompareNode (compareNode) {
     this.compareNode = compareNode
   }
 
-  setNode(node){
+  setNode (node) {
     this.node = node
   }
 
-  clearPositioned(){
+  clearPositioned () {
     for (let i = 0; i < this.listNodes.length; i++) {
       this.listNodes[i].isPositioned = false;
     }
   }
 
-  rebalanceTree(){
+  rebalanceTree () {
     this.rootNode = treeRebalancer(this.rootNode);
   }
 }
