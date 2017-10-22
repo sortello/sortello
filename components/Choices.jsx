@@ -16,7 +16,7 @@ class Choices extends React.Component {
     this.cardClicked = this.cardClicked.bind(this)
     this.handleAddToBlacklist = this.handleAddToBlacklist.bind(this)
     this.endChoices = this.endChoices.bind(this)
-    this.undo = this.undo.bind(this)
+    this.handleUndo = this.handleUndo.bind(this)
     this.nextStepOrEnd = this.nextStepOrEnd.bind(this)
     this.startChoices = this.startChoices.bind(this)
 
@@ -97,7 +97,7 @@ class Choices extends React.Component {
     this.nextStepOrEnd();
   }
 
-  undo () {
+  handleUndo () {
     this.engine.undo();
     this.nextStepOrEnd();
   }
@@ -116,7 +116,7 @@ class Choices extends React.Component {
                 forget={this.handleAddToBlacklist} data={this.state.rightCard.value}/>
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
 
-          <button onClick={() => this.undo()} id="undo_button" className="normalize__undo-button">
+          <button onClick={() => this.handleUndo()} id="undo_button" className="normalize__undo-button">
             <div className="undo__button">
               <div className="undo__icon">
                 <img src="assets/icons/undo-icon.svg" alt=""/>
