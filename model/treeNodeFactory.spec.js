@@ -1,14 +1,14 @@
-import treeNodeFactory from "./treeNodeFactory"
-import traverseTree from "./traverseTree"
-import treeRebalancer from "./treeRebalancer"
-import {shuffle} from "lodash"
+import treeNodeFactory from './treeNodeFactory';
+import traverseTree from './traverseTree';
+import treeRebalancer from './treeRebalancer';
+import { shuffle } from 'lodash';
 
 describe('treeNodeFactory', () => {
   it('should set the correct value to the node', () => {
-    const VALUE = "THIS IS SPARTA"
-    const result = treeNodeFactory(VALUE)
-    expect(result.value).toBe(VALUE)
-  })
+    const VALUE = 'THIS IS SPARTA';
+    const result = treeNodeFactory(VALUE);
+    expect(result.value).toBe(VALUE);
+  });
 
   it('should count the nodes of the tree', () => {
     var nodeOne = treeNodeFactory('node one');
@@ -25,7 +25,6 @@ describe('treeNodeFactory', () => {
     rootNode.left = nodeOne;
 
     expect(traverseTree(rootNode).length).toBe(6);
-
   });
 
   // Try also with very small tree. Example: 2-nodes
@@ -55,8 +54,7 @@ describe('treeNodeFactory', () => {
 
     var rootNode = nodes[0];
 
-    function getChoice (node, compareNode, currNode) {
-
+    function getChoice(node, compareNode, currNode) {
       if (node.value < compareNode.value) {
         compareNode = node.goLeft(compareNode);
       } else {
@@ -68,10 +66,9 @@ describe('treeNodeFactory', () => {
       } else {
         getChoice(node, compareNode, currNode);
       }
-
     }
 
-    function choicesCycle (currNode) {
+    function choicesCycle(currNode) {
       if (currNode < nodes.length) {
         getChoice(nodes[currNode], rootNode, currNode);
       } else {
@@ -85,8 +82,7 @@ describe('treeNodeFactory', () => {
     }
 
     choicesCycle(1);
-
-  })
+  });
 
   it('should build and reorder the nodes correctly when using tree rebalance', () => {
     var nodes = shuffle([
@@ -99,8 +95,7 @@ describe('treeNodeFactory', () => {
 
     var rootNode = nodes[0];
 
-    function getChoice (node, compareNode, currNode) {
-
+    function getChoice(node, compareNode, currNode) {
       if (node.value < compareNode.value) {
         compareNode = node.goLeft(compareNode);
       } else {
@@ -108,15 +103,14 @@ describe('treeNodeFactory', () => {
       }
 
       if (node.isPositioned) {
-        rootNode = treeRebalancer(rootNode)
+        rootNode = treeRebalancer(rootNode);
         choicesCycle(currNode + 1);
       } else {
         getChoice(node, compareNode, currNode);
       }
-
     }
 
-    function choicesCycle (currNode) {
+    function choicesCycle(currNode) {
       if (currNode < nodes.length) {
         getChoice(nodes[currNode], rootNode, currNode);
       } else {
@@ -130,6 +124,5 @@ describe('treeNodeFactory', () => {
     }
 
     choicesCycle(1);
-
-  })
-})
+  });
+});

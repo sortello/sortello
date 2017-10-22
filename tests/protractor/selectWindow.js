@@ -4,15 +4,15 @@
  * @return {[!webdriver.promise.Promise.<void>]}       [Promise resolved when the index window is focused.]
  */
 
-module.exports.selectWindow = function (index) {
-    browser.driver.wait(function () {
-      return browser.driver.getAllWindowHandles().then(function (handles) {
-        if (handles.length > index) {
-          return true;
-        }
-      });
+module.exports.selectWindow = function(index) {
+  browser.driver.wait(function() {
+    return browser.driver.getAllWindowHandles().then(function(handles) {
+      if (handles.length > index) {
+        return true;
+      }
     });
-    return browser.driver.getAllWindowHandles().then(function (handles) {
-      return browser.driver.switchTo().window(handles[index]);
-    });
-}
+  });
+  return browser.driver.getAllWindowHandles().then(function(handles) {
+    return browser.driver.switchTo().window(handles[index]);
+  });
+};

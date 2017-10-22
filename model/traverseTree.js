@@ -1,23 +1,21 @@
 export default rootNode => {
+  const results = [];
 
-    const results = [];
+  const inOrder = node => {
+    if (node) {
+      if (node.left !== null) {
+        inOrder(node.left);
+      }
 
-    const inOrder = node => {
-        if (node) {
-            if (node.left !== null) {
-                inOrder(node.left);
-            }
+      results.push(node);
 
-            results.push(node);
+      if (node.right !== null) {
+        inOrder(node.right);
+      }
+    }
+  };
 
-            if (node.right !== null) {
-                inOrder(node.right);
-            }
-        }
-    };
+  inOrder(rootNode);
 
-    inOrder(rootNode);
-
-    return results;
-
-}
+  return results;
+};
