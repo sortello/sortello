@@ -18,11 +18,8 @@ class Choices extends React.Component {
     this.cardClicked = this.cardClicked.bind(this)
     this.addToBlacklist = this.addToBlacklist.bind(this)
     this.endChoices = this.endChoices.bind(this)
-    this.executeReplay = this.executeReplay.bind(this)
     this.toTheNextStep = this.toTheNextStep.bind(this)
-    this.clearPositioned = this.clearPositioned.bind(this)
     this.undo = this.undo.bind(this)
-    this.clearPositioned = this.clearPositioned.bind(this)
     this.nextStepOrEnd = this.nextStepOrEnd.bind(this)
     this.startChoices = this.startChoices.bind(this)
   }
@@ -39,14 +36,11 @@ class Choices extends React.Component {
     this.props.setSortedRootNode(this.engine.getRootNode());
   }
 
-  executeReplay () {
-    const nextAction = this.engine.getNextReplayAction();
-    nextAction.f(nextAction.p);
-  }
 
   autoChoice () { // Auto-click forgotten card
     if (this.engine.getReplay().length > 0) {
-      this.executeReplay();
+      const nextAction = this.engine.getNextReplayAction();
+      nextAction.f(nextAction.p);
     } else {
       if (this.engine.getBlackList().indexOf(this.state.leftCard.value.id) > -1) {
         this.cardClicked("right", "auto");
@@ -116,11 +110,6 @@ class Choices extends React.Component {
   startChoices () {
     this.props.setStartTimeStamp(Date.now())
     this.nextStepOrEnd();
-  }
-
-  clearPositioned (cb) {
-    this.engine.clearPositioned();
-    cb();
   }
 
   undo () {
