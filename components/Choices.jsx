@@ -32,7 +32,6 @@ class Choices extends React.Component {
 
   getInitialState () {
     return {
-      Trello: clone(this.props.Trello),
       leftCard: null,
       rightCard: null,
       progress: 0
