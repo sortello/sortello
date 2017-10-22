@@ -17,7 +17,6 @@ class Choices extends React.Component {
     this.handleAddToBlacklist = this.handleAddToBlacklist.bind(this)
     this.endChoices = this.endChoices.bind(this)
     this.handleUndo = this.handleUndo.bind(this)
-    this.nextStepOrEnd = this.nextStepOrEnd.bind(this)
     this.startChoices = this.startChoices.bind(this)
 
     this.state = {
@@ -63,44 +62,37 @@ class Choices extends React.Component {
       this.engine.goRight();
     }
     this.engine.addToHistory({f: this.cardClicked, p: side, s: source})
-    if (this.engine.getNode().isPositioned) {
-      this.engine.rebalanceTree();
-      this.nextStepOrEnd();
-    } else {
-      this.getNextChoice();
-    }
+    this.engine.choiceMade()
+    this.getNextChoice();
   }
 
   getProgress () {
     return Math.round(((100 * (this.props.nodes.length - this.engine.getListNodes().length - 1)) / (this.props.nodes.length)))
   }
 
-  nextStepOrEnd () {
-    if (!this.engine.noMoreSteps()) {
-      this.engine.goToNextStep();
-      this.getNextChoice();
-    } else {
-      this.endChoices();
-    }
-  }
-
   getNextChoice () {
-    this.setState({
-      leftCard: this.engine.getNode(),
-      rightCard: this.engine.getCompareNode()
-    }, function () {
-      this.autoChoice();
-    });
+    if (this.engine.getEnded()) {
+      this.endChoices()
+    } else {
+      this.setState({
+        leftCard: this.engine.getNode(),
+        rightCard: this.engine.getCompareNode()
+      }, function () {
+        this.autoChoice();
+      });
+    }
   }
 
   startChoices () {
     this.props.setStartTimeStamp(Date.now())
-    this.nextStepOrEnd();
+    this.engine.nextStepOrEnd();
+    this.getNextChoice()
   }
 
   handleUndo () {
     this.engine.undo();
-    this.nextStepOrEnd();
+    this.engine.nextStepOrEnd();
+    this.getNextChoice()
   }
 
   render () {

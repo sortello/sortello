@@ -11,6 +11,7 @@ class Engine {
     this.blackList = []
     this.replay = []
     window.actionsHistory = []
+    this.ended = false
     this.initialState = {
       listNodes: clone(listNodes),
       rootNode: clone(rootNode),
@@ -28,6 +29,25 @@ class Engine {
     this.node = clone(this.initialState.node);
     this.blackList = clone(this.initialState.blackList);
     this.replay = clone(this.initialState.replay);
+  }
+
+  getEnded(){
+    return this.ended;
+  }
+
+  nextStepOrEnd () {
+    if (!this.noMoreSteps()) {
+      this.goToNextStep();
+    } else {
+      this.ended = true;
+    }
+  }
+
+  choiceMade(){
+    if (this.getNode().isPositioned) {
+      this.rebalanceTree();
+      this.nextStepOrEnd();
+    }
   }
 
   popWithAutochoices () {
