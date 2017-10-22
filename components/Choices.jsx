@@ -63,20 +63,16 @@ class Choices extends React.Component {
       this.engine.goRight();
     }
     this.engine.addToHistory({f: this.cardClicked, p: side, s: source})
-    this.handleCardPositioned();
-  }
-
-  getProgress () {
-    return Math.round(((100 * (this.props.nodes.length - this.engine.getListNodes().length - 1)) / (this.props.nodes.length)))
-  }
-
-  handleCardPositioned () {
     if (this.engine.getNode().isPositioned) {
       this.engine.rebalanceTree();
       this.nextStepOrEnd();
     } else {
       this.getNextChoice();
     }
+  }
+
+  getProgress () {
+    return Math.round(((100 * (this.props.nodes.length - this.engine.getListNodes().length - 1)) / (this.props.nodes.length)))
   }
 
   nextStepOrEnd () {
