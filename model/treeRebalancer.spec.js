@@ -1,10 +1,8 @@
-import traverseTree from "./traverseTree"
-import treeRebalancer from "./treeRebalancer"
+import traverseTree from './traverseTree';
+import treeRebalancer from './treeRebalancer';
 
 describe('treeNodeFactory', () => {
-
   it('builds an equivalent tree', () => {
-
     var tree = {
       left: {
         left: {
@@ -13,26 +11,26 @@ describe('treeNodeFactory', () => {
             left: null,
             right: null,
             value: 'a',
-            isPositioned: false
+            isPositioned: false,
           },
           value: 'b',
-          isPositioned: false
+          isPositioned: false,
         },
         right: {
           left: null,
           right: null,
           value: 'c',
-          isPositioned: false
+          isPositioned: false,
         },
         value: 'd',
-        isPositioned: false
+        isPositioned: false,
       },
       right: {
         left: {
           left: null,
           right: null,
           value: 'e',
-          isPositioned: false
+          isPositioned: false,
         },
         right: {
           left: {
@@ -40,21 +38,21 @@ describe('treeNodeFactory', () => {
               left: null,
               right: null,
               value: 'f',
-              isPositioned: false
+              isPositioned: false,
             },
             right: null,
             value: 'g',
-            isPositioned: false
+            isPositioned: false,
           },
           right: null,
           value: 'h',
-          isPositioned: false
+          isPositioned: false,
         },
         value: 'i',
-        isPositioned: false
+        isPositioned: false,
       },
       value: 'l',
-      isPositioned: false
+      isPositioned: false,
     };
 
     var rebalancedTree = treeRebalancer(tree);
@@ -62,16 +60,13 @@ describe('treeNodeFactory', () => {
     var traversedBalancedTreeElements = getArray(traverseTree(rebalancedTree));
 
     expect(traversedTreeElements).toEqual(traversedBalancedTreeElements);
+  });
 
-    });
-
-    function getArray(nodes){
-      var results = [];
-      for(var i=0; i< nodes.length; i++){
-        results.push(nodes[i].value);
-      }
-      return results;
-
+  function getArray(nodes) {
+    var results = [];
+    for (var i = 0; i < nodes.length; i++) {
+      results.push(nodes[i].value);
     }
-
+    return results;
+  }
 });

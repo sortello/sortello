@@ -1,5 +1,5 @@
-import traverseTree from "./traverseTree"
-import treeNodeFactory from "./treeNodeFactory"
+import traverseTree from './traverseTree';
+import treeNodeFactory from './treeNodeFactory';
 
 export default unbalancedTree => {
   var orderedNodes = traverseTree(unbalancedTree);
@@ -10,13 +10,13 @@ export default unbalancedTree => {
     readableReorderedNodesArray.push(orderedNodes[j].value.name);
   }
 
-  function rebuildTree (orderedNodes) {
+  function rebuildTree(orderedNodes) {
     if (orderedNodes.length === 1) {
-      return orderedNodes[0]
+      return orderedNodes[0];
     }
 
     if (orderedNodes.length === 0) {
-      return null
+      return null;
     }
 
     var numNodes = orderedNodes.length;
@@ -31,4 +31,4 @@ export default unbalancedTree => {
   var balancedTree = rebuildTree(reorderedNodesArray);
 
   return balancedTree;
-}
+};

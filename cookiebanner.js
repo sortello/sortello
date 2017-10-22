@@ -24,7 +24,8 @@ THE SOFTWARE.
 (function(context) {
   'use strict';
 
-  var win = context, doc = win.document;
+  var win = context,
+    doc = win.document;
 
   var global_instance_name = 'cbinstance';
 
@@ -45,28 +46,34 @@ THE SOFTWARE.
   // @win window reference
   // @fn function reference
   function contentLoaded(win, fn) {
-    var done = false, top = true,
-      doc = win.document, root = doc.documentElement,
-
+    var done = false,
+      top = true,
+      doc = win.document,
+      root = doc.documentElement,
       add = doc.addEventListener ? 'addEventListener' : 'attachEvent',
       rem = doc.addEventListener ? 'removeEventListener' : 'detachEvent',
       pre = doc.addEventListener ? '' : 'on',
-
       init = function(e) {
         if (e.type == 'readystatechange' && doc.readyState != 'complete') return;
         (e.type == 'load' ? win : doc)[rem](pre + e.type, init, false);
         if (!done && (done = true)) fn.call(win, e.type || e);
       },
-
       poll = function() {
-        try { root.doScroll('left'); } catch(e) { setTimeout(poll, 50); return; }
+        try {
+          root.doScroll('left');
+        } catch (e) {
+          setTimeout(poll, 50);
+          return;
+        }
         init('poll');
       };
 
     if (doc.readyState == 'complete') fn.call(win, 'lazy');
     else {
       if (doc.createEventObject && root.doScroll) {
-        try { top = !win.frameElement; } catch(e) { }
+        try {
+          top = !win.frameElement;
+        } catch (e) {}
         if (top) poll();
       }
       doc[add](pre + 'DOMContentLoaded', init, false);
@@ -76,10 +83,21 @@ THE SOFTWARE.
   }
 
   var Cookies = {
-    get: function (key) {
-      return decodeURIComponent(doc.cookie.replace(new RegExp('(?:(?:^|.*;)\\s*' + encodeURIComponent(key).replace(/[\-\.\+\*]/g, '\\$&') + '\\s*\\=\\s*([^;]*).*$)|^.*$'), '$1')) || null;
+    get: function(key) {
+      return (
+        decodeURIComponent(
+          doc.cookie.replace(
+            new RegExp(
+              '(?:(?:^|.*;)\\s*' +
+                encodeURIComponent(key).replace(/[\-\.\+\*]/g, '\\$&') +
+                '\\s*\\=\\s*([^;]*).*$)|^.*$'
+            ),
+            '$1'
+          )
+        ) || null
+      );
     },
-    set: function (key, val, end, path, domain, secure) {
+    set: function(key, val, end, path, domain, secure) {
       if (!key || /^(?:expires|max\-age|path|domain|secure)$/i.test(key)) {
         return false;
       }
@@ -97,23 +115,37 @@ THE SOFTWARE.
             break;
         }
       }
-      doc.cookie = encodeURIComponent(key) + '=' + encodeURIComponent(val) + expires + (domain ? '; domain=' + domain : '') + (path ? '; path=' + path : '') + (secure ? '; secure' : '');
+      doc.cookie =
+        encodeURIComponent(key) +
+        '=' +
+        encodeURIComponent(val) +
+        expires +
+        (domain ? '; domain=' + domain : '') +
+        (path ? '; path=' + path : '') +
+        (secure ? '; secure' : '');
       return true;
     },
-    has: function (key) {
-      return (new RegExp('(?:^|;\\s*)' + encodeURIComponent(key).replace(/[\-\.\+\*]/g, '\\$&') + '\\s*\\=')).test(doc.cookie);
+    has: function(key) {
+      return new RegExp('(?:^|;\\s*)' + encodeURIComponent(key).replace(/[\-\.\+\*]/g, '\\$&') + '\\s*\\=').test(
+        doc.cookie
+      );
     },
-    remove: function (key, path, domain) {
-      if (!key || !this.has(key)) { return false; }
-      doc.cookie = encodeURIComponent(key) + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT' + ( domain ? '; domain=' + domain : '') + ( path ? '; path=' + path : '');
+    remove: function(key, path, domain) {
+      if (!key || !this.has(key)) {
+        return false;
+      }
+      doc.cookie =
+        encodeURIComponent(key) +
+        '=; expires=Thu, 01 Jan 1970 00:00:00 GMT' +
+        (domain ? '; domain=' + domain : '') +
+        (path ? '; path=' + path : '');
       return true;
-    }
+    },
   };
 
   var Utils = {
-
     // merge objects and whatnot
-    merge: function(){
+    merge: function() {
       var obj = {},
         i = 0,
         al = arguments.length,
@@ -147,7 +179,7 @@ THE SOFTWARE.
     fade_in: function(el) {
       if (el.style.opacity < 1) {
         el.style.opacity = (parseFloat(el.style.opacity) + 0.05).toFixed(2);
-        win.setTimeout(function(){
+        win.setTimeout(function() {
           Utils.fade_in(el);
         }, 50);
       }
@@ -185,7 +217,9 @@ THE SOFTWARE.
           var camelized_key = Utils.camelize(key);
           // TODO: could this break for "falsy" values within options_object?
           // avoiding "dashed-property-name" overriding a potentially existing "dashedPropertyName"
-          camelized[camelized_key] = options_object[camelized_key] ? options_object[camelized_key] : options_object[key];
+          camelized[camelized_key] = options_object[camelized_key]
+            ? options_object[camelized_key]
+            : options_object[key];
         }
       }
       return camelized;
@@ -195,10 +229,10 @@ THE SOFTWARE.
       var separator = '-',
         match = str.indexOf(separator);
       while (match != -1) {
-        var last = (match === (str.length - 1)),
+        var last = match === str.length - 1,
           next = last ? '' : str[match + 1],
           upnext = next.toUpperCase(),
-          sep_substr =  last ? separator : separator + next;
+          sep_substr = last ? separator : separator + next;
         str = str.replace(sep_substr, upnext);
         match = str.indexOf(separator);
       }
@@ -213,28 +247,26 @@ THE SOFTWARE.
         }
       }
       return null;
-    }
-
+    },
   };
 
   var script_el_invoker = Utils.find_script_by_id('cookiebanner');
 
-  var Cookiebanner = context.Cookiebanner = function(opts) {
+  var Cookiebanner = (context.Cookiebanner = function(opts) {
     this.init(opts);
-  };
+  });
 
   Cookiebanner.prototype = {
-
     // for testing stuff from the outside mostly
     cookiejar: Cookies,
 
     init: function(opts) {
-
       this.inserted = false;
       this.closed = false;
       this.test_mode = false; // TODO: implement
 
-      var default_text = 'We use cookies to enhance your experience. ' +
+      var default_text =
+        'We use cookies to enhance your experience. ' +
         'By continuing to use this site you agree to our use of cookies.';
       var default_link = 'Learn more';
 
@@ -272,7 +304,7 @@ THE SOFTWARE.
         acceptOnScroll: true,
         acceptOnClick: true,
         acceptOnTimeout: null,
-        acceptOnFirstVisit: false
+        acceptOnFirstVisit: false,
       };
 
       this.options = this.default_options;
@@ -319,7 +351,7 @@ THE SOFTWARE.
       }
     },
 
-    log: function(){
+    log: function() {
       if ('undefined' !== typeof console) {
         console.log.apply(console, arguments);
       }
@@ -328,7 +360,7 @@ THE SOFTWARE.
     run: function() {
       if (!this.agreed()) {
         var self = this;
-        contentLoaded(win, function(){
+        contentLoaded(win, function() {
           self.insert();
         });
       }
@@ -339,11 +371,19 @@ THE SOFTWARE.
       if (true === this.options.mask) {
         var mask_opacity = this.options.maskOpacity;
         var bg = this.options.maskBackground;
-        var mask_markup = '<div id="cookiebanner-mask" style="' +
+        var mask_markup =
+          '<div id="cookiebanner-mask" style="' +
           'position:fixed;top:0;left:0;' +
-          'background:' + bg + ';zoom:1;filter:alpha(opacity=' +
-          (mask_opacity * 100) +');opacity:' + mask_opacity +';' +
-          'z-index:' + this.options.zindex +';"></div>';
+          'background:' +
+          bg +
+          ';zoom:1;filter:alpha(opacity=' +
+          mask_opacity * 100 +
+          ');opacity:' +
+          mask_opacity +
+          ';' +
+          'z-index:' +
+          this.options.zindex +
+          ';"></div>';
         var el = doc.createElement('div');
         el.innerHTML = mask_markup;
         mask = el.firstChild;
@@ -352,11 +392,18 @@ THE SOFTWARE.
     },
 
     agree: function() {
-      this.cookiejar.set(this.options.cookie, 1, this.options.expires, this.options.cookiePath, (this.options.cookieDomain !== '' ? this.options.cookieDomain : ''), (this.options.cookieSecure ? true : false));
+      this.cookiejar.set(
+        this.options.cookie,
+        1,
+        this.options.expires,
+        this.options.cookiePath,
+        this.options.cookieDomain !== '' ? this.options.cookieDomain : '',
+        this.options.cookieSecure ? true : false
+      );
       return true;
     },
 
-    agreed: function(){
+    agreed: function() {
       return this.cookiejar.has(this.options.cookie);
     },
 
@@ -371,13 +418,13 @@ THE SOFTWARE.
           }
           this.closed = true;
         }
-      }/* else {
+      } /* else {
                 throw new Error("Not inserted but closing?!");
             }*/
       return this.closed;
     },
 
-    agree_and_close:function() {
+    agree_and_close: function() {
       this.agree();
       return this.close();
     },
@@ -431,9 +478,16 @@ THE SOFTWARE.
         el.style.bottom = 0;
       }
 
-      el.innerHTML = '<div class="cookiebanner-close" style="' + this.options.closeStyle + '">' +
-        this.options.closeText + '</div>' +
-        '<span>' + this.options.message + (this.options.linkmsg ? ' <a>' + this.options.linkmsg + '</a>' : '') + '</span>';
+      el.innerHTML =
+        '<div class="cookiebanner-close" style="' +
+        this.options.closeStyle +
+        '">' +
+        this.options.closeText +
+        '</div>' +
+        '<span>' +
+        this.options.message +
+        (this.options.linkmsg ? ' <a>' + this.options.linkmsg + '</a>' : '') +
+        '</span>';
 
       this.element = el;
 
@@ -454,12 +508,12 @@ THE SOFTWARE.
       }
 
       var self = this;
-      on(el_x, 'click', function(){
+      on(el_x, 'click', function() {
         self.agree_and_close();
       });
 
       if (this.element_mask) {
-        on(this.element_mask, 'click', function(){
+        on(this.element_mask, 'click', function() {
           self.agree_and_close();
         });
         doc.body.appendChild(this.element_mask);
@@ -467,14 +521,14 @@ THE SOFTWARE.
 
       // Agree and close banner on window scroll if `acceptOnScroll` option is set `true`
       if (this.options.acceptOnScroll) {
-        on(window, 'scroll', function(){
+        on(window, 'scroll', function() {
           self.agree_and_close();
         });
       }
 
       // Agree and close banner on click (no matter where) if `acceptOnClick` option is set `true`
       if (this.options.acceptOnClick) {
-        on(window, 'click', function(){
+        on(window, 'click', function() {
           self.agree_and_close();
         });
       }
@@ -482,8 +536,10 @@ THE SOFTWARE.
       // Agree and close banner after N milliseconds
       if (this.options.acceptOnTimeout) {
         // Validate this.options.acceptOnTimeout as numeric
-        if(!isNaN(parseFloat(this.options.acceptOnTimeout)) && isFinite(this.options.acceptOnTimeout)) {
-          setTimeout(function() { self.agree_and_close(); }, this.options.acceptOnTimeout);
+        if (!isNaN(parseFloat(this.options.acceptOnTimeout)) && isFinite(this.options.acceptOnTimeout)) {
+          setTimeout(function() {
+            self.agree_and_close();
+          }, this.options.acceptOnTimeout);
         }
       }
 
@@ -501,7 +557,7 @@ THE SOFTWARE.
       } else {
         this.element.style.opacity = 1;
       }
-    }
+    },
   };
 
   if (script_el_invoker) {
@@ -509,5 +565,4 @@ THE SOFTWARE.
       context[global_instance_name] = new Cookiebanner();
     }
   }
-
 })(window);

@@ -1,10 +1,17 @@
 // .babelrc
 {
-    "presets": ["react", "es2015"],
-
-  "env": {
-    "test": {
-      "plugins": ["transform-es2015-modules-commonjs"]
-    }
-  }
+  "presets": [
+    "react",
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": [
+            "last 2 versions"
+          ]
+        },
+        "modules": false
+      }
+    ]
+  ]
 }
