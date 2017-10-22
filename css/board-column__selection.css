@@ -1,21 +1,53 @@
-.label{
+.label__wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.label__container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+.label__item{
     cursor: pointer;
-    border-radius: 3px;
-    font-size: 9pt;
-    font-weight: 600;
-    line-height: 30px;
-    margin: 0 4px 4px 0;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: "Fira Sans", sans-serif;
+    line-height: 20px;
     min-width: 40px;
-    padding: 6px 8px;
     width: auto;
+    padding: 4px 12px;
+    margin: 4px;
+    color: white;
+    transition: all .2s ease-in-out;
+    box-shadow: 0 2px 4px 0 #ccc;
+
+
 }
 
-.label:hover{
-    padding: 8px 8px;
+.label__item:hover{
+    box-shadow: 0 2px 4px 0 #bbb;
 }
-
+.microcopy__text {
+  font-size: 14px;
+  color: #4A4A4A;
+  text-align: center;
+  font-weight: 400;
+  font-family: "Fira Sans", sans-serif;
+  line-height: 20px;
+  margin: 16px 0;
+}
+.microcopy__icon {
+  margin-bottom: 16px;
+}
 .label__none{
-    background-color: #B6BBBF;
+    /*background-color: #4A4A4A;*/
+    background: -webkit-linear-gradient(left top, #68E0E6, #005AFF); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right, #68E0E6, #005AFF); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, #68E0E6, #005AFF); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right, #68E0E6, #005AFF);
 }
 .label__sky {
     background-color: #00C2E0;
