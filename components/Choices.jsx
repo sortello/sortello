@@ -11,15 +11,13 @@ class Choices extends React.Component {
   constructor (props) {
     super(props);
     this.engine = new Engine(clone(this.props.nodes), clone(this.props.rootNode));
-    this.autoChoice = this.autoChoice.bind(this)
     this.handleCardClicked = this.handleCardClicked.bind(this)
-    this.cardClicked = this.cardClicked.bind(this)
     this.handleAddToBlacklist = this.handleAddToBlacklist.bind(this)
     this.endChoices = this.endChoices.bind(this)
     this.handleUndo = this.handleUndo.bind(this)
     this.startChoices = this.startChoices.bind(this)
 
-   
+
 
     this.state = {
       leftCard: null,
@@ -46,27 +44,10 @@ class Choices extends React.Component {
       leftCard: this.engine.getNode(),
       rightCard: this.engine.getCompareNode()
     }, function () {
-      this.autoChoice();
+      if(this.engine.autoChoice()){
+        this.getNextChoice()
+      }
     });
-  }
-
-  cardClicked (target, source) {
-    this.engine.choiceMade(target, source)
-    this.getNextChoice();
-  }
-
-  autoChoice () {
-    if (this.engine.getReplay().length > 0) {
-      const nextAction = this.engine.getNextReplayAction();
-      this.cardClicked(nextAction.p);
-    } else {
-      if (this.engine.nodeIsBlackListed()) {
-        this.cardClicked("compareNode", "auto");
-      }
-      else if (this.engine.compareNodeIsBlackListed()) {
-        this.cardClicked("node", "auto");
-      }
-    }
   }
 
   handleUndo () {
@@ -76,12 +57,13 @@ class Choices extends React.Component {
 
   handleAddToBlacklist (nodeId) {
     this.engine.addToBlackList(nodeId);
-    this.autoChoice();
+    this.getNextChoice();
   }
 
   handleCardClicked (side) {
     if (this.engine.getReplay().length === 0) {
-      this.cardClicked(side, "human");
+      this.engine.choiceMade(side, "human");
+      this.getNextChoice()
     }
   }
 

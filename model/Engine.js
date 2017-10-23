@@ -104,11 +104,29 @@ class Engine {
   }
 
   getReplay () {
-    return this.replay;
+    return this.replay
   }
 
   getNextReplayAction () {
     return this.replay.shift()
+  }
+
+  autoChoice(){
+    if (this.replay.length > 0) {
+      const nextAction = this.getNextReplayAction()
+      this.choiceMade(nextAction.p, nextAction.s)
+      return true
+    } else {
+      if (this.nodeIsBlackListed()) {
+        this.choiceMade("compareNode", "auto")
+        return true
+      }
+      else if (this.compareNodeIsBlackListed()) {
+        this.choiceMade("node", "auto");
+        return true
+      }
+    }
+    return false
   }
 
   undo () {
