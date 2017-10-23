@@ -64,10 +64,10 @@ class Choices extends React.Component {
       const nextAction = this.engine.getNextReplayAction();
       nextAction.f(nextAction.p);
     } else {
-      if (this.engine.getBlackList().indexOf(this.state.leftCard.value.id) > -1) {
+      if (this.engine.nodeIsBlackListed()) {
         this.cardClicked("right", "auto");
       }
-      else if (this.engine.getBlackList().indexOf(this.state.rightCard.value.id) > -1) {
+      else if (this.engine.compareNodeIsBlackListed()) {
         this.cardClicked("left", "auto");
       }
     }

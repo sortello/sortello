@@ -123,9 +123,14 @@ class Engine {
     this.blackList.push(nodeId);
   }
 
-  getBlackList () {
-    return this.blackList;
+  nodeIsBlackListed(){
+    return this.blackList.indexOf(this.node.value.id) > -1
   }
+
+  compareNodeIsBlackListed(){
+    return this.blackList.indexOf(this.compareNode.value.id) > -1
+  }
+
 
   getListNodes () {
     return this.listNodes;
