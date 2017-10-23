@@ -43,7 +43,7 @@ class Engine {
     }
   }
 
-  choiceMade (target) {
+  choiceMade (target, source) {
     if (target === 'node') {
       this.goLeft()
     }
@@ -56,6 +56,9 @@ class Engine {
       this.rebalanceTree();
       this.nextStepOrEnd();
     }
+
+    this.addToHistory({p: target, s: source})
+
   }
 
   popWithAutochoices () {

@@ -19,10 +19,7 @@ class Choices extends React.Component {
     this.handleUndo = this.handleUndo.bind(this)
     this.startChoices = this.startChoices.bind(this)
 
-    this.cardToNode = {
-      'left': 'node',
-      'right': 'compareNode'
-    }
+   
 
     this.state = {
       leftCard: null,
@@ -53,22 +50,21 @@ class Choices extends React.Component {
     });
   }
 
-  cardClicked (side, source) {
-    this.engine.choiceMade(this.cardToNode[side])
-    this.engine.addToHistory({p: side, s: source})
+  cardClicked (target, source) {
+    this.engine.choiceMade(target, source)
     this.getNextChoice();
   }
 
-  autoChoice () { // Auto-click forgotten card
+  autoChoice () {
     if (this.engine.getReplay().length > 0) {
       const nextAction = this.engine.getNextReplayAction();
       this.cardClicked(nextAction.p);
     } else {
       if (this.engine.nodeIsBlackListed()) {
-        this.cardClicked("right", "auto");
+        this.cardClicked("compareNode", "auto");
       }
       else if (this.engine.compareNodeIsBlackListed()) {
-        this.cardClicked("left", "auto");
+        this.cardClicked("node", "auto");
       }
     }
   }
@@ -101,9 +97,9 @@ class Choices extends React.Component {
       <div id="second_div">
         <div className="container__choose-card">
           <div className="choose-card__heading">Select the highest priority card</div>
-          <Card id="left_button" side="left" handleClick={this.handleCardClicked}
+          <Card id="left_button" side="node" handleClick={this.handleCardClicked}
                 forget={this.handleAddToBlacklist} data={this.state.leftCard.value}/>
-          <Card id="right_button" side="right" handleClick={this.handleCardClicked}
+          <Card id="right_button" side="compareNode" handleClick={this.handleCardClicked}
                 forget={this.handleAddToBlacklist} data={this.state.rightCard.value}/>
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
 
