@@ -52,7 +52,7 @@ class Engine {
       this.goRight()
     }
 
-    if (this.getNode().isPositioned) {
+    if (this.node.isPositioned) {
       this.rebalanceTree();
       this.nextStepOrEnd();
     }
@@ -152,7 +152,6 @@ class Engine {
     return this.blackList.indexOf(this.compareNode.value.id) > -1
   }
 
-
   getListNodes () {
     return this.listNodes;
   }
@@ -182,6 +181,7 @@ class Engine {
   rebalanceTree () {
     this.rootNode = treeRebalancer(this.rootNode);
   }
+
 }
 
 export default Engine;

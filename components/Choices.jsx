@@ -13,20 +13,13 @@ class Choices extends React.Component {
     this.engine = new Engine(clone(this.props.nodes), clone(this.props.rootNode));
     this.handleCardClicked = this.handleCardClicked.bind(this)
     this.handleAddToBlacklist = this.handleAddToBlacklist.bind(this)
-    this.endChoices = this.endChoices.bind(this)
-    this.handleUndo = this.handleUndo.bind(this)
+    this.handleUndoClicked = this.handleUndoClicked.bind(this)
     this.startChoices = this.startChoices.bind(this)
-
-
 
     this.state = {
       leftCard: null,
       rightCard: null
     }
-  }
-
-  endChoices () {
-    this.props.setSortedRootNode(this.engine.getRootNode());
   }
 
   startChoices () {
@@ -37,7 +30,7 @@ class Choices extends React.Component {
 
   getNextChoice () {
     if (this.engine.getEnded()) {
-      this.endChoices()
+      this.props.setSortedRootNode(this.engine.getRootNode());
       return
     }
     this.setState({
@@ -50,7 +43,7 @@ class Choices extends React.Component {
     });
   }
 
-  handleUndo () {
+  handleUndoClicked () {
     this.engine.undo();
     this.getNextChoice()
   }
@@ -85,7 +78,7 @@ class Choices extends React.Component {
                 forget={this.handleAddToBlacklist} data={this.state.rightCard.value}/>
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
 
-          <button onClick={() => this.handleUndo()} id="undo_button" className="normalize__undo-button">
+          <button onClick={() => this.handleUndoClicked()} id="undo_button" className="normalize__undo-button">
             <div className="undo__button">
               <div className="undo__icon">
                 <img src="assets/icons/undo-icon.svg" alt=""/>
