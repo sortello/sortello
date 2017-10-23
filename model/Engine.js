@@ -108,6 +108,7 @@ class Engine {
       this.clearPositioned()
       this.clearActionsHistory()
     }
+    this.nextStepOrEnd();
   }
 
   addToBlackList (nodeId) {

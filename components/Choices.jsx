@@ -76,7 +76,6 @@ class Choices extends React.Component {
 
   handleUndo () {
     this.engine.undo();
-    this.engine.nextStepOrEnd();
     this.getNextChoice()
   }
 
