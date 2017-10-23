@@ -29,45 +29,10 @@ class Choices extends React.Component {
     this.props.setSortedRootNode(this.engine.getRootNode());
   }
 
-  autoChoice () { // Auto-click forgotten card
-    if (this.engine.getReplay().length > 0) {
-      const nextAction = this.engine.getNextReplayAction();
-      nextAction.f(nextAction.p);
-    } else {
-      if (this.engine.getBlackList().indexOf(this.state.leftCard.value.id) > -1) {
-        this.cardClicked("right", "auto");
-      }
-      else if (this.engine.getBlackList().indexOf(this.state.rightCard.value.id) > -1) {
-        this.cardClicked("left", "auto");
-      }
-    }
-  }
-
-  handleAddToBlacklist (nodeId) {
-    this.engine.addToBlackList(nodeId);
-    this.autoChoice();
-  }
-
-  handleCardClicked (side) {
-    if (this.engine.getReplay().length === 0) {
-      this.cardClicked(side, "human");
-    }
-  }
-
-  cardClicked (side, source) {
-    if ("left" == side) {
-      this.engine.goLeft();
-    }
-    else if ("right" == side) {
-      this.engine.goRight();
-    }
-    this.engine.addToHistory({f: this.cardClicked, p: side, s: source})
-    this.engine.choiceMade()
-    this.getNextChoice();
-  }
-
-  getProgress () {
-    return Math.round(((100 * (this.props.nodes.length - this.engine.getListNodes().length - 1)) / (this.props.nodes.length)))
+  startChoices () {
+    this.props.setStartTimeStamp(Date.now())
+    this.engine.nextStepOrEnd();
+    this.getNextChoice()
   }
 
   getNextChoice () {
@@ -83,16 +48,51 @@ class Choices extends React.Component {
     }
   }
 
-  startChoices () {
-    this.props.setStartTimeStamp(Date.now())
-    this.engine.nextStepOrEnd();
-    this.getNextChoice()
+  cardClicked (side, source) {
+    if ("left" == side) {
+      this.engine.goLeft();
+    }
+    else if ("right" == side) {
+      this.engine.goRight();
+    }
+    this.engine.addToHistory({f: this.cardClicked, p: side, s: source})
+    this.engine.choiceMade()
+    this.getNextChoice();
+  }
+
+  autoChoice () { // Auto-click forgotten card
+    if (this.engine.getReplay().length > 0) {
+      const nextAction = this.engine.getNextReplayAction();
+      nextAction.f(nextAction.p);
+    } else {
+      if (this.engine.getBlackList().indexOf(this.state.leftCard.value.id) > -1) {
+        this.cardClicked("right", "auto");
+      }
+      else if (this.engine.getBlackList().indexOf(this.state.rightCard.value.id) > -1) {
+        this.cardClicked("left", "auto");
+      }
+    }
   }
 
   handleUndo () {
     this.engine.undo();
     this.engine.nextStepOrEnd();
     this.getNextChoice()
+  }
+
+  handleAddToBlacklist (nodeId) {
+    this.engine.addToBlackList(nodeId);
+    this.autoChoice();
+  }
+
+  handleCardClicked (side) {
+    if (this.engine.getReplay().length === 0) {
+      this.cardClicked(side, "human");
+    }
+  }
+
+  getProgress () {
+    return Math.round(((100 * (this.props.nodes.length - this.engine.getListNodes().length - 1)) / (this.props.nodes.length)))
   }
 
   render () {
