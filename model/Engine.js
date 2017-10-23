@@ -65,16 +65,8 @@ class Engine {
     window.actionsHistory = []
   }
 
-  setActionsHistory (history) {
-    window.actionsHistory = history
-  }
-
   addToHistory (item) {
     window.actionsHistory.push(item)
-  }
-
-  popActionsHistory () {
-    return window.actionsHistory.pop()
   }
 
   noMoreSteps(){
@@ -144,14 +136,6 @@ class Engine {
 
   getCompareNode () {
     return this.compareNode
-  }
-
-  setCompareNode (compareNode) {
-    this.compareNode = compareNode
-  }
-
-  setNode (node) {
-    this.node = node
   }
 
   clearPositioned () {
