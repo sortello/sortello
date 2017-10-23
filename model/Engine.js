@@ -31,7 +31,7 @@ class Engine {
     this.replay = clone(this.initialState.replay);
   }
 
-  getEnded(){
+  getEnded () {
     return this.ended;
   }
 
@@ -43,7 +43,15 @@ class Engine {
     }
   }
 
-  choiceMade(){
+  choiceMade (target) {
+    if (target === 'node') {
+      this.goLeft()
+    }
+
+    else if (target === 'compareNode') {
+      this.goRight()
+    }
+
     if (this.getNode().isPositioned) {
       this.rebalanceTree();
       this.nextStepOrEnd();
@@ -69,7 +77,7 @@ class Engine {
     window.actionsHistory.push(item)
   }
 
-  noMoreSteps(){
+  noMoreSteps () {
     return this.listNodes.length === 0;
   }
 

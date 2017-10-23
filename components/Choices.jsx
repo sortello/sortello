@@ -38,25 +38,24 @@ class Choices extends React.Component {
   getNextChoice () {
     if (this.engine.getEnded()) {
       this.endChoices()
-    } else {
-      this.setState({
-        leftCard: this.engine.getNode(),
-        rightCard: this.engine.getCompareNode()
-      }, function () {
-        this.autoChoice();
-      });
+      return
     }
+    this.setState({
+      leftCard: this.engine.getNode(),
+      rightCard: this.engine.getCompareNode()
+    }, function () {
+      this.autoChoice();
+    });
   }
 
   cardClicked (side, source) {
-    if ("left" == side) {
-      this.engine.goLeft();
+    if ("left" === side) {
+      this.engine.choiceMade('node')
     }
-    else if ("right" == side) {
-      this.engine.goRight();
+    else if ("right" === side) {
+      this.engine.choiceMade('compareNode')
     }
-    this.engine.addToHistory({f: this.cardClicked, p: side, s: source})
-    this.engine.choiceMade()
+      this.engine.addToHistory({f: this.cardClicked, p: side, s: source})
     this.getNextChoice();
   }
 
