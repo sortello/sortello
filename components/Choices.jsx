@@ -37,7 +37,7 @@ class Choices extends React.Component {
       leftCard: this.engine.getNode(),
       rightCard: this.engine.getCompareNode()
     }, function () {
-      if(this.engine.autoChoice()){
+      if (this.engine.autoChoice()) {
         this.getNextChoice()
       }
     });
@@ -54,10 +54,8 @@ class Choices extends React.Component {
   }
 
   handleCardClicked (side) {
-    if (this.engine.getReplay().length === 0) {
-      this.engine.choiceMade(side, "human");
-      this.getNextChoice()
-    }
+    this.engine.choiceMade(side, "human");
+    this.getNextChoice()
   }
 
   getProgress () {
