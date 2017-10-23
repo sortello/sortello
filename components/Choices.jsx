@@ -19,6 +19,11 @@ class Choices extends React.Component {
     this.handleUndo = this.handleUndo.bind(this)
     this.startChoices = this.startChoices.bind(this)
 
+    this.cardToNode = {
+      'left': 'node',
+      'right': 'compareNode'
+    }
+
     this.state = {
       leftCard: null,
       rightCard: null
@@ -49,13 +54,8 @@ class Choices extends React.Component {
   }
 
   cardClicked (side, source) {
-    if ("left" === side) {
-      this.engine.choiceMade('node')
-    }
-    else if ("right" === side) {
-      this.engine.choiceMade('compareNode')
-    }
-      this.engine.addToHistory({f: this.cardClicked, p: side, s: source})
+    this.engine.choiceMade(this.cardToNode[side])
+    this.engine.addToHistory({f: this.cardClicked, p: side, s: source})
     this.getNextChoice();
   }
 
