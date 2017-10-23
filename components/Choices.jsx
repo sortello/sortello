@@ -55,14 +55,14 @@ class Choices extends React.Component {
 
   cardClicked (side, source) {
     this.engine.choiceMade(this.cardToNode[side])
-    this.engine.addToHistory({f: this.cardClicked, p: side, s: source})
+    this.engine.addToHistory({p: side, s: source})
     this.getNextChoice();
   }
 
   autoChoice () { // Auto-click forgotten card
     if (this.engine.getReplay().length > 0) {
       const nextAction = this.engine.getNextReplayAction();
-      nextAction.f(nextAction.p);
+      this.cardClicked(nextAction.p);
     } else {
       if (this.engine.nodeIsBlackListed()) {
         this.cardClicked("right", "auto");
