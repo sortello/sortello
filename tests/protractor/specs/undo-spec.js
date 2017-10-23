@@ -1,4 +1,4 @@
-describe('sort list asc', function () {
+describe('sort list asc using undo', function () {
   it('prioritizes the test column using undo button', function () {
       browser.ignoreSynchronization = true;
       protractor.accessFromChromeExtension.accessFromChromeExtension();
