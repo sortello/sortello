@@ -28,6 +28,11 @@ class Card extends React.Component{
           <div className="card__title">{this.props.data.name}</div>
         </div>
         {cardButtons}
+        <div>
+          {this.props.voters.map((item, index) => (
+            <div key={index}>{item}</div>
+          ))}
+        </div>
       </div>
     );
   }

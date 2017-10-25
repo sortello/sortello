@@ -15,17 +15,17 @@ io.on('connection', (socket) => {
   socket.on('room', function (room) {
     socket.join(room);
     io.to(room).emit('getCurrentChoice')
+    io.to(room).emit('voterJoined',socket.id)
   });
 
-  socket.on('cardClicked', function (room) {
-    console.log("CC server: " + room)
-    console.log("Somebody clicked a card")
-    io.to(room).emit('cardClicked', room)
+  socket.on('cardClicked', function (side, room) {
+    io.to(room).emit('cardClicked', side, socket.id, room)
   })
 
   socket.on('prioritizationEnded', function (room) {
     io.to(room).emit('prioritizationEnded', room)
   })
+
 
 
   // Emitted by admin choices

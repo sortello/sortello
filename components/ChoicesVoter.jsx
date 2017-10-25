@@ -19,7 +19,10 @@ class Choices extends React.Component {
     this.state = {
       leftCard: null,
       rightCard: null,
-      ended: false
+      ended: false,
+      leftVoters: [],
+      rightVoters: [],
+      hasVoted: false
     }
     let component = this
 
@@ -41,7 +44,8 @@ class Choices extends React.Component {
     socket.on('nextChoice', function (leftCard, rightCard) {
       component.setState({
         leftCard: leftCard,
-        rightCard: rightCard
+        rightCard: rightCard,
+        hasVoted: false
       })
     })
 
@@ -53,7 +57,12 @@ class Choices extends React.Component {
   }
 
   handleCardClicked (side) {
-    socket.emit('cardClicked', side, this.state.roomId)
+    if(!this.state.hasVoted){
+      socket.emit('cardClicked', side, this.state.roomId)
+    }
+    this.setState({
+      hasVoted: true
+    })
   }
 
   render () {
@@ -68,9 +77,9 @@ class Choices extends React.Component {
         <div className="container__choose-card">
           <div className="choose-card__heading">Select the highest priority card</div>
           <Card id="left_button" side="node" handleClick={this.handleCardClicked}
-                forget={null} data={this.state.leftCard.value}/>
+                forget={null} data={this.state.leftCard.value} voters={this.state.leftVoters}/>
           <Card id="right_button" side="compareNode" handleClick={this.handleCardClicked}
-                forget={null} data={this.state.rightCard.value}/>
+                forget={null} data={this.state.rightCard.value} voters={this.state.rightVoters}/>
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
 
         </div>

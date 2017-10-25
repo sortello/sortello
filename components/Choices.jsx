@@ -23,24 +23,69 @@ class Choices extends React.Component {
     this.state = {
       leftCard: null,
       rightCard: null,
-      roomId: null
+      roomId: null,
+      leftVoters: [],
+      rightVoters: [],
+      roomVoters: []
     }
   }
 
   // Admin wants to create a new room
   createRoom () {
+    let component = this;
     socket.emit('openNewRoom')
     socket.on('newRoomOpened', roomId => {
       console.log(roomId)
-      this.setState({
+      component.setState({
         roomId: roomId
       })
     })
 
-    let component = this;
+    socket.on('voterJoined', function (voterId) {
+      let voters = component.state.roomVoters.concat(voterId);
+      component.setState({
+        roomVoters: voters
+      })
+    })
+
+    socket.on('voterLeft', function (voterId) {
+      let voters = component.state.roomVoters;
+      let index = voters.indexOf(voterId)
+      voters.splice(index, 1);
+      component.setState({roomVoters: voters});
+    })
+
     socket.on('getCurrentChoice', function () {
       socket.emit('nextChoice', component.state.leftCard, component.state.rightCard, component.state.roomId)
     })
+
+    socket.on('cardClicked', function (side, voterId) {
+      if ('node' === side) {
+        let lv = component.state.leftVoters.concat(voterId);
+        component.setState({
+          leftVoters: lv
+        },function(){
+          component.checkTotalVotes()
+        })
+      }
+      if ('compareNode' === side) {
+        let rv = component.state.rightVoters.concat(voterId);
+        component.setState({
+          rightVoters: rv
+        },function(){
+          component.checkTotalVotes()
+        })
+      }
+    })
+  }
+
+  checkTotalVotes(){
+    if(this.state.leftVoters >= this.state.roomVoters/2){
+      this.handleCardClicked('node');
+    }
+    if(this.state.rightVoters >= this.state.roomVoters/2){
+      this.handleCardClicked('compareNode');
+    }
   }
 
   startChoices () {
@@ -90,18 +135,18 @@ class Choices extends React.Component {
       return (<span>Loading...</span>);
     }
     let roomLink = '';
-    if(this.state.roomId !== null){
-      let shareLink =  window.location.hostname + '?roomKey=' + this.state.roomId
-      roomLink = <p>Share Link: <a href={'//'+shareLink}>{shareLink}</a></p>
+    if (this.state.roomId !== null) {
+      let shareLink = window.location.hostname + '?roomKey=' + this.state.roomId
+      roomLink = <p>Share Link: <a href={'//' + shareLink}>{shareLink}</a></p>
     }
     return (
       <div id="second_div">
         <div className="container__choose-card">
           <div className="choose-card__heading">Select the highest priority card</div>
           <Card id="left_button" side="node" handleClick={this.handleCardClicked}
-                forget={this.handleAddToBlacklist} data={this.state.leftCard.value}/>
+                forget={this.handleAddToBlacklist} data={this.state.leftCard.value} voters={this.state.leftVoters}/>
           <Card id="right_button" side="compareNode" handleClick={this.handleCardClicked}
-                forget={this.handleAddToBlacklist} data={this.state.rightCard.value}/>
+                forget={this.handleAddToBlacklist} data={this.state.rightCard.value} voters={this.state.rightVoters}/>
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
 
           <button onClick={() => this.handleUndoClicked()} id="undo_button" className="normalize__undo-button">
@@ -131,8 +176,11 @@ class Choices extends React.Component {
           <Footer/>
         </div>
         <button onClick={this.createRoom}>Open new room</button>
-        <p>{roomLink}</p>
-
+        {roomLink}
+        Voters:
+        {this.state.roomVoters.map((item, index) => (
+          <p key={index}>{item}</p>
+        ))}
       </div>
     )
   }
