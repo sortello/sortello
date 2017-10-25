@@ -4,23 +4,43 @@ import TreeDraw from './TreeDraw.jsx';
 import Card from './Card.jsx';
 import Footer from "./Footer.jsx"
 import {clone} from "lodash"
-import Room from "./Room.jsx"
 import Engine from "../model/Engine.js"
+import io from 'socket.io-client';
+
+const socket = io('http://localhost:8000/');
 
 class Choices extends React.Component {
 
   constructor (props) {
     super(props);
-    this.engine = new Engine(clone(this.props.nodes), clone(this.props.rootNode));
+    this.engine = new Engine(clone(this.props.nodes), clone(this.props.rootNode))
     this.handleCardClicked = this.handleCardClicked.bind(this)
     this.handleAddToBlacklist = this.handleAddToBlacklist.bind(this)
     this.handleUndoClicked = this.handleUndoClicked.bind(this)
     this.startChoices = this.startChoices.bind(this)
+    this.createRoom = this.createRoom.bind(this)
 
     this.state = {
       leftCard: null,
-      rightCard: null
+      rightCard: null,
+      roomId: null
     }
+  }
+
+  // Admin wants to create a new room
+  createRoom () {
+    socket.emit('openNewRoom')
+    socket.on('newRoomOpened', roomId => {
+      console.log(roomId)
+      this.setState({
+        roomId: roomId
+      })
+    })
+
+    let component = this;
+    socket.on('getCurrentChoice', function () {
+      socket.emit('nextChoice', component.state.leftCard, component.state.rightCard, component.state.roomId)
+    })
   }
 
   startChoices () {
@@ -31,6 +51,7 @@ class Choices extends React.Component {
 
   getNextChoice () {
     if (this.engine.getEnded()) {
+      socket.emit('prioritizationEnded', this.state.roomId)
       this.props.setSortedRootNode(this.engine.getRootNode());
       return
     }
@@ -41,6 +62,7 @@ class Choices extends React.Component {
       if (this.engine.autoChoice()) {
         this.getNextChoice()
       }
+      socket.emit('nextChoice', this.state.leftCard, this.state.rightCard, this.state.roomId)
     });
   }
 
@@ -66,6 +88,11 @@ class Choices extends React.Component {
   render () {
     if (this.state.leftCard == null || this.state.rightCard == null) {
       return (<span>Loading...</span>);
+    }
+    let roomLink = '';
+    if(this.state.roomId !== null){
+      let shareLink =  window.location.hostname + '?roomKey=' + this.state.roomId
+      roomLink = <p>Share Link: <a href={'//'+shareLink}>{shareLink}</a></p>
     }
     return (
       <div id="second_div">
@@ -98,13 +125,13 @@ class Choices extends React.Component {
           </div>
         </div>
         <div className={"logout__button"}>
-          <Room becomeVoter={this.becomeVoter}></Room>
           <Header/>
-
         </div>
         <div className={"footer"}>
           <Footer/>
         </div>
+        <button onClick={this.createRoom}>Open new room</button>
+        <p>{roomLink}</p>
 
       </div>
     )

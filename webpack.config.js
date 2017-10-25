@@ -7,7 +7,6 @@ module.exports = {
         filename: "bundle.js",
         publicPath: "/build/" // path in URL
     },
-
     module: {
         loaders: [{
           test: /\.jsx?$/,         // Match both .js and .jsx files

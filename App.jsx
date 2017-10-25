@@ -2,8 +2,10 @@ import React from "react"
 import ApiKey from "./components/ApiKey.jsx"
 import ColumnSelection from "./components/ColumnSelection.jsx"
 import Choices from "./components/Choices.jsx"
+import ChoicesVoter from "./components/ChoicesVoter.jsx"
 import Results from "./components/Results.jsx"
 import treeNodeFactory from "./model/treeNodeFactory"
+import queryString from "query-string"
 
 
 class App extends React.Component {
@@ -23,19 +25,28 @@ class App extends React.Component {
     this.handleCards = this.handleCards.bind(this)
     this.handleAuthentication = this.handleAuthentication.bind(this)
     this.componentDidMount = this.componentDidMount.bind(this)
-
   }
 
   componentDidMount () {
     jQuery('.choice_button .card_link').click(function (e) {
       e.stopPropagation();
     });
+
   }
 
   handleAuthentication () {
-    this.setState({
-      currentView: 2
-    });
+    const params = queryString.parse(location.search);
+    if (params.roomKey !== undefined) {
+      this.setState({
+        rootNode: [],
+        nodes: [],
+        currentView: 5
+      })
+    } else {
+      this.setState({
+        currentView: 2
+      });
+    }
   }
 
   handleCards (listCards) {
@@ -80,6 +91,13 @@ class App extends React.Component {
         return (
           <Results rootNode={this.state.rootNode} Trello={this.state.Trello}
                    startTimeStamp={this.state.startTimeStamp}/>);
+
+      case 5:
+        return (
+          <ChoicesVoter ref="choicesVoter" setSortedRootNode={this.setSortedRootNode}
+                        setStartTimeStamp={this.setStartTimeStamp}
+                        nodes={this.state.nodes}
+                        rootNode={this.state.rootNode}/>);
       default:
         return (<h3>Error</h3>);
     }
