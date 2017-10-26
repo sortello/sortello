@@ -5,40 +5,38 @@ import {shuffle} from "lodash"
 
 describe('treeNodeFactoryBenchmark', () => {
 
-  // Try also with very small tree. Example: 2-nodes
-  it('should be slower without rebalancing', () => {
 
+  function executeOrdering (applyRebalance, cycles) {
     var sumSteps = 0;
-    for (var r = 0; r < 100; r++) {
+    for (var r = 0; r < cycles; r++) {
       var nodes = [];
       for (var i = 1; i <= 50; i++) {
         nodes.push(treeNodeFactory(i));
       }
       nodes = shuffle(nodes);
 
-      var [reorderedNodesArray, steps] = buildAndReorderTree(nodes, false);
+      var [reorderedNodesArray, steps] = buildAndReorderTree(nodes, applyRebalance);
 
       sumSteps += steps;
     }
-    console.log("Tree ordered in " + (sumSteps / 100) + "steps on average without rebalance");
+    return sumSteps;
+  }
 
+  // Try also with very small tree. Example: 2-nodes
+  it('should be slower without rebalancing', () => {
+    let applyRebalance = false;
+    let cycles = 100
 
+    var sumSteps = executeOrdering(applyRebalance, cycles);
+    console.log("Tree ordered in " + (sumSteps / cycles) + "steps on average without rebalance");
   });
 
   it('should be faster with rebalancing', () => {
-    var sumSteps = 0;
-    for (var r = 0; r < 100; r++) {
-      var nodes = [];
-      for (var i = 1; i <= 50; i++) {
-        nodes.push(treeNodeFactory(i));
-      }
-      nodes = shuffle(nodes);
+    let applyRebalance = true;
+    let cycles = 100
 
-      var [reorderedNodesArray, steps] = buildAndReorderTree(nodes, true);
-
-      sumSteps += steps;
-    }
-    console.log("Tree ordered in " + (sumSteps / 100) + "steps on average with rebalance");
+    var sumSteps = executeOrdering(applyRebalance, cycles);
+    console.log("Tree ordered in " + (sumSteps / cycles) + "steps on average with rebalance");
   });
 
   function buildAndReorderTree (nodes, applyRebalance) {
