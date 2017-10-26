@@ -1,6 +1,5 @@
 [![CircleCI](https://circleci.com/gh/mazzcris/sortello.svg?style=shield)](https://circleci.com/gh/mazzcris/sortello)
 [![Code Climate](https://codeclimate.com/github/mazzcris/sortello/badges/gpa.svg)](https://codeclimate.com/github/mazzcris/sortello)
-[![Issue Count](https://codeclimate.com/github/mazzcris/sortello/badges/issue_count.svg)](https://codeclimate.com/github/mazzcris/sortello)
 
 # Sortello
 A javascript application to sort/prioritize Trello cards
