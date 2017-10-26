@@ -9,7 +9,7 @@ describe('treeNodeFactoryBenchmark', () => {
   it('should be slower without rebalancing', () => {
 
     var sumSteps = 0;
-    for(var r = 0; r < 100; r++){
+    for (var r = 0; r < 100; r++) {
       var nodes = [];
       for (var i = 1; i <= 50; i++) {
         nodes.push(treeNodeFactory(i));
@@ -20,14 +20,14 @@ describe('treeNodeFactoryBenchmark', () => {
 
       sumSteps += steps;
     }
-    console.log("Tree ordered in " + (sumSteps/100) + "steps on average without rebalance");
+    console.log("Tree ordered in " + (sumSteps / 100) + "steps on average without rebalance");
 
 
   });
 
   it('should be faster with rebalancing', () => {
     var sumSteps = 0;
-    for(var r = 0; r < 100; r++){
+    for (var r = 0; r < 100; r++) {
       var nodes = [];
       for (var i = 1; i <= 50; i++) {
         nodes.push(treeNodeFactory(i));
@@ -38,13 +38,14 @@ describe('treeNodeFactoryBenchmark', () => {
 
       sumSteps += steps;
     }
-    console.log("Tree ordered in " + (sumSteps/100) + "steps on average with rebalance");
+    console.log("Tree ordered in " + (sumSteps / 100) + "steps on average with rebalance");
   });
 
-  function buildAndReorderTree(nodes, applyRebalance){
+  function buildAndReorderTree (nodes, applyRebalance) {
 
     var rootNode = nodes[0];
     var steps = 0;
+
     function getChoice (node, compareNode, currNode) {
       steps++;
       if (node.value < compareNode.value) {
@@ -54,7 +55,7 @@ describe('treeNodeFactoryBenchmark', () => {
       }
 
       if (node.isPositioned) {
-        if(applyRebalance){
+        if (applyRebalance) {
           rootNode = treeRebalancer(rootNode)
         }
         choicesCycle(currNode + 1);
@@ -64,6 +65,7 @@ describe('treeNodeFactoryBenchmark', () => {
     }
 
     var reorderedNodesArray = [];
+
     function choicesCycle (currNode) {
       if (currNode < nodes.length) {
         getChoice(nodes[currNode], rootNode, currNode);
@@ -74,6 +76,7 @@ describe('treeNodeFactoryBenchmark', () => {
         }
       }
     }
+
     choicesCycle(1);
     return [reorderedNodesArray, steps];
   }

@@ -57,11 +57,7 @@ describe('treeNodeFactory', () => {
 
     function getChoice (node, compareNode, currNode) {
 
-      if (node.value < compareNode.value) {
-        compareNode = node.goLeft(compareNode);
-      } else {
-        compareNode = node.goRight(compareNode);
-      }
+      compareNode = choose(node, compareNode);
 
       if (node.isPositioned) {
         choicesCycle(currNode + 1);
@@ -88,6 +84,15 @@ describe('treeNodeFactory', () => {
 
   })
 
+  function choose (node, compareNode) {
+    if (node.value < compareNode.value) {
+      compareNode = node.goLeft(compareNode);
+    } else {
+      compareNode = node.goRight(compareNode);
+    }
+    return compareNode;
+  }
+
   it('should build and reorder the nodes correctly when using tree rebalance', () => {
     var nodes = shuffle([
       treeNodeFactory(1),
@@ -101,11 +106,7 @@ describe('treeNodeFactory', () => {
 
     function getChoice (node, compareNode, currNode) {
 
-      if (node.value < compareNode.value) {
-        compareNode = node.goLeft(compareNode);
-      } else {
-        compareNode = node.goRight(compareNode);
-      }
+      compareNode = choose(node, compareNode);
 
       if (node.isPositioned) {
         rootNode = treeRebalancer(rootNode)
