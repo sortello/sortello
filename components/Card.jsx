@@ -17,6 +17,7 @@ class Card extends React.Component{
              }} data-cardid={this.props.data.id}>
           Forget this card
         </div>
+
       </div>
     }
 
@@ -26,13 +27,13 @@ class Card extends React.Component{
           this.props.handleClick(this.props.side)
         }} data-cardId="0">
           <div className="card__title">{this.props.data.name}</div>
+          <div>
+            {this.props.voters.map((item, index) => (
+              <img key={index} src={item.trelloAvatar} />
+            ))}
+          </div>
         </div>
         {cardButtons}
-        <div>
-          {this.props.voters.map((item, index) => (
-            <div key={index}>{item}</div>
-          ))}
-        </div>
       </div>
     );
   }

@@ -59,31 +59,38 @@ class Choices extends React.Component {
       socket.emit('nextChoice', component.state.leftCard, component.state.rightCard, component.state.roomId)
     })
 
-    socket.on('cardClicked', function (side, voterId) {
+    socket.on('cardClicked', function (side, voterId, trelloId, trelloAvatar) {
+
+      let voter  = {
+        voterId : voterId,
+          trelloId : trelloId,
+        trelloAvatar: trelloAvatar
+      }
+
       if ('node' === side) {
-        let lv = component.state.leftVoters.concat(voterId);
+        let lv = component.state.leftVoters.concat(voter);
         component.setState({
           leftVoters: lv
-        },function(){
+        }, function () {
           component.checkTotalVotes()
         })
       }
       if ('compareNode' === side) {
-        let rv = component.state.rightVoters.concat(voterId);
+        let rv = component.state.rightVoters.concat(voter);
         component.setState({
           rightVoters: rv
-        },function(){
+        }, function () {
           component.checkTotalVotes()
         })
       }
     })
   }
 
-  checkTotalVotes(){
-    if(this.state.leftVoters >= this.state.roomVoters/2){
+  checkTotalVotes () {
+    if (this.state.leftVoters.length >= (this.state.roomVoters.length+1) / 2) { // Must count admin
       this.handleCardClicked('node');
     }
-    if(this.state.rightVoters >= this.state.roomVoters/2){
+    if (this.state.rightVoters.length >= (this.state.roomVoters.length+1) / 2) { // Must count admin
       this.handleCardClicked('compareNode');
     }
   }
@@ -98,17 +105,19 @@ class Choices extends React.Component {
     if (this.engine.getEnded()) {
       socket.emit('prioritizationEnded', this.state.roomId)
       this.props.setSortedRootNode(this.engine.getRootNode());
-      return
+    } else {
+      this.setState({
+        leftCard: this.engine.getNode(),
+        rightCard: this.engine.getCompareNode(),
+        leftVoters: [],
+        rightVoters: []
+      }, function () {
+        if (this.engine.autoChoice()) {
+          this.getNextChoice()
+        }
+        socket.emit('nextChoice', this.state.leftCard, this.state.rightCard, this.state.roomId)
+      });
     }
-    this.setState({
-      leftCard: this.engine.getNode(),
-      rightCard: this.engine.getCompareNode()
-    }, function () {
-      if (this.engine.autoChoice()) {
-        this.getNextChoice()
-      }
-      socket.emit('nextChoice', this.state.leftCard, this.state.rightCard, this.state.roomId)
-    });
   }
 
   handleUndoClicked () {

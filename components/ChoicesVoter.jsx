@@ -14,7 +14,17 @@ class Choices extends React.Component {
 
   constructor (props) {
     super(props);
+    let component = this
     this.handleCardClicked = this.handleCardClicked.bind(this)
+    this.Trello = this.props.Trello
+
+    this.props.Trello.members.get('me', {}, function (data) {
+      console.log(data)
+      component.trelloId = data.id
+      component.trelloAvatar = '//trello-avatars.s3.amazonaws.com/' + data.avatarHash + '/50.png'
+    }, function (e) {
+      console.log(e);
+    });
 
     this.state = {
       leftCard: null,
@@ -24,7 +34,6 @@ class Choices extends React.Component {
       rightVoters: [],
       hasVoted: false
     }
-    let component = this
 
     if (params.roomKey !== undefined) {
       this.state.roomId = params.roomKey
@@ -57,8 +66,8 @@ class Choices extends React.Component {
   }
 
   handleCardClicked (side) {
-    if(!this.state.hasVoted){
-      socket.emit('cardClicked', side, this.state.roomId)
+    if (!this.state.hasVoted) {
+      socket.emit('cardClicked', side, this.state.roomId, this.trelloId, this.trelloAvatar)
     }
     this.setState({
       hasVoted: true
@@ -69,7 +78,7 @@ class Choices extends React.Component {
     if (this.state.leftCard == null || this.state.rightCard == null) {
       return (<span>Loading...</span>);
     }
-    if(this.state.ended){
+    if (this.state.ended) {
       return (<div>Prioritization ended. Take a break!</div>)
     }
     return (

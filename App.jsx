@@ -94,7 +94,8 @@ class App extends React.Component {
 
       case 5:
         return (
-          <ChoicesVoter ref="choicesVoter" setSortedRootNode={this.setSortedRootNode}
+          <ChoicesVoter Trello={this.state.Trello}
+                        ref="choicesVoter" setSortedRootNode={this.setSortedRootNode}
                         setStartTimeStamp={this.setStartTimeStamp}
                         nodes={this.state.nodes}
                         rootNode={this.state.rootNode}/>);

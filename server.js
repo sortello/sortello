@@ -18,8 +18,8 @@ io.on('connection', (socket) => {
     io.to(room).emit('voterJoined',socket.id)
   });
 
-  socket.on('cardClicked', function (side, room) {
-    io.to(room).emit('cardClicked', side, socket.id, room)
+  socket.on('cardClicked', function (side, room, trelloId, trelloAvatar) {
+    io.to(room).emit('cardClicked', side, socket.id, trelloId, trelloAvatar)
   })
 
   socket.on('prioritizationEnded', function (room) {
