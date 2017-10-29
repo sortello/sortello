@@ -18,13 +18,6 @@ class Choices extends React.Component {
     this.handleCardClicked = this.handleCardClicked.bind(this)
     this.Trello = this.props.Trello
 
-    this.props.Trello.members.get('me', {}, function (data) {
-      console.log(data)
-      component.trelloId = data.id
-      component.trelloAvatar = '//trello-avatars.s3.amazonaws.com/' + data.avatarHash + '/50.png'
-    }, function (e) {
-      console.log(e);
-    });
 
     this.state = {
       leftCard: null,
@@ -36,15 +29,29 @@ class Choices extends React.Component {
     }
 
     if (params.roomKey !== undefined) {
-      this.state.roomId = params.roomKey
-
-      //client joins the room
+      console.log(component.trelloId)
+      component.state.roomId = params.roomKey
       socket.on('connect', function () {
         console.log("connecting to room");
-        socket.emit('room', params.roomKey);
-        socket.emit('getCurrentChoice', params.roomKey);
+        component.props.Trello.members.get('me', {}, function (data) {
+          console.log(data)
+          component.trelloId = data.id
+
+          component.trelloAvatar = '//trello-avatars.s3.amazonaws.com/' + data.avatarHash + '/50.png'
+          if(data.avatarHash === null){
+            component.trelloAvatar = '//www.gravatar.com/avatar/' + data.gravatarHash + '?s=64&d=identicon'
+          }
+          socket.emit('room', params.roomKey, component.trelloId, component.trelloAvatar);
+          socket.emit('getCurrentChoice', params.roomKey);
+        }, function (e) {
+          console.log(e);
+        });
       });
     }
+
+
+
+
 
     // socket.on('cardClicked', function (room) {
     //   console.log("somebody clicked a card in room " + room)
@@ -63,6 +70,11 @@ class Choices extends React.Component {
         ended: true
       })
     })
+  }
+
+
+  connect(){
+
   }
 
   handleCardClicked (side) {

@@ -12,14 +12,14 @@ io.on('connection', (socket) => {
   })
 
   // Client wants to join the room
-  socket.on('room', function (room) {
+  socket.on('room', function (room, trelloId, trelloAvatar) {
     socket.join(room);
     io.to(room).emit('getCurrentChoice')
-    io.to(room).emit('voterJoined',socket.id)
+    io.to(room).emit('voterJoined', trelloId, trelloAvatar)
   });
 
   socket.on('cardClicked', function (side, room, trelloId, trelloAvatar) {
-    io.to(room).emit('cardClicked', side, socket.id, trelloId, trelloAvatar)
+    io.to(room).emit('cardClicked', side, trelloId, trelloAvatar)
   })
 
   socket.on('prioritizationEnded', function (room) {

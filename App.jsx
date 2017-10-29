@@ -84,7 +84,8 @@ class App extends React.Component {
         return (<ColumnSelection Trello={this.state.Trello} handleCards={this.handleCards}/>);
       case 3:
         return (
-          <Choices ref="choices" setSortedRootNode={this.setSortedRootNode} setStartTimeStamp={this.setStartTimeStamp}
+          <Choices Trello={this.state.Trello}
+                   ref="choices" setSortedRootNode={this.setSortedRootNode} setStartTimeStamp={this.setStartTimeStamp}
                    nodes={this.state.nodes}
                    rootNode={this.state.rootNode}/>);
       case 4:

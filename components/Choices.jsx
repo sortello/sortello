@@ -6,6 +6,7 @@ import Footer from "./Footer.jsx"
 import {clone} from "lodash"
 import Engine from "../model/Engine.js"
 import io from 'socket.io-client';
+import {find} from "lodash"
 
 const socket = io('http://localhost:8000/');
 
@@ -15,10 +16,21 @@ class Choices extends React.Component {
     super(props);
     this.engine = new Engine(clone(this.props.nodes), clone(this.props.rootNode))
     this.handleCardClicked = this.handleCardClicked.bind(this)
+    this.cardClicked = this.cardClicked.bind(this)
     this.handleAddToBlacklist = this.handleAddToBlacklist.bind(this)
     this.handleUndoClicked = this.handleUndoClicked.bind(this)
     this.startChoices = this.startChoices.bind(this)
     this.createRoom = this.createRoom.bind(this)
+    let component = this
+    component.props.Trello.members.get('me', {}, function (data) {
+      component.trelloId = data.id
+      component.trelloAvatar = '//trello-avatars.s3.amazonaws.com/' + data.avatarHash + '/50.png'
+      if(data.avatarHash === null){
+        component.trelloAvatar = '//www.gravatar.com/avatar/' + data.gravatarHash + '?s=64&d=identicon'
+      }
+    }, function (e) {
+      console.log(e);
+    });
 
     this.state = {
       leftCard: null,
@@ -28,6 +40,7 @@ class Choices extends React.Component {
       rightVoters: [],
       roomVoters: []
     }
+
   }
 
   // Admin wants to create a new room
@@ -35,35 +48,37 @@ class Choices extends React.Component {
     let component = this;
     socket.emit('openNewRoom')
     socket.on('newRoomOpened', roomId => {
-      console.log(roomId)
       component.setState({
         roomId: roomId
       })
     })
 
-    socket.on('voterJoined', function (voterId) {
-      let voters = component.state.roomVoters.concat(voterId);
+    socket.on('voterJoined', function (voterId, trelloAvatar) {
+      if(find(component.state.roomVoters, {'id': voterId}) !== undefined){
+        return
+      }
+      let voters = component.state.roomVoters.concat({id : voterId, avatar: trelloAvatar});
       component.setState({
         roomVoters: voters
       })
     })
 
-    socket.on('voterLeft', function (voterId) {
-      let voters = component.state.roomVoters;
-      let index = voters.indexOf(voterId)
-      voters.splice(index, 1);
-      component.setState({roomVoters: voters});
-    })
+    // socket.on('voterLeft', function (voterId) {
+    //   let voters = component.state.roomVoters;
+    //   let index = voters.indexOf(voterId)
+    //   voters.splice(index, 1);
+    //   component.setState({roomVoters: voters});
+    // })
 
     socket.on('getCurrentChoice', function () {
       socket.emit('nextChoice', component.state.leftCard, component.state.rightCard, component.state.roomId)
     })
 
-    socket.on('cardClicked', function (side, voterId, trelloId, trelloAvatar) {
+    socket.on('cardClicked', function (side, trelloId, trelloAvatar) {
 
       let voter  = {
-        voterId : voterId,
-          trelloId : trelloId,
+        voterId : trelloId,
+        trelloId : trelloId,
         trelloAvatar: trelloAvatar
       }
 
@@ -88,10 +103,10 @@ class Choices extends React.Component {
 
   checkTotalVotes () {
     if (this.state.leftVoters.length >= (this.state.roomVoters.length+1) / 2) { // Must count admin
-      this.handleCardClicked('node');
+      this.cardClicked('node');
     }
     if (this.state.rightVoters.length >= (this.state.roomVoters.length+1) / 2) { // Must count admin
-      this.handleCardClicked('compareNode');
+      this.cardClicked('compareNode');
     }
   }
 
@@ -102,6 +117,9 @@ class Choices extends React.Component {
   }
 
   getNextChoice () {
+    this.setState({
+      hasVoted: false
+    })
     if (this.engine.getEnded()) {
       socket.emit('prioritizationEnded', this.state.roomId)
       this.props.setSortedRootNode(this.engine.getRootNode());
@@ -130,9 +148,43 @@ class Choices extends React.Component {
     this.getNextChoice();
   }
 
-  handleCardClicked (side) {
+  cardClicked (side) {
     this.engine.choiceMade(side, "human");
     this.getNextChoice()
+  }
+
+  handleCardClicked(side){
+    if (this.state.hasVoted) {
+      return
+    }
+    let component = this
+
+    let voter  = {
+      voterId : component.trelloId,
+      trelloId : component.trelloId,
+      trelloAvatar: component.trelloAvatar
+    }
+
+    component.setState({
+      hasVoted: true
+    })
+
+    if ('node' === side) {
+      let lv = component.state.leftVoters.concat(voter);
+      component.setState({
+        leftVoters: lv
+      }, function () {
+        component.checkTotalVotes()
+      })
+    }
+    if ('compareNode' === side) {
+      let rv = component.state.rightVoters.concat(voter);
+      component.setState({
+        rightVoters: rv
+      }, function () {
+        component.checkTotalVotes()
+      })
+    }
   }
 
   getProgress () {
@@ -188,7 +240,7 @@ class Choices extends React.Component {
         {roomLink}
         Voters:
         {this.state.roomVoters.map((item, index) => (
-          <p key={index}>{item}</p>
+          <p key={index}>{item.id}</p>
         ))}
       </div>
     )
