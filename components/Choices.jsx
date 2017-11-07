@@ -166,7 +166,17 @@ const Choices = React.createClass({
     return (
       <div id="second_div">
         <div className="container__choose-card">
-          <div className="choose-card__heading">Select the highest priority card</div>
+          <div className="container__top-bar">
+            <div className="choose-card__heading">Select the highest priority card</div>
+            <div className="container__prioritization-status">
+              <div className={"progressive-bar__status-structure"}>
+                <div className={"progressive-bar__status"} role="progressbar" aria-valuenow={this.state.progress}
+                     aria-valuemin="0"
+                     aria-valuemax="100" style={{width: this.state.progress + '%'}}>
+                </div>
+              </div>
+            </div>
+          </div>
           <Card id="left_button" side="left" handleClick={this.handleCardClicked}
                 forget={this.addToBlacklist} data={this.state.leftCard.value}/>
           <Card id="right_button" side="right" handleClick={this.handleCardClicked}
@@ -184,15 +194,7 @@ const Choices = React.createClass({
           </button>
 
         </div>
-        <div className="container__prioritization-status">
-          <div className="text__prioritization-status">Prioritization progress</div>
-          <div className={"progressive-bar__status-structure"}>
-            <div className={"progressive-bar__status"} role="progressbar" aria-valuenow={this.state.progress}
-                 aria-valuemin="0"
-                 aria-valuemax="100" style={{width: this.state.progress + '%'}}>
-            </div>
-          </div>
-        </div>
+
         <div className={"logout__button"}>
           <Header/>
         </div>
