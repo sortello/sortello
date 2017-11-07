@@ -76,7 +76,17 @@ class Choices extends React.Component {
     return (
       <div id="second_div">
         <div className="container__choose-card">
-          <div className="choose-card__heading">Select the highest priority card</div>
+          <div className="container__top-bar">
+            <div className="choose-card__heading">Select the highest priority card</div>
+            <div className="container__prioritization-status">
+              <div className={"progressive-bar__status-structure"}>
+                <div className={"progressive-bar__status"} role="progressbar" aria-valuenow={this.state.progress}
+                     aria-valuemin="0"
+                     aria-valuemax="100" style={{width: this.state.progress + '%'}}>
+                </div>
+              </div>
+            </div>
+          </div>
           {this.renderCard("left_button", "node", this.state.leftCard.value)}
           {this.renderCard("right_button", "compareNode", this.state.rightCard.value)}
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
@@ -90,15 +100,6 @@ class Choices extends React.Component {
 
           </button>
 
-        </div>
-        <div className="container__prioritization-status">
-          <div className="text__prioritization-status">Prioritization progress</div>
-          <div className={"progressive-bar__status-structure"}>
-            <div className={"progressive-bar__status"} role="progressbar" aria-valuenow={this.getProgress()}
-                 aria-valuemin="0"
-                 aria-valuemax="100" style={{width: this.getProgress() + '%'}}>
-            </div>
-          </div>
         </div>
         <div className={"logout__button"}>
           <Header/>

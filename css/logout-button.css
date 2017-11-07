@@ -1,6 +1,8 @@
 .logout__button {
-  margin: 0 0 32px;
-  text-align: center;
+    margin: 32px 0;
+    text-align: left;
+    width: 50%;
+    float: left;
 }
 
 .logout__button--style {
