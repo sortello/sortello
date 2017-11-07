@@ -1,4 +1,4 @@
-describe('sort list asc', function () {
+describe('sort list asc using undo', function () {
   it('prioritizes the test column using undo button', function () {
       browser.ignoreSynchronization = true;
       protractor.accessFromChromeExtension.accessFromChromeExtension();
@@ -59,7 +59,7 @@ describe('sort list asc', function () {
         });
       }
 
-    let allLabel = element(by.css('.label.label__none'));
+    let allLabel = element(by.css('.label__item.label__none'));
     browser.wait(EC.presenceOf(allLabel), 20000).then(function () {
       allLabel.click();
       nextChoice();

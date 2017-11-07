@@ -28,7 +28,7 @@ describe('sort list asc', function () {
         });
       }
 
-      let allLabel = element(by.css('.label.label__blue'));
+      let allLabel = element(by.css('.label__item.label__blue'));
       browser.wait(EC.presenceOf(allLabel), 20000).then(function () {
         allLabel.click();
         nextChoice();

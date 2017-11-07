@@ -235,7 +235,7 @@ THE SOFTWARE.
       this.test_mode = false; // TODO: implement
 
       var default_text = 'We use cookies to enhance your experience. ' +
-        'By continuing to visit this site you agree to our use of cookies.';
+        'By continuing to use this site you agree to our use of cookies.';
       var default_link = 'Learn more';
 
       this.default_options = {
@@ -253,24 +253,24 @@ THE SOFTWARE.
         maskOpacity: 0.5,
         maskBackground: '#000',
         height: 'auto',
-        minHeight: '21px',
+        minHeight: '32px',
         bg: '#000',
         fg: '#ddd',
         link: '#aaa',
         position: 'bottom',
         message: default_text,
         linkmsg: default_link,
-        moreinfo: 'http://aboutcookies.org',
+        moreinfo: 'policy.html',
         moreinfoTarget: '_blank',
         moreinfoDecoration: 'none',
         moreinfoFontWeight: 'normal',
         effect: null,
         fontSize: '14px',
-        fontFamily: 'arial, sans-serif',
+        fontFamily: 'fira sans, sans-serif',
         instance: global_instance_name,
         textAlign: 'center',
-        acceptOnScroll: false,
-        acceptOnClick: false,
+        acceptOnScroll: true,
+        acceptOnClick: true,
         acceptOnTimeout: null,
         acceptOnFirstVisit: false
       };
@@ -340,7 +340,7 @@ THE SOFTWARE.
         var mask_opacity = this.options.maskOpacity;
         var bg = this.options.maskBackground;
         var mask_markup = '<div id="cookiebanner-mask" style="' +
-          'position:fixed;top:0;left:0;width:100%;height:100%;' +
+          'position:fixed;top:0;left:0;' +
           'background:' + bg + ';zoom:1;filter:alpha(opacity=' +
           (mask_opacity * 100) +');opacity:' + mask_opacity +';' +
           'z-index:' + this.options.zindex +';"></div>';
@@ -419,7 +419,7 @@ THE SOFTWARE.
       el.style.color = this.options.fg;
       el.style.lineHeight = el.style.minHeight;
 
-      el.style.padding = '5px 16px';
+      el.style.padding = '8px';
 
       el.style.fontFamily = this.options.fontFamily;
       el.style.fontSize = this.options.fontSize;

@@ -9,30 +9,40 @@ const treeNode = {
   "vertical-align": "top"
 };
 
-const Results = React.createClass({
-  printNode: function (node) {
+class Results extends React.Component {
+  constructor (props) {
+    super(props)
+    this.printNode = this.printNode.bind(this)
+    this.printLeft = this.printLeft.bind(this)
+    this.printRight = this.printRight.bind(this)
+  }
+
+  printNode (node) {
     if (node !== undefined && typeof node === 'object' && node !== null) {
       return <div>{node.value.name}
-              <br/>
-              <div style={treeNode}>{this.printLeft(node.left)}</div>
-              <div style={treeNode}>{this.printRight(node.right)}</div>
-            </div>;
+        <br/>
+        <div style={treeNode}>{this.printLeft(node.left)}</div>
+        <div style={treeNode}>{this.printRight(node.right)}</div>
+      </div>;
     }
-  },
-  printLeft: function (subtree) {
+  }
+
+  printLeft (subtree) {
     return this.printNode(subtree);
-  },
-  printRight: function (subtree) {
+  }
+
+  printRight (subtree) {
     return this.printNode(subtree);
-  },
-  render: function () {
+  }
+
+  render () {
     return (
-        <div id="tree_draw" className={"send-ordered--container"}>
-          <div>{this.printNode(this.props.tree)}</div>
-        </div>
+      <div id="tree_draw" className={"send-ordered--container"}>
+        <div>{this.printNode(this.props.tree)}</div>
+      </div>
     )
   }
-})
+}
 
 
 export default Results

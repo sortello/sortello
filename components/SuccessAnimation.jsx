@@ -1,8 +1,7 @@
 import React from "react"
 
-const SuccessAnimation = React.createClass({
-   
-    render: function() {
+class SuccessAnimation extends React.Component{
+    render() {
         return (
 			<div>
 				<svg id="Livello_1" x="0px" y="0px" width="100px" height="100px" viewBox="0 0 100 100" className="send-success__svg">
@@ -12,7 +11,6 @@ const SuccessAnimation = React.createClass({
 			</div>
         );
     }
-
-});
+}
 
 export default SuccessAnimation
