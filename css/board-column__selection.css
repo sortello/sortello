@@ -1,3 +1,86 @@
+.label__wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.label__container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+.label__item{
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: "Fira Sans", sans-serif;
+    line-height: 20px;
+    min-width: 40px;
+    width: auto;
+    padding: 4px 12px;
+    margin: 4px;
+    color: white;
+    transition: all .2s ease-in-out;
+    box-shadow: 0 2px 4px 0 #ccc;
+
+
+}
+
+.label__item:hover{
+    box-shadow: 0 2px 4px 0 #bbb;
+}
+.microcopy__text {
+  font-size: 14px;
+  color: #4A4A4A;
+  text-align: center;
+  font-weight: 400;
+  font-family: "Fira Sans", sans-serif;
+  line-height: 20px;
+  margin: 16px 0;
+}
+.microcopy__icon {
+  margin-bottom: 16px;
+}
+.label__none{
+    /*background-color: #4A4A4A;*/
+    background: -webkit-linear-gradient(left top, #68E0E6, #005AFF); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right, #68E0E6, #005AFF); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, #68E0E6, #005AFF); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right, #68E0E6, #005AFF);
+}
+.label__sky {
+    background-color: #00C2E0;
+}
+.label__lime {
+    background-color: #51E898;
+}
+.label__pink {
+    background-color: #FF80CE;
+}
+.label__black {
+    background-color: #4d4d4d;
+}
+.label__yellow {
+    background-color: #F2D600;
+}
+
+.label__orange {
+    background-color: #FFAB4A;
+}
+.label__blue {
+    background-color: #0079BF;
+}
+.label__purple {
+    background-color: #C377E0;
+}
+.label__green {
+    background-color: #61BD4F;
+}
+.label__red {
+    background-color: #EB5A46;
+}
+
 .selection__heading {
 	font-size: 32px;
 	font-family: "Fira Sans", sans-serif;
