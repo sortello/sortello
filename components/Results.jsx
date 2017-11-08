@@ -15,25 +15,31 @@ function closeOverlay () {
 }
 
 
-const Results = React.createClass({
-  getInitialState: function () {
-    return {uploadDone: false, duration: null};
-  },
+class Results extends React.Component {
+  constructor (props) {
+    super(props);
+    this.state = {uploadDone: false, duration: null};
+    this.componentDidMount = this.componentDidMount.bind(this);
+  }
+
   componentDidMount () {
     this.setDuration();
-  },
-  setDuration: function () {
+  }
+
+  setDuration () {
     var component = this;
     let start = this.props.startTimeStamp;
     let end = Date.now();
     component.setState({
       duration: end - start
     })
-  },
-  getReorderedNodes: function () {
+  }
+
+  getReorderedNodes () {
     return traverseTree(this.props.rootNode)
-  },
-  updateBoard: function () {
+  }
+
+  updateBoard () {
     var component = this;
 
     function showUploadDone () {
@@ -72,9 +78,9 @@ const Results = React.createClass({
     }
 
     placeNextCard({pos: null});
-  },
+  }
 
-  render: function () {
+  render () {
     return (
       <div className={"send-ordered__wrapper"}>
         <div id="last_div" className={"send-ordered__container"}>
@@ -100,7 +106,7 @@ const Results = React.createClass({
                 <AlmostDoneAnimation/>
                 <div className="send-ordered__heading">Almost done!</div>
                 <div className="send-ordered__button button__primary button__text">
-                  <button id="update_board" onClick={this.updateBoard}>
+                  <button id="update_board" onClick={() => this.updateBoard()}>
                     Send ordered data to your board
                   </button>
                 </div>
@@ -117,7 +123,7 @@ const Results = React.createClass({
                     <div className="recap-overlay__title">Check it out! This is your new list</div>
                     <Recap cards={this.getReorderedNodes()}/>
                     <div className="button__primary button__text recap-overlay__button">
-                      <button id="recap_update_board" onClick={this.updateBoard}>
+                      <button id="recap_update_board" onClick={(e) => this.updateBoard(e)}>
                         Send ordered data to your board
                       </button>
                     </div>
@@ -134,6 +140,6 @@ const Results = React.createClass({
       </div>
     )
   }
-});
+};
 
 export default Results

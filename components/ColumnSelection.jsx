@@ -8,9 +8,10 @@ import queryString from "query-string";
 import Footer from "./Footer.jsx"
 
 
-const ColumnSelection = React.createClass({
-  getInitialState: function () {
-    return {
+class ColumnSelection extends React.Component {
+  constructor (props) {
+    super(props);
+    this.state = {
       boards: [],
       lists: [],
       labels: [],
@@ -18,8 +19,15 @@ const ColumnSelection = React.createClass({
       organizations: [],
       fromExtension: false
     }
-  },
-  componentDidMount: function () {
+    this.getBoardColumns = this.getBoardColumns.bind(this);
+    this.retrieveCardsByListId = this.retrieveCardsByListId.bind(this);
+    this.handleBoardClicked = this.handleBoardClicked.bind(this);
+    this.handleListClicked = this.handleListClicked.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
+    this.labelSelected = this.labelSelected.bind(this);
+  }
+
+  componentDidMount () {
     var Trello = this.props.Trello;
 
     var that = this;
@@ -71,8 +79,9 @@ const ColumnSelection = React.createClass({
     }, function (e) {
       console.log(e);
     });
-  },
-  labelSelected: function (labelId) {
+  }
+
+  labelSelected (labelId) {
     let listCards = this.state.listCards;
     if (labelId !== 0) {
       let label = find(this.state.labels, {'id': labelId});
@@ -81,8 +90,9 @@ const ColumnSelection = React.createClass({
       });
     }
     this.props.handleCards(listCards);
-  },
-  retrieveCardsByListId: function (listId) {
+  }
+
+  retrieveCardsByListId (listId) {
     var that = this;
     let labels = [];
     this.props.Trello.lists.get(listId, {cards: "open"}, function (data) {
@@ -90,6 +100,7 @@ const ColumnSelection = React.createClass({
       that.setState({
         listCards: listCards
       });
+      console.log(listCards);
       listCards.forEach(function (card) {
         card.labels.forEach(function (label) {
           if (find(labels, {'id': label.id}) === undefined) {
@@ -103,23 +114,27 @@ const ColumnSelection = React.createClass({
     }, function (e) {
       console.log(e);
     });
-  },
-  getBoardColumns: function (board) {
+  }
+
+  getBoardColumns (board) {
     this.setState({
       lists: board.lists
     });
-  },
-  handleBoardClicked: function (boardId) {
+  }
+
+  handleBoardClicked (boardId) {
 
     var board = find(this.state.boards, {'id': boardId});
 
     this.getBoardColumns(board)
-  },
-  handleListClicked: function (listId) {
+  }
+
+  handleListClicked (listId) {
     var list = find(this.state.lists, {'id': listId});
     this.retrieveCardsByListId(list.id);
-  },
-  render: function () {
+  }
+
+  render () {
     return (
       <div id="card_url_div">
         <div className="selection__wrapper">
@@ -153,7 +168,6 @@ const ColumnSelection = React.createClass({
             }
           </div>
         </div>
-
         <div className={"logout__button logout__fade-in"}>
           <Header/>
         </div>
@@ -163,6 +177,6 @@ const ColumnSelection = React.createClass({
       </div>
     )
   }
-});
+};
 
 export default ColumnSelection

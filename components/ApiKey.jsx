@@ -1,12 +1,19 @@
 import React from "react"
 
+let LOCAL_STORAGE_KEY = "sortelloTrelloDevApiKey";
 
+class ApiKey extends React.Component{
+  constructor(props) {
+    super(props);
+    this.componentDidMount = this.componentDidMount.bind(this);
+    this.saveAPIKey = this.saveAPIKey.bind(this);
+    this.authenticateTrello = this.authenticateTrello.bind(this);
+    this.authenticationSuccess = this.authenticationSuccess.bind(this);
+    this.authenticationFailure = this.authenticationFailure.bind(this);
+    this.getContent = this.getContent.bind(this);
+  }
 
-
-var LOCAL_STORAGE_KEY = "sortelloTrelloDevApiKey";
-
-const ApiKey = React.createClass({
-  componentDidMount: function () {
+  componentDidMount () {
     if (localStorage.getItem(LOCAL_STORAGE_KEY)) {
       this.authenticateTrello(localStorage.getItem(LOCAL_STORAGE_KEY));
     }
@@ -14,8 +21,8 @@ const ApiKey = React.createClass({
     if (this.apiKeyIsHardCoded()) {
       localStorage.setItem(LOCAL_STORAGE_KEY, trelloApiKey);
     }
-  },
-  apiKeyIsHardCoded: function () {
+  }
+  apiKeyIsHardCoded () {
     try {
       if (trelloApiKey) {
         return true;
@@ -24,18 +31,18 @@ const ApiKey = React.createClass({
     } catch (e) {
       return false
     }
-  },
-  saveAPIKey: function () {
+  }
+  saveAPIKey () {
     localStorage.setItem(LOCAL_STORAGE_KEY, this.apiKey.value);
     this.authenticateTrello(this.apiKey.value);
-  },
-  handleButtonClick: function () {
+  }
+  handleButtonClick () {
     this.saveAPIKey()
-  },
-  handleStartButtonClick: function () {
+  }
+  handleStartButtonClick () {
     this.authenticateTrello(localStorage.getItem(LOCAL_STORAGE_KEY));
-  },
-  authenticateTrello: function (apiKey) {
+  }
+  authenticateTrello (apiKey) {
     var that = this;
     this.props.Trello.setKey(apiKey);
     this.props.Trello.authorize({
@@ -49,17 +56,17 @@ const ApiKey = React.createClass({
       success: that.authenticationSuccess,
       error: that.authenticationFailure
     });
-  },
-  authenticationSuccess: function () {
+  }
+  authenticationSuccess () {
     this.props.onAuthentication();
-  },
-  authenticationFailure: function () {
+  }
+  authenticationFailure () {
     console.log("Failed authentication");
-  },
-  getContent: function () {
+  }
+  getContent () {
     if (this.apiKeyIsHardCoded()) {
       return ( <div>
-        <button className="continue-to-choices--button button__primary button__text" onClick={this.handleStartButtonClick}>Authorize Sortello and
+        <button className="continue-to-choices--button button__primary button__text" onClick={() => this.handleStartButtonClick()}>Authorize Sortello and
           let's start!
         </button>
         <a href="/landing.html"><div className="button__suggestion">Want to learn more about sortello?</div></a>
@@ -71,7 +78,7 @@ const ApiKey = React.createClass({
         <input type="text" id="api_key" className={"input__api-key"} ref={(apiKey) => this.apiKey = apiKey}
                  placeholder="Please insert your api key on this field"/>
         <div className="button__text">
-          <button className="button__primary" id="check_api_key" onClick={this.handleButtonClick}>Continue
+          <button className="button__primary" id="check_api_key" onClick={() => this.handleButtonClick()}>Continue
           </button>
         </div>
         <a href="https://trello.com/app-key" target="_blank">
@@ -79,8 +86,8 @@ const ApiKey = React.createClass({
         </a>
       </div>
     );
-  },
-  render: function () {
+  }
+  render () {
     return (
         <div id="api_key_div">
           <div className="wrapper__api-key">
@@ -95,8 +102,7 @@ const ApiKey = React.createClass({
         </div>
     )
   }
-  ,
-  logo: function () {
+  logo () {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -141,6 +147,6 @@ const ApiKey = React.createClass({
         </svg>
     );
   }
-})
+}
 
 export default ApiKey
