@@ -8,7 +8,7 @@ describe('sort list asc', function () {
 
       function nextChoice () {
         if (shouldUndo) {
-          // browser.driver.sleep(500);
+          browser.driver.sleep(500);
           element(by.css('#undo_button')).click();
           shouldUndo = false;
           // console.log("undo");
