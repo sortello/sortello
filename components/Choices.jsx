@@ -80,7 +80,7 @@ class Choices extends React.Component {
             <div className="choose-card__heading">Select the highest priority card</div>
             <div className="container__prioritization-status">
               <div className={"progressive-bar__status-structure"}>
-                <div className={"progressive-bar__status"} role="progressbar" aria-valuenow={this.state.progress}
+                <div className={"progressive-bar__status"} role="progressbar" aria-valuenow={this.getProgress()}
                      aria-valuemin="0"
                      aria-valuemax="100" style={{width: this.state.progress + '%'}}>
                 </div>
