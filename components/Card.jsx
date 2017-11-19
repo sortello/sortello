@@ -14,19 +14,22 @@ class Card extends React.Component {
           }}
           data-cardId="0"
         >
+        <div className={'container__label'}>
+          {this.props.data.labels.map(label => (
+            <div
+              className={`card__label card__label--${label.color}`}
+              key={label.id}
+            >
+              {label.name}
+            </div>
+          ))}
+        </div>
+        <div className={'label__separator'}>
+        </div>
           <div className="card__title">
             {this.props.data.name}
           </div>
-          <div>
-            {this.props.data.labels.map(label => (
-              <div
-                className={`card__label card__label--${label.color}`}
-                key={label.id}
-              >
-                {label.name}
-              </div>
-            ))}
-          </div>
+
         </div>
         <div className="wrapper__card-buttons">
           <a
