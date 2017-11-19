@@ -101,11 +101,10 @@ class Choices extends React.Component {
           </button>
 
         </div>
-        <div className={"logout__button"}>
-          <Header/>
-        </div>
+
         <div className={"footer"}>
           <Footer/>
+          <Header/>
         </div>
 
       </div>

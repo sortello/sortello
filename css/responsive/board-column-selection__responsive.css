@@ -1,7 +1,7 @@
 @media (max-width: 1280px) {
 
 	.selection__wrapper {
-		padding: 96px 25% 80px;
+		padding: 96px 25% 56px;
 	}
 	.selection__heading {
 		font-size: 32px;
@@ -18,7 +18,7 @@
 @media (max-width: 1280px) {
 
 	.selection__wrapper {
-		padding: 96px 120px 80px;
+		padding: 96px 120px 56px;
 	}
 	.selection__heading {
 		font-size: 32px;
@@ -35,7 +35,7 @@
 @media (max-width: 1024px) {
 
 	.selection__wrapper {
-		padding: 96px 80px 80px;
+		padding: 96px 80px 56px;
 	}
 	.selection__container {
 		padding: 40px 32px;

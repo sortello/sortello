@@ -134,8 +134,9 @@ class Results extends React.Component {
             }
           </div>
         </div>
-        <div className={"footer results__footer"}>
+        <div className={"footer footer__fade"}>
           <Footer/>
+          <Header/>
         </div>
       </div>
     )
