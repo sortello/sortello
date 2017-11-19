@@ -28,7 +28,7 @@ describe('sorted list recap', function () {
       });
     }
 
-    let allLabel = element(by.css('.label.label__none'));
+    let allLabel = element(by.css('.label__item.label__none'));
     browser.wait(EC.presenceOf(allLabel), 20000).then(function () {
       allLabel.click();
       nextChoice();
