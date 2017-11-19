@@ -152,17 +152,14 @@ const ColumnSelection = React.createClass({
                 <LabelSelector labels={this.state.labels} onClick={this.labelSelected}></LabelSelector>
             }
           </div>
-        </div>
-
-        <div className={"logout__button logout__fade-in"}>
-          <Header/>
-        </div>
-        <div className={"footer footer__fade-in"}>
-          <Footer/>
+          <div className={"footer"}>
+            <Footer/>
+            <Header/>
+          </div>
         </div>
       </div>
     )
   }
-});
+})
 
 export default ColumnSelection

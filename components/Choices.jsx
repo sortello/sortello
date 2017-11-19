@@ -195,11 +195,10 @@ const Choices = React.createClass({
 
         </div>
 
-        <div className={"logout__button"}>
-          <Header/>
-        </div>
+      
         <div className={"footer"}>
           <Footer/>
+          <Header/>
         </div>
 
       </div>
