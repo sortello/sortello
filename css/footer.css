@@ -4,8 +4,20 @@
     justify-content: space-between;
     align-items: center;
     margin-top: 40px;
+}
+
+.footer--animated {
+  animation-name: fade-in-container;
+  animation-duration: 1s;
 
 }
+
+@keyframes fade-in-container {
+	0% {opacity: 0; transform: translate(0, 100%);}
+    100% {opacity: 1; transform: translate(0, 0);}
+}
+
+
 
 .footer__container {
     display: flex;

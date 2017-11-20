@@ -167,7 +167,7 @@ class ColumnSelection extends React.Component {
                 <LabelSelector labels={this.state.labels} onClick={this.labelSelected}></LabelSelector>
             }
           </div>
-          <div className={"footer"}>
+          <div className={"footer footer--animated"}>
             <Footer/>
             <Header/>
           </div>
