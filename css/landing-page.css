@@ -137,7 +137,7 @@ body {
 
 .why-works__container {
     display: grid;
-    grid-template-columns: 32% 32% 32%;
+    grid-template-columns: 24% 24% 24% 24%;
     grid-column-gap: 32px;
     margin: 16px 120px 56px;
     padding: 16px 56px;
@@ -214,6 +214,16 @@ body {
 }
 
 .landing-footer__link:hover {
+    color: #005AFF;
+    text-decoration: underline;
+}
+
+.landing-page__link {
+    text-decoration: none;
+    color: #0099ff;
+}
+
+.landing-page__link:hover {
     color: #005AFF;
     text-decoration: underline;
 }
