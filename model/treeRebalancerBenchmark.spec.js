@@ -6,7 +6,7 @@ import {shuffle} from "lodash"
 describe('treeNodeFactoryBenchmark', () => {
 
 
-  function executeOrdering (applyRebalance, cycles) {
+  function executeOrdering (applyRebalance, cycles = 100) {
     var sumSteps = 0;
     for (var r = 0; r < cycles; r++) {
       var nodes = [];
@@ -19,24 +19,18 @@ describe('treeNodeFactoryBenchmark', () => {
 
       sumSteps += steps;
     }
+
+    console.log("Tree ordered in " + (sumSteps / cycles) + "steps on average " +
+      ( applyRebalance ? "with" : "without") + " rebalance");
+
     return sumSteps;
   }
 
   // Try also with very small tree. Example: 2-nodes
-  it('should be slower without rebalancing', () => {
-    let applyRebalance = false;
-    let cycles = 100
-
-    var sumSteps = executeOrdering(applyRebalance, cycles);
-    console.log("Tree ordered in " + (sumSteps / cycles) + "steps on average without rebalance");
-  });
-
   it('should be faster with rebalancing', () => {
-    let applyRebalance = true;
-    let cycles = 100
-
-    var sumSteps = executeOrdering(applyRebalance, cycles);
-    console.log("Tree ordered in " + (sumSteps / cycles) + "steps on average with rebalance");
+    let stepsWithoutRebalancing = executeOrdering(false);
+    let stepsWithRebalancing =  executeOrdering(true);
+    expect(stepsWithoutRebalancing).toBeGreaterThanOrEqual(stepsWithRebalancing);
   });
 
   function buildAndReorderTree (nodes, applyRebalance) {
