@@ -53,8 +53,8 @@ THE SOFTWARE.
       pre = doc.addEventListener ? '' : 'on',
 
       init = function(e) {
-        if (e.type == 'readystatechange' && doc.readyState != 'complete') return;
-        (e.type == 'load' ? win : doc)[rem](pre + e.type, init, false);
+        if (e.type === 'readystatechange' && doc.readyState !== 'complete') return;
+        (e.type === 'load' ? win : doc)[rem](pre + e.type, init, false);
         if (!done && (done = true)) fn.call(win, e.type || e);
       },
 
@@ -63,10 +63,12 @@ THE SOFTWARE.
         init('poll');
       };
 
-    if (doc.readyState == 'complete') fn.call(win, 'lazy');
+    if (doc.readyState === 'complete') fn.call(win, 'lazy');
     else {
       if (doc.createEventObject && root.doScroll) {
-        try { top = !win.frameElement; } catch(e) { }
+        try { top = !win.frameElement; } catch(e) {
+          console.log(e)
+        }
         if (top) poll();
       }
       doc[add](pre + 'DOMContentLoaded', init, false);
@@ -183,7 +185,6 @@ THE SOFTWARE.
       for (var key in options_object) {
         if (Object.prototype.hasOwnProperty.call(options_object, key)) {
           var camelized_key = Utils.camelize(key);
-          // TODO: could this break for "falsy" values within options_object?
           // avoiding "dashed-property-name" overriding a potentially existing "dashedPropertyName"
           camelized[camelized_key] = options_object[camelized_key] ? options_object[camelized_key] : options_object[key];
         }
@@ -194,7 +195,7 @@ THE SOFTWARE.
     camelize: function(str) {
       var separator = '-',
         match = str.indexOf(separator);
-      while (match != -1) {
+      while (match !== -1) {
         var last = (match === (str.length - 1)),
           next = last ? '' : str[match + 1],
           upnext = next.toUpperCase(),
@@ -232,7 +233,6 @@ THE SOFTWARE.
 
       this.inserted = false;
       this.closed = false;
-      this.test_mode = false; // TODO: implement
 
       var default_text = 'We use cookies to enhance your experience. ' +
         'By continuing to use this site you agree to our use of cookies.';
@@ -294,7 +294,6 @@ THE SOFTWARE.
       // allows customizing the global instance name via options too
       global_instance_name = this.options.instance;
 
-      // TODO: parse/validate other options that can benefit
       this.options.zindex = parseInt(this.options.zindex, 10);
       this.options.mask = Utils.str2bool(this.options.mask);
 
@@ -307,7 +306,6 @@ THE SOFTWARE.
 
       // check if expires is a callback
       if ('function' === typeof this.options.expires) {
-        // TODO: this might not always be as simple as this
         this.options.expires = this.options.expires();
       }
 
