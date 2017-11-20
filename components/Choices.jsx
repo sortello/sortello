@@ -62,6 +62,13 @@ class Choices extends React.Component {
     return Math.round(((100 * (this.props.nodes.length - this.engine.getListNodes().length - 1)) / (this.props.nodes.length)))
   }
 
+  renderCard(id, side, value){
+    return (
+      <Card id={id} side={side} handleClick={this.handleCardClicked}
+            forget={this.handleAddToBlacklist} data={value}/>
+    )
+  }
+
   render () {
     if (this.state.leftCard == null || this.state.rightCard == null) {
       return (<span>Loading...</span>);
@@ -70,12 +77,9 @@ class Choices extends React.Component {
       <div id="second_div">
         <div className="container__choose-card">
           <div className="choose-card__heading">Select the highest priority card</div>
-          <Card id="left_button" side="node" handleClick={this.handleCardClicked}
-                forget={this.handleAddToBlacklist} data={this.state.leftCard.value}/>
-          <Card id="right_button" side="compareNode" handleClick={this.handleCardClicked}
-                forget={this.handleAddToBlacklist} data={this.state.rightCard.value}/>
+          {this.renderCard("left_button", "node", this.state.leftCard.value)}
+          {this.renderCard("right_button", "compareNode", this.state.rightCard.value)}
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
-
           <button onClick={() => this.handleUndoClicked()} id="undo_button" className="normalize__undo-button">
             <div className="undo__button">
               <div className="undo__icon">
