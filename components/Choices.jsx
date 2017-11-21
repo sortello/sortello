@@ -76,9 +76,22 @@ class Choices extends React.Component {
     return (
       <div id="second_div">
         <div className="container__choose-card">
-          <div className="choose-card__heading">Select the highest priority card</div>
-          {this.renderCard("left_button", "node", this.state.leftCard.value)}
-          {this.renderCard("right_button", "compareNode", this.state.rightCard.value)}
+          <div className="container__top-bar">
+            <div className="choose-card__heading">Select the highest priority card</div>
+            <div className="container__prioritization-status">
+              <div className={"progressive-bar__status-structure"}>
+                <div className={"progressive-bar__status"} role="progressbar" aria-valuenow={this.getProgress()}
+                     aria-valuemin="0"
+                     aria-valuemax="100" style={{width: this.getProgress() + '%'}}>
+                </div>
+              </div>
+            </div>
+          </div>
+          <Card id="left_button" side="node" handleClick={this.handleCardClicked}
+                forget={this.handleAddToBlacklist} data={this.state.leftCard.value}/>
+          <Card id="right_button" side="compareNode" handleClick={this.handleCardClicked}
+                forget={this.handleAddToBlacklist} data={this.state.rightCard.value}/>
+
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
           <button onClick={() => this.handleUndoClicked()} id="undo_button" className="normalize__undo-button">
             <div className="undo__button">
@@ -87,24 +100,11 @@ class Choices extends React.Component {
                 Undo choice
               </div>
             </div>
-
           </button>
-
-        </div>
-        <div className="container__prioritization-status">
-          <div className="text__prioritization-status">Prioritization progress</div>
-          <div className={"progressive-bar__status-structure"}>
-            <div className={"progressive-bar__status"} role="progressbar" aria-valuenow={this.getProgress()}
-                 aria-valuemin="0"
-                 aria-valuemax="100" style={{width: this.getProgress() + '%'}}>
-            </div>
-          </div>
-        </div>
-        <div className={"logout__button"}>
-          <Header/>
         </div>
         <div className={"footer"}>
           <Footer/>
+          <Header/>
         </div>
 
       </div>

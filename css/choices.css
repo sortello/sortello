@@ -9,7 +9,8 @@
   font-size: 24px;
   font-family: 'Fira Sans', sans-serif;
   font-weight: bold;
-  width: 100%;
+  width: 70%;
+  text-align: left;
 }
 
 .wrapper__card {
@@ -47,6 +48,13 @@
 .container__label {
   margin-bottom: 32px;
 
+}
+
+.container__top-bar {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .card__title {
@@ -211,13 +219,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 30%;
 }
 
 .text__prioritization-status {
   color: white;
-  font-family: 'Fira Sans', sans-serif;
+  font-family: "Fira Sans", sans-serif;
   font-size: 12px;
   margin-top: 32px;
+
 }
 
 .progressive-bar__status-structure {
@@ -234,4 +244,5 @@
   background-color: #68e0e6;
   border-radius: 8px;
   width: 800px;
+  transition: all .5s ease-in-out;
 }
