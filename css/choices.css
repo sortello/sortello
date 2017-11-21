@@ -1,15 +1,16 @@
 #second_div {
-    text-align: center;
-    transition: all 0.3s ease;
-    padding: 56px 96px 32px;
+  text-align: center;
+  transition: all 0.3s ease;
+  padding: 56px 96px 32px;
 }
 
 .choose-card__heading {
   margin: 16px 0 48px;
   font-size: 24px;
-  font-family: "Fira Sans", sans-serif;
+  font-family: 'Fira Sans', sans-serif;
   font-weight: bold;
-  width: 100%;
+  width: 70%;
+  text-align: left;
 }
 
 .wrapper__card {
@@ -20,19 +21,20 @@
 }
 
 .container__card {
-  padding: 32px;
+  padding: 20px 32px 32px 32px;
   border-radius: 4px;
   box-shadow: 0px 2px 4px -2px;
-  background-color: #F3F3F3;
+  background-color: #f3f3f3;
   width: 100%;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
-
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 .container__card:hover {
-  background-color: #4A90E2;
+  background-color: #4a90e2;
   color: white;
-
 }
 .container__choose-card {
   display: flex;
@@ -42,15 +44,75 @@
   border-radius: 4px;
   box-shadow: 0px 2px 4px -2px;
   padding: 32px 56px 72px;
-  
+}
+.container__label {
+  margin-bottom: 32px;
+
 }
 
+.container__top-bar {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 
 .card__title {
   font-size: 18px;
-  font-family: "Fira Sans", sans-serif;
+  font-family: 'Fira Sans', sans-serif;
   line-height: 1.4;
   text-align: left;
+}
+
+.card__label {
+    display: inline-block;
+    margin: 4px;
+    border-radius: 5px;
+    padding: 4px 8px;
+    font-family: 'Fira Sans', sans-serif;
+    color: white;
+    font-size: 0.9em;
+}
+
+.label__separator {
+  height: 1px;
+  width: 100%;
+  background: rgba(0,0,0,0.2);
+  margin: 16px 0;
+}
+
+.card__label--green {
+  background-color: #61bd4f;
+}
+.card__label--yellow {
+  background-color: #f2d600;
+}
+.card__label--orange {
+  background-color: #ffab4a;
+}
+.card__label--red {
+  background-color: #eb5a46;
+}
+.card__label--purple {
+  background-color: #c377e0;
+}
+.card__label--blue {
+  background-color: #0079bf;
+}
+.card__label--sky {
+  background-color: #00c2e0;
+}
+.card__label--lime {
+  background-color: #51e898;
+}
+.card__label--pink {
+  background-color: #ff80ce;
+}
+.card__label--black {
+  background-color: #4d4d4d;
+}
+.card__label--null {
+  background-color: #b6bbbf;
 }
 
 .container__labels {
@@ -63,7 +125,7 @@
   padding: 8px 12px;
   margin: 0 2px;
   font-size: 20px;
-  font-family: "Fira Sans", sans-serif;
+  font-family: 'Fira Sans', sans-serif;
   border-radius: 4px;
 }
 
@@ -112,20 +174,19 @@
   margin-bottom: 8px;
   color: black;
   border-radius: 4px;
-  background-color: #FF6565;
+  background-color: #ff6565;
   transition: all 0.2s ease-in-out;
   margin: 16px 8px;
   cursor: pointer;
 }
 
 .card-button__esclude:hover {
-  background-color: #EE6565;
+  background-color: #ee6565;
   box-shadow: 0px 2px 4px -2px;
 }
 .button-text__esclude {
-
   text-align: center;
-  font-family: "Fira Sans", sans-serif;
+  font-family: 'Fira Sans', sans-serif;
   font-size: 16px;
   color: white;
 }
@@ -139,35 +200,34 @@
   padding: 16px;
   box-shadow: 0px 2px 4px -2px;
   text-align: center;
-  font-family: "Fira Sans", sans-serif;
+  font-family: 'Fira Sans', sans-serif;
   font-size: 16px;
-  color: #4A4A4A;
+  color: #4a4a4a;
   border-radius: 4px;
-  background-color: #F3F3F3;
+  background-color: #f3f3f3;
   transition: background-color 0.2s ease-in-out;
   margin: 16px 0px;
   text-decoration: none;
-
 }
 
 .card-button__see-card:hover {
-  background-color: #E3E3E3;
+  background-color: #e3e3e3;
   text-decoration: none;
 }
-
-
 
 .container__prioritization-status {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 30%;
 }
 
 .text__prioritization-status {
-  color: white;  
+  color: white;
   font-family: "Fira Sans", sans-serif;
   font-size: 12px;
   margin-top: 32px;
+
 }
 
 .progressive-bar__status-structure {
@@ -175,17 +235,14 @@
   width: 90%;
   height: 8px;
   border-radius: 8px;
-  background-color: #F3F3F3;
+  background-color: #f3f3f3;
   max-width: 800px;
-
-
 }
 
 .progressive-bar__status {
   height: 8px;
-  background-color: #68E0E6;
+  background-color: #68e0e6;
   border-radius: 8px;
   width: 800px;
+  transition: all .5s ease-in-out;
 }
-
-

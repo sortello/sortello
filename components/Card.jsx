@@ -1,9 +1,9 @@
-import React from "react"
+import React from 'react';
 
-class Card extends React.Component{
+class Card extends React.Component {
   render () {
     let cardButtons = '';
-    if(this.props.forget !== null){
+    if (this.props.forget !== null) {
       cardButtons = <div className="wrapper__card-buttons">
         <a href={this.props.data.shortUrl} target="_blank" role="button"
            className="button-seecard card-button__see-card" onClick={(e) => {
@@ -26,10 +26,22 @@ class Card extends React.Component{
         <div className={"container__card"} onClick={() => {
           this.props.handleClick(this.props.side)
         }} data-cardId="0">
+          <div className={'container__label'}>
+            {this.props.data.labels.map(label => (
+              <div
+                className={`card__label card__label--${label.color}`}
+                key={label.id}
+              >
+                {label.name}
+              </div>
+            ))}
+          </div>
+          <div className={'label__separator'}>
+          </div>
           <div className="card__title">{this.props.data.name}</div>
           <div>
             {this.props.voters.map((item, index) => (
-              <img key={index} src={item.trelloAvatar} />
+              <img key={index} src={item.trelloAvatar}/>
             ))}
           </div>
         </div>
@@ -39,4 +51,4 @@ class Card extends React.Component{
   }
 }
 
-export default Card
+export default Card;

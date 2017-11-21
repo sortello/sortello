@@ -5,46 +5,39 @@ import {shuffle} from "lodash"
 
 describe('treeNodeFactoryBenchmark', () => {
 
+
+  function executeOrdering (applyRebalance, cycles = 100) {
+    var sumSteps = 0;
+    for (var r = 0; r < cycles; r++) {
+      var nodes = [];
+      for (var i = 1; i <= 50; i++) {
+        nodes.push(treeNodeFactory(i));
+      }
+      nodes = shuffle(nodes);
+
+      var [reorderedNodesArray, steps] = buildAndReorderTree(nodes, applyRebalance);
+
+      sumSteps += steps;
+    }
+
+    console.log("Tree ordered in " + (sumSteps / cycles) + "steps on average " +
+      ( applyRebalance ? "with" : "without") + " rebalance");
+
+    return sumSteps;
+  }
+
   // Try also with very small tree. Example: 2-nodes
-  it('should be slower without rebalancing', () => {
-
-    var sumSteps = 0;
-    for(var r = 0; r < 100; r++){
-      var nodes = [];
-      for (var i = 1; i <= 50; i++) {
-        nodes.push(treeNodeFactory(i));
-      }
-      nodes = shuffle(nodes);
-
-      var [reorderedNodesArray, steps] = buildAndReorderTree(nodes, false);
-
-      sumSteps += steps;
-    }
-    console.log("Tree ordered in " + (sumSteps/100) + "steps on average without rebalance");
-
-
-  });
-
   it('should be faster with rebalancing', () => {
-    var sumSteps = 0;
-    for(var r = 0; r < 100; r++){
-      var nodes = [];
-      for (var i = 1; i <= 50; i++) {
-        nodes.push(treeNodeFactory(i));
-      }
-      nodes = shuffle(nodes);
-
-      var [reorderedNodesArray, steps] = buildAndReorderTree(nodes, true);
-
-      sumSteps += steps;
-    }
-    console.log("Tree ordered in " + (sumSteps/100) + "steps on average with rebalance");
+    let stepsWithoutRebalancing = executeOrdering(false);
+    let stepsWithRebalancing =  executeOrdering(true);
+    expect(stepsWithoutRebalancing).toBeGreaterThanOrEqual(stepsWithRebalancing);
   });
 
-  function buildAndReorderTree(nodes, applyRebalance){
+  function buildAndReorderTree (nodes, applyRebalance) {
 
     var rootNode = nodes[0];
     var steps = 0;
+
     function getChoice (node, compareNode, currNode) {
       steps++;
       if (node.value < compareNode.value) {
@@ -54,7 +47,7 @@ describe('treeNodeFactoryBenchmark', () => {
       }
 
       if (node.isPositioned) {
-        if(applyRebalance){
+        if (applyRebalance) {
           rootNode = treeRebalancer(rootNode)
         }
         choicesCycle(currNode + 1);
@@ -64,6 +57,7 @@ describe('treeNodeFactoryBenchmark', () => {
     }
 
     var reorderedNodesArray = [];
+
     function choicesCycle (currNode) {
       if (currNode < nodes.length) {
         getChoice(nodes[currNode], rootNode, currNode);
@@ -74,6 +68,7 @@ describe('treeNodeFactoryBenchmark', () => {
         }
       }
     }
+
     choicesCycle(1);
     return [reorderedNodesArray, steps];
   }

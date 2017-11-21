@@ -191,6 +191,13 @@ class Choices extends React.Component {
     return Math.round(((100 * (this.props.nodes.length - this.engine.getListNodes().length - 1)) / (this.props.nodes.length)))
   }
 
+  renderCard(id, side, value){
+    return (
+      <Card id={id} side={side} handleClick={this.handleCardClicked}
+            forget={this.handleAddToBlacklist} data={value}/>
+    )
+  }
+
   render () {
     if (this.state.leftCard == null || this.state.rightCard == null) {
       return (<span>Loading...</span>);
@@ -203,13 +210,24 @@ class Choices extends React.Component {
     return (
       <div id="second_div">
         <div className="container__choose-card">
-          <div className="choose-card__heading">Select the highest priority card</div>
+          <div className="container__top-bar">
+            <div className="choose-card__heading">Select the highest priority card</div>
+            <div className="container__prioritization-status">
+              <div className={"progressive-bar__status-structure"}>
+                <div className={"progressive-bar__status"} role="progressbar" aria-valuenow={this.getProgress()}
+                     aria-valuemin="0"
+                     aria-valuemax="100" style={{width: this.getProgress() + '%'}}>
+                </div>
+              </div>
+            </div>
+          </div>
           <Card id="left_button" side="node" handleClick={this.handleCardClicked}
                 forget={this.handleAddToBlacklist} data={this.state.leftCard.value} voters={this.state.leftVoters}/>
           <Card id="right_button" side="compareNode" handleClick={this.handleCardClicked}
                 forget={this.handleAddToBlacklist} data={this.state.rightCard.value} voters={this.state.rightVoters}/>
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
 
+          {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
           <button onClick={() => this.handleUndoClicked()} id="undo_button" className="normalize__undo-button">
             <div className="undo__button">
               <div className="undo__icon">
@@ -217,24 +235,11 @@ class Choices extends React.Component {
                 Undo choice
               </div>
             </div>
-
           </button>
-
-        </div>
-        <div className="container__prioritization-status">
-          <div className="text__prioritization-status">Prioritization progress</div>
-          <div className={"progressive-bar__status-structure"}>
-            <div className={"progressive-bar__status"} role="progressbar" aria-valuenow={this.getProgress()}
-                 aria-valuemin="0"
-                 aria-valuemax="100" style={{width: this.getProgress() + '%'}}>
-            </div>
-          </div>
-        </div>
-        <div className={"logout__button"}>
-          <Header/>
         </div>
         <div className={"footer"}>
           <Footer/>
+          <Header/>
         </div>
         <button onClick={this.createRoom}>Open new room</button>
         {roomLink}

@@ -50,17 +50,19 @@ class App extends React.Component {
   }
 
   handleCards (listCards) {
-    var nodes = [];
+    let that = this;
+    let nodes = [];
     for (var i = 0; i < listCards.length; i++) {
-      var node = treeNodeFactory(listCards[i]);
+      let node = treeNodeFactory(listCards[i]);
       nodes.push(node);
     }
     this.setState({
       rootNode: nodes.shift(),
       nodes: nodes,
       currentView: 3
+    }, function () {
+      that.refs.choices.startChoices();
     })
-    this.refs.choices.startChoices();
   }
 
   setSortedRootNode (rootNode) {

@@ -3,6 +3,7 @@ import {find} from "lodash"
 import Header from './Header.jsx';
 import BoardSelector from './BoardSelector.jsx'
 import ListSelector from './ListSelector.jsx'
+import LabelSelector from './LabelSelector.jsx'
 import queryString from "query-string";
 import Footer from "./Footer.jsx"
 
@@ -13,15 +14,17 @@ class ColumnSelection extends React.Component {
     this.state = {
       boards: [],
       lists: [],
+      labels: [],
       groupedboards: [],
-      organizations: []
-    };
+      organizations: [],
+      fromExtension: false
+    }
     this.getBoardColumns = this.getBoardColumns.bind(this);
     this.retrieveCardsByListId = this.retrieveCardsByListId.bind(this);
     this.handleBoardClicked = this.handleBoardClicked.bind(this);
     this.handleListClicked = this.handleListClicked.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
-
+    this.labelSelected = this.labelSelected.bind(this);
   }
 
   componentDidMount () {
@@ -35,6 +38,9 @@ class ColumnSelection extends React.Component {
     }
 
     if (params.extId !== undefined) {
+      that.setState({
+        fromExtension: true
+      });
       Trello.cards.get(params.extId, null, function (card) {
         that.retrieveCardsByListId(card.idList)
       });
@@ -75,11 +81,36 @@ class ColumnSelection extends React.Component {
     });
   }
 
+  labelSelected (labelId) {
+    let listCards = this.state.listCards;
+    if (labelId !== 0) {
+      let label = find(this.state.labels, {'id': labelId});
+      listCards = _.filter(this.state.listCards, function (card) {
+        return find(card.labels, {'id': label.id}) !== undefined;
+      });
+    }
+    this.props.handleCards(listCards);
+  }
+
   retrieveCardsByListId (listId) {
     var that = this;
+    let labels = [];
     this.props.Trello.lists.get(listId, {cards: "open"}, function (data) {
       var listCards = data.cards;
-      that.props.handleCards(listCards);
+      that.setState({
+        listCards: listCards
+      });
+      console.log(listCards);
+      listCards.forEach(function (card) {
+        card.labels.forEach(function (label) {
+          if (find(labels, {'id': label.id}) === undefined) {
+            labels.push(label);
+          }
+        });
+      })
+      that.setState({
+        labels: labels
+      });
     }, function (e) {
       console.log(e);
     });
@@ -109,28 +140,41 @@ class ColumnSelection extends React.Component {
         <div className="selection__wrapper">
           <div className="selection__container selection__container--animation">
             <div className="select-list--text-container selection__heading">
-              First of all, select the board you want to prioritize
+              {
+                (this.state.fromExtension === true) ?
+                  "Filter by label, or select All" :
+                  "First of all, select the board you want to prioritize"
+              }
             </div>
             <div className="">
-              <BoardSelector groupedboards={this.state.groupedboards}
-                             onChange={this.handleBoardClicked}></BoardSelector>
+              {
+                (this.state.fromExtension === true) ?
+                  "" :
+                  <BoardSelector groupedboards={this.state.groupedboards}
+                                 onChange={this.handleBoardClicked}></BoardSelector>
+              }
             </div>
             {
-              this.state.lists.length === 0 ?
+              (this.state.lists.length === 0 || this.state.fromExtension === true) ?
                 "" :
                 <p><ListSelector lists={this.state.lists} onChange={this.handleListClicked}></ListSelector></p>
             }
+
+
+            {
+              this.state.labels.length === 0 ?
+                "" :
+                <LabelSelector labels={this.state.labels} onClick={this.labelSelected}></LabelSelector>
+            }
           </div>
-        </div>
-        <div className={"logout__button logout__fade-in"}>
-          <Header/>
-        </div>
-        <div className={"footer footer__fade-in"}>
-          <Footer/>
+          <div className={"footer footer--animated"}>
+            <Footer/>
+            <Header/>
+          </div>
         </div>
       </div>
     )
   }
-};
+}
 
 export default ColumnSelection
