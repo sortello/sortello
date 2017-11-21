@@ -175,6 +175,6 @@ class ColumnSelection extends React.Component {
       </div>
     )
   }
-};
+}
 
 export default ColumnSelection
