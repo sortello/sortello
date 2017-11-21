@@ -105,8 +105,8 @@ class Results extends React.Component {
               <div>
                 <AlmostDoneAnimation/>
                 <div className="send-ordered__heading">Almost done!</div>
-                <div className="send-ordered__button button__primary button__text">
-                  <button id="update_board" onClick={() => this.updateBoard()}>
+                <div className="send-ordered__button button__primary button__text" onClick={() => this.updateBoard()}>
+                  <button id="update_board" >
                     Send ordered data to your board
                   </button>
                 </div>
@@ -122,8 +122,8 @@ class Results extends React.Component {
                   <div className="recap-overlay__container">
                     <div className="recap-overlay__title">Check it out! This is your new list</div>
                     <Recap cards={this.getReorderedNodes()}/>
-                    <div className="button__primary button__text recap-overlay__button">
-                      <button id="recap_update_board" onClick={(e) => this.updateBoard(e)}>
+                    <div className="button__primary button__text recap-overlay__button" onClick={(e) => this.updateBoard(e)}>
+                      <button id="recap_update_board">
                         Send ordered data to your board
                       </button>
                     </div>
