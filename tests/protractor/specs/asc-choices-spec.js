@@ -1,7 +1,7 @@
 describe('sort list asc', function () {
   it('prioritizes the test column in ascending order', function () {
     browser.ignoreSynchronization = true;
-    protractor.accessFromChromeExtension.accessFromChromeExtension();
+    protractor.accessFromChromeExtension.accessFromChromeExtension().then(function(){
     let EC = protractor.ExpectedConditions;
 
     function nextChoice () {
@@ -33,5 +33,9 @@ describe('sort list asc', function () {
     })
 
     protractor.expectRecap.toBe(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']);
+      console.log("done");
+    });
+
+
   });
 });

@@ -205,7 +205,7 @@ class Choices extends React.Component {
     let roomLink = '';
     if (this.state.roomId !== null) {
       let shareLink = window.location.hostname + '?roomKey=' + this.state.roomId
-      roomLink = <p>Share Link: <a href={'//' + shareLink}>{shareLink}</a></p>
+      roomLink = <p>Share Link: <a id="room-link" href={'//' + shareLink}>{shareLink}</a></p>
     }
     return (
       <div id="second_div">
@@ -226,8 +226,6 @@ class Choices extends React.Component {
           <Card id="right_button" side="compareNode" handleClick={this.handleCardClicked}
                 forget={this.handleAddToBlacklist} data={this.state.rightCard.value} voters={this.state.rightVoters}/>
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
-
-          {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
           <button onClick={() => this.handleUndoClicked()} id="undo_button" className="normalize__undo-button">
             <div className="undo__button">
               <div className="undo__icon">
@@ -241,7 +239,7 @@ class Choices extends React.Component {
           <Footer/>
           <Header/>
         </div>
-        <button onClick={this.createRoom}>Open new room</button>
+        <button id="new-room-button" onClick={this.createRoom}>Open new room</button>
         {roomLink}
         Voters:
         {this.state.roomVoters.map((item, index) => (

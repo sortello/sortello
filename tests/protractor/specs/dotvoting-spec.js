@@ -1,32 +1,85 @@
 describe('dotvoting', function () {
   it('prioritizes a list in ascending order with 1 host and 2 guests', function () {
-    var browser2 = browser.forkNewDriverInstance();
-    var browser3 = browser.forkNewDriverInstance();
     browser.ignoreSynchronization = true;
+    browser.driver.manage().window().setSize(840, 540);
+    browser.driver.manage().window().setPosition(0, 0);
+
+    let browser2 = browser.forkNewDriverInstance();
     browser2.ignoreSynchronization = true;
-    browser3.ignoreSynchronization = true;
-
-    // Bring up browser 1 and log in first user, will be the host
-    var done1 = protractor.accessFromChromeExtension.accessFromChromeExtension();
-    console.log(done1, "AAA");
-    // Bring up browser 2 and log in as guest1
-    var done2 = protractor.accessFromChromeExtension.accessFromChromeExtension(browser2, 2);
-    console.log(done2, "BBB");
+    browser2.driver.manage().window().setSize(840, 540);
+    browser2.driver.manage().window().setPosition(840, 0);
     //
-    // browser.pause()
-    // Bring up browser 3 and log in as guest2
-    // var browser3 = browser.forkNewDriverInstance(true, false);
-    // protractor.accessFromChromeExtension.accessFromChromeExtension(browser3);
+    let browser3 = browser.forkNewDriverInstance();
+    browser3.ignoreSynchronization = true;
+    browser3.driver.manage().window().setSize(840, 540);
+    browser3.driver.manage().window().setPosition(0, 540);
 
-    // On browser 1, select the board (if not already selected) and open a room
-    // Get the room's url from browser 1 and open it on browsers 2 and 3
+    protractor.accessFromChromeExtension.accessFromChromeExtension(browser).then(function () {
+      protractor.accessFromChromeExtension.accessFromChromeExtension(browser2,browser.params.testTrello2Username, browser.params.testTrello2Password).then(function () {
+        protractor.accessFromChromeExtension.accessFromChromeExtension(browser3,browser.params.testTrello3Username, browser.params.testTrello3Password).then(function () {
 
-    // Choices start
-    // Randomly select one of the three browsers, and make a choice on the selected browser
-    // Repeat until the end
+          let EC = protractor.ExpectedConditions;
+          let allLabel = element(by.css('.label__item.label__none'))
+          browser.wait(EC.presenceOf(allLabel), 20000).then(function () {
+            allLabel.click();
+            let newRoomButton = element(by.css('#new-room-button'))
+            browser.wait(EC.presenceOf(newRoomButton), 20000).then(function () {
+              newRoomButton.click();
 
+              let roomLinkElement = element(by.css('#room-link'))
+              browser.wait(EC.presenceOf(roomLinkElement), 20000).then(function () {
+                roomLinkElement.getAttribute('href').then(function (link) {
+                  link = link.replace("localhost/", "localhost:4000")
+                  browser2.get(link)
+                  browser3.get(link)
+                  startChoices()
+                })
+              })
+            })
+          })
 
-    // Check the results
-    protractor.expectRecap.toBe(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']);
+          function startChoices () {
+            console.log("start choices");
+            browser.element.all(by.id("update_board")).count().then(function (size) {
+              if (size == 0) {
+                let browsersArray = [browser, browser2, browser3]
+                let randNum = Math.floor(Math.random() * browsersArray.length)
+                let randomBrowser = browsersArray[randNum]
+                console.log("selected browser " + randNum);
+                makeChoice(randomBrowser);
+              } else {
+                checkResults()
+              }
+            });
+          }
+
+          function makeChoice (b) {
+            b.driver.sleep(200)
+            console.log("make a choice ");
+            let leftCard = b.element(by.css('#left_button .card__title'));
+            let rightCard = b.element(by.css('#right_button .card__title'));
+
+            b.wait(EC.and(EC.presenceOf(leftCard), EC.presenceOf(rightCard)), 20000).then(function () {
+              leftCard.getText().then(function (leftValue) {
+                rightCard.getText().then(function (rightValue) {
+                  if (parseInt(rightValue) < parseInt(leftValue)) {
+                    b.element(by.css('#right_button .container__card')).click()
+                    startChoices()
+                  } else {
+                    b.element(by.css('#left_button .container__card')).click()
+                    startChoices()
+                  }
+                });
+              });
+            });
+          }
+
+          function checkResults(){
+            console.log("Checking results");
+            protractor.expectRecap.toBe(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']);
+          }
+        });
+      });
+    });
   });
 });
