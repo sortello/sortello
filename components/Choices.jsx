@@ -60,6 +60,8 @@ class Choices extends React.Component {
       let voters = component.state.roomVoters.concat({id : voterId, avatar: trelloAvatar});
       component.setState({
         roomVoters: voters
+      },function(){
+        console.log(component.state.roomVoters)
       })
     })
 
@@ -241,9 +243,8 @@ class Choices extends React.Component {
         </div>
         <button id="new-room-button" onClick={this.createRoom}>Open new room</button>
         {roomLink}
-        Voters:
         {this.state.roomVoters.map((item, index) => (
-          <p key={index}>{item.id}</p>
+          <img className={'card__voter'} key={index} src={item.avatar}/>
         ))}
       </div>
     )

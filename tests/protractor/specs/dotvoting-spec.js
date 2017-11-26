@@ -1,22 +1,42 @@
 describe('dotvoting', function () {
-  it('prioritizes a list in ascending order with 1 host and 2 guests', function () {
+  var originalTimeout;
+
+  beforeEach(function () {
+    originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 50000;
+  });
+
+  afterEach(function () {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+  });
+  it('prioritizes a list in ascending order with 1 host and 2 guests', function (done) {
+
+
     browser.ignoreSynchronization = true;
-    browser.driver.manage().window().setSize(840, 540);
+    browser.driver.manage().window().setSize(840, 1032);
     browser.driver.manage().window().setPosition(0, 0);
+    browser.driver.manage().window().toolbar = 0;
+    browser.driver.manage().window().menubar = 0;
 
     let browser2 = browser.forkNewDriverInstance();
     browser2.ignoreSynchronization = true;
-    browser2.driver.manage().window().setSize(840, 540);
+    browser2.driver.manage().window().setSize(840, 524);
     browser2.driver.manage().window().setPosition(840, 0);
-    //
+
     let browser3 = browser.forkNewDriverInstance();
     browser3.ignoreSynchronization = true;
-    browser3.driver.manage().window().setSize(840, 540);
-    browser3.driver.manage().window().setPosition(0, 540);
+    browser3.driver.manage().window().setSize(840, 524);
+    browser3.driver.manage().window().setPosition(840, 524);
+
+    let browsersPriorities = [
+      ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+      ['10', '1', '2', '9', '3', '4', '8', '5', '7', '6'],
+      ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+    ]
 
     protractor.accessFromChromeExtension.accessFromChromeExtension(browser).then(function () {
-      protractor.accessFromChromeExtension.accessFromChromeExtension(browser2,browser.params.testTrello2Username, browser.params.testTrello2Password).then(function () {
-        protractor.accessFromChromeExtension.accessFromChromeExtension(browser3,browser.params.testTrello3Username, browser.params.testTrello3Password).then(function () {
+      protractor.accessFromChromeExtension.accessFromChromeExtension(browser2, browser.params.testTrello2Username, browser.params.testTrello2Password).then(function () {
+        protractor.accessFromChromeExtension.accessFromChromeExtension(browser3, browser.params.testTrello3Username, browser.params.testTrello3Password).then(function () {
 
           let EC = protractor.ExpectedConditions;
           let allLabel = element(by.css('.label__item.label__none'))
@@ -38,22 +58,27 @@ describe('dotvoting', function () {
             })
           })
 
+          let previousSelectedBrowser = 0;
           function startChoices () {
             console.log("start choices");
             browser.element.all(by.id("update_board")).count().then(function (size) {
               if (size == 0) {
                 let browsersArray = [browser, browser2, browser3]
                 let randNum = Math.floor(Math.random() * browsersArray.length)
+                while(previousSelectedBrowser === randNum){
+                  randNum = Math.floor(Math.random() * browsersArray.length)
+                }
+                previousSelectedBrowser = randNum;
                 let randomBrowser = browsersArray[randNum]
                 console.log("selected browser " + randNum);
-                makeChoice(randomBrowser);
+                makeChoice(randomBrowser, browsersPriorities[randNum]);
               } else {
                 checkResults()
               }
             });
           }
 
-          function makeChoice (b) {
+          function makeChoice (b, bPriorities) {
             b.driver.sleep(200)
             console.log("make a choice ");
             let leftCard = b.element(by.css('#left_button .card__title'));
@@ -62,7 +87,7 @@ describe('dotvoting', function () {
             b.wait(EC.and(EC.presenceOf(leftCard), EC.presenceOf(rightCard)), 20000).then(function () {
               leftCard.getText().then(function (leftValue) {
                 rightCard.getText().then(function (rightValue) {
-                  if (parseInt(rightValue) < parseInt(leftValue)) {
+                  if (bPriorities.indexOf(rightValue) < bPriorities.indexOf(leftValue)) {
                     b.element(by.css('#right_button .container__card')).click()
                     startChoices()
                   } else {
@@ -74,9 +99,13 @@ describe('dotvoting', function () {
             });
           }
 
-          function checkResults(){
+          function checkResults () {
             console.log("Checking results");
             protractor.expectRecap.toBe(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']);
+            browser.close()
+            browser2.close()
+            browser3.close()
+            done();
           }
         });
       });

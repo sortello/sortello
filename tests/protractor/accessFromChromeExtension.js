@@ -8,7 +8,7 @@ module.exports.accessFromChromeExtension = function (b, username = null, passwor
     let continueButton = browser.element(by.css('.continue-to-choices--button'));
     browser.wait(EC.visibilityOf(continueButton), 20000).then(function () {
       continueButton.click()
-      browser.driver.sleep(1000);
+      browser.driver.sleep(500);
       protractor.selectWindow.selectWindow(1, browser);
       browser.driver.manage().window().setSize(800, 800);
       let acceptButton = browser.element(by.css('#surface form a.button.primary'));

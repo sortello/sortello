@@ -39,9 +39,9 @@ class Card extends React.Component {
           <div className={'label__separator'}>
           </div>
           <div className="card__title">{this.props.data.name}</div>
-          <div>
+          <div className={'card__voters'}>
             {this.props.voters.map((item, index) => (
-              <img key={index} src={item.trelloAvatar}/>
+              <img className={'card__voter'} key={index} src={item.trelloAvatar}/>
             ))}
           </div>
         </div>
