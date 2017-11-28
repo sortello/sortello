@@ -93,7 +93,7 @@ class ColumnSelection extends React.Component {
   }
 
   retrieveCardsByListId (listId) {
-    var that = this;
+    let that = this;
     let labels = [];
     this.props.Trello.lists.get(listId, {cards: "open"}, function (data) {
       var listCards = data.cards;
@@ -110,6 +110,10 @@ class ColumnSelection extends React.Component {
       })
       that.setState({
         labels: labels
+      }, function () {
+        if (this.state.labels.length === 0) {
+          that.labelSelected(0)
+        }
       });
     }, function (e) {
       console.log(e);
