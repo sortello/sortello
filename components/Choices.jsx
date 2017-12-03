@@ -23,6 +23,7 @@ class Choices extends React.Component {
     this.startChoices = this.startChoices.bind(this)
     this.createRoom = this.createRoom.bind(this)
     this.removeVoter = this.removeVoter.bind(this)
+    this.addVoter = this.addVoter.bind(this)
     let component = this
     component.props.Trello.members.get('me', {}, function (data) {
       component.trelloId = data.id
@@ -56,15 +57,7 @@ class Choices extends React.Component {
     })
 
     socket.on('voterJoined', function (voterId, trelloAvatar) {
-      if(find(component.state.roomVoters, {'id': voterId}) !== undefined){
-        return
-      }
-      let voters = component.state.roomVoters.concat({id : voterId, avatar: trelloAvatar});
-      component.setState({
-        roomVoters: voters
-      },function(){
-        console.log(component.state.roomVoters)
-      })
+      component.addVoter(voterId, trelloAvatar);
     })
 
     socket.on('voterLeft', function (voterId) {
@@ -112,6 +105,7 @@ class Choices extends React.Component {
   }
 
   removeVoter(voterId){
+    let component = this
     if(find(component.state.roomVoters, {'id': voterId}) == undefined){
       return
     }
@@ -123,6 +117,19 @@ class Choices extends React.Component {
     console.log(newVoters)
     component.setState({
       roomVoters: newVoters
+    },function(){
+      console.log(component.state.roomVoters)
+    })
+  }
+
+  addVoter(voterId, trelloAvatar){
+    let component = this
+    if(find(component.state.roomVoters, {'id': voterId}) !== undefined){
+      return
+    }
+    let voters = component.state.roomVoters.concat({id : voterId, avatar: trelloAvatar});
+    component.setState({
+      roomVoters: voters
     },function(){
       console.log(component.state.roomVoters)
     })

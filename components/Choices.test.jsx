@@ -1,17 +1,17 @@
 import React from "react";
-import {mount} from "enzyme";
+import {shallow} from 'enzyme';
 import Choices from "./Choices";
 
 describe("Choices", () => {
   let props;
-  let mountedChoices;
+  let shallowChoices;
   const choices = () => {
-    if (!mountedChoices) {
-      mountedChoices = mount(
+    if (!shallowChoices) {
+      shallowChoices = shallow(
         <Choices {...props} />
       );
     }
-    return mountedChoices;
+    return shallowChoices;
   }
 
   beforeEach(() => {
@@ -34,11 +34,12 @@ describe("Choices", () => {
       nodes: undefined,
       rootNode: undefined
     };
-    mountedChoices = undefined;
+    shallowChoices = undefined;
   });
 
-  it("always renders a div", () => {
-    const divs = choices().find("div");
-    expect(divs.length).toBeGreaterThan(0);
+  it("adds and removes voters", () => {
+    choices().instance().addVoter('voter1', 'avatar1')
+    choices().instance().addVoter('voter2', 'avatar2')
+    expect(choices.state.roomVoters.length).toEqual(2);
   });
 });
