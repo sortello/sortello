@@ -51,7 +51,7 @@ class Choices extends React.Component {
       window.addEventListener("beforeunload", (ev) =>
       {
         ev.preventDefault()
-console.log("sdfds");        socket.emit('leaveRoom', params.roomKey, component.trelloId)
+        socket.emit('leaveRoom', params.roomKey, component.trelloId)
       });
 
     }

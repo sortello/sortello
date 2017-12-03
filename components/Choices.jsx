@@ -22,6 +22,7 @@ class Choices extends React.Component {
     this.handleUndoClicked = this.handleUndoClicked.bind(this)
     this.startChoices = this.startChoices.bind(this)
     this.createRoom = this.createRoom.bind(this)
+    this.removeVoter = this.removeVoter.bind(this)
     let component = this
     component.props.Trello.members.get('me', {}, function (data) {
       component.trelloId = data.id
@@ -67,20 +68,7 @@ class Choices extends React.Component {
     })
 
     socket.on('voterLeft', function (voterId) {
-      if(find(component.state.roomVoters, {'id': voterId}) == undefined){
-        return
-      }
-      console.log("vid" + voterId);
-      console.log(component.state.roomVoters)
-      let newVoters = remove(component.state.roomVoters, function(item) {
-        return item.id === voterId;
-      })
-      console.log(newVoters)
-      component.setState({
-        roomVoters: newVoters
-      },function(){
-        console.log(component.state.roomVoters)
-      })
+      component.removeVoter(voterId)
     })
 
     socket.on('getCurrentChoice', function () {
@@ -121,6 +109,23 @@ class Choices extends React.Component {
     if (this.state.rightVoters.length >= (this.state.roomVoters.length+1) / 2) { // Must count admin
       this.cardClicked('compareNode');
     }
+  }
+
+  removeVoter(voterId){
+    if(find(component.state.roomVoters, {'id': voterId}) == undefined){
+      return
+    }
+    console.log("vid" + voterId);
+    console.log(component.state.roomVoters)
+    let newVoters = remove(component.state.roomVoters, function(item) {
+      return item.id === voterId;
+    })
+    console.log(newVoters)
+    component.setState({
+      roomVoters: newVoters
+    },function(){
+      console.log(component.state.roomVoters)
+    })
   }
 
   startChoices () {
@@ -213,7 +218,7 @@ class Choices extends React.Component {
 
   render () {
     if (this.state.leftCard == null || this.state.rightCard == null) {
-      return (<span>Loading...</span>);
+      return (<div><span>Loading...</span></div>);
     }
     let roomLink = '';
     if (this.state.roomId !== null) {
