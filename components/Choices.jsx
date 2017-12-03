@@ -7,6 +7,7 @@ import {clone} from "lodash"
 import Engine from "../model/Engine.js"
 import io from 'socket.io-client';
 import {find} from "lodash"
+import {remove} from "lodash"
 
 const socket = io('http://localhost:8000/');
 
@@ -65,12 +66,22 @@ class Choices extends React.Component {
       })
     })
 
-    // socket.on('voterLeft', function (voterId) {
-    //   let voters = component.state.roomVoters;
-    //   let index = voters.indexOf(voterId)
-    //   voters.splice(index, 1);
-    //   component.setState({roomVoters: voters});
-    // })
+    socket.on('voterLeft', function (voterId) {
+      if(find(component.state.roomVoters, {'id': voterId}) == undefined){
+        return
+      }
+      console.log("vid" + voterId);
+      console.log(component.state.roomVoters)
+      let newVoters = remove(component.state.roomVoters, function(item) {
+        return item.id === voterId;
+      })
+      console.log(newVoters)
+      component.setState({
+        roomVoters: newVoters
+      },function(){
+        console.log(component.state.roomVoters)
+      })
+    })
 
     socket.on('getCurrentChoice', function () {
       socket.emit('nextChoice', component.state.leftCard, component.state.rightCard, component.state.roomId)

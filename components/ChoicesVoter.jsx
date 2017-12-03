@@ -47,15 +47,14 @@ class Choices extends React.Component {
           console.log(e);
         });
       });
+
+      window.addEventListener("beforeunload", (ev) =>
+      {
+        ev.preventDefault()
+console.log("sdfds");        socket.emit('leaveRoom', params.roomKey, component.trelloId)
+      });
+
     }
-
-
-
-
-
-    // socket.on('cardClicked', function (room) {
-    //   console.log("somebody clicked a card in room " + room)
-    // })
 
     socket.on('nextChoice', function (leftCard, rightCard) {
       component.setState({
@@ -70,11 +69,6 @@ class Choices extends React.Component {
         ended: true
       })
     })
-  }
-
-
-  connect(){
-
   }
 
   handleCardClicked (side) {
