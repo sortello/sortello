@@ -26,9 +26,9 @@ describe("Choices", () => {
       },
       {virtual: true},
     );
-    const Trello = require('../trello')
+    const trello = require('../trello')
     props = {
-      Trello: Trello,
+      Trello: trello,
       setSortedRootNode: undefined,
       setStartTimeStamp: undefined,
       nodes: undefined,
@@ -40,6 +40,9 @@ describe("Choices", () => {
   it("adds and removes voters", () => {
     choices().instance().addVoter('voter1', 'avatar1')
     choices().instance().addVoter('voter2', 'avatar2')
-    expect(choices.state.roomVoters.length).toEqual(2);
+    choices().instance().addVoter('voter3', 'avatar3')
+    expect(choices().instance().state.roomVoters.length).toEqual(3);
+    choices().instance().removeVoter('voter2')
+    expect(choices().instance().state.roomVoters.length).toEqual(2);
   });
 });

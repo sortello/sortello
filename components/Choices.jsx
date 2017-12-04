@@ -7,6 +7,7 @@ import {clone} from "lodash"
 import Engine from "../model/Engine.js"
 import io from 'socket.io-client';
 import {find} from "lodash"
+import {findIndex} from "lodash"
 import {remove} from "lodash"
 
 const socket = io('http://localhost:8000/');
@@ -109,12 +110,10 @@ class Choices extends React.Component {
     if(find(component.state.roomVoters, {'id': voterId}) == undefined){
       return
     }
-    console.log("vid" + voterId);
-    console.log(component.state.roomVoters)
-    let newVoters = remove(component.state.roomVoters, function(item) {
-      return item.id === voterId;
-    })
-    console.log(newVoters)
+
+    let newVoters = component.state.roomVoters.slice(); //copy array
+    let index = findIndex(newVoters, function(item) { return item.id == voterId })
+    newVoters.splice(index, 1); //remove element
     component.setState({
       roomVoters: newVoters
     },function(){
