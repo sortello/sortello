@@ -38,11 +38,25 @@ describe("Choices", () => {
   });
 
   it("adds and removes voters", () => {
-    choices().instance().addVoter('voter1', 'avatar1')
-    choices().instance().addVoter('voter2', 'avatar2')
-    choices().instance().addVoter('voter3', 'avatar3')
+    choices().instance().addVoter('voter1', '')
+    choices().instance().addVoter('voter2', '')
+    choices().instance().addVoter('voter3', '')
     expect(choices().instance().state.roomVoters.length).toEqual(3);
     choices().instance().removeVoter('voter2')
     expect(choices().instance().state.roomVoters.length).toEqual(2);
   });
+
+  it("updates state after everybody has voted", () => {
+    let component = choices().instance()
+    component.addVoter('voter1', '')
+    component.addVoter('voter2', '')
+    component.addVoter('voter3', '')
+    component.registerVote('node', 'voter0', '') // Room opener does not count as room voter ATM
+    component.registerVote('node', 'voter1', '')
+    expect(component.state.everyBodyVoted).toBe(false)
+    component.registerVote('node', 'voter2', '')
+    expect(component.state.everyBodyVoted).toBe(false)
+    component.registerVote('compareNode', 'voter3', '')
+    expect(component.state.everyBodyVoted).toBe(true)
+  })
 });

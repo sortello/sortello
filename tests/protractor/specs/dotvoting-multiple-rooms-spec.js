@@ -57,24 +57,25 @@ describe('dotvoting', function () {
                   roomLinkElement.getAttribute('href').then(function (link) {
                     link = link.replace("localhost/", "localhost:4000")
                     browser2.get(link)
-                    browser3.get('/?extId=' + browser.params.testTrelloExtId3)
+                    browser3.get('/?extId=' + browser.params.testTrelloExtId2)
                     let newRoomButton = browser3.element(by.css('#new-room-button'))
-                    browser3.wait(EC.presenceOf(newRoomButton), 20000).then(function () {
-                      newRoomButton.click();
-                      let roomLinkElement = browser3.element(by.css('#room-link'))
-                      browser3.wait(EC.presenceOf(roomLinkElement), 20000).then(function () {
-                        roomLinkElement.getAttribute('href').then(function (link) {
-                          link = link.replace("localhost/", "localhost:4000")
-                          browser4.get(link)
-                          startChoices()
+                    allLabel = browser3.element(by.css('.label__item.label__none'))
+                    browser3.wait(EC.presenceOf(allLabel), 20000).then(function () {
+                      allLabel.click();
+                      browser3.wait(EC.presenceOf(newRoomButton), 20000).then(function () {
+                        newRoomButton.click();
+                        let roomLinkElement = browser3.element(by.css('#room-link'))
+                        browser3.wait(EC.presenceOf(roomLinkElement), 20000).then(function () {
+                          roomLinkElement.getAttribute('href').then(function (link) {
+                            link = link.replace("localhost/", "localhost:4000")
+                            browser4.get(link)
+                            startChoices()
+                          })
                         })
                       })
                     })
-
                   })
                 })
-
-
               })
             })
 
@@ -107,22 +108,50 @@ describe('dotvoting', function () {
             }
 
             function makeChoice (b, bPriorities) {
-              let leftCard = b.element(by.css('#left_button .card__title'));
-              let rightCard = b.element(by.css('#right_button .card__title'));
+              b.element.all(by.id("left-continue-voting")).count().then(function (size) {
+                if (size > 0) {
+                  let leftContinue = b.element(by.id("left-continue-voting"));
+                  let rightContinue = b.element(by.id("right-continue-voting"));
+                  let leftCard = b.element(by.css('#left_button .card__title'));
+                  let rightCard = b.element(by.css('#right_button .card__title'));
+                  b.wait(EC.and(EC.presenceOf(leftContinue), EC.presenceOf(rightContinue)), 20000).then(function () {
+                    b.wait(EC.and(EC.presenceOf(leftCard), EC.presenceOf(rightCard)), 20000).then(function () {
+                      leftCard.getText().then(function (leftValue) {
+                        rightCard.getText().then(function (rightValue) {
+                          console.log("main browser is selecting the choice")
+                          if (bPriorities.indexOf(rightValue) < bPriorities.indexOf(leftValue)) {
+                            rightContinue.click()
+                            startChoices()
+                          } else {
+                            leftContinue.click()
+                            startChoices()
+                          }
+                        });
+                      });
+                    });
+                  })
+                }
+                else {
 
-              b.wait(EC.and(EC.presenceOf(leftCard), EC.presenceOf(rightCard)), 20000).then(function () {
-                leftCard.getText().then(function (leftValue) {
-                  rightCard.getText().then(function (rightValue) {
-                    if (bPriorities.indexOf(rightValue) < bPriorities.indexOf(leftValue)) {
-                      b.element(by.css('#right_button .container__card')).click()
-                      startChoices()
-                    } else {
-                      b.element(by.css('#left_button .container__card')).click()
-                      startChoices()
-                    }
+                  let leftCard = b.element(by.css('#left_button .card__title'));
+                  let rightCard = b.element(by.css('#right_button .card__title'));
+
+                  b.wait(EC.and(EC.presenceOf(leftCard), EC.presenceOf(rightCard)), 20000).then(function () {
+                    leftCard.getText().then(function (leftValue) {
+                      rightCard.getText().then(function (rightValue) {
+                        if (bPriorities.indexOf(rightValue) < bPriorities.indexOf(leftValue)) {
+                          b.element(by.css('#right_button .container__card')).click()
+                          startChoices()
+                        } else {
+                          b.element(by.css('#left_button .container__card')).click()
+                          startChoices()
+                        }
+                      });
+                    });
                   });
-                });
-              });
+                }
+              })
+
             }
 
             function checkResults () {

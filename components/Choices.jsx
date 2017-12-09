@@ -25,6 +25,8 @@ class Choices extends React.Component {
     this.createRoom = this.createRoom.bind(this)
     this.removeVoter = this.removeVoter.bind(this)
     this.addVoter = this.addVoter.bind(this)
+    this.handleGoToNextVoting = this.handleGoToNextVoting.bind(this)
+    this.registerVote = this.registerVote.bind(this)
     let component = this
     component.props.Trello.members.get('me', {}, function (data) {
       component.trelloId = data.id
@@ -42,7 +44,8 @@ class Choices extends React.Component {
       roomId: null,
       leftVoters: [],
       rightVoters: [],
-      roomVoters: []
+      roomVoters: [],
+      everyBodyVoted: false
     }
 
   }
@@ -70,38 +73,41 @@ class Choices extends React.Component {
     })
 
     socket.on('cardClicked', function (side, trelloId, trelloAvatar) {
-
-      let voter  = {
-        voterId : trelloId,
-        trelloId : trelloId,
-        trelloAvatar: trelloAvatar
-      }
-
-      if ('node' === side) {
-        let lv = component.state.leftVoters.concat(voter);
-        component.setState({
-          leftVoters: lv
-        }, function () {
-          component.checkTotalVotes()
-        })
-      }
-      if ('compareNode' === side) {
-        let rv = component.state.rightVoters.concat(voter);
-        component.setState({
-          rightVoters: rv
-        }, function () {
-          component.checkTotalVotes()
-        })
-      }
+      component.registerVote(side, trelloId, trelloAvatar)
     })
   }
 
-  checkTotalVotes () {
-    if (this.state.leftVoters.length >= (this.state.roomVoters.length+1) / 2) { // Must count admin
-      this.cardClicked('node');
+  registerVote(side, trelloId, trelloAvatar){
+    let component = this;
+    let voter  = {
+      voterId : trelloId,
+      trelloId : trelloId,
+      trelloAvatar: trelloAvatar
     }
-    if (this.state.rightVoters.length >= (this.state.roomVoters.length+1) / 2) { // Must count admin
-      this.cardClicked('compareNode');
+
+    if ('node' === side) {
+      let lv = component.state.leftVoters.concat(voter);
+      component.setState({
+        leftVoters: lv
+      }, function () {
+        component.checkTotalVotes()
+      })
+    }
+    if ('compareNode' === side) {
+      let rv = component.state.rightVoters.concat(voter);
+      component.setState({
+        rightVoters: rv
+      }, function () {
+        component.checkTotalVotes()
+      })
+    }
+  }
+
+  checkTotalVotes () {
+    if ( (this.state.leftVoters.length + this.state.rightVoters.length) >= 1+this.state.roomVoters.length){
+      this.setState({
+        everyBodyVoted : true,
+      })
     }
   }
 
@@ -116,8 +122,6 @@ class Choices extends React.Component {
     newVoters.splice(index, 1); //remove element
     component.setState({
       roomVoters: newVoters
-    },function(){
-      console.log(component.state.roomVoters)
     })
   }
 
@@ -129,8 +133,6 @@ class Choices extends React.Component {
     let voters = component.state.roomVoters.concat({id : voterId, avatar: trelloAvatar});
     component.setState({
       roomVoters: voters
-    },function(){
-      console.log(component.state.roomVoters)
     })
   }
 
@@ -142,7 +144,8 @@ class Choices extends React.Component {
 
   getNextChoice () {
     this.setState({
-      hasVoted: false
+      hasVoted: false,
+      everyBodyVoted: false
     })
     if (this.engine.getEnded()) {
       socket.emit('prioritizationEnded', this.state.roomId)
@@ -175,6 +178,10 @@ class Choices extends React.Component {
   cardClicked (side) {
     this.engine.choiceMade(side, "human");
     this.getNextChoice()
+  }
+
+  handleGoToNextVoting(side){
+    this.cardClicked(side)
   }
 
   handleCardClicked(side){
@@ -231,6 +238,14 @@ class Choices extends React.Component {
       let shareLink = window.location.hostname + '?roomKey=' + this.state.roomId
       roomLink = <p>Share Link: <a id="room-link" href={'//' + shareLink}>{shareLink}</a></p>
     }
+    let leftContinueButton = '';
+    if (this.state.everyBodyVoted) {
+      leftContinueButton = <button id="left-continue-voting" onClick={() => this.handleGoToNextVoting('node')} >Continue</button>;
+    }
+    let rightContinueButton = '';
+    if (this.state.everyBodyVoted) {
+      rightContinueButton = <button id="right-continue-voting" onClick={() => this.handleGoToNextVoting('compareNode')} >Continue</button>;
+    }
     return (
       <div id="second_div">
         <div className="container__choose-card">
@@ -247,8 +262,10 @@ class Choices extends React.Component {
           </div>
           <Card id="left_button" side="node" handleClick={this.handleCardClicked}
                 forget={this.handleAddToBlacklist} data={this.state.leftCard.value} voters={this.state.leftVoters}/>
+          {leftContinueButton}
           <Card id="right_button" side="compareNode" handleClick={this.handleCardClicked}
                 forget={this.handleAddToBlacklist} data={this.state.rightCard.value} voters={this.state.rightVoters}/>
+          {rightContinueButton}
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
           <button onClick={() => this.handleUndoClicked()} id="undo_button" className="normalize__undo-button">
             <div className="undo__button">

@@ -58,20 +58,36 @@ describe('dotvoting', function () {
             })
           })
 
-          let previousSelectedBrowser = 0;
           function startChoices () {
             console.log("start choices");
             browser.element.all(by.id("update_board")).count().then(function (size) {
               if (size == 0) {
-                let browsersArray = [browser, browser2, browser3]
-                let randNum = Math.floor(Math.random() * browsersArray.length)
-                while(previousSelectedBrowser === randNum){
-                  randNum = Math.floor(Math.random() * browsersArray.length)
-                }
-                previousSelectedBrowser = randNum;
-                let randomBrowser = browsersArray[randNum]
-                console.log("selected browser " + randNum);
-                makeChoice(randomBrowser, browsersPriorities[randNum]);
+                makeChoice(browser, browsersPriorities[0])
+                makeChoice(browser2, browsersPriorities[1])
+                makeChoice(browser3, browsersPriorities[2])
+
+
+                let leftContinue = browser.element(by.id("left-continue-voting"));
+                let rightContinue = browser.element(by.id("right-continue-voting"));
+                let leftCard = browser.element(by.css('#left_button .card__title'));
+                let rightCard = browser.element(by.css('#right_button .card__title'));
+                browser.wait(EC.and(EC.presenceOf(leftContinue), EC.presenceOf(rightContinue)), 20000).then(function () {
+                  browser.wait(EC.and(EC.presenceOf(leftCard), EC.presenceOf(rightCard)), 20000).then(function () {
+                    leftCard.getText().then(function (leftValue) {
+                      rightCard.getText().then(function (rightValue) {
+                        console.log("main browser is selecting the choice")
+                        if (browsersPriorities[0].indexOf(rightValue) < browsersPriorities[0].indexOf(leftValue)) {
+                          rightContinue.click()
+                          startChoices()
+                        } else {
+                          leftContinue.click()
+                          startChoices()
+                        }
+                      });
+                    });
+                  });
+                })
+
               } else {
                 checkResults()
               }
@@ -89,10 +105,8 @@ describe('dotvoting', function () {
                 rightCard.getText().then(function (rightValue) {
                   if (bPriorities.indexOf(rightValue) < bPriorities.indexOf(leftValue)) {
                     b.element(by.css('#right_button .container__card')).click()
-                    startChoices()
                   } else {
                     b.element(by.css('#left_button .container__card')).click()
-                    startChoices()
                   }
                 });
               });
