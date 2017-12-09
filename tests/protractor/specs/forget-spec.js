@@ -1,7 +1,7 @@
 describe('sort list forget', function () {
   it('prioritizes the test column in ascending order blacklisting the cards "2" and "7"', function () {
     browser.ignoreSynchronization = true;
-    protractor.accessFromChromeExtension.accessFromChromeExtension();
+    protractor.simpleAccessFromChromeExtension.accessFromChromeExtension();
     let EC = protractor.ExpectedConditions;
 
     function nextChoice () {

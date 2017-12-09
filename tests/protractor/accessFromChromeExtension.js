@@ -1,8 +1,9 @@
-module.exports.accessFromChromeExtension = function (b, username = null, password = null) {
+module.exports.accessFromChromeExtension = function (b = null, username = null, password = null) {
   return new Promise(function (resolve, reject) {
-    let browser = b;
+    if(b !== null){
+      browser = b;
+    }
     browser.ignoreSynchronization = true;
-    console.log("opening url");
     browser.get('/?extId=' + (process.env.TEST_TRELLO_EXTID || browser.params.testTrelloExtId));
     let EC = protractor.ExpectedConditions;
     let continueButton = browser.element(by.css('.continue-to-choices--button'));

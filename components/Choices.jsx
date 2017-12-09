@@ -31,7 +31,7 @@ class Choices extends React.Component {
     component.props.Trello.members.get('me', {}, function (data) {
       component.trelloId = data.id
       component.trelloAvatar = '//trello-avatars.s3.amazonaws.com/' + data.avatarHash + '/50.png'
-      if(data.avatarHash === null){
+      if (data.avatarHash === null) {
         component.trelloAvatar = '//www.gravatar.com/avatar/' + data.gravatarHash + '?s=64&d=identicon'
       }
     }, function (e) {
@@ -77,11 +77,11 @@ class Choices extends React.Component {
     })
   }
 
-  registerVote(side, trelloId, trelloAvatar){
+  registerVote (side, trelloId, trelloAvatar) {
     let component = this;
-    let voter  = {
-      voterId : trelloId,
-      trelloId : trelloId,
+    let voter = {
+      voterId: trelloId,
+      trelloId: trelloId,
       trelloAvatar: trelloAvatar
     }
 
@@ -104,33 +104,38 @@ class Choices extends React.Component {
   }
 
   checkTotalVotes () {
-    if ( (this.state.leftVoters.length + this.state.rightVoters.length) >= 1+this.state.roomVoters.length){
+    if(this.state.roomVoters.length == 0){
+      return
+    }
+    if ((this.state.leftVoters.length + this.state.rightVoters.length) >= 1 + this.state.roomVoters.length) {
       this.setState({
-        everyBodyVoted : true,
+        everyBodyVoted: true,
       })
     }
   }
 
-  removeVoter(voterId){
+  removeVoter (voterId) {
     let component = this
-    if(find(component.state.roomVoters, {'id': voterId}) == undefined){
+    if (find(component.state.roomVoters, {'id': voterId}) == undefined) {
       return
     }
 
     let newVoters = component.state.roomVoters.slice(); //copy array
-    let index = findIndex(newVoters, function(item) { return item.id == voterId })
+    let index = findIndex(newVoters, function (item) {
+      return item.id == voterId
+    })
     newVoters.splice(index, 1); //remove element
     component.setState({
       roomVoters: newVoters
     })
   }
 
-  addVoter(voterId, trelloAvatar){
+  addVoter (voterId, trelloAvatar) {
     let component = this
-    if(find(component.state.roomVoters, {'id': voterId}) !== undefined){
+    if (find(component.state.roomVoters, {'id': voterId}) !== undefined) {
       return
     }
-    let voters = component.state.roomVoters.concat({id : voterId, avatar: trelloAvatar});
+    let voters = component.state.roomVoters.concat({id: voterId, avatar: trelloAvatar});
     component.setState({
       roomVoters: voters
     })
@@ -180,19 +185,23 @@ class Choices extends React.Component {
     this.getNextChoice()
   }
 
-  handleGoToNextVoting(side){
+  handleGoToNextVoting (side) {
     this.cardClicked(side)
   }
 
-  handleCardClicked(side){
+  handleCardClicked (side) {
+    if (this.state.roomVoters.length === 0) {
+      this.cardClicked(side)
+    }
+
     if (this.state.hasVoted) {
       return
     }
     let component = this
 
-    let voter  = {
-      voterId : component.trelloId,
-      trelloId : component.trelloId,
+    let voter = {
+      voterId: component.trelloId,
+      trelloId: component.trelloId,
       trelloAvatar: component.trelloAvatar
     }
 
@@ -222,7 +231,7 @@ class Choices extends React.Component {
     return Math.round(((100 * (this.props.nodes.length - this.engine.getListNodes().length - 1)) / (this.props.nodes.length)))
   }
 
-  renderCard(id, side, value){
+  renderCard (id, side, value) {
     return (
       <Card id={id} side={side} handleClick={this.handleCardClicked}
             forget={this.handleAddToBlacklist} data={value}/>
@@ -240,11 +249,13 @@ class Choices extends React.Component {
     }
     let leftContinueButton = '';
     if (this.state.everyBodyVoted) {
-      leftContinueButton = <button id="left-continue-voting" className="card-button__continue" onClick={() => this.handleGoToNextVoting('node')} >Continue</button>;
+      leftContinueButton = <button id="left-continue-voting" className="card-button__continue"
+                                   onClick={() => this.handleGoToNextVoting('node')}>Continue</button>;
     }
     let rightContinueButton = '';
     if (this.state.everyBodyVoted) {
-      rightContinueButton = <button id="right-continue-voting" className="card-button__continue" onClick={() => this.handleGoToNextVoting('compareNode')} >Continue</button>;
+      rightContinueButton = <button id="right-continue-voting" className="card-button__continue"
+                                    onClick={() => this.handleGoToNextVoting('compareNode')}>Continue</button>;
     }
     return (
       <div id="second_div">

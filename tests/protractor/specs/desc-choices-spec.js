@@ -1,8 +1,14 @@
 describe('sort list desc', function () {
   it('prioritizes the test column in descending order', function () {
     browser.ignoreSynchronization = true;
-    protractor.accessFromChromeExtension.accessFromChromeExtension();
+    protractor.simpleAccessFromChromeExtension.accessFromChromeExtension();
       let EC = protractor.ExpectedConditions;
+
+    let allLabel = element(by.css('.label__item.label__none'));
+    browser.wait(EC.presenceOf(allLabel), 20000).then(function () {
+      allLabel.click();
+      nextChoice();
+    })
 
     function nextChoice () {
       let leftCard = element(by.css('#left_button .card__title'));
@@ -26,11 +32,7 @@ describe('sort list desc', function () {
       });
     }
 
-    let allLabel = element(by.css('.label__item.label__none'));
-    browser.wait(EC.presenceOf(allLabel), 20000).then(function () {
-      allLabel.click();
-      nextChoice();
-    })
+
 
     protractor.expectRecap.toBe(['10', '9', '8', '7', '6', '5', '4', '3', '2', '1']);
   });

@@ -1,7 +1,7 @@
 describe('sorted list recap', function () {
   it('shows a recap after the choices', function () {
     browser.ignoreSynchronization = true
-    protractor.accessFromChromeExtension.accessFromChromeExtension();
+    protractor.simpleAccessFromChromeExtension.accessFromChromeExtension();
     browser.driver.sleep(1000);
     let EC = protractor.ExpectedConditions;
 

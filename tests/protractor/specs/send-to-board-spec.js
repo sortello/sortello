@@ -1,7 +1,7 @@
 describe('sort list asc', function () {
   it('sends data to board correctly', function () {
     browser.ignoreSynchronization = true;
-    protractor.accessFromChromeExtension.accessFromChromeExtension();
+    protractor.simpleAccessFromChromeExtension.accessFromChromeExtension();
     let EC = protractor.ExpectedConditions;
 
     function nextChoice () {
@@ -65,7 +65,7 @@ describe('sort list asc', function () {
     });
 
     browser.driver.sleep(2000);
-    protractor.selectWindow.selectWindow(1).then(function () {
+    protractor.selectWindow.selectWindow(1, browser).then(function () {
       let trelloList = element(by.css('.list-cards'));
       browser.wait(EC.visibilityOf(trelloList), 20000).then(function () {
         let trelloCards = element(by.css('.list-cards')).all(by.css('.list-card-details > span'));
