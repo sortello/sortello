@@ -5,6 +5,7 @@ class Card extends React.Component {
     let cardButtons = '';
     if (this.props.forget !== null) {
       cardButtons = <div className="wrapper__card-buttons">
+        {this.props.continueButton}
         <a href={this.props.data.shortUrl} target="_blank" role="button"
            className="button-seecard card-button__see-card" onClick={(e) => {
           this.linkClicked(e);

@@ -168,6 +168,18 @@
   background-color: #005AFF;
 }*/
 
+.card-button__continue {
+  padding: 16px;
+  box-shadow: 0px 2px 4px -2px;
+  margin-bottom: 8px;
+  color: white;
+  border-radius: 4px;
+  background-color: #61bd4f;
+  transition: all 0.2s ease-in-out;
+  margin: 16px 8px;
+  cursor: pointer;
+}
+
 .card-button__esclude {
   padding: 16px;
   box-shadow: 0px 2px 4px -2px;

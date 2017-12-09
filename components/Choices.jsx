@@ -240,11 +240,11 @@ class Choices extends React.Component {
     }
     let leftContinueButton = '';
     if (this.state.everyBodyVoted) {
-      leftContinueButton = <button id="left-continue-voting" onClick={() => this.handleGoToNextVoting('node')} >Continue</button>;
+      leftContinueButton = <button id="left-continue-voting" className="card-button__continue" onClick={() => this.handleGoToNextVoting('node')} >Continue</button>;
     }
     let rightContinueButton = '';
     if (this.state.everyBodyVoted) {
-      rightContinueButton = <button id="right-continue-voting" onClick={() => this.handleGoToNextVoting('compareNode')} >Continue</button>;
+      rightContinueButton = <button id="right-continue-voting" className="card-button__continue" onClick={() => this.handleGoToNextVoting('compareNode')} >Continue</button>;
     }
     return (
       <div id="second_div">
@@ -261,11 +261,11 @@ class Choices extends React.Component {
             </div>
           </div>
           <Card id="left_button" side="node" handleClick={this.handleCardClicked}
-                forget={this.handleAddToBlacklist} data={this.state.leftCard.value} voters={this.state.leftVoters}/>
-          {leftContinueButton}
+                forget={this.handleAddToBlacklist} data={this.state.leftCard.value} voters={this.state.leftVoters}
+                continueButton={leftContinueButton}/>
           <Card id="right_button" side="compareNode" handleClick={this.handleCardClicked}
-                forget={this.handleAddToBlacklist} data={this.state.rightCard.value} voters={this.state.rightVoters}/>
-          {rightContinueButton}
+                forget={this.handleAddToBlacklist} data={this.state.rightCard.value} voters={this.state.rightVoters}
+                continueButton={rightContinueButton}/>
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
           <button onClick={() => this.handleUndoClicked()} id="undo_button" className="normalize__undo-button">
             <div className="undo__button">
