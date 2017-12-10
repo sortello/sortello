@@ -65,8 +65,6 @@ describe('dotvoting', function () {
                 makeChoice(browser, browsersPriorities[0])
                 makeChoice(browser2, browsersPriorities[1])
                 makeChoice(browser3, browsersPriorities[2])
-
-
                 let leftContinue = browser.element(by.id("left-continue-voting"));
                 let rightContinue = browser.element(by.id("right-continue-voting"));
                 let leftCard = browser.element(by.css('#left_button .card__title'));

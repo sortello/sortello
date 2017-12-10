@@ -1,5 +1,8 @@
-describe('sort list asc', function () {
-  it('prioritizes the test column in ascending order', function () {
+describe('sort list', function () {
+  it('prioritizes the test column in defined order', function () {
+
+    let targetOrder = ['6', '9', '5', '4', '1', '8', '3', '10', '2', '7']
+
     browser.ignoreSynchronization = true;
     protractor.simpleAccessFromChromeExtension.accessFromChromeExtension()
     let EC = protractor.ExpectedConditions;
@@ -11,10 +14,10 @@ describe('sort list asc', function () {
       browser.wait(EC.and(EC.presenceOf(leftCard), EC.presenceOf(rightCard)), 20000).then(function () {
         leftCard.getText().then(function (leftValue) {
           rightCard.getText().then(function (rightValue) {
-            if (parseInt(rightValue) < parseInt(leftValue)) {
-              element(by.css('#right_button .container__card')).click()
-            } else {
+            if (targetOrder.indexOf(leftValue) < targetOrder.indexOf(rightValue)) {
               element(by.css('#left_button .container__card')).click()
+            } else {
+              element(by.css('#right_button .container__card')).click()
             }
           });
         });
@@ -32,6 +35,6 @@ describe('sort list asc', function () {
       nextChoice();
     })
 
-    protractor.expectRecap.toBe(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']);
+    protractor.expectRecap.toBe(targetOrder);
   });
 });
