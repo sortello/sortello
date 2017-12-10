@@ -272,10 +272,12 @@ class Choices extends React.Component {
             </div>
           </div>
           <Card id="left_button" side="node" handleClick={this.handleCardClicked}
-                forget={this.handleAddToBlacklist} data={this.state.leftCard.value} voters={this.state.leftVoters}
+                forget={this.handleAddToBlacklist} data={this.state.leftCard.value}
+                voters={this.state.everyBodyVoted ? this.state.leftVoters : []}
                 continueButton={leftContinueButton}/>
           <Card id="right_button" side="compareNode" handleClick={this.handleCardClicked}
-                forget={this.handleAddToBlacklist} data={this.state.rightCard.value} voters={this.state.rightVoters}
+                forget={this.handleAddToBlacklist} data={this.state.rightCard.value}
+                voters={this.state.everyBodyVoted ? this.state.rightVoters : []}
                 continueButton={rightContinueButton}/>
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
           <button onClick={() => this.handleUndoClicked()} id="undo_button" className="normalize__undo-button">
