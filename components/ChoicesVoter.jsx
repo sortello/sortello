@@ -25,7 +25,8 @@ class Choices extends React.Component {
       ended: false,
       leftVoters: [],
       rightVoters: [],
-      hasVoted: false
+      hasVoted: false,
+      hasBoardPermissions: false
     }
 
     if (params.roomKey !== undefined) {
@@ -42,6 +43,7 @@ class Choices extends React.Component {
             component.trelloAvatar = '//www.gravatar.com/avatar/' + data.gravatarHash + '?s=64&d=identicon'
           }
           socket.emit('room', params.roomKey, component.trelloId, component.trelloAvatar);
+          socket.emit('getBoardId', params.roomKey)
           socket.emit('getCurrentChoice', params.roomKey);
         }, function (e) {
           console.log(e);
@@ -60,6 +62,20 @@ class Choices extends React.Component {
       component.setState({
         leftVoters: leftVoters,
         rightVoters: rightVoters
+      })
+    })
+
+    socket.on('castBoardIdToVoters', function(boardId){
+      component.Trello.boards.get(boardId, function(){
+        component.setState({
+          hasBoardPermissions: true
+        })
+      }, function(){
+        component.setState({
+          hasBoardPermissions: false
+        },function(){
+          socket.emit('leaveRoom', params.roomKey, component.trelloId)
+        })
       })
     })
 
@@ -88,6 +104,9 @@ class Choices extends React.Component {
   }
 
   render () {
+    if(!this.state.hasBoardPermissions){
+      return <div id="forbidden-div" >You have no access to this board.</div>
+    }
     if (this.state.leftCard == null || this.state.rightCard == null) {
       return (<span>Loading...</span>);
     }

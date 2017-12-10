@@ -14,7 +14,6 @@ module.exports.accessFromChromeExtension = function (b = null, username = null, 
       browser.driver.manage().window().setSize(800, 800);
       let acceptButton = browser.element(by.css('#surface form a.button.primary'));
       browser.wait(EC.presenceOf(acceptButton), 10000).then(function () {
-        console.log("scaling window");
         acceptButton.click();
         login(resolve, browser)
       });

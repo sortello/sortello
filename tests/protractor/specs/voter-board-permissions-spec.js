@@ -1,0 +1,61 @@
+describe('cannot vote if cannot access to board', function () {
+  var originalTimeout;
+
+  beforeEach(function () {
+    originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 50000;
+  });
+
+  afterEach(function () {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+  });
+  it('prioritizes a list in ascending order with 1 host and 2 guests', function (done) {
+
+    browser.ignoreSynchronization = true;
+    browser.driver.manage().window().setSize(840, 1032);
+    browser.driver.manage().window().setPosition(0, 0);
+    browser.driver.manage().window().toolbar = 0;
+    browser.driver.manage().window().menubar = 0;
+
+    let browser1 = browser
+
+    let browser2 = browser.forkNewDriverInstance();
+    browser2.ignoreSynchronization = true;
+    browser2.driver.manage().window().setSize(840, 524);
+    browser2.driver.manage().window().setPosition(840, 0);
+
+    protractor.accessFromChromeExtension.accessFromChromeExtension(browser1).then(function () {
+      protractor.accessFromChromeExtension.accessFromChromeExtension(browser2, browser.params.testTrello2Username, browser1.params.testTrello2Password).then(function () {
+          let EC = protractor.ExpectedConditions;
+          let allLabel = element(by.css('.label__item.label__none'))
+        browser1.wait(EC.presenceOf(allLabel), 20000).then(function () {
+            allLabel.click();
+            let newRoomButton = element(by.css('#new-room-button'))
+          browser1.wait(EC.presenceOf(newRoomButton), 20000).then(function () {
+              newRoomButton.click();
+
+              let roomLinkElement = element(by.css('#room-link'))
+            browser1.wait(EC.presenceOf(roomLinkElement), 20000).then(function () {
+                roomLinkElement.getAttribute('href').then(function (link) {
+                  link = link.replace("localhost/", "localhost:4000")
+                  browser2.get(link)
+
+                  let forBiddenDiv = element(by.id('forbidden-div'))
+                  browser2.wait(EC.presenceOf(forBiddenDiv), 20000).then(function () {
+                    expect(forBiddenDiv.getText()).toEqual("You have no access to this board.")
+                    browser2.element.all(by.id("second_div")).count().then(function (count) {
+                      expect(count).toEqual(0)
+                      browser1.close()
+                    })
+                  })
+
+                  browser.wait(EC.presenceOf(element(by.css('something'))), 20000).then(function () {})
+
+                })
+              })
+            })
+          })
+      });
+    });
+  });
+});

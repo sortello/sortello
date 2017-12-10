@@ -16,7 +16,8 @@ class App extends React.Component {
       nodes: Array(),
       rootNode: null,
       currentView: 1,
-      startTimeStamp: null// 1-ApiKey 2-ColumnSelect 3-Choices 4-SendDataToServer
+      startTimeStamp: null,// 1-ApiKey 2-ColumnSelect 3-Choices 4-SendDataToServer
+      boardId: null
     };
     this.getCurrentView = this.getCurrentView.bind(this)
     this.setStartTimeStamp = this.setStartTimeStamp.bind(this)
@@ -49,7 +50,7 @@ class App extends React.Component {
     }
   }
 
-  handleCards (listCards) {
+  handleCards (listCards, boardId) {
     let that = this;
     let nodes = [];
     for (var i = 0; i < listCards.length; i++) {
@@ -57,6 +58,7 @@ class App extends React.Component {
       nodes.push(node);
     }
     this.setState({
+      boardId: boardId,
       rootNode: nodes.shift(),
       nodes: nodes,
       currentView: 3
@@ -89,6 +91,7 @@ class App extends React.Component {
           <Choices Trello={this.state.Trello}
                    ref="choices" setSortedRootNode={this.setSortedRootNode} setStartTimeStamp={this.setStartTimeStamp}
                    nodes={this.state.nodes}
+                   boardId={this.state.boardId}
                    rootNode={this.state.rootNode}/>);
       case 4:
         return (

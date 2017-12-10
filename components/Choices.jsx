@@ -75,6 +75,11 @@ class Choices extends React.Component {
     socket.on('cardClicked', function (side, trelloId, trelloAvatar) {
       component.registerVote(side, trelloId, trelloAvatar)
     })
+
+    socket.on('getBoardIdFromMaster', function () {
+      console.log("board id request received");
+      socket.emit('castBoardId', component.state.roomId, component.props.boardId)
+    })
   }
 
   registerVote (side, trelloId, trelloAvatar) {

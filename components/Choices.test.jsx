@@ -108,4 +108,5 @@ describe("Choices", () => {
     expect(choices().find('Card').at(1).props().continueButton).not.toEqual('')
 
   })
+
 });
