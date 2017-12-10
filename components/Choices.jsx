@@ -104,12 +104,15 @@ class Choices extends React.Component {
   }
 
   checkTotalVotes () {
+    let component = this;
     if(this.state.roomVoters.length == 0){
       return
     }
     if ((this.state.leftVoters.length + this.state.rightVoters.length) >= 1 + this.state.roomVoters.length) {
       this.setState({
         everyBodyVoted: true,
+      },function(){
+        socket.emit('votesInfo', component.state.leftVoters, component.state.rightVoters, component.state.roomId)
       })
     }
   }
@@ -148,9 +151,12 @@ class Choices extends React.Component {
   }
 
   getNextChoice () {
+    let component = this
     this.setState({
       hasVoted: false,
       everyBodyVoted: false
+    },function(){
+      socket.emit('votesInfo', [], [], component.state.roomId)
     })
     if (this.engine.getEnded()) {
       socket.emit('prioritizationEnded', this.state.roomId)
@@ -273,11 +279,11 @@ class Choices extends React.Component {
           </div>
           <Card id="left_button" side="node" handleClick={this.handleCardClicked}
                 forget={this.handleAddToBlacklist} data={this.state.leftCard.value}
-                voters={this.state.everyBodyVoted ? this.state.leftVoters : []}
+                voters={this.state.leftVoters }
                 continueButton={leftContinueButton}/>
           <Card id="right_button" side="compareNode" handleClick={this.handleCardClicked}
                 forget={this.handleAddToBlacklist} data={this.state.rightCard.value}
-                voters={this.state.everyBodyVoted ? this.state.rightVoters : []}
+                voters={this.state.rightVoters }
                 continueButton={rightContinueButton}/>
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
           <button onClick={() => this.handleUndoClicked()} id="undo_button" className="normalize__undo-button">

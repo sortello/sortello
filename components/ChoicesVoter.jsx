@@ -56,6 +56,13 @@ class Choices extends React.Component {
 
     }
 
+    socket.on('votesInfo', function(leftVoters, rightVoters){
+      component.setState({
+        leftVoters: leftVoters,
+        rightVoters: rightVoters
+      })
+    })
+
     socket.on('nextChoice', function (leftCard, rightCard) {
       component.setState({
         leftCard: leftCard,
