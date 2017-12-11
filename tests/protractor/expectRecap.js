@@ -1,5 +1,5 @@
 module.exports.toBe = function (recapArray, b = null) {
-  if (b == null) {
+  if (b === null) {
     b = browser
   }
 

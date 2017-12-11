@@ -255,7 +255,7 @@ class Choices extends React.Component {
     }
     let roomLink = '';
     if (this.state.roomId !== null) {
-      let shareLink = window.location.hostname + '?roomKey=' + this.state.roomId
+      let shareLink = window.location.hostname + window.location.pathname +'?roomKey=' + this.state.roomId
       roomLink = <p>Share Link: <a id="room-link" href={'//' + shareLink}>{shareLink}</a></p>
     }
     let leftContinueButton = '';

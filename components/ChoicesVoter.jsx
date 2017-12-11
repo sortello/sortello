@@ -30,12 +30,9 @@ class Choices extends React.Component {
     }
 
     if (params.roomKey !== undefined) {
-      console.log(component.trelloId)
       component.state.roomId = params.roomKey
       socket.on('connect', function () {
-        console.log("connecting to room");
         component.props.Trello.members.get('me', {}, function (data) {
-          console.log(data)
           component.trelloId = data.id
 
           component.trelloAvatar = '//trello-avatars.s3.amazonaws.com/' + data.avatarHash + '/50.png'
@@ -66,7 +63,9 @@ class Choices extends React.Component {
     })
 
     socket.on('castBoardIdToVoters', function(boardId){
+      console.log(boardId)
       component.Trello.boards.get(boardId, function(){
+        console.log("success")
         component.setState({
           hasBoardPermissions: true
         })

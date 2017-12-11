@@ -26,35 +26,35 @@ describe('cannot vote if cannot access to board', function () {
 
     protractor.accessFromChromeExtension.accessFromChromeExtension(browser1).then(function () {
       protractor.accessFromChromeExtension.accessFromChromeExtension(browser2, browser.params.testTrello2Username, browser1.params.testTrello2Password).then(function () {
-          let EC = protractor.ExpectedConditions;
-          let allLabel = element(by.css('.label__item.label__none'))
+        let EC = protractor.ExpectedConditions;
+        browser1.get('/app.html?extId=' + browser.params.testTrelloPrivateBoardExtId);
+        let allLabel = element(by.css('.label__item.label__none'))
         browser1.wait(EC.presenceOf(allLabel), 20000).then(function () {
-            allLabel.click();
-            let newRoomButton = element(by.css('#new-room-button'))
+          allLabel.click();
+          let newRoomButton = element(by.css('#new-room-button'))
           browser1.wait(EC.presenceOf(newRoomButton), 20000).then(function () {
-              newRoomButton.click();
-
-              let roomLinkElement = element(by.css('#room-link'))
+            newRoomButton.click();
+            let roomLinkElement = element(by.css('#room-link'))
             browser1.wait(EC.presenceOf(roomLinkElement), 20000).then(function () {
-                roomLinkElement.getAttribute('href').then(function (link) {
-                  link = link.replace("localhost/", "localhost:4000")
-                  browser2.get(link)
+              roomLinkElement.getAttribute('href').then(function (link) {
+                link = link.replace("localhost/app.html", "localhost:4000/app.html")
+                browser2.get(link)
 
-                  let forBiddenDiv = element(by.id('forbidden-div'))
-                  browser2.wait(EC.presenceOf(forBiddenDiv), 20000).then(function () {
-                    expect(forBiddenDiv.getText()).toEqual("You have no access to this board.")
-                    browser2.element.all(by.id("second_div")).count().then(function (count) {
-                      expect(count).toEqual(0)
-                      browser1.close()
-                    })
+                browser2.wait(EC.presenceOf(element(by.id('container_div'))), 20000).then(function () {
+                  expect(browser2.element(by.id('container_div')).getText()).toMatch(/.*You have no access to this board.*/)
+                  browser2.element.all(by.id("second_div")).count().then(function (count) {
+                    console.log("second_div found")
+                    expect(count).toEqual(0)
+                    browser2.close()
+                    browser1.close()
+                    done()
                   })
-
-                  browser.wait(EC.presenceOf(element(by.css('something'))), 20000).then(function () {})
-
                 })
+
               })
             })
           })
+        })
       });
     });
   });
