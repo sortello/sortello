@@ -80,25 +80,20 @@ describe('dotvoting', function () {
             })
 
             function startChoices () {
-              browser1.element.all(by.id("update_board")).count().then(function (size) {
-                browser3.element.all(by.id("update_board")).count().then(function (size2) {
-                  if (size === 0 || size2 === 0) {
-                    if (size2 === 0) {
-                      makeChoice(browser4, browsersPriorities[3]);
-                      makeChoice(browser3, browsersPriorities[2]);
-                    }
-                    if (size === 0) {
-                      makeChoice(browser2, browsersPriorities[1]);
-                      makeChoice(browser1, browsersPriorities[0]);
-                    }
-                    startChoices()
-                  } else {
-                    checkRoom1Results()
-                    checkRoom2Results()
-                    done();
-                  }
-                })
-              });
+              for (let i = 0; i < 5; i++) {
+                makeChoice(browser1, browsersPriorities[0]);
+                makeChoice(browser2, browsersPriorities[1]);
+                makeChoice(browser3, browsersPriorities[2]);
+                makeChoice(browser4, browsersPriorities[3]);
+
+                expectCardsToBeTheSame(browser1, browser2);
+                expectCardsToBeTheSame(browser3, browser4);
+              }
+              browser1.close()
+              browser2.close()
+              browser3.close()
+              browser4.close()
+              done()
             }
 
             function makeChoice (b, bPriorities) {
@@ -115,10 +110,8 @@ describe('dotvoting', function () {
                           console.log("main browser is selecting the choice")
                           if (bPriorities.indexOf(rightValue) < bPriorities.indexOf(leftValue)) {
                             rightContinue.click()
-                            startChoices()
                           } else {
                             leftContinue.click()
-                            startChoices()
                           }
                         });
                       });
@@ -141,17 +134,27 @@ describe('dotvoting', function () {
                   });
                 }
               })
-
             }
 
-            function checkRoom1Results () {
-              console.log("checking results 1");
-              protractor.expectRecap.toBe(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'], browser1);
-            }
-
-            function checkRoom2Results () {
-              console.log("checking results 2");
-              protractor.expectRecap.toBe(['10', '9', '8', '7', '6', '5', '4', '3', '2', '1'], browser3);
+            function expectCardsToBeTheSame (browserA, browserB) {
+              let leftCardA = browserA.element(by.css('#left_button .card__title'));
+              let rightCardA = browserA.element(by.css('#right_button .card__title'));
+              let leftCardB = browserB.element(by.css('#left_button .card__title'));
+              let rightCardB = browserB.element(by.css('#right_button .card__title'));
+              browserA.wait(EC.and(EC.presenceOf(leftCardA), EC.presenceOf(rightCardA)), 20000).then(function () {
+                browserB.wait(EC.and(EC.presenceOf(leftCardB), EC.presenceOf(rightCardB)), 20000).then(function () {
+                  leftCardA.getText().then(function (leftValueA) {
+                    rightCardA.getText().then(function (rightValueA) {
+                      leftCardB.getText().then(function (leftValueB) {
+                        rightCardB.getText().then(function (rightValueB) {
+                          expect(leftValueA).toEqual(leftValueB)
+                          expect(rightValueA).toEqual(rightValueB)
+                        })
+                      })
+                    })
+                  })
+                })
+              })
             }
           });
         });

@@ -43,7 +43,6 @@ describe('cannot vote if cannot access to board', function () {
                 browser2.wait(EC.presenceOf(element(by.id('container_div'))), 20000).then(function () {
                   expect(browser2.element(by.id('container_div')).getText()).toMatch(/.*You have no access to this board.*/)
                   browser2.element.all(by.id("second_div")).count().then(function (count) {
-                    console.log("second_div found")
                     expect(count).toEqual(0)
                     browser2.close()
                     browser1.close()
