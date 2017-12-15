@@ -6,8 +6,14 @@ import Footer from "./Footer.jsx"
 import {clone} from "lodash"
 import io from 'socket.io-client';
 import queryString from "query-string";
+import {config} from "../config"
 
-const socket = io('http://localhost:8000/');
+
+let socket = false;
+if (config.socketAddress) {
+  socket = io(config.socketAddress);
+}
+
 const params = queryString.parse(location.search);
 
 class Choices extends React.Component {
@@ -31,70 +37,72 @@ class Choices extends React.Component {
 
     if (params.roomKey !== undefined) {
       component.state.roomId = params.roomKey
-      socket.on('connect', function () {
-        component.props.Trello.members.get('me', {}, function (data) {
-          component.trelloId = data.id
+      if (socket) {
+        socket.on('connect', function () {
+          component.props.Trello.members.get('me', {}, function (data) {
+            component.trelloId = data.id
 
-          component.trelloAvatar = '//trello-avatars.s3.amazonaws.com/' + data.avatarHash + '/50.png'
-          if(data.avatarHash === null){
-            component.trelloAvatar = '//www.gravatar.com/avatar/' + data.gravatarHash + '?s=64&d=identicon'
-          }
-          socket.emit('room', params.roomKey, component.trelloId, component.trelloAvatar);
-          socket.emit('getBoardId', params.roomKey)
-          socket.emit('getCurrentChoice', params.roomKey);
-        }, function (e) {
-          console.log(e);
+            component.trelloAvatar = '//trello-avatars.s3.amazonaws.com/' + data.avatarHash + '/50.png'
+            if (data.avatarHash === null) {
+              component.trelloAvatar = '//www.gravatar.com/avatar/' + data.gravatarHash + '?s=64&d=identicon'
+            }
+            socket.emit('room', params.roomKey, component.trelloId, component.trelloAvatar);
+            socket.emit('getBoardId', params.roomKey)
+            socket.emit('getCurrentChoice', params.roomKey);
+          }, function (e) {
+            console.log(e);
+          });
         });
-      });
 
-      window.addEventListener("beforeunload", (ev) =>
-      {
-        ev.preventDefault()
-        socket.emit('leaveRoom', params.roomKey, component.trelloId)
-      });
+        window.addEventListener("beforeunload", (ev) => {
+          ev.preventDefault()
+          socket.emit('leaveRoom', params.roomKey, component.trelloId)
+        });
+      }
 
     }
-
-    socket.on('votesInfo', function(leftVoters, rightVoters){
-      component.setState({
-        leftVoters: leftVoters,
-        rightVoters: rightVoters
-      })
-    })
-
-    socket.on('castBoardIdToVoters', function(boardId){
-      console.log(boardId)
-      component.Trello.boards.get(boardId, function(){
-        console.log("success")
+    if (socket) {
+      socket.on('votesInfo', function (leftVoters, rightVoters) {
         component.setState({
-          hasBoardPermissions: true
-        })
-      }, function(){
-        component.setState({
-          hasBoardPermissions: false
-        },function(){
-          socket.emit('leaveRoom', params.roomKey, component.trelloId)
+          leftVoters: leftVoters,
+          rightVoters: rightVoters
         })
       })
-    })
 
-    socket.on('nextChoice', function (leftCard, rightCard) {
-      component.setState({
-        leftCard: leftCard,
-        rightCard: rightCard,
-        hasVoted: false
+      socket.on('castBoardIdToVoters', function (boardId) {
+        console.log(boardId)
+        component.Trello.boards.get(boardId, function () {
+          console.log("success")
+          component.setState({
+            hasBoardPermissions: true
+          })
+        }, function () {
+          component.setState({
+            hasBoardPermissions: false
+          }, function () {
+            socket.emit('leaveRoom', params.roomKey, component.trelloId)
+          })
+        })
       })
-    })
 
-    socket.on('prioritizationEnded', function () {
-      component.setState({
-        ended: true
+      socket.on('nextChoice', function (leftCard, rightCard) {
+        component.setState({
+          leftCard: leftCard,
+          rightCard: rightCard,
+          hasVoted: false
+        })
       })
-    })
+
+      socket.on('prioritizationEnded', function () {
+        component.setState({
+          ended: true
+        })
+      })
+    }
   }
 
   handleCardClicked (side) {
-    if (!this.state.hasVoted) {
+    if (!this.state.hasVoted && socket) {
       socket.emit('cardClicked', side, this.state.roomId, this.trelloId, this.trelloAvatar)
     }
     this.setState({
@@ -103,8 +111,8 @@ class Choices extends React.Component {
   }
 
   render () {
-    if(!this.state.hasBoardPermissions){
-      return <div id="forbidden-div" >You have no access to this board.</div>
+    if (!this.state.hasBoardPermissions) {
+      return <div id="forbidden-div">You have no access to this board.</div>
     }
     if (this.state.leftCard == null || this.state.rightCard == null) {
       return (<span>Loading...</span>);

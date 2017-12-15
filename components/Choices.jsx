@@ -9,8 +9,12 @@ import io from 'socket.io-client';
 import {find} from "lodash"
 import {findIndex} from "lodash"
 import {remove} from "lodash"
+import {config} from "../config"
 
-const socket = io('http://localhost:8000/');
+let socket = false;
+if (config.socketAddress) {
+  socket = io(config.socketAddress);
+}
 
 class Choices extends React.Component {
 
@@ -110,14 +114,16 @@ class Choices extends React.Component {
 
   checkTotalVotes () {
     let component = this;
-    if(this.state.roomVoters.length == 0){
+    if (this.state.roomVoters.length == 0) {
       return
     }
     if ((this.state.leftVoters.length + this.state.rightVoters.length) >= 1 + this.state.roomVoters.length) {
       this.setState({
         everyBodyVoted: true,
-      },function(){
-        socket.emit('votesInfo', component.state.leftVoters, component.state.rightVoters, component.state.roomId)
+      }, function () {
+        if (socket) {
+          socket.emit('votesInfo', component.state.leftVoters, component.state.rightVoters, component.state.roomId)
+        }
       })
     }
   }
@@ -160,11 +166,15 @@ class Choices extends React.Component {
     this.setState({
       hasVoted: false,
       everyBodyVoted: false
-    },function(){
-      socket.emit('votesInfo', [], [], component.state.roomId)
+    }, function () {
+      if (socket) {
+        socket.emit('votesInfo', [], [], component.state.roomId)
+      }
     })
     if (this.engine.getEnded()) {
-      socket.emit('prioritizationEnded', this.state.roomId)
+      if (socket) {
+        socket.emit('prioritizationEnded', this.state.roomId)
+      }
       this.props.setSortedRootNode(this.engine.getRootNode());
     } else {
       this.setState({
@@ -176,7 +186,9 @@ class Choices extends React.Component {
         if (this.engine.autoChoice()) {
           this.getNextChoice()
         }
-        socket.emit('nextChoice', this.state.leftCard, this.state.rightCard, this.state.roomId)
+        if (socket) {
+          socket.emit('nextChoice', this.state.leftCard, this.state.rightCard, this.state.roomId)
+        }
       });
     }
   }
@@ -255,7 +267,7 @@ class Choices extends React.Component {
     }
     let roomLink = '';
     if (this.state.roomId !== null) {
-      let shareLink = window.location.hostname + window.location.pathname +'?roomKey=' + this.state.roomId
+      let shareLink = window.location.hostname + window.location.pathname + '?roomKey=' + this.state.roomId
       roomLink = <p>Share Link: <a id="room-link" href={'//' + shareLink}>{shareLink}</a></p>
     }
     let leftContinueButton = '';
@@ -267,6 +279,10 @@ class Choices extends React.Component {
     if (this.state.everyBodyVoted) {
       rightContinueButton = <button id="right-continue-voting" className="card-button__continue"
                                     onClick={() => this.handleGoToNextVoting('compareNode')}>Continue</button>;
+    }
+    let newRoomButton = '';
+    if(socket){
+      newRoomButton = <button id="new-room-button" onClick={this.createRoom}>Open new room</button>
     }
     return (
       <div id="second_div">
@@ -304,7 +320,7 @@ class Choices extends React.Component {
           <Footer/>
           <Header/>
         </div>
-        <button id="new-room-button" onClick={this.createRoom}>Open new room</button>
+        {newRoomButton}
         {roomLink}
         {this.state.roomVoters.map((item, index) => (
           <img className={'card__voter'} key={index} src={item.avatar}/>
