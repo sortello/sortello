@@ -1,3 +1,1 @@
-{
-    "socketAddress" : null;
-}
+export const config = {socketAddress: null}
