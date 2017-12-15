@@ -5,17 +5,16 @@ import {shuffle} from "lodash"
 
 describe('treeNodeFactoryBenchmark', () => {
 
-
   function executeOrdering (applyRebalance, cycles = 100) {
-    var sumSteps = 0;
-    for (var r = 0; r < cycles; r++) {
-      var nodes = [];
-      for (var i = 1; i <= 50; i++) {
+    let sumSteps = 0;
+    for (let r = 0; r < cycles; r++) {
+      let nodes = [];
+      for (let i = 1; i <= 50; i++) {
         nodes.push(treeNodeFactory(i));
       }
       nodes = shuffle(nodes);
 
-      var [reorderedNodesArray, steps] = buildAndReorderTree(nodes, applyRebalance);
+      let [reorderedNodesArray, steps] = buildAndReorderTree(nodes, applyRebalance);
 
       sumSteps += steps;
     }
@@ -27,16 +26,17 @@ describe('treeNodeFactoryBenchmark', () => {
   }
 
   // Try also with very small tree. Example: 2-nodes
-  it('should be faster with rebalancing', () => {
+  it('should be faster with rebalancing', (done) => {
     let stepsWithoutRebalancing = executeOrdering(false);
     let stepsWithRebalancing =  executeOrdering(true);
     expect(stepsWithoutRebalancing).toBeGreaterThanOrEqual(stepsWithRebalancing);
+    done()
   });
 
   function buildAndReorderTree (nodes, applyRebalance) {
 
-    var rootNode = nodes[0];
-    var steps = 0;
+    let rootNode = nodes[0];
+    let steps = 0;
 
     function getChoice (node, compareNode, currNode) {
       steps++;
@@ -56,14 +56,14 @@ describe('treeNodeFactoryBenchmark', () => {
       }
     }
 
-    var reorderedNodesArray = [];
+    let reorderedNodesArray = [];
 
     function choicesCycle (currNode) {
       if (currNode < nodes.length) {
         getChoice(nodes[currNode], rootNode, currNode);
       } else {
-        var reorderedNodes = traverseTree(rootNode);
-        for (var j = 0; j < reorderedNodes.length; j++) {
+        let reorderedNodes = traverseTree(rootNode);
+        for (let j = 0; j < reorderedNodes.length; j++) {
           reorderedNodesArray.push(reorderedNodes[j].value);
         }
       }
