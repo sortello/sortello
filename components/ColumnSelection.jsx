@@ -17,7 +17,8 @@ class ColumnSelection extends React.Component {
       labels: [],
       groupedboards: [],
       organizations: [],
-      fromExtension: false
+      fromExtension: false,
+      boardId: null
     }
     this.getBoardColumns = this.getBoardColumns.bind(this);
     this.retrieveCardsByListId = this.retrieveCardsByListId.bind(this);
@@ -28,9 +29,9 @@ class ColumnSelection extends React.Component {
   }
 
   componentDidMount () {
-    var Trello = this.props.Trello;
+    let Trello = this.props.Trello;
 
-    var that = this;
+    let that = this;
     const params = queryString.parse(location.search);
 
     if (params.boardId !== undefined && params.listName !== undefined) {
@@ -89,14 +90,14 @@ class ColumnSelection extends React.Component {
         return find(card.labels, {'id': label.id}) !== undefined;
       });
     }
-    this.props.handleCards(listCards);
+    this.props.handleCards(listCards, this.state.boardId);
   }
 
   retrieveCardsByListId (listId) {
     let that = this;
     let labels = [];
     this.props.Trello.lists.get(listId, {cards: "open"}, function (data) {
-      var listCards = data.cards;
+      let listCards = data.cards;
       that.setState({
         listCards: listCards
       });
@@ -109,7 +110,8 @@ class ColumnSelection extends React.Component {
         });
       })
       that.setState({
-        labels: labels
+        labels: labels,
+        boardId: data.idBoard
       }, function () {
         if (this.state.labels.length === 0) {
           that.labelSelected(0)
@@ -127,9 +129,11 @@ class ColumnSelection extends React.Component {
   }
 
   handleBoardClicked (boardId) {
+    this.setState({
+      boardId: boardId
+    })
 
     var board = find(this.state.boards, {'id': boardId});
-
     this.getBoardColumns(board)
   }
 

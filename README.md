@@ -23,6 +23,8 @@ Sortello will be available at localhost:4000
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
 
+Running `protractor-integration` task requires a SocketIO server running at the address specified in parameters.js "socketAddress"
+
 ## Running Protractor end-to-end tests
 
 `./node_modules/protractor/bin/protractor protractor.conf.js --params.username=<username> --params.password=<password> --params.extId=<cardId>`

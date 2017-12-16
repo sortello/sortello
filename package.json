@@ -15,8 +15,11 @@
     "build": "npm test && npm run clean && npm run build:bundle",
     "clean": "rimraf build",
     "build:bundle": "webpack -p",
-    "test": "jest --verbose",
-    "protractor": "protractor protractor.conf.js"
+    "test": "npm run protractor && npm run protractor-integration && npm run unit",
+    "unit": "jest --verbose",
+    "protractor": "protractor protractor.conf.js --suite=single",
+    "protractor-integration": "protractor protractor.conf.js --specs tests/protractor/specs/dotvoting-spec.js && protractor protractor.conf.js --specs tests/protractor/specs/dotvoting-multiple-rooms-spec.js && protractor protractor.conf.js --specs tests/protractor/specs/voter-board-permissions-spec.js",
+    "server": "node node_modules/sortello-server/server "
   },
   "jest": {
     "setupTestFrameworkScriptFile": "./localStorageMock.js"
@@ -45,6 +48,7 @@
     "lodash": "^4.17.4",
     "react": "^15.4.1",
     "react-bootstrap": "^0.30.7",
-    "react-dom": "^15.4.1"
+    "react-dom": "^15.4.1",
+    "sortello-server": "git+ssh://git@bitbucket.org:mazzcris/sortello-server.git"
   }
 }

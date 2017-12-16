@@ -5,21 +5,155 @@ import Card from './Card.jsx';
 import Footer from "./Footer.jsx"
 import {clone} from "lodash"
 import Engine from "../model/Engine.js"
+import io from 'socket.io-client';
+import {find} from "lodash"
+import {findIndex} from "lodash"
+import {remove} from "lodash"
+
+let socket = false;
+if (typeof socketAddress !== 'undefined') {
+  if (socketAddress !== null) {
+    socket = io(socketAddress);
+  }
+}
 
 class Choices extends React.Component {
 
   constructor (props) {
     super(props);
-    this.engine = new Engine(clone(this.props.nodes), clone(this.props.rootNode));
+    this.engine = new Engine(clone(this.props.nodes), clone(this.props.rootNode))
     this.handleCardClicked = this.handleCardClicked.bind(this)
+    this.cardClicked = this.cardClicked.bind(this)
     this.handleAddToBlacklist = this.handleAddToBlacklist.bind(this)
     this.handleUndoClicked = this.handleUndoClicked.bind(this)
     this.startChoices = this.startChoices.bind(this)
+    this.createRoom = this.createRoom.bind(this)
+    this.removeVoter = this.removeVoter.bind(this)
+    this.addVoter = this.addVoter.bind(this)
+    this.handleGoToNextVoting = this.handleGoToNextVoting.bind(this)
+    this.registerVote = this.registerVote.bind(this)
+    let component = this
+    component.props.Trello.members.get('me', {}, function (data) {
+      component.trelloId = data.id
+      component.trelloAvatar = '//trello-avatars.s3.amazonaws.com/' + data.avatarHash + '/50.png'
+      if (data.avatarHash === null) {
+        component.trelloAvatar = '//www.gravatar.com/avatar/' + data.gravatarHash + '?s=64&d=identicon'
+      }
+    }, function (e) {
+      console.log(e);
+    });
 
     this.state = {
       leftCard: null,
-      rightCard: null
+      rightCard: null,
+      roomId: null,
+      leftVoters: [],
+      rightVoters: [],
+      roomVoters: [],
+      everyBodyVoted: false
     }
+
+  }
+
+  // Admin wants to create a new room
+  createRoom () {
+    let component = this;
+    socket.emit('openNewRoom')
+    socket.on('newRoomOpened', roomId => {
+      component.setState({
+        roomId: roomId
+      })
+    })
+
+    socket.on('voterJoined', function (voterId, trelloAvatar) {
+      component.addVoter(voterId, trelloAvatar);
+    })
+
+    socket.on('voterLeft', function (voterId) {
+      component.removeVoter(voterId)
+    })
+
+    socket.on('getCurrentChoice', function () {
+      socket.emit('nextChoice', component.state.leftCard, component.state.rightCard, component.state.roomId)
+    })
+
+    socket.on('cardClicked', function (side, trelloId, trelloAvatar) {
+      component.registerVote(side, trelloId, trelloAvatar)
+    })
+
+    socket.on('getBoardIdFromMaster', function () {
+      console.log("board id request received");
+      socket.emit('castBoardId', component.state.roomId, component.props.boardId)
+    })
+  }
+
+  registerVote (side, trelloId, trelloAvatar) {
+    let component = this;
+    let voter = {
+      voterId: trelloId,
+      trelloId: trelloId,
+      trelloAvatar: trelloAvatar
+    }
+
+    if ('node' === side) {
+      let lv = component.state.leftVoters.concat(voter);
+      component.setState({
+        leftVoters: lv
+      }, function () {
+        component.checkTotalVotes()
+      })
+    }
+    if ('compareNode' === side) {
+      let rv = component.state.rightVoters.concat(voter);
+      component.setState({
+        rightVoters: rv
+      }, function () {
+        component.checkTotalVotes()
+      })
+    }
+  }
+
+  checkTotalVotes () {
+    let component = this;
+    if (this.state.roomVoters.length == 0) {
+      return
+    }
+    if ((this.state.leftVoters.length + this.state.rightVoters.length) >= 1 + this.state.roomVoters.length) {
+      this.setState({
+        everyBodyVoted: true,
+      }, function () {
+        if (socket) {
+          socket.emit('votesInfo', component.state.leftVoters, component.state.rightVoters, component.state.roomId)
+        }
+      })
+    }
+  }
+
+  removeVoter (voterId) {
+    let component = this
+    if (find(component.state.roomVoters, {'id': voterId}) == undefined) {
+      return
+    }
+
+    let newVoters = component.state.roomVoters.slice(); //copy array
+    let index = findIndex(newVoters, function (item) {
+      return item.id == voterId
+    })
+    newVoters.splice(index, 1); //remove element
+    component.setState({
+      roomVoters: newVoters
+    })
+  }
+
+  addVoter (voterId, trelloAvatar) {
+    let component = this
+    if (find(component.state.roomVoters, {'id': voterId}) !== undefined) {
+      return
+    }
+    let voters = component.state.roomVoters.concat({id: voterId, avatar: trelloAvatar});
+    component.setState({
+      roomVoters: voters
+    })
   }
 
   startChoices () {
@@ -29,18 +163,35 @@ class Choices extends React.Component {
   }
 
   getNextChoice () {
-    if (this.engine.getEnded()) {
-      this.props.setSortedRootNode(this.engine.getRootNode());
-      return
-    }
+    let component = this
     this.setState({
-      leftCard: this.engine.getNode(),
-      rightCard: this.engine.getCompareNode()
+      hasVoted: false,
+      everyBodyVoted: false
     }, function () {
-      if (this.engine.autoChoice()) {
-        this.getNextChoice()
+      if (socket) {
+        socket.emit('votesInfo', [], [], component.state.roomId)
       }
-    });
+    })
+    if (this.engine.getEnded()) {
+      if (socket) {
+        socket.emit('prioritizationEnded', this.state.roomId)
+      }
+      this.props.setSortedRootNode(this.engine.getRootNode());
+    } else {
+      this.setState({
+        leftCard: this.engine.getNode(),
+        rightCard: this.engine.getCompareNode(),
+        leftVoters: [],
+        rightVoters: []
+      }, function () {
+        if (this.engine.autoChoice()) {
+          this.getNextChoice()
+        }
+        if (socket) {
+          socket.emit('nextChoice', this.state.leftCard, this.state.rightCard, this.state.roomId)
+        }
+      });
+    }
   }
 
   handleUndoClicked () {
@@ -53,16 +204,58 @@ class Choices extends React.Component {
     this.getNextChoice();
   }
 
-  handleCardClicked (side) {
+  cardClicked (side) {
     this.engine.choiceMade(side, "human");
     this.getNextChoice()
+  }
+
+  handleGoToNextVoting (side) {
+    this.cardClicked(side)
+  }
+
+  handleCardClicked (side) {
+    if (this.state.roomVoters.length === 0) {
+      this.cardClicked(side)
+    }
+
+    if (this.state.hasVoted) {
+      return
+    }
+    let component = this
+
+    let voter = {
+      voterId: component.trelloId,
+      trelloId: component.trelloId,
+      trelloAvatar: component.trelloAvatar
+    }
+
+    component.setState({
+      hasVoted: true
+    })
+
+    if ('node' === side) {
+      let lv = component.state.leftVoters.concat(voter);
+      component.setState({
+        leftVoters: lv
+      }, function () {
+        component.checkTotalVotes()
+      })
+    }
+    if ('compareNode' === side) {
+      let rv = component.state.rightVoters.concat(voter);
+      component.setState({
+        rightVoters: rv
+      }, function () {
+        component.checkTotalVotes()
+      })
+    }
   }
 
   getProgress () {
     return Math.round(((100 * (this.props.nodes.length - this.engine.getListNodes().length - 1)) / (this.props.nodes.length)))
   }
 
-  renderCard(id, side, value){
+  renderCard (id, side, value) {
     return (
       <Card id={id} side={side} handleClick={this.handleCardClicked}
             forget={this.handleAddToBlacklist} data={value}/>
@@ -71,7 +264,26 @@ class Choices extends React.Component {
 
   render () {
     if (this.state.leftCard == null || this.state.rightCard == null) {
-      return (<span>Loading...</span>);
+      return (<div><span>Loading...</span></div>);
+    }
+    let roomLink = '';
+    if (this.state.roomId !== null) {
+      let shareLink = window.location.hostname + window.location.pathname + '?roomKey=' + this.state.roomId
+      roomLink = <p>Share Link: <a id="room-link" href={'//' + shareLink}>{shareLink}</a></p>
+    }
+    let leftContinueButton = '';
+    if (this.state.everyBodyVoted) {
+      leftContinueButton = <button id="left-continue-voting" className="card-button__continue"
+                                   onClick={() => this.handleGoToNextVoting('node')}>Continue</button>;
+    }
+    let rightContinueButton = '';
+    if (this.state.everyBodyVoted) {
+      rightContinueButton = <button id="right-continue-voting" className="card-button__continue"
+                                    onClick={() => this.handleGoToNextVoting('compareNode')}>Continue</button>;
+    }
+    let newRoomButton = '';
+    if (socket) {
+      newRoomButton = <button id="new-room-button" onClick={this.createRoom}>Open new room</button>
     }
     return (
       <div id="second_div">
@@ -88,10 +300,13 @@ class Choices extends React.Component {
             </div>
           </div>
           <Card id="left_button" side="node" handleClick={this.handleCardClicked}
-                forget={this.handleAddToBlacklist} data={this.state.leftCard.value}/>
+                forget={this.handleAddToBlacklist} data={this.state.leftCard.value}
+                voters={this.state.everyBodyVoted ? this.state.leftVoters : []}
+                continueButton={leftContinueButton}/>
           <Card id="right_button" side="compareNode" handleClick={this.handleCardClicked}
-                forget={this.handleAddToBlacklist} data={this.state.rightCard.value}/>
-
+                forget={this.handleAddToBlacklist} data={this.state.rightCard.value}
+                voters={this.state.everyBodyVoted ? this.state.rightVoters : []}
+                continueButton={rightContinueButton}/>
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
           <button onClick={() => this.handleUndoClicked()} id="undo_button" className="normalize__undo-button">
             <div className="undo__button">
@@ -106,7 +321,11 @@ class Choices extends React.Component {
           <Footer/>
           <Header/>
         </div>
-
+        {newRoomButton}
+        {roomLink}
+        {this.state.roomVoters.map((item, index) => (
+          <img className={'card__voter'} key={index} src={item.avatar}/>
+        ))}
       </div>
     )
   }

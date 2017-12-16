@@ -1,7 +1,7 @@
 describe('sort list asc', function () {
   it('prioritizes the test column using undo button', function () {
       browser.ignoreSynchronization = true;
-      protractor.accessFromChromeExtension.accessFromChromeExtension();
+      protractor.simpleAccessFromChromeExtension.accessFromChromeExtension();
       let EC = protractor.ExpectedConditions;
 
       let shouldUndo = false;

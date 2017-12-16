@@ -7,6 +7,14 @@ module.exports = {
         filename: "bundle.js",
         publicPath: "/build/" // path in URL
     },
+    devServer: {
+        historyApiFallback: {
+            rewrites: [
+                { from: /^\/$/, to: '/index.html' },
+                { from: /^\/app/, to: '/app.html' },
+            ],
+        },
+    },
 
     module: {
         loaders: [{
