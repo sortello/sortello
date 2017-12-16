@@ -9,11 +9,12 @@ import io from 'socket.io-client';
 import {find} from "lodash"
 import {findIndex} from "lodash"
 import {remove} from "lodash"
-import {config} from "../config"
 
 let socket = false;
-if (config.socketAddress) {
-  socket = io(config.socketAddress);
+if (typeof socketAddress !== 'undefined') {
+  if (socketAddress !== null) {
+    socket = io(socketAddress);
+  }
 }
 
 class Choices extends React.Component {
@@ -281,7 +282,7 @@ class Choices extends React.Component {
                                     onClick={() => this.handleGoToNextVoting('compareNode')}>Continue</button>;
     }
     let newRoomButton = '';
-    if(socket){
+    if (socket) {
       newRoomButton = <button id="new-room-button" onClick={this.createRoom}>Open new room</button>
     }
     return (

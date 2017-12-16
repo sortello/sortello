@@ -6,12 +6,12 @@ import Footer from "./Footer.jsx"
 import {clone} from "lodash"
 import io from 'socket.io-client';
 import queryString from "query-string";
-import {config} from "../config"
-
 
 let socket = false;
-if (config.socketAddress) {
-  socket = io(config.socketAddress);
+if (typeof socketAddress !== 'undefined') {
+  if (socketAddress !== null) {
+    socket = io(socketAddress);
+  }
 }
 
 const params = queryString.parse(location.search);
