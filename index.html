@@ -35,11 +35,11 @@
        class="chrome-desktop hero__button">
         <div class="button__primary button__text">Get the extension</div>
     </a>
-    <a href="/app"
+    <a href="/app.html"
        class="other-desktop mobile-other hero__button">
         <div class="button__primary button__text">Try Sortello!</div>
     </a>
-    <a href="/app" class="chrome-desktop hero__link">
+    <a href="/app.html" class="chrome-desktop hero__link">
         <div class="hero__suggestion-button">or try it here!</div>
     </a>
 </div>
@@ -132,7 +132,7 @@
        class="chrome-desktop pricing__button">
         <div class="button__primary button__text">Get the extension</div>
     </a>
-    <a href="/app"
+    <a href="/app.html"
        class="other-desktop mobile-other pricing__button">
         <div class="button__primary button__text">Get started</div>
     </a>
@@ -178,6 +178,14 @@
         scrollTop: $(scrollTo).offset().top
       }, 700, 'swing');
     });
+
+
+    let res = window.location.href.match(/\/\?extId=/g)
+    if(res !== null){
+      window.location.replace(window.location.href.replace("/?extId=", "/app.html?extId="))
+    }
+
+
   });
 </script>
 </body>

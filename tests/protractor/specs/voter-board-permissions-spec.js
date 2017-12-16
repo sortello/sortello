@@ -27,7 +27,7 @@ describe('cannot vote if cannot access to board', function () {
     protractor.accessFromChromeExtension.accessFromChromeExtension(browser1).then(function () {
       protractor.accessFromChromeExtension.accessFromChromeExtension(browser2, browser.params.testTrello2Username, browser1.params.testTrello2Password).then(function () {
         let EC = protractor.ExpectedConditions;
-        browser1.get('/app?extId=' + browser.params.testTrelloPrivateBoardExtId);
+        browser1.get('/app.html?extId=' + browser.params.testTrelloPrivateBoardExtId);
         let allLabel = element(by.css('.label__item.label__none'))
         browser1.wait(EC.presenceOf(allLabel), 20000).then(function () {
           allLabel.click();
@@ -37,7 +37,7 @@ describe('cannot vote if cannot access to board', function () {
             let roomLinkElement = element(by.css('#room-link'))
             browser1.wait(EC.presenceOf(roomLinkElement), 20000).then(function () {
               roomLinkElement.getAttribute('href').then(function (link) {
-                link = link.replace("localhost/app", "localhost:4000/app")
+                link = link.replace("localhost/app.html", "localhost:4000/app.html")
                 browser2.get(link)
 
                 browser2.wait(EC.presenceOf(element(by.id('container_div'))), 20000).then(function () {
