@@ -32,13 +32,9 @@ Running `protractor-integration` task requires a SocketIO server running at the 
 ## Credits
 
 [/ideatosrl](https://github.com/ideatosrl)
-
 [/filippogianessi](https://github.com/filippogianessi)
-
 [/fain182](https://github.com/fain182)
-
 [/drinky78](https://github.com/drinky78)
-
 [/Fuminshou](https://github.com/Fuminshou)
 
 <!--
