@@ -3,7 +3,7 @@
 # Sortello
 A javascript application to sort/prioritize Trello cards
 
-Hosted version: https://sortello.ideato.it/
+Hosted version: [sortello.com](https://sortello.com)
 
 ## Usage
 
