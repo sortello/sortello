@@ -25,26 +25,28 @@ Sortello will be available at localhost:4000
 
 Running `protractor-integration` task requires a SocketIO server running at the address specified in parameters.js "socketAddress"
 
-## Running Protractor end-to-end tests
+## Running Unit Tests
 
-`./node_modules/protractor/bin/protractor protractor.conf.js --params.username=<username> --params.password=<password> --params.extId=<cardId>`
+`npm run unit`
 
-username: the username for your Trello test account
+## Credits
 
-password: the password for your Trello test account
+[/ideatosrl](https://github.com/ideatosrl)
 
-cardId: the ID of any card from the test list
+[/filippogianessi](https://github.com/filippogianessi)
 
-*Please note: For the tests to work, at the moment, the titles of the cards in the list must be integers from 1 to 10.*
+[/fain182](https://github.com/fain182)
+
+[/drinky78](https://github.com/drinky78)
+
+[/Fuminshou](https://github.com/Fuminshou)
 
 <!--
 ## History
 
 TODO: Write history
 
-## Credits
 
-TODO: Write credits
 
 ## License
 
