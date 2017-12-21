@@ -45,9 +45,7 @@ THE SOFTWARE.
   // @win window reference
   // @fn function reference
   function contentLoaded (win, fn) {
-    var done = false, top = true,
-      doc = win.document, root = doc.documentElement,
-
+    let done = false, top = true, doc = win.document, root = doc.documentElement,
       add = doc.addEventListener ? 'addEventListener' : 'attachEvent',
       rem = doc.addEventListener ? 'removeEventListener' : 'detachEvent',
       pre = doc.addEventListener ? '' : 'on',

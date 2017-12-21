@@ -33,6 +33,15 @@ describe('treeNodeFactoryBenchmark', () => {
     done()
   });
 
+  function makeChoice (node, compareNode) {
+    if (node.value < compareNode.value) {
+      compareNode = node.goLeft(compareNode);
+    } else {
+      compareNode = node.goRight(compareNode);
+    }
+    return compareNode;
+  }
+
   function buildAndReorderTree (nodes, applyRebalance) {
 
     let rootNode = nodes[0];
@@ -40,11 +49,7 @@ describe('treeNodeFactoryBenchmark', () => {
 
     function getChoice (node, compareNode, currNode) {
       steps++;
-      if (node.value < compareNode.value) {
-        compareNode = node.goLeft(compareNode);
-      } else {
-        compareNode = node.goRight(compareNode);
-      }
+      compareNode = makeChoice(node, compareNode);
 
       if (node.isPositioned) {
         if (applyRebalance) {
