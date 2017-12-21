@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-(function(context) {
+(function (context) {
   'use strict';
 
   var win = context, doc = win.document;
@@ -44,7 +44,7 @@ THE SOFTWARE.
    */
   // @win window reference
   // @fn function reference
-  function contentLoaded(win, fn) {
+  function contentLoaded (win, fn) {
     var done = false, top = true,
       doc = win.document, root = doc.documentElement,
 
@@ -52,21 +52,28 @@ THE SOFTWARE.
       rem = doc.addEventListener ? 'removeEventListener' : 'detachEvent',
       pre = doc.addEventListener ? '' : 'on',
 
-      init = function(e) {
+      init = function (e) {
         if (e.type === 'readystatechange' && doc.readyState !== 'complete') return;
         (e.type === 'load' ? win : doc)[rem](pre + e.type, init, false);
         if (!done && (done = true)) fn.call(win, e.type || e);
       },
 
-      poll = function() {
-        try { root.doScroll('left'); } catch(e) { setTimeout(poll, 50); return; }
+      poll = function () {
+        try {
+          root.doScroll('left');
+        } catch (e) {
+          setTimeout(poll, 50);
+          return;
+        }
         init('poll');
       };
 
     if (doc.readyState === 'complete') fn.call(win, 'lazy');
     else {
       if (doc.createEventObject && root.doScroll) {
-        try { top = !win.frameElement; } catch(e) {
+        try {
+          top = !win.frameElement;
+        } catch (e) {
           console.log(e)
         }
         if (top) poll();
@@ -106,7 +113,9 @@ THE SOFTWARE.
       return (new RegExp('(?:^|;\\s*)' + encodeURIComponent(key).replace(/[\-\.\+\*]/g, '\\$&') + '\\s*\\=')).test(doc.cookie);
     },
     remove: function (key, path, domain) {
-      if (!key || !this.has(key)) { return false; }
+      if (!key || !this.has(key)) {
+        return false;
+      }
       doc.cookie = encodeURIComponent(key) + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT' + ( domain ? '; domain=' + domain : '') + ( path ? '; path=' + path : '');
       return true;
     }
@@ -115,7 +124,7 @@ THE SOFTWARE.
   var Utils = {
 
     // merge objects and whatnot
-    merge: function(){
+    merge: function () {
       var obj = {},
         i = 0,
         al = arguments.length,
@@ -133,7 +142,7 @@ THE SOFTWARE.
       return obj;
     },
 
-    str2bool: function(str) {
+    str2bool: function (str) {
       str = '' + str;
       switch (str.toLowerCase()) {
         case 'false':
@@ -146,16 +155,16 @@ THE SOFTWARE.
       }
     },
 
-    fade_in: function(el) {
+    fade_in: function (el) {
       if (el.style.opacity < 1) {
         el.style.opacity = (parseFloat(el.style.opacity) + 0.05).toFixed(2);
-        win.setTimeout(function(){
+        win.setTimeout(function () {
           Utils.fade_in(el);
         }, 50);
       }
     },
 
-    get_data_attribs: function(script) {
+    get_data_attribs: function (script) {
       var data = {};
       if (Object.prototype.hasOwnProperty.call(script, 'dataset')) {
         data = script.dataset;
@@ -180,7 +189,7 @@ THE SOFTWARE.
      * any potential "dashed-property-name" into "dashedPropertyName".
      * In case both are present, the dashedPropertyName wins.
      */
-    normalize_keys: function(options_object) {
+    normalize_keys: function (options_object) {
       var camelized = {};
       for (var key in options_object) {
         if (Object.prototype.hasOwnProperty.call(options_object, key)) {
@@ -192,23 +201,23 @@ THE SOFTWARE.
       return camelized;
     },
 
-    camelize: function(str) {
+    camelize: function (str) {
       var separator = '-',
         match = str.indexOf(separator);
       while (match !== -1) {
         var last = (match === (str.length - 1)),
           next = last ? '' : str[match + 1],
           upnext = next.toUpperCase(),
-          sep_substr =  last ? separator : separator + next;
+          sep_substr = last ? separator : separator + next;
         str = str.replace(sep_substr, upnext);
         match = str.indexOf(separator);
       }
       return str;
     },
 
-    find_script_by_id: function(id) {
-      var scripts = doc.getElementsByTagName('script');
-      for (var i = 0, l = scripts.length; i < l; i++) {
+    find_script_by_id: function (id) {
+      let scripts = doc.getElementsByTagName('script');
+      for (let i = 0, l = scripts.length; i < l; i++) {
         if (id === scripts[i].id) {
           return scripts[i];
         }
@@ -218,9 +227,9 @@ THE SOFTWARE.
 
   };
 
-  var script_el_invoker = Utils.find_script_by_id('cookiebanner');
+  let script_el_invoker = Utils.find_script_by_id('cookiebanner');
 
-  var Cookiebanner = context.Cookiebanner = function(opts) {
+  let Cookiebanner = context.Cookiebanner = function (opts) {
     this.init(opts);
   };
 
@@ -229,57 +238,15 @@ THE SOFTWARE.
     // for testing stuff from the outside mostly
     cookiejar: Cookies,
 
-    init: function(opts) {
-
+    init: function (opts) {
       this.inserted = false;
       this.closed = false;
-
-      var default_text = 'We use cookies to enhance your experience. ' +
-        'By continuing to use this site you agree to our use of cookies.';
-      var default_link = 'Learn more';
-
-      this.default_options = {
-        // autorun: true,
-        cookie: 'cookiebanner-accepted',
-        closeText: '&#10006;',
-        closeStyle: 'float:right;padding-left:5px;',
-        cookiePath: '/',
-        cookieDomain: null,
-        cookieSecure: false,
-        debug: false,
-        expires: Infinity,
-        zindex: 255,
-        mask: false,
-        maskOpacity: 0.5,
-        maskBackground: '#000',
-        height: 'auto',
-        minHeight: '32px',
-        bg: '#000',
-        fg: '#ddd',
-        link: '#aaa',
-        position: 'bottom',
-        message: default_text,
-        linkmsg: default_link,
-        moreinfo: 'policy.html',
-        moreinfoTarget: '_blank',
-        moreinfoDecoration: 'none',
-        moreinfoFontWeight: 'normal',
-        effect: null,
-        fontSize: '14px',
-        fontFamily: 'fira sans, sans-serif',
-        instance: global_instance_name,
-        textAlign: 'center',
-        acceptOnScroll: true,
-        acceptOnClick: true,
-        acceptOnTimeout: null,
-        acceptOnFirstVisit: false
-      };
-
+      this.default_options = this.getDefaultOptions()
       this.options = this.default_options;
       this.script_el = script_el_invoker;
 
       if (this.script_el) {
-        var data_options = Utils.get_data_attribs(this.script_el);
+        let data_options = Utils.get_data_attribs(this.script_el);
         this.options = Utils.merge(this.options, data_options);
       }
 
@@ -317,22 +284,62 @@ THE SOFTWARE.
       }
     },
 
-    log: function(){
+    log: function () {
       if ('undefined' !== typeof console) {
         console.log.apply(console, arguments);
       }
     },
 
-    run: function() {
+    run: function () {
       if (!this.agreed()) {
         var self = this;
-        contentLoaded(win, function(){
+        contentLoaded(win, function () {
           self.insert();
         });
       }
     },
 
-    build_viewport_mask: function() {
+    getDefaultOptions: function () {
+      return {
+        // autorun: true,
+        cookie: 'cookiebanner-accepted',
+        closeText: '&#10006;',
+        closeStyle: 'float:right;padding-left:5px;',
+        cookiePath: '/',
+        cookieDomain: null,
+        cookieSecure: false,
+        debug: false,
+        expires: Infinity,
+        zindex: 255,
+        mask: false,
+        maskOpacity: 0.5,
+        maskBackground: '#000',
+        height: 'auto',
+        minHeight: '32px',
+        bg: '#000',
+        fg: '#ddd',
+        link: '#aaa',
+        position: 'top',
+        message: 'We use cookies to enhance your experience. ' +
+        'By continuing to use this site you agree to our use of cookies.',
+        linkmsg: 'Learn more',
+        moreinfo: 'policy.html',
+        moreinfoTarget: '_blank',
+        moreinfoDecoration: 'none',
+        moreinfoFontWeight: 'normal',
+        effect: null,
+        fontSize: '14px',
+        fontFamily: 'fira sans, sans-serif',
+        instance: global_instance_name,
+        textAlign: 'center',
+        acceptOnScroll: true,
+        acceptOnClick: true,
+        acceptOnTimeout: null,
+        acceptOnFirstVisit: false
+      }
+    },
+
+    build_viewport_mask: function () {
       var mask = null;
       if (true === this.options.mask) {
         var mask_opacity = this.options.maskOpacity;
@@ -340,8 +347,8 @@ THE SOFTWARE.
         var mask_markup = '<div id="cookiebanner-mask" style="' +
           'position:fixed;top:0;left:0;' +
           'background:' + bg + ';zoom:1;filter:alpha(opacity=' +
-          (mask_opacity * 100) +');opacity:' + mask_opacity +';' +
-          'z-index:' + this.options.zindex +';"></div>';
+          (mask_opacity * 100) + ');opacity:' + mask_opacity + ';' +
+          'z-index:' + this.options.zindex + ';"></div>';
         var el = doc.createElement('div');
         el.innerHTML = mask_markup;
         mask = el.firstChild;
@@ -349,16 +356,16 @@ THE SOFTWARE.
       return mask;
     },
 
-    agree: function() {
+    agree: function () {
       this.cookiejar.set(this.options.cookie, 1, this.options.expires, this.options.cookiePath, (this.options.cookieDomain !== '' ? this.options.cookieDomain : ''), (this.options.cookieSecure ? true : false));
       return true;
     },
 
-    agreed: function(){
+    agreed: function () {
       return this.cookiejar.has(this.options.cookie);
     },
 
-    close: function() {
+    close: function () {
       if (this.inserted) {
         if (!this.closed) {
           if (this.element) {
@@ -369,24 +376,25 @@ THE SOFTWARE.
           }
           this.closed = true;
         }
-      }/* else {
-                throw new Error("Not inserted but closing?!");
-            }*/
+      }
+      /* else {
+                      throw new Error("Not inserted but closing?!");
+                  }*/
       return this.closed;
     },
 
-    agree_and_close:function() {
+    agree_and_close: function () {
       this.agree();
       return this.close();
     },
 
     // close and remove every trace of ourselves completely
-    cleanup: function() {
+    cleanup: function () {
       this.close();
       return this.unload();
     },
 
-    unload: function() {
+    unload: function () {
       if (this.script_el) {
         this.script_el.parentNode.removeChild(this.script_el);
       }
@@ -395,7 +403,7 @@ THE SOFTWARE.
       return true;
     },
 
-    insert: function() {
+    insert: function () {
       this.element_mask = this.build_viewport_mask();
 
       var zidx = this.options.zindex;
@@ -445,19 +453,19 @@ THE SOFTWARE.
       var el_x = el.getElementsByTagName('div')[0];
       el_x.style.cursor = 'pointer';
 
-      function on(el, ev, fn) {
+      function on (el, ev, fn) {
         var add = el.addEventListener ? 'addEventListener' : 'attachEvent',
           pre = el.addEventListener ? '' : 'on';
         el[add](pre + ev, fn, false);
       }
 
       var self = this;
-      on(el_x, 'click', function(){
+      on(el_x, 'click', function () {
         self.agree_and_close();
       });
 
       if (this.element_mask) {
-        on(this.element_mask, 'click', function(){
+        on(this.element_mask, 'click', function () {
           self.agree_and_close();
         });
         doc.body.appendChild(this.element_mask);
@@ -465,14 +473,14 @@ THE SOFTWARE.
 
       // Agree and close banner on window scroll if `acceptOnScroll` option is set `true`
       if (this.options.acceptOnScroll) {
-        on(window, 'scroll', function(){
+        on(window, 'scroll', function () {
           self.agree_and_close();
         });
       }
 
       // Agree and close banner on click (no matter where) if `acceptOnClick` option is set `true`
       if (this.options.acceptOnClick) {
-        on(window, 'click', function(){
+        on(window, 'click', function () {
           self.agree_and_close();
         });
       }
@@ -480,8 +488,10 @@ THE SOFTWARE.
       // Agree and close banner after N milliseconds
       if (this.options.acceptOnTimeout) {
         // Validate this.options.acceptOnTimeout as numeric
-        if(!isNaN(parseFloat(this.options.acceptOnTimeout)) && isFinite(this.options.acceptOnTimeout)) {
-          setTimeout(function() { self.agree_and_close(); }, this.options.acceptOnTimeout);
+        if (!isNaN(parseFloat(this.options.acceptOnTimeout)) && isFinite(this.options.acceptOnTimeout)) {
+          setTimeout(function () {
+            self.agree_and_close();
+          }, this.options.acceptOnTimeout);
         }
       }
 
