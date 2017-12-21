@@ -7,7 +7,6 @@ import LabelSelector from './LabelSelector.jsx'
 import queryString from "query-string";
 import Footer from "./Footer.jsx"
 
-
 class ColumnSelection extends React.Component {
   constructor (props) {
     super(props);
@@ -26,6 +25,7 @@ class ColumnSelection extends React.Component {
     this.handleListClicked = this.handleListClicked.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this.labelSelected = this.labelSelected.bind(this);
+    this.getBoards = this.getBoards.bind(this);
   }
 
   componentDidMount () {
@@ -50,19 +50,23 @@ class ColumnSelection extends React.Component {
     if (this.state.organizations.length > 0) {
       return;
     }
+    this.getBoards(Trello)
+  }
 
+  getBoards(Trello){
+    let component = this
     Trello.members.get('me', {
       organizations: "all",
       organization_fields: "all",
       boards: "open",
       board_lists: "open"
     }, function (data) {
-      var boardGroups = [];
-      var boards = data.boards;
-      var organizations = data.organizations;
-      for (var i = 0; i < boards.length; i++) {
-        var organization = find(organizations, {'id': boards[i].idOrganization});
-        var groupName = "Other";
+      let boardGroups = [];
+      let boards = data.boards;
+      let organizations = data.organizations;
+      for (let i = 0; i < boards.length; i++) {
+        let organization = find(organizations, {'id': boards[i].idOrganization});
+        let groupName = "Other";
         if (organization !== undefined) {
           groupName = organization.displayName;
         }
@@ -71,7 +75,7 @@ class ColumnSelection extends React.Component {
         }
         boardGroups[groupName].push(boards[i]);
       }
-      that.setState({
+      component.setState({
         boards: boards,
         groupedboards: boardGroups,
         organizations: organizations
