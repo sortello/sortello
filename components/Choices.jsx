@@ -9,6 +9,7 @@ import io from 'socket.io-client';
 import {find} from "lodash"
 import {findIndex} from "lodash"
 import {remove} from "lodash"
+import CopyToClipboard from "./CopyToClipboard.jsx"
 
 let socket = false;
 if (typeof socketAddress !== 'undefined') {
@@ -263,27 +264,37 @@ class Choices extends React.Component {
   }
 
   render () {
+
+    let copyToClipboardBtn = <button>Copy to clipboard</button>
+    let copyToClipboardSuccess = <button>Copied to clipboard</button>
+    let copyToClipboardError = <button>Error</button>
+
     if (this.state.leftCard == null || this.state.rightCard == null) {
       return (<div><span>Loading...</span></div>);
     }
     let roomLink = '';
     if (this.state.roomId !== null) {
       let shareLink = window.location.hostname + window.location.pathname + '?roomKey=' + this.state.roomId
-      roomLink = <p>Share Link: <a id="room-link" href={'//' + shareLink}>{shareLink}</a></p>
+      roomLink = <p>
+        Share Link: <input id="room-link" type="text" readOnly value={shareLink} size="50"/>
+        <CopyToClipboard text={shareLink} copyChildren={copyToClipboardBtn} successChildren={copyToClipboardSuccess}
+                         errorChildren={copyToClipboardError}/>
+      </p>
     }
     let leftContinueButton = '';
     if (this.state.everyBodyVoted) {
-      leftContinueButton = <button id="left-continue-voting" className="card-button__continue"
-                                   onClick={() => this.handleGoToNextVoting('node')}>Continue</button>;
+      leftContinueButton = <div id="left-continue-voting" className="card-button__continue"
+                                   onClick={() => this.handleGoToNextVoting('node')}>Continue</div>;
     }
     let rightContinueButton = '';
     if (this.state.everyBodyVoted) {
-      rightContinueButton = <button id="right-continue-voting" className="card-button__continue"
-                                    onClick={() => this.handleGoToNextVoting('compareNode')}>Continue</button>;
+      rightContinueButton = <div id="right-continue-voting" className="card-button__continue"
+                                    onClick={() => this.handleGoToNextVoting('compareNode')}>Continue</div>;
     }
     let newRoomButton = '';
     if (socket) {
-      newRoomButton = <button id="new-room-button" onClick={this.createRoom}>Open new room</button>
+      newRoomButton =
+        <button id="new-room-button" className={"button__open-room"} onClick={this.createRoom}>Open new room</button>
     }
     return (
       <div id="second_div">

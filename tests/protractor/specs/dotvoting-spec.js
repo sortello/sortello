@@ -49,7 +49,7 @@ describe('dotvoting', function () {
 
               let roomLinkElement = element(by.css('#room-link'))
               browser.wait(EC.presenceOf(roomLinkElement), 20000).then(function () {
-                roomLinkElement.getAttribute('href').then(function (link) {
+                roomLinkElement.getAttribute('value').then(function (link) {
                   link = link.replace("localhost/app.html", "localhost:4000/app.html")
                   browser2.get(link)
                   browser3.get(link)
@@ -100,7 +100,6 @@ describe('dotvoting', function () {
           function makeChoice (b, bPriorities) {
             let leftCard = b.element(by.css('#left_button .card__title'));
             let rightCard = b.element(by.css('#right_button .card__title'));
-
             b.wait(EC.and(EC.presenceOf(leftCard), EC.presenceOf(rightCard)), 2000).then(function () {
               leftCard.getText().then(function (leftValue) {
                 rightCard.getText().then(function (rightValue) {

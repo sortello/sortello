@@ -227,6 +227,57 @@
   text-decoration: none;
 }
 
+.card-button__continue {
+  padding: 16px;
+  box-shadow: 0px 2px 4px -2px;
+  text-align: center;
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 16px;
+  color: #4a4a4a;
+  border-radius: 4px;
+  background-color: #61bd4f;
+  transition: background-color 0.2s ease-in-out;
+  margin: 16px 0px;
+  text-decoration: none;
+}
+
+.card-button__continue:hover {
+  background-color: #4b903d;
+  text-decoration: none;
+}
+
+.card-button__continue {
+  padding: 16px;
+  box-shadow: 0px 2px 4px -2px;
+  margin-bottom: 8px;
+  color: white;
+  border-radius: 4px;
+  background-color: #61bd4f;
+  transition: all 0.2s ease-in-out;
+  margin: 16px 8px;
+  cursor: pointer;
+}
+
+
+.button__open-room{
+  padding: 8px;
+  box-shadow: 0px 2px 4px -2px;
+  text-align: center;
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 16px;
+  color: #4a4a4a;
+  border-radius: 4px;
+  background-color: #f3f3f3;
+  transition: background-color 0.2s ease-in-out;
+  margin: 16px 0px;
+  text-decoration: none;
+}
+
+.button__open-room:hover {
+  background-color: #e3e3e3;
+  text-decoration: none;
+}
+
 .container__prioritization-status {
   display: flex;
   flex-direction: column;
