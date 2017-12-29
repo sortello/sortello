@@ -36,7 +36,7 @@ describe('cannot vote if cannot access to board', function () {
             newRoomButton.click();
             let roomLinkElement = element(by.css('#room-link'))
             browser1.wait(EC.presenceOf(roomLinkElement), 20000).then(function () {
-              roomLinkElement.getAttribute('href').then(function (link) {
+              roomLinkElement.getAttribute('value').then(function (link) {
                 link = link.replace("localhost/app.html", "localhost:4000/app.html")
                 browser2.get(link)
 
