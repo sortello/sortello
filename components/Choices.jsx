@@ -274,7 +274,7 @@ class Choices extends React.Component {
     }
     let roomLink = '';
     if (this.state.roomId !== null) {
-      let shareLink = window.location.hostname + window.location.pathname + '?roomKey=' + this.state.roomId
+      let shareLink = window.location.protocol + "//" + window.location.hostname + window.location.pathname + '?roomKey=' + this.state.roomId
       roomLink = <p>
         Share Link: <input id="room-link" type="text" readOnly value={shareLink} size="50"/>
         <CopyToClipboard text={shareLink} copyChildren={copyToClipboardBtn} successChildren={copyToClipboardSuccess}

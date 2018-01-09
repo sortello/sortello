@@ -57,7 +57,7 @@ describe('dotvoting', function () {
                 let roomLinkElement = element(by.css('#room-link'))
                 browser1.wait(EC.presenceOf(roomLinkElement), 20000).then(function () {
                   roomLinkElement.getAttribute('value').then(function (link) {
-                    browser2.get(link.replace("localhost/app.html", "localhost:4000/app.html"))
+                    browser2.get(link.replace(browser.params.hostname + "/app.html", browser.params.hostname + ":4000/app.html"))
                     browser3.get('/app.html?extId=' + browser1.params.testTrelloExtId2)
                     let newRoomButton = browser3.element(by.css('#new-room-button'))
                     allLabel = browser3.element(by.css('.label__item.label__none'))
@@ -68,7 +68,7 @@ describe('dotvoting', function () {
                         let roomLinkElement = browser3.element(by.css('#room-link'))
                         browser3.wait(EC.presenceOf(roomLinkElement), 20000).then(function () {
                           roomLinkElement.getAttribute('value').then(function (link) {
-                            browser4.get(link.replace("localhost/app.html", "localhost:4000/app.html"))
+                            browser4.get(link.replace(browser.params.hostname + "/app.html", browser.params.hostname + ":4000/app.html"))
                             startChoices()
                           })
                         })

@@ -50,7 +50,7 @@ describe('dotvoting', function () {
               let roomLinkElement = element(by.css('#room-link'))
               browser.wait(EC.presenceOf(roomLinkElement), 20000).then(function () {
                 roomLinkElement.getAttribute('value').then(function (link) {
-                  link = link.replace("localhost/app.html", "localhost:4000/app.html")
+                  link = link.replace(browser.params.hostname + "/app.html", browser.params.hostname + ":4000/app.html")
                   browser2.get(link)
                   browser3.get(link)
                   startChoices()
