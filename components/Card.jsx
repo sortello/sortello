@@ -16,7 +16,7 @@ class Card extends React.Component {
              onClick={() => {
                this.props.forget(this.props.data.id)
              }} data-cardid={this.props.data.id}>
-          Forget this card
+          Send to bottom
         </div>
 
       </div>
