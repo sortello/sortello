@@ -10,6 +10,7 @@ import {find} from "lodash"
 import {findIndex} from "lodash"
 import {remove} from "lodash"
 import CopyToClipboard from "./CopyToClipboard.jsx"
+import Room from "../model/Room.js"
 
 let socket = false;
 if (typeof socketAddress !== 'undefined') {
@@ -43,7 +44,7 @@ class Choices extends React.Component {
     }, function (e) {
       console.log(e);
     });
-
+    this.room = false;
     this.state = {
       leftCard: null,
       rightCard: null,
@@ -59,12 +60,20 @@ class Choices extends React.Component {
   // Admin wants to create a new room
   createRoom () {
     let component = this;
-    socket.emit('openNewRoom')
+
+    let randomKey = '';
+    let chars = '0123456789abcdefghijklmnopqrstuvwxyz';
+    for (let i = 32; i > 0; --i) randomKey += chars[Math.floor(Math.random() * chars.length)];
+    this.room = new Room(socket, randomKey)
+    this.room.open(randomKey)
     socket.on('newRoomOpened', roomId => {
+      console.log("new room opened")
       component.setState({
         roomId: roomId
       })
     })
+
+    console.log(this.room)
 
     socket.on('voterJoined', function (voterId, trelloAvatar) {
       component.addVoter(voterId, trelloAvatar);
@@ -75,7 +84,7 @@ class Choices extends React.Component {
     })
 
     socket.on('getCurrentChoice', function () {
-      socket.emit('nextChoice', component.state.leftCard, component.state.rightCard, component.state.roomId)
+      component.room.castNextChoice(component.state.leftCard, component.state.rightCard)
     })
 
     socket.on('cardClicked', function (side, trelloId, trelloAvatar) {
@@ -83,8 +92,7 @@ class Choices extends React.Component {
     })
 
     socket.on('getBoardIdFromMaster', function () {
-      console.log("board id request received");
-      socket.emit('castBoardId', component.state.roomId, component.props.boardId)
+      component.room.castBoardId(component.props.boardId)
     })
   }
 
@@ -123,8 +131,8 @@ class Choices extends React.Component {
       this.setState({
         everyBodyVoted: true,
       }, function () {
-        if (socket) {
-          socket.emit('votesInfo', component.state.leftVoters, component.state.rightVoters, component.state.roomId)
+        if (component.room) {
+          component.room.castVotesInfo(component.state.leftVoters, component.state.rightVoters)
         }
       })
     }
@@ -169,13 +177,13 @@ class Choices extends React.Component {
       hasVoted: false,
       everyBodyVoted: false
     }, function () {
-      if (socket) {
-        socket.emit('votesInfo', [], [], component.state.roomId)
+      if (component.room) {
+        component.room.castVotesInfo([], [])
       }
     })
     if (this.engine.getEnded()) {
-      if (socket) {
-        socket.emit('prioritizationEnded', this.state.roomId)
+      if (this.room) {
+        this.room.castPrioritizationEnded()
       }
       this.props.setSortedRootNode(this.engine.getRootNode());
     } else {
@@ -188,8 +196,8 @@ class Choices extends React.Component {
         if (this.engine.autoChoice()) {
           this.getNextChoice()
         }
-        if (socket) {
-          socket.emit('nextChoice', this.state.leftCard, this.state.rightCard, this.state.roomId)
+        if (this.room) {
+          this.room.castNextChoice(this.state.leftCard, this.state.rightCard)
         }
       });
     }
@@ -284,12 +292,12 @@ class Choices extends React.Component {
     let leftContinueButton = '';
     if (this.state.everyBodyVoted) {
       leftContinueButton = <div id="left-continue-voting" className="card-button__continue"
-                                   onClick={() => this.handleGoToNextVoting('node')}>Continue</div>;
+                                onClick={() => this.handleGoToNextVoting('node')}>Continue</div>;
     }
     let rightContinueButton = '';
     if (this.state.everyBodyVoted) {
       rightContinueButton = <div id="right-continue-voting" className="card-button__continue"
-                                    onClick={() => this.handleGoToNextVoting('compareNode')}>Continue</div>;
+                                 onClick={() => this.handleGoToNextVoting('compareNode')}>Continue</div>;
     }
     let newRoomButton = '';
     if (socket) {
