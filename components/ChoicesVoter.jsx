@@ -76,9 +76,7 @@ class Choices extends React.Component {
       })
 
       socket.on('castBoardIdToVoters', function (boardId) {
-        console.log(boardId)
         component.Trello.boards.get(boardId, function () {
-          console.log("success")
           component.setState({
             hasBoardPermissions: true
           })
@@ -136,8 +134,6 @@ class Choices extends React.Component {
     }
     return (
       <ChoicesView
-        newRoomButton={''}
-        roomLink={''}
         roomVoters={[]}
         leftCard={this.state.leftCard}
         rightCard={this.state.rightCard}

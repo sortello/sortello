@@ -64,6 +64,10 @@
   text-align: left;
 }
 
+.card__selected{
+  border: 10px solid greenyellow;
+}
+
 .card__label {
     display: inline-block;
     margin: 4px;

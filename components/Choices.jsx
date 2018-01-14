@@ -298,11 +298,19 @@ class Choices extends React.Component {
       this.renderLoading()
     }
 
+    let joinedVoters = this.state.roomVoters
+    if(this.room){
+      joinedVoters = joinedVoters.concat({
+        id: this.trelloId,
+        avatar: this.trelloAvatar
+      })
+    }
+
     return (
       <ChoicesView
         newRoomButton={this.renderNewRoomButton()}
         roomLink={this.renderRoomLink()}
-        roomVoters={this.state.roomVoters}
+        roomVoters={joinedVoters}
         leftCard={this.state.leftCard}
         rightCard={this.state.rightCard}
         everybodyVoted={this.state.everybodyVoted}
