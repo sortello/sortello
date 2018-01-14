@@ -1,8 +1,5 @@
 import React from "react";
-import Header from './Header.jsx';
-import TreeDraw from './TreeDraw.jsx';
 import Card from './Card.jsx';
-import Footer from "./Footer.jsx"
 import {clone} from "lodash"
 import Engine from "../model/Engine.js"
 import io from 'socket.io-client';
@@ -11,6 +8,7 @@ import {findIndex} from "lodash"
 import {remove} from "lodash"
 import CopyToClipboard from "./CopyToClipboard.jsx"
 import Room from "../model/Room.js"
+import ChoicesView from './view/ChoicesView.jsx'
 
 let socket = false;
 if (typeof socketAddress !== 'undefined') {
@@ -60,7 +58,6 @@ class Choices extends React.Component {
   // Admin wants to create a new room
   createRoom () {
     let component = this;
-
     let randomKey = '';
     let chars = '0123456789abcdefghijklmnopqrstuvwxyz';
     for (let i = 32; i > 0; --i) randomKey += chars[Math.floor(Math.random() * chars.length)];
@@ -272,7 +269,6 @@ class Choices extends React.Component {
   }
 
   render () {
-
     let copyToClipboardBtn = <button>Copy to clipboard</button>
     let copyToClipboardSuccess = <button>Copied to clipboard</button>
     let copyToClipboardError = <button>Error</button>
@@ -305,47 +301,24 @@ class Choices extends React.Component {
         <button id="new-room-button" className={"button__open-room"} onClick={this.createRoom}>Open new room</button>
     }
     return (
-      <div id="second_div">
-        <div className="container__choose-card">
-          <div className="container__top-bar">
-            <div className="choose-card__heading">Select the highest priority card</div>
-            <div className="container__prioritization-status">
-              <div className={"progressive-bar__status-structure"}>
-                <div className={"progressive-bar__status"} role="progressbar" aria-valuenow={this.getProgress()}
-                     aria-valuemin="0"
-                     aria-valuemax="100" style={{width: this.getProgress() + '%'}}>
-                </div>
-              </div>
-            </div>
-          </div>
-          <Card id="left_button" side="node" handleClick={this.handleCardClicked}
-                forget={this.handleAddToBlacklist} data={this.state.leftCard.value}
-                voters={this.state.everyBodyVoted ? this.state.leftVoters : []}
-                continueButton={leftContinueButton}/>
-          <Card id="right_button" side="compareNode" handleClick={this.handleCardClicked}
-                forget={this.handleAddToBlacklist} data={this.state.rightCard.value}
-                voters={this.state.everyBodyVoted ? this.state.rightVoters : []}
-                continueButton={rightContinueButton}/>
-          {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
-          <button onClick={() => this.handleUndoClicked()} id="undo_button" className="normalize__undo-button">
-            <div className="undo__button">
-              <div className="undo__icon">
-                <img src="assets/icons/undo-icon.svg" alt=""/>
-                Undo choice
-              </div>
-            </div>
-          </button>
-        </div>
-        <div className={"footer"}>
-          <Footer/>
-          <Header/>
-        </div>
-        {newRoomButton}
-        {roomLink}
-        {this.state.roomVoters.map((item, index) => (
-          <img className={'card__voter'} key={index} src={item.avatar}/>
-        ))}
-      </div>
+      <ChoicesView
+        leftContinueButton={leftContinueButton}
+        rightContinueButton={rightContinueButton}
+        newRoomButton={newRoomButton}
+        roomLink = {roomLink}
+        roomVoters = {this.state.roomVoters}
+        leftCard = {this.state.leftCard}
+        rightCard = {this.state.rightCard}
+        everybodyVoted = {this.state.everyBodyVoted}
+        leftVoters={this.state.leftVoters}
+        rightVoters={this.state.rightVoters}
+        handleAddToBlacklist={this.handleAddToBlacklist}
+        handleCardClicked={this.handleCardClicked}
+        handleUndoClicked={this.handleUndoClicked}
+        handleGoToNextVoting={this.handleGoToNextVoting}
+        roomId={this.state.roomId}
+        progress={this.getProgress()}
+      />
     )
   }
 }
