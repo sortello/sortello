@@ -16,6 +16,18 @@ class ChoicesView extends React.Component {
 
 
   render () {
+    let undoButton = ''
+    if(this.props.handleUndoClicked){
+      undoButton =  <button onClick={() => this.props.handleUndoClicked()} id="undo_button" className="normalize__undo-button">
+        <div className="undo__button">
+          <div className="undo__icon">
+            <img src="assets/icons/undo-icon.svg" alt=""/>
+            Undo choice
+          </div>
+        </div>
+      </button>
+    }
+
     let leftContinueButton = ''
     if (this.props.everybodyVoted) {
       leftContinueButton = <div id="left-continue-voting" className="card-button__continue"
@@ -53,14 +65,7 @@ class ChoicesView extends React.Component {
                 voters={this.props.everybodyVoted ? this.props.voters.right : []}
                 continueButton={rightContinueButton}/>
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
-          <button onClick={() => this.props.handleUndoClicked()} id="undo_button" className="normalize__undo-button">
-            <div className="undo__button">
-              <div className="undo__icon">
-                <img src="assets/icons/undo-icon.svg" alt=""/>
-                Undo choice
-              </div>
-            </div>
-          </button>
+          {undoButton}
         </div>
         <div className={"footer"}>
           <Footer/>

@@ -7,6 +7,7 @@ import io from 'socket.io-client';
 import queryString from 'query-string';
 import PrioritizationEnd from './PrioritizationEnd.jsx'
 import Room from '../model/Room.js'
+import ChoicesView from './view/ChoicesView.jsx'
 
 let socket = false;
 if (typeof socketAddress !== 'undefined') {
@@ -30,8 +31,10 @@ class Choices extends React.Component {
       leftCard: null,
       rightCard: null,
       ended: false,
-      leftVoters: [],
-      rightVoters: [],
+      voters: {
+        left: [],
+        right: []
+      },
       hasVoted: false,
       hasBoardPermissions: false
     }
@@ -65,8 +68,10 @@ class Choices extends React.Component {
     if (socket) {
       socket.on('votesInfo', function (leftVoters, rightVoters) {
         component.setState({
-          leftVoters: leftVoters,
-          rightVoters: rightVoters
+          voters: {
+            left: leftVoters,
+            right: rightVoters,
+          }
         })
       })
 
@@ -130,23 +135,19 @@ class Choices extends React.Component {
       return (<PrioritizationEnd/>)
     }
     return (
-      <div id="second_div">
-        <div className="container__choose-card">
-          <div className="choose-card__heading">Select the highest priority card</div>
-          <Card id="left_button" side="node" handleClick={this.handleCardClicked}
-                forget={null} data={this.state.leftCard.value} voters={this.state.leftVoters}/>
-          <Card id="right_button" side="compareNode" handleClick={this.handleCardClicked}
-                forget={null} data={this.state.rightCard.value} voters={this.state.rightVoters}/>
-          {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
-        </div>
-        <div className={"logout__button"}>
-          <Header/>
-        </div>
-        <div className={"footer"}>
-          <Footer/>
-        </div>
-
-      </div>
+      <ChoicesView
+        newRoomButton={''}
+        roomLink={''}
+        roomVoters={[]}
+        leftCard={this.state.leftCard}
+        rightCard={this.state.rightCard}
+        everybodyVoted={this.state.voters.left.length + this.state.voters.right.length > 0}
+        voters={this.state.voters}
+        handleAddToBlacklist={null}
+        handleCardClicked={this.handleCardClicked}
+        handleGoToNextVoting={() => {}}
+        progress={0}
+      />
     )
   }
 }

@@ -150,7 +150,6 @@ class Choices extends React.Component {
     if (find(component.state.roomVoters, {'id': voterId}) === undefined) {
       return
     }
-
     let newVoters = component.state.roomVoters.slice(); //copy array
     let index = findIndex(newVoters, function (item) {
       return item.id === voterId
@@ -312,7 +311,6 @@ class Choices extends React.Component {
         handleCardClicked={this.handleCardClicked}
         handleUndoClicked={this.handleUndoClicked}
         handleGoToNextVoting={this.handleGoToNextVoting}
-        roomId={this.state.roomId}
         progress={this.getProgress()}
       />
     )
