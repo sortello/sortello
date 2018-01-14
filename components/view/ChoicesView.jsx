@@ -7,7 +7,6 @@ import {clone} from "lodash"
 import {find} from "lodash"
 import {findIndex} from "lodash"
 import {remove} from "lodash"
-import CopyToClipboard from "../CopyToClipboard.jsx"
 
 class ChoicesView extends React.Component {
 
@@ -15,7 +14,19 @@ class ChoicesView extends React.Component {
     super(props);
   }
 
+
   render () {
+    let leftContinueButton = ''
+    if (this.props.everybodyVoted) {
+      leftContinueButton = <div id="left-continue-voting" className="card-button__continue"
+                                     onClick={() => this.props.handleGoToNextVoting('node')}>Continue</div>
+    }
+
+    let rightContinueButton = ''
+    if (this.props.everybodyVoted) {
+      rightContinueButton = <div id="right-continue-voting" className="card-button__continue"
+                                      onClick={() => this.props.handleGoToNextVoting('compareNode')}>Continue</div>
+    }
     if (this.props.leftCard == null || this.props.rightCard == null) {
       return (<div><span>Loading...</span></div>);
     }
@@ -35,12 +46,12 @@ class ChoicesView extends React.Component {
           </div>
           <Card id="left_button" side="node" handleClick={this.props.handleCardClicked}
                 forget={this.props.handleAddToBlacklist} data={this.props.leftCard.value}
-                voters={this.props.everyBodyVoted ? this.props.leftVoters : []}
-                continueButton={this.props.leftContinueButton}/>
+                voters={this.props.everybodyVoted ? this.props.voters.left : []}
+                continueButton={leftContinueButton}/>
           <Card id="right_button" side="compareNode" handleClick={this.props.handleCardClicked}
                 forget={this.props.handleAddToBlacklist} data={this.props.rightCard.value}
-                voters={this.props.everyBodyVoted ? this.props.rightVoters : []}
-                continueButton={this.props.rightContinueButton}/>
+                voters={this.props.everybodyVoted ? this.props.voters.right : []}
+                continueButton={rightContinueButton}/>
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
           <button onClick={() => this.props.handleUndoClicked()} id="undo_button" className="normalize__undo-button">
             <div className="undo__button">

@@ -47,15 +47,13 @@ class Choices extends React.Component {
       leftCard: null,
       rightCard: null,
       roomId: null,
-      leftVoters: [],
-      rightVoters: [],
+      voters: {left: [], right: []},
       roomVoters: [],
-      everyBodyVoted: false
+      everybodyVoted: false
     }
 
   }
 
-  // Admin wants to create a new room
   createRoom () {
     let component = this;
     let randomKey = '';
@@ -69,8 +67,6 @@ class Choices extends React.Component {
         roomId: roomId
       })
     })
-
-    console.log(this.room)
 
     socket.on('voterJoined', function (voterId, trelloAvatar) {
       component.addVoter(voterId, trelloAvatar);
@@ -102,17 +98,23 @@ class Choices extends React.Component {
     }
 
     if ('node' === side) {
-      let lv = component.state.leftVoters.concat(voter);
+      let lv = component.state.voters.left.concat(voter);
       component.setState({
-        leftVoters: lv
+        voters: {
+          left: lv,
+          right: component.state.voters.right
+        }
       }, function () {
         component.checkTotalVotes()
       })
     }
     if ('compareNode' === side) {
-      let rv = component.state.rightVoters.concat(voter);
+      let rv = component.state.voters.right.concat(voter);
       component.setState({
-        rightVoters: rv
+        voters: {
+          left: component.state.voters.left,
+          right: rv
+        }
       }, function () {
         component.checkTotalVotes()
       })
@@ -124,12 +126,12 @@ class Choices extends React.Component {
     if (this.state.roomVoters.length == 0) {
       return
     }
-    if ((this.state.leftVoters.length + this.state.rightVoters.length) >= 1 + this.state.roomVoters.length) {
+    if ((this.state.voters.left.length + this.state.voters.right.length) >= 1 + this.state.roomVoters.length) {
       this.setState({
-        everyBodyVoted: true,
+        everybodyVoted: true,
       }, function () {
         if (component.room) {
-          component.room.castVotesInfo(component.state.leftVoters, component.state.rightVoters)
+          component.room.castVotesInfo(component.state.voters.left, component.state.voters.right)
         }
       })
     }
@@ -172,7 +174,7 @@ class Choices extends React.Component {
     let component = this
     this.setState({
       hasVoted: false,
-      everyBodyVoted: false
+      everybodyVoted: false
     }, function () {
       if (component.room) {
         component.room.castVotesInfo([], [])
@@ -187,8 +189,7 @@ class Choices extends React.Component {
       this.setState({
         leftCard: this.engine.getNode(),
         rightCard: this.engine.getCompareNode(),
-        leftVoters: [],
-        rightVoters: []
+        voters: {left: [],right:[]},
       }, function () {
         if (this.engine.autoChoice()) {
           this.getNextChoice()
@@ -240,17 +241,23 @@ class Choices extends React.Component {
     })
 
     if ('node' === side) {
-      let lv = component.state.leftVoters.concat(voter);
+      let lv = component.state.voters.left.concat(voter);
       component.setState({
-        leftVoters: lv
+        voters:{
+          left: lv,
+          right: component.state.voters.right
+        }
       }, function () {
         component.checkTotalVotes()
       })
     }
     if ('compareNode' === side) {
-      let rv = component.state.rightVoters.concat(voter);
+      let rv = component.state.voters.right.concat(voter);
       component.setState({
-        rightVoters: rv
+        voters:{
+          left: component.state.voters.left,
+          right: rv
+        }
       }, function () {
         component.checkTotalVotes()
       })
@@ -268,50 +275,53 @@ class Choices extends React.Component {
     )
   }
 
-  render () {
+  renderRoomLink () {
     let copyToClipboardBtn = <button>Copy to clipboard</button>
     let copyToClipboardSuccess = <button>Copied to clipboard</button>
     let copyToClipboardError = <button>Error</button>
 
-    if (this.state.leftCard == null || this.state.rightCard == null) {
-      return (<div><span>Loading...</span></div>);
-    }
-    let roomLink = '';
     if (this.state.roomId !== null) {
       let shareLink = window.location.protocol + "//" + window.location.hostname + window.location.pathname + '?roomKey=' + this.state.roomId
-      roomLink = <p>
-        Share Link: <input id="room-link" type="text" readOnly value={shareLink} size="50"/>
-        <CopyToClipboard text={shareLink} copyChildren={copyToClipboardBtn} successChildren={copyToClipboardSuccess}
-                         errorChildren={copyToClipboardError}/>
-      </p>
+      return (
+        <p>
+          Share Link: <input id="room-link" type="text" readOnly value={shareLink} size="50"/>
+          <CopyToClipboard text={shareLink} copyChildren={copyToClipboardBtn} successChildren={copyToClipboardSuccess}
+                           errorChildren={copyToClipboardError}/>
+        </p>
+      )
     }
-    let leftContinueButton = '';
-    if (this.state.everyBodyVoted) {
-      leftContinueButton = <div id="left-continue-voting" className="card-button__continue"
-                                onClick={() => this.handleGoToNextVoting('node')}>Continue</div>;
-    }
-    let rightContinueButton = '';
-    if (this.state.everyBodyVoted) {
-      rightContinueButton = <div id="right-continue-voting" className="card-button__continue"
-                                 onClick={() => this.handleGoToNextVoting('compareNode')}>Continue</div>;
-    }
-    let newRoomButton = '';
+  }
+
+
+
+  renderNewRoomButton () {
     if (socket) {
-      newRoomButton =
-        <button id="new-room-button" className={"button__open-room"} onClick={this.createRoom}>Open new room</button>
+      return (
+        <button id="new-room-button" className={"button__open-room"} onClick={this.createRoom}>Open new room</button>)
     }
+    return ''
+  }
+
+  renderLoading () {
+    return (<div><span>Loading...</span></div>)
+  }
+
+  render () {
+
+
+    if (this.state.leftCard == null || this.state.rightCard == null) {
+      this.renderLoading()
+    }
+
     return (
       <ChoicesView
-        leftContinueButton={leftContinueButton}
-        rightContinueButton={rightContinueButton}
-        newRoomButton={newRoomButton}
-        roomLink = {roomLink}
-        roomVoters = {this.state.roomVoters}
-        leftCard = {this.state.leftCard}
-        rightCard = {this.state.rightCard}
-        everybodyVoted = {this.state.everyBodyVoted}
-        leftVoters={this.state.leftVoters}
-        rightVoters={this.state.rightVoters}
+        newRoomButton={this.renderNewRoomButton()}
+        roomLink={this.renderRoomLink()}
+        roomVoters={this.state.roomVoters}
+        leftCard={this.state.leftCard}
+        rightCard={this.state.rightCard}
+        everybodyVoted={this.state.everybodyVoted}
+        voters={this.state.voters}
         handleAddToBlacklist={this.handleAddToBlacklist}
         handleCardClicked={this.handleCardClicked}
         handleUndoClicked={this.handleUndoClicked}
