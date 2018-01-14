@@ -32,6 +32,7 @@ class Choices extends React.Component {
     this.addVoter = this.addVoter.bind(this)
     this.handleGoToNextVoting = this.handleGoToNextVoting.bind(this)
     this.registerVote = this.registerVote.bind(this)
+    this.addVoteToVoters = this.addVoteToVoters.bind(this)
     let component = this
     component.props.Trello.members.get('me', {}, function (data) {
       component.trelloId = data.id
@@ -89,14 +90,8 @@ class Choices extends React.Component {
     })
   }
 
-  registerVote (side, trelloId, trelloAvatar) {
-    let component = this;
-    let voter = {
-      voterId: trelloId,
-      trelloId: trelloId,
-      trelloAvatar: trelloAvatar
-    }
-
+  addVoteToVoters (side, voter) {
+    let component = this
     if ('node' === side) {
       let lv = component.state.voters.left.concat(voter);
       component.setState({
@@ -109,6 +104,7 @@ class Choices extends React.Component {
       })
     }
     if ('compareNode' === side) {
+
       let rv = component.state.voters.right.concat(voter);
       component.setState({
         voters: {
@@ -121,11 +117,23 @@ class Choices extends React.Component {
     }
   }
 
+  registerVote (side, trelloId, trelloAvatar) {
+    let voter = {
+      voterId: trelloId,
+      trelloId: trelloId,
+      trelloAvatar: trelloAvatar
+    }
+
+    this.addVoteToVoters(side, voter)
+
+  }
+
   checkTotalVotes () {
     let component = this;
     if (this.state.roomVoters.length == 0) {
       return
     }
+
     if ((this.state.voters.left.length + this.state.voters.right.length) >= 1 + this.state.roomVoters.length) {
       this.setState({
         everybodyVoted: true,
@@ -139,13 +147,13 @@ class Choices extends React.Component {
 
   removeVoter (voterId) {
     let component = this
-    if (find(component.state.roomVoters, {'id': voterId}) == undefined) {
+    if (find(component.state.roomVoters, {'id': voterId}) === undefined) {
       return
     }
 
     let newVoters = component.state.roomVoters.slice(); //copy array
     let index = findIndex(newVoters, function (item) {
-      return item.id == voterId
+      return item.id === voterId
     })
     newVoters.splice(index, 1); //remove element
     component.setState({
@@ -189,7 +197,7 @@ class Choices extends React.Component {
       this.setState({
         leftCard: this.engine.getNode(),
         rightCard: this.engine.getCompareNode(),
-        voters: {left: [],right:[]},
+        voters: {left: [], right: []},
       }, function () {
         if (this.engine.autoChoice()) {
           this.getNextChoice()
@@ -240,28 +248,7 @@ class Choices extends React.Component {
       hasVoted: true
     })
 
-    if ('node' === side) {
-      let lv = component.state.voters.left.concat(voter);
-      component.setState({
-        voters:{
-          left: lv,
-          right: component.state.voters.right
-        }
-      }, function () {
-        component.checkTotalVotes()
-      })
-    }
-    if ('compareNode' === side) {
-      let rv = component.state.voters.right.concat(voter);
-      component.setState({
-        voters:{
-          left: component.state.voters.left,
-          right: rv
-        }
-      }, function () {
-        component.checkTotalVotes()
-      })
-    }
+    this.addVoteToVoters(side, voter)
   }
 
   getProgress () {
@@ -291,7 +278,6 @@ class Choices extends React.Component {
       )
     }
   }
-
 
 
   renderNewRoomButton () {
