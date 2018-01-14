@@ -2,7 +2,6 @@ import React from "react"
 import PrioritizationEnd from "./components/PrioritizationEnd.jsx"
 import CardsWithVoters from "./styleGuideComponents/CardsWithVoters.jsx"
 import ChoicesVoter from "./components/ChoicesVoter.jsx"
-import ChoicesView from "./components/view/ChoicesView.jsx"
 
 class StyleguideApp extends React.Component {
   constructor (props) {
@@ -72,23 +71,6 @@ class StyleguideApp extends React.Component {
         <PrioritizationEnd/>
         <hr/>
         <h1>Choices view for voter</h1>
-        <ChoicesView
-          roomLink={null}
-          newRoomButton={""}
-          leftContinueButton={""}
-          rightContinueButton={""}
-          roomVoters={[]}
-          everybodyVoted={false}
-          leftCard={leftCard}
-          rightCard={rightCard}
-          leftVoters={[]}
-          rightVoters={[]}
-          handleAddToBlacklist={null}
-          handleUndoClicked={null}
-          handleCardClicked={null}
-          progress={0}
-        />
-
       </div>
     )
   }
