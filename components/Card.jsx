@@ -1,25 +1,12 @@
 import React from 'react';
+import CardButtons from './CardButtons.jsx'
 
 class Card extends React.Component {
   render () {
     let cardButtons = '';
     if (this.props.forget !== null) {
-      cardButtons = <div className="wrapper__card-buttons">
-        {this.props.continueButton}
-        <a href={this.props.data.shortUrl} target="_blank" role="button"
-           className="button-seecard card-button__see-card" onClick={(e) => {
-          this.linkClicked(e);
-        }}>
-          <div className="button-text__see-card">See card</div>
-        </a>
-        <div className="card-button__esclude button-blacklist button-text__esclude"
-             onClick={() => {
-               this.props.forget(this.props.data.id)
-             }} data-cardid={this.props.data.id}>
-          Send to bottom
-        </div>
-
-      </div>
+      cardButtons =
+        <CardButtons continueButton={this.props.continueButton} data={this.props.data} forget={this.props.forget}/>
     }
 
     return (
