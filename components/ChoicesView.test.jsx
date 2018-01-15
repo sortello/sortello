@@ -96,20 +96,13 @@ describe("Choices", () => {
     };
     let shallowChoices = choicesView(props)
 
-
-    expect(shallowChoices.find('Card').at(0).props().voters).toEqual(
-      [
-        {voterId: 'voter1', trelloId: 'voter1', trelloAvatar: ''}
-      ]
-    )
-    expect(shallowChoices.find('Card').at(1).props().voters).toEqual([{
-      voterId: 'voter2',
-      trelloId: 'voter2',
-      trelloAvatar: ''
-    }])
-    expect(shallowChoices.find('Card').at(0).props().continueButton).not.toEqual('')
-    expect(shallowChoices.find('Card').at(1).props().continueButton).not.toEqual('')
+    let actualLeftCardVoters = shallowChoices.find('Card').at(0).props().voters
+    let actualRightCardVoters = shallowChoices.find('Card').at(1).props().voters
+    let leftContinueButton = shallowChoices.find('Card').at(0).props().continueButton
+    let rightContinueButton = shallowChoices.find('Card').at(1).props().continueButton
+    expect(actualLeftCardVoters).toEqual(props.voters.left)
+    expect(actualRightCardVoters).toEqual(props.voters.right)
+    expect(leftContinueButton).not.toEqual('')
+    expect(rightContinueButton).not.toEqual('')
   })
-
 })
-;
