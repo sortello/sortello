@@ -1,5 +1,5 @@
 describe('dotvoting', function () {
-  var originalTimeout;
+  let originalTimeout;
 
   beforeEach(function () {
     originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
