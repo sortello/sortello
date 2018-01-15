@@ -97,10 +97,10 @@ describe('dotvoting', function () {
             }
 
             function makeChoice (b, bPriorities) {
-              b.element.all(by.id("left-continue-voting")).count().then(function (size) {
+              b.element.all(by.css(".card-button__continue")).count().then(function (size) {
                 if (size > 0) {
-                  let leftContinue = b.element(by.id("left-continue-voting"));
-                  let rightContinue = b.element(by.id("right-continue-voting"));
+                  let leftContinue = b.element.all(by.css(".card-button__continue")).get(0);
+                  let rightContinue = b.element.all(by.css(".card-button__continue")).get(1);
                   let leftCard = b.element(by.css('#left_button .card__title'));
                   let rightCard = b.element(by.css('#right_button .card__title'));
                   b.wait(EC.and(EC.presenceOf(leftContinue), EC.presenceOf(rightContinue)), 20000).then(function () {

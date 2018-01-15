@@ -66,8 +66,8 @@ describe('dotvoting', function () {
                 makeChoice(browser1, browsersPriorities[0])
                 makeChoice(browser2, browsersPriorities[1])
                 makeChoice(browser3, browsersPriorities[2])
-                let leftContinue = browser1.element(by.id("left-continue-voting"));
-                let rightContinue = browser1.element(by.id("right-continue-voting"));
+                let leftContinue = browser1.element.all(by.css(".card-button__continue")).get(0);
+                let rightContinue = browser1.element.all(by.css(".card-button__continue")).get(1);
                 let leftCard = browser1.element(by.css('#left_button .card__title'));
                 let rightCard = browser1.element(by.css('#right_button .card__title'));
                 browser1.wait(EC.and(EC.presenceOf(leftContinue), EC.presenceOf(rightContinue)), 20000).then(function () {
