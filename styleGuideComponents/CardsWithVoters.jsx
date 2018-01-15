@@ -26,17 +26,17 @@ class CardsWithVoters extends React.Component {
     }
 
     let rightCardData = {
-      id: 1,
+      id: 2,
       shortUrl: "#",
       name: "Right card with some text",
       labels: [
         {
-          color: "red",
+          color: "green",
           name: "Label",
           id: 3
         },
         {
-          color: "blue",
+          color: "yellow",
           name: "Label",
           id: 4
         }
