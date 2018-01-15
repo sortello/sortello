@@ -14,31 +14,21 @@ class ChoicesView extends React.Component {
     super(props);
   }
 
-
   render () {
     let undoButton = ''
-    if(this.props.handleUndoClicked){
-      undoButton =  <button onClick={() => this.props.handleUndoClicked()} id="undo_button" className="normalize__undo-button">
-        <div className="undo__button">
-          <div className="undo__icon">
-            <img src="assets/icons/undo-icon.svg" alt=""/>
-            Undo choice
+    if (this.props.handleUndoClicked) {
+      undoButton =
+        <button onClick={() => this.props.handleUndoClicked()} id="undo_button" className="normalize__undo-button">
+          <div className="undo__button">
+            <div className="undo__icon">
+              <img src="assets/icons/undo-icon.svg" alt=""/>
+              Undo choice
+            </div>
           </div>
-        </div>
-      </button>
+        </button>
     }
 
-    let leftContinueButton = ''
-    if (this.props.everybodyVoted) {
-      leftContinueButton = <div id="left-continue-voting" className="card-button__continue"
-                                     onClick={() => this.props.handleGoToNextVoting('node')}>Continue</div>
-    }
 
-    let rightContinueButton = ''
-    if (this.props.everybodyVoted) {
-      rightContinueButton = <div id="right-continue-voting" className="card-button__continue"
-                                      onClick={() => this.props.handleGoToNextVoting('compareNode')}>Continue</div>
-    }
     if (this.props.leftCard == null || this.props.rightCard == null) {
       return (<div><span>Loading...</span></div>);
     }
@@ -58,12 +48,14 @@ class ChoicesView extends React.Component {
           </div>
           <Card id="left_button" side="node" handleClick={this.props.handleCardClicked}
                 forget={this.props.handleAddToBlacklist} data={this.props.leftCard.value}
-                voters={this.props.everybodyVoted ? this.props.voters.left : []}
-                continueButton={leftContinueButton}/>
+                voters={this.props.voters.left}
+                everybodyVoted={this.props.everybodyVoted}
+                />
           <Card id="right_button" side="compareNode" handleClick={this.props.handleCardClicked}
                 forget={this.props.handleAddToBlacklist} data={this.props.rightCard.value}
-                voters={this.props.everybodyVoted ? this.props.voters.right : []}
-                continueButton={rightContinueButton}/>
+                voters={this.props.voters.right}
+                everybodyVoted={this.props.everybodyVoted}
+                />
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
           {undoButton}
         </div>

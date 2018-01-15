@@ -5,8 +5,14 @@ import CardLabels from './CardLabels.jsx';
 
 class Card extends React.Component {
   render () {
+    let continueButton = null
+    if (this.props.everybodyVoted) {
+      continueButton = <div className="card-button__continue"
+                            onClick={() => this.props.handleGoToNextVoting(this.props.side)}>Continue</div>
+    }
+
     let cardButtons =
-      <CardButtons continueButton={this.props.continueButton} data={this.props.data} forget={this.props.forget}/>
+      <CardButtons continueButton={continueButton} data={this.props.data} forget={this.props.forget}/>
 
     return (
       <div className={"wrapper__card choices--button"} id={this.props.id}>
@@ -16,7 +22,7 @@ class Card extends React.Component {
           <CardLabels labels={this.props.data.labels}/>
           <div className={'label__separator'}></div>
           <div className="card__title">{this.props.data.name}</div>
-          <CardVoters voters={this.props.voters}/>
+          {this.props.everybodyVoted ? <CardVoters voters={this.props.voters}/> : null}
         </div>
         {this.props.forget !== null ? cardButtons : null}
       </div>
