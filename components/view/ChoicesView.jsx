@@ -50,11 +50,13 @@ class ChoicesView extends React.Component {
                 forget={this.props.handleAddToBlacklist} data={this.props.leftCard.value}
                 voters={this.props.voters.left}
                 everybodyVoted={this.props.everybodyVoted}
+                handleGoToNextVoting={this.props.handleGoToNextVoting}
                 />
           <Card id="right_button" side="compareNode" handleClick={this.props.handleCardClicked}
                 forget={this.props.handleAddToBlacklist} data={this.props.rightCard.value}
                 voters={this.props.voters.right}
                 everybodyVoted={this.props.everybodyVoted}
+                handleGoToNextVoting={this.props.handleGoToNextVoting}
                 />
           {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
           {undoButton}
