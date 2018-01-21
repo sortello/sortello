@@ -1,19 +1,31 @@
-import React from "react"
+import React from 'react'
+import Select from './Select.jsx'
 
-export default ({groupedboards, onChange}) => {
-  return <select onChange={(event) => onChange(event.target.value)} className={"select-field__select"}>
 
-    {
-      Object.keys(groupedboards).map(function (key) {
-        var group = groupedboards[key];
-        return <optgroup key={key} label={key}>
-          <option>Select a board</option>
-          {(
-              group.map(function (board) {
-                return <option key={board.id} value={board.id}>{board.name}</option>
-              }.bind(this))
-          )} </optgroup>
-      }.bind(this))
+class BoardSelector extends React.Component {
+    constructor (props) {
+        super(props)
     }
-  </select>
-};
+
+    render () {
+        return <Select
+            onChange={this.props.onChange}
+            placeHolder={"Select a board"}
+            options={
+                Object.keys(this.props.groupedboards).map(function (key) {
+                    let group = this.props.groupedboards[key];
+                    return <optgroup key={key} label={key}>
+                        {(
+                            group.map(function (board) {
+                                return <option key={board.id} value={board.id}>{board.name}</option>
+                            }.bind(this))
+                        )} </optgroup>
+                }.bind(this))
+            }
+        />
+    }
+
+
+}
+
+export default BoardSelector
