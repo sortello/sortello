@@ -7,6 +7,7 @@ import {clone} from "lodash"
 import {find} from "lodash"
 import {findIndex} from "lodash"
 import {remove} from "lodash"
+import Avatars from '../Avatars.jsx'
 
 class ChoicesView extends React.Component {
 
@@ -69,9 +70,8 @@ class ChoicesView extends React.Component {
                 </div>
                 {this.props.newRoomButton}
                 {this.props.roomLink}
-                {this.props.roomVoters.map((item, index) => (
-                    <img className={'card__voter'} key={index} src={item.avatar}/>
-                ))}
+                <Avatars users={this.props.roomVoters}/>
+
             </div>
         )
     }
