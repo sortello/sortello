@@ -20,46 +20,6 @@ class StyleguideApp extends React.Component {
                               }}>Continue</div>
 
 
-    let leftCard = {
-      value: {
-
-        id: 1,
-        shortUrl: "#",
-        name: "Right card with some text",
-        labels: [
-          {
-            color: "red",
-            name: "Label",
-            id: 3
-          },
-          {
-            color: "blue",
-            name: "Label",
-            id: 4
-          }
-        ]
-      }
-    }
-    let rightCard = {
-      value: {
-
-        id: 2,
-        shortUrl: "#",
-        name: "Right card with some text",
-        labels: [
-          {
-            color: "red",
-            name: "Label",
-            id: 3
-          },
-          {
-            color: "blue",
-            name: "Label",
-            id: 4
-          }
-        ]
-      }
-    }
     return (
       <div id="container_div">
         <CardsWithVoters voters={[]} continueButton={""}/>
