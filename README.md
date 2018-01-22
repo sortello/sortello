@@ -9,11 +9,24 @@ Hosted version: [sortello.com](https://sortello.com)
 
 To run sortello on your machine:
 
+`git clone git@github.com:mazzcris/sortello.git`
+
 `npm install`
 
 `npm start`
 
-Sortello will be available at localhost:4000
+Landing page:
+https://localhost:4000
+
+App:
+https://localhost:4000/app.html
+
+Styleguide:
+https://localhost:4000/styleguide.html
+
+## Running Unit Tests
+
+`npm run unit`
 
 ## Contributing
 
@@ -23,11 +36,6 @@ Sortello will be available at localhost:4000
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
 
-Running `protractor-integration` task requires a SocketIO server running at the address specified in parameters.js "socketAddress"
-
-## Running Unit Tests
-
-`npm run unit`
 
 ## Credits
 
