@@ -1,7 +1,4 @@
 import React from 'react';
-import Header from './Header.jsx';
-import Card from './Card.jsx';
-import Footer from './Footer.jsx'
 import {clone} from 'lodash'
 import io from 'socket.io-client';
 import queryString from 'query-string';

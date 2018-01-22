@@ -2,52 +2,45 @@ import React from "react"
 import PrioritizationEnd from "./components/PrioritizationEnd.jsx"
 import ChoicesView from "./components/view/ChoicesView.jsx"
 import ChoicesVoter from "./components/ChoicesVoter.jsx"
+import loremIpsum from 'lorem-ipsum'
+
+const randomColor = () => {
+    return ['red', 'green', 'blue', 'yellow'][randInt(0, 3)]
+}
+
+const randInt = (min, max) => {
+    return (Math.floor(Math.random() * ((max + 1) - min)) + min)
+}
+
+const createCardData = () => {
+    return {
+        value: {
+            id: randInt(0,1000),
+            shortUrl: "#",
+            name: loremIpsum({count: 1, units: 'sentences'}),
+            labels: [
+                {
+                    color: randomColor(),
+                    name: loremIpsum({count: 1, units: 'words'}),
+                    id: randInt(0,1000)
+                },
+                {
+                    color: randomColor(),
+                    name: loremIpsum({count: 1, units: 'words'}),
+                    id: randInt(0,1000)
+                }
+            ]
+        }
+    }
+}
 
 class StyleguideApp extends React.Component {
     constructor (props) {
         super(props)
     }
 
-    render () {
-        let leftCardData = {
-            value: {
-                id: 1,
-                shortUrl: "#",
-                name: "Left card with some text",
-                labels: [
-                    {
-                        color: "red",
-                        name: "Label",
-                        id: 1
-                    },
-                    {
-                        color: "green",
-                        name: "Label",
-                        id: 2
-                    }
-                ]
-            }
-        }
 
-        let rightCardData = {
-            value: {
-                id: 2,
-                shortUrl: "#",
-                name: "Right card with some text",
-                labels: [
-                    {
-                        color: "green",
-                        name: "Label",
-                        id: 3
-                    },
-                    {
-                        color: "yellow",
-                        name: "Label",
-                        id: 4
-                    }
-                ]
-            }
-        }
+    render () {
 
         let roomVoters = [
             {trelloAvatar: '//www.gravatar.com/avatar/94d093eda664addd6e450d7ew881bcad?s=32&d=identicon&r=PG'},
@@ -75,8 +68,8 @@ class StyleguideApp extends React.Component {
                     newRoomButton={""}
                     roomLink={""}
                     roomVoters={roomVoters}
-                    leftCard={leftCardData}
-                    rightCard={rightCardData}
+                    leftCard={createCardData()}
+                    rightCard={createCardData()}
                     everybodyVoted={true}
                     voters={voters}
                     handleAddToBlacklist={this.handleAddToBlacklist}
