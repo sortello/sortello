@@ -8,6 +8,7 @@ Hosted version: [sortello.com](https://sortello.com)
 ## Usage
 
 To run sortello on your machine:
+
 `git clone git@github.com:mazzcris/sortello.git`
 
 `npm install`
