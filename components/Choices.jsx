@@ -33,16 +33,7 @@ class Choices extends React.Component {
     this.handleGoToNextVoting = this.handleGoToNextVoting.bind(this)
     this.registerVote = this.registerVote.bind(this)
     this.addVoteToVoters = this.addVoteToVoters.bind(this)
-    let component = this
-    component.props.Trello.members.get('me', {}, function (data) {
-      component.trelloId = data.id
-      component.trelloAvatar = '//trello-avatars.s3.amazonaws.com/' + data.avatarHash + '/50.png'
-      if (data.avatarHash === null) {
-        component.trelloAvatar = '//www.gravatar.com/avatar/' + data.gravatarHash + '?s=64&d=identicon'
-      }
-    }, function (e) {
-      console.log(e);
-    });
+    this.getTrelloUserData(this);
     this.room = false;
     this.state = {
       leftCard: null,
@@ -52,10 +43,21 @@ class Choices extends React.Component {
       roomVoters: [],
       everybodyVoted: false
     }
-
   }
 
-  createRoom () {
+    getTrelloUserData (component) {
+        component.props.Trello.members.get('me', {}, function (data) {
+            component.trelloId = data.id
+            component.trelloAvatar = '//trello-avatars.s3.amazonaws.com/' + data.avatarHash + '/50.png'
+            if (data.avatarHash === null) {
+                component.trelloAvatar = '//www.gravatar.com/avatar/' + data.gravatarHash + '?s=64&d=identicon'
+            }
+        }, function (e) {
+            console.log(e);
+        });
+    }
+
+    createRoom () {
     let component = this;
     let randomKey = '';
     let chars = '0123456789abcdefghijklmnopqrstuvwxyz';
