@@ -57,28 +57,33 @@ class StyleguideApp extends React.Component {
         super(props)
     }
 
+    renderChoicesView () {
+        return (
+            <ChoicesView
+                newRoomButton={""}
+                roomLink={""}
+                roomVoters={roomVoters}
+                leftCard={createCardData()}
+                rightCard={createCardData()}
+                everybodyVoted={true}
+                voters={voters}
+                handleAddToBlacklist={this.handleAddToBlacklist}
+                handleCardClicked={() => {
+                }}
+                handleUndoClicked={() => {
+                }}
+                handleGoToNextVoting={() => {
+                }}
+                progress={60}
+            />
+        )
+    }
 
     render () {
         return (
             <div id="container_div">
                 <h1>Choices view for voter</h1>
-                <ChoicesView
-                    newRoomButton={""}
-                    roomLink={""}
-                    roomVoters={roomVoters}
-                    leftCard={createCardData()}
-                    rightCard={createCardData()}
-                    everybodyVoted={true}
-                    voters={voters}
-                    handleAddToBlacklist={this.handleAddToBlacklist}
-                    handleCardClicked={() => {
-                    }}
-                    handleUndoClicked={() => {
-                    }}
-                    handleGoToNextVoting={() => {
-                    }}
-                    progress={60}
-                />
+                {this.renderChoicesView()}
                 <hr/>
                 <ChoicesVoter/>
                 <hr/>
