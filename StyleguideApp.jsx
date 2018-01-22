@@ -15,24 +15,42 @@ const randInt = (min, max) => {
 const createCardData = () => {
     return {
         value: {
-            id: randInt(0,1000),
+            id: randInt(0, 1000),
             shortUrl: "#",
             name: loremIpsum({count: 1, units: 'sentences'}),
             labels: [
                 {
                     color: randomColor(),
                     name: loremIpsum({count: 1, units: 'words'}),
-                    id: randInt(0,1000)
+                    id: randInt(0, 1000)
                 },
                 {
                     color: randomColor(),
                     name: loremIpsum({count: 1, units: 'words'}),
-                    id: randInt(0,1000)
+                    id: randInt(0, 1000)
                 }
             ]
         }
     }
 }
+
+const voters = {
+    left:
+        [
+            {trelloAvatar: '//www.gravatar.com/avatar/94d093eda664addd6e450d7ew881bcad?s=32&d=identicon&r=PG'},
+            {trelloAvatar: '//www.gravatar.com/avatar/94d093eda664addd6e450d7ew831bcad?s=32&d=identicon&r=PG'}
+
+        ],
+    right:
+        [
+            {trelloAvatar: '//www.gravatar.com/avatar/94d093eda664addd6e450d7ew831bcad?s=32&d=identicon&r=PG'}
+        ]
+}
+
+const roomVoters = [
+    {trelloAvatar: '//www.gravatar.com/avatar/94d093eda664addd6e450d7ew881bcad?s=32&d=identicon&r=PG'},
+    {trelloAvatar: '//www.gravatar.com/avatar/94d093eda664addd6e450d7ew831bcad?s=32&d=identicon&r=PG'}
+]
 
 class StyleguideApp extends React.Component {
     constructor (props) {
@@ -41,26 +59,6 @@ class StyleguideApp extends React.Component {
 
 
     render () {
-
-        let roomVoters = [
-            {trelloAvatar: '//www.gravatar.com/avatar/94d093eda664addd6e450d7ew881bcad?s=32&d=identicon&r=PG'},
-            {trelloAvatar: '//www.gravatar.com/avatar/94d093eda664addd6e450d7ew831bcad?s=32&d=identicon&r=PG'}
-
-        ]
-
-        let voters = {
-            left:
-                [
-                    {trelloAvatar: '//www.gravatar.com/avatar/94d093eda664addd6e450d7ew881bcad?s=32&d=identicon&r=PG'},
-                    {trelloAvatar: '//www.gravatar.com/avatar/94d093eda664addd6e450d7ew831bcad?s=32&d=identicon&r=PG'}
-
-                ],
-            right:
-                [
-                    {trelloAvatar: '//www.gravatar.com/avatar/94d093eda664addd6e450d7ew831bcad?s=32&d=identicon&r=PG'}
-                ]
-        }
-
         return (
             <div id="container_div">
                 <h1>Choices view for voter</h1>
