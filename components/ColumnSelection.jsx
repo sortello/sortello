@@ -29,9 +29,7 @@ class ColumnSelection extends React.Component {
     }
 
     componentDidMount () {
-        let Trello = this.props.Trello;
-
-        let that = this;
+        let component = this;
         const params = queryString.parse(location.search);
 
         if (params.boardId !== undefined && params.listName !== undefined) {
@@ -39,11 +37,9 @@ class ColumnSelection extends React.Component {
         }
 
         if (params.extId !== undefined) {
-            that.setState({
-                fromExtension: true
-            });
-            Trello.cards.get(params.extId, null, function (card) {
-                that.retrieveCardsByListId(card.idList)
+            component.setState({fromExtension: true});
+            component.props.Trello.cards.get(params.extId, null, function (card) {
+                component.retrieveCardsByListId(card.idList)
             });
         }
 
