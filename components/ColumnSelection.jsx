@@ -101,7 +101,6 @@ class ColumnSelection extends React.Component {
             that.setState({
                 listCards: listCards
             });
-            console.log(listCards);
             listCards.forEach(function (card) {
                 card.labels.forEach(function (label) {
                     if (find(labels, {'id': label.id}) === undefined) {
