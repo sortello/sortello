@@ -27,7 +27,7 @@ class Results extends React.Component {
     }
 
     setDuration () {
-        var component = this;
+        let component = this;
         let start = this.props.startTimeStamp;
         let end = Date.now();
         component.setState({
@@ -40,7 +40,7 @@ class Results extends React.Component {
     }
 
     updateBoard () {
-        var component = this;
+        let component = this;
 
         function showUploadDone () {
             component.setState({
@@ -59,7 +59,7 @@ class Results extends React.Component {
                 eventLabel: this.state.duration
             });
         }
-        var Trello = this.props.Trello;
+        let Trello = this.props.Trello;
 
         let nextCardIndex = 0;
 

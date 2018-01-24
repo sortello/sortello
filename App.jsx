@@ -7,7 +7,6 @@ import Results from "./components/Results.jsx"
 import treeNodeFactory from "./model/treeNodeFactory"
 import queryString from "query-string"
 
-
 class App extends React.Component {
     constructor (props) {
         super(props)
