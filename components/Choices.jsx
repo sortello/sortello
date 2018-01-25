@@ -6,9 +6,9 @@ import io from 'socket.io-client';
 import {find} from "lodash"
 import {findIndex} from "lodash"
 import {remove} from "lodash"
-import CopyToClipboard from "./CopyToClipboard.jsx"
 import Room from "../model/Room.js"
 import ChoicesView from './view/ChoicesView.jsx'
+import RoomLink from './RoomLink.jsx'
 
 let socket = false;
 if (typeof socketAddress !== 'undefined') {
@@ -270,21 +270,7 @@ class Choices extends React.Component {
     }
 
     renderRoomLink () {
-        let copyToClipboardBtn = <button>Copy to clipboard</button>
-        let copyToClipboardSuccess = <button>Copied to clipboard</button>
-        let copyToClipboardError = <button>Error</button>
-
-        if (this.state.roomId !== null) {
-            let shareLink = window.location.protocol + "//" + window.location.hostname + window.location.pathname + '?roomKey=' + this.state.roomId
-            return (
-                <p>
-                    Share Link: <input id="room-link" type="text" readOnly value={shareLink} size="50"/>
-                    <CopyToClipboard text={shareLink} copyChildren={copyToClipboardBtn}
-                                     successChildren={copyToClipboardSuccess}
-                                     errorChildren={copyToClipboardError}/>
-                </p>
-            )
-        }
+        return <RoomLink roomId={this.state.roomId} />
     }
 
 

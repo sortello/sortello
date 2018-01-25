@@ -82,14 +82,15 @@ class StyleguideApp extends React.Component {
     render () {
         return (
             <div id="container_div">
-                <h1>Choices view for voter</h1>
+                <h2>Choices view for voter</h2>
                 {this.renderChoicesView()}
+                <hr/>
+                <h2>Voters view, prioritization end</h2>
+                <PrioritizationEnd/>
                 <hr/>
                 <ChoicesVoter/>
                 <hr/>
-                <PrioritizationEnd/>
-                <hr/>
-                <h1>Choices view for voter</h1>
+                <h2>Choices view for voter</h2>
             </div>
         )
     }
