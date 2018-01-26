@@ -22,6 +22,7 @@ class ChoicesView extends React.Component {
                      voters={voters}
                      everybodyVoted={this.props.everybodyVoted}
                      handleGoToNextVoting={this.props.handleGoToNextVoting}
+                     selected={this.props.selectedSide === side}
         />
     }
 

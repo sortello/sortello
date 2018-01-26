@@ -3,6 +3,7 @@ import PrioritizationEnd from "./components/PrioritizationEnd.jsx"
 import ChoicesView from "./components/view/ChoicesView.jsx"
 import ChoicesVoter from "./components/ChoicesVoter.jsx"
 import loremIpsum from 'lorem-ipsum'
+import RoomLink from './components/RoomLink.jsx'
 
 const randomColor = () => {
     return ['red', 'green', 'blue', 'yellow'][randInt(0, 3)]
@@ -57,11 +58,33 @@ class StyleguideApp extends React.Component {
         super(props)
     }
 
-    renderChoicesView () {
+    renderRoomLink () {
+        return (<RoomLink roomId={"9812u9812uej1298e2j88ewu8ewfu89"}/>)
+    }
+
+    renderChoicesViewForVoter () {
+        return (
+            <ChoicesView
+                roomVoters={roomVoters}
+                leftCard={createCardData()}
+                rightCard={createCardData()}
+                everybodyVoted={true}
+                voters={voters}
+                handleAddToBlacklist={null}
+                handleCardClicked={() => {
+                }}
+                handleGoToNextVoting={() => {
+                }}
+                progress={75}
+            />
+        )
+    }
+
+    renderChoicesViewForMaster () {
         return (
             <ChoicesView
                 newRoomButton={""}
-                roomLink={""}
+                roomLink={this.renderRoomLink()}
                 roomVoters={roomVoters}
                 leftCard={createCardData()}
                 rightCard={createCardData()}
@@ -75,6 +98,7 @@ class StyleguideApp extends React.Component {
                 handleGoToNextVoting={() => {
                 }}
                 progress={60}
+                selectedSide={'compareNode'}
             />
         )
     }
@@ -82,15 +106,17 @@ class StyleguideApp extends React.Component {
     render () {
         return (
             <div id="container_div">
+                <h2>Choices view for master</h2>
+                {this.renderChoicesViewForMaster()}
+                <hr/>
                 <h2>Choices view for voter</h2>
-                {this.renderChoicesView()}
+                {this.renderChoicesViewForVoter()}
                 <hr/>
                 <h2>Voters view, prioritization end</h2>
                 <PrioritizationEnd/>
                 <hr/>
+                <h2>No board permissions message</h2>
                 <ChoicesVoter/>
-                <hr/>
-                <h2>Choices view for voter</h2>
             </div>
         )
     }

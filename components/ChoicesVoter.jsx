@@ -30,7 +30,8 @@ class Choices extends React.Component {
             ended: false,
             voters: {left: [], right: []},
             hasVoted: false,
-            hasBoardPermissions: false
+            hasBoardPermissions: false,
+            selectedSide: null
         }
         if (params.roomKey !== undefined) {
             this.setUpRoom(component);
@@ -68,7 +69,8 @@ class Choices extends React.Component {
             component.setState({
                 leftCard: leftCard,
                 rightCard: rightCard,
-                hasVoted: false
+                hasVoted: false,
+                selectedSide: null
             })
         })
 
@@ -110,7 +112,8 @@ class Choices extends React.Component {
             this.room.castCardClicked(side, this.trelloId, this.trelloAvatar)
         }
         this.setState({
-            hasVoted: true
+            hasVoted: true,
+            selectedSide: side
         })
     }
 
@@ -144,6 +147,7 @@ class Choices extends React.Component {
                 handleGoToNextVoting={() => {
                 }}
                 progress={0}
+                selectedSide={this.state.selectedSide}
             />
         )
     }

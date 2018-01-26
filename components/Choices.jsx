@@ -49,7 +49,8 @@ class Choices extends React.Component {
             roomId: null,
             voters: {left: [], right: []},
             roomVoters: [],
-            everybodyVoted: false
+            everybodyVoted: false,
+            selectedSide: null
         }
     }
 
@@ -105,19 +106,18 @@ class Choices extends React.Component {
             component.setState({
                 voters: {
                     left: lv,
-                    right: component.state.voters.right
+                    right: component.state.voters.right,
                 }
             }, function () {
                 component.checkTotalVotes()
             })
         }
         if ('compareNode' === side) {
-
             let rv = component.state.voters.right.concat(voter);
             component.setState({
                 voters: {
                     left: component.state.voters.left,
-                    right: rv
+                    right: rv,
                 }
             }, function () {
                 component.checkTotalVotes()
@@ -144,7 +144,7 @@ class Choices extends React.Component {
 
         if ((this.state.voters.left.length + this.state.voters.right.length) >= 1 + this.state.roomVoters.length) {
             this.setState({
-                everybodyVoted: true,
+                everybodyVoted: true
             }, function () {
                 if (component.room) {
                     component.room.castVotesInfo(component.state.voters.left, component.state.voters.right)
@@ -205,6 +205,7 @@ class Choices extends React.Component {
                 leftCard: this.engine.getNode(),
                 rightCard: this.engine.getCompareNode(),
                 voters: {left: [], right: []},
+                selectedSide: null
             }, function () {
                 if (this.engine.autoChoice()) {
                     this.getNextChoice()
@@ -252,7 +253,8 @@ class Choices extends React.Component {
         }
 
         component.setState({
-            hasVoted: true
+            hasVoted: true,
+            selectedSide: component.room ? side : null
         })
 
         this.addVoteToVoters(side, voter)
@@ -270,7 +272,7 @@ class Choices extends React.Component {
     }
 
     renderRoomLink () {
-        return <RoomLink roomId={this.state.roomId} />
+        return <RoomLink roomId={this.state.roomId}/>
     }
 
 
@@ -320,6 +322,7 @@ class Choices extends React.Component {
                 handleUndoClicked={this.handleUndoClicked}
                 handleGoToNextVoting={this.handleGoToNextVoting}
                 progress={this.getProgress()}
+                selectedSide={this.state.selectedSide}
             />
         )
     }

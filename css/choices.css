@@ -36,6 +36,11 @@
   background-color: #4a90e2;
   color: white;
 }
+
+.container__card-selected {
+  border: 5px solid #4a90e2;
+}
+
 .container__choose-card {
   display: flex;
   flex-direction: row;
