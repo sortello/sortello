@@ -76,6 +76,7 @@ class StyleguideApp extends React.Component {
                 handleGoToNextVoting={() => {
                 }}
                 progress={75}
+                selectedSide={'compareNode'}
             />
         )
     }
@@ -98,7 +99,7 @@ class StyleguideApp extends React.Component {
                 handleGoToNextVoting={() => {
                 }}
                 progress={60}
-                selectedSide={'compareNode'}
+                selectedSide={null}
             />
         )
     }

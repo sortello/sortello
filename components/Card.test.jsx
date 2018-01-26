@@ -57,10 +57,10 @@ describe("Card", () => {
       handleCardClicked: () => {
       },
     };
-    let shallowChoices = card(props)
+    let wrapper = card(props)
 
-    expect(shallowChoices.find('CardVoters').exists()).toEqual(false);
-    expect(shallowChoices.find('CardButtons').props().continueButton).toEqual(null)
+    expect(wrapper.find('CardVoters').exists()).toEqual(false);
+    expect(wrapper.find('.card-button__continue').exists()).toEqual(false)
 
   })
 
@@ -98,10 +98,10 @@ describe("Card", () => {
       handleCardClicked: () => {
       },
     };
-    let shallowChoices = card(props)
+    let wrapper = card(props)
 
-    expect(shallowChoices.find('CardVoters').exists()).toEqual(true);
-    expect(shallowChoices.find('CardVoters').props().voters).toEqual(props.voters)
-    expect(shallowChoices.find('CardButtons').props().continueButton).not.toBe(null)
+    expect(wrapper.find('CardVoters').exists()).toEqual(true);
+    expect(wrapper.find('CardVoters').props().voters).toEqual(props.voters)
+    expect(wrapper.find('CardButtons').props().continueButton).not.toBe(null)
   })
 })
