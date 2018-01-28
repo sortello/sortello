@@ -90,7 +90,7 @@ class Results extends React.Component {
                     <i className="fa fa-trello"></i>&nbsp;
                     Check your Trello board
                 </a>
-                <a href="/" className={"button__primary button__text prioritize-again__button"}>
+                <a href="/app.html" className={"button__primary button__text prioritize-again__button"}>
                     <i className="fa fa-repeat"></i>&nbsp;
                     Prioritize another list
                 </a>
