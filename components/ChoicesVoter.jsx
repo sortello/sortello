@@ -31,7 +31,8 @@ class Choices extends React.Component {
             voters: {left: [], right: []},
             hasVoted: false,
             hasBoardPermissions: false,
-            selectedSide: null
+            selectedSide: null,
+            roomVoters: []
         }
         if (params.roomKey !== undefined) {
             this.setUpRoom(component);
@@ -71,6 +72,12 @@ class Choices extends React.Component {
                 rightCard: rightCard,
                 hasVoted: false,
                 selectedSide: null
+            })
+        })
+
+        socket.on('roomVotersUpdated', function (roomVoters) {
+            component.setState({
+                roomVoters: roomVoters
             })
         })
 
@@ -137,7 +144,7 @@ class Choices extends React.Component {
         }
         return (
             <ChoicesView
-                roomVoters={[]}
+                roomVoters={this.state.roomVoters}
                 leftCard={this.state.leftCard}
                 rightCard={this.state.rightCard}
                 everybodyVoted={this.state.voters.left.length + this.state.voters.right.length > 0}

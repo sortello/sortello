@@ -72,7 +72,6 @@ class ChoicesView extends React.Component {
                 {this.props.newRoomButton}
                 {this.props.roomLink}
                 <Avatars users={this.props.roomVoters}/>
-
             </div>
         )
     }

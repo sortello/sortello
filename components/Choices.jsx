@@ -165,6 +165,8 @@ class Choices extends React.Component {
         newVoters.splice(index, 1); //remove element
         component.setState({
             roomVoters: newVoters
+        }, () => {
+            component.room.castRoomVoters(this.getAllRoomVoters())
         })
     }
 
@@ -176,6 +178,8 @@ class Choices extends React.Component {
         let voters = component.state.roomVoters.concat({id: voterId, avatar: trelloAvatar});
         component.setState({
             roomVoters: voters
+        }, () => {
+            component.room.castRoomVoters(this.getAllRoomVoters())
         })
     }
 
@@ -212,6 +216,7 @@ class Choices extends React.Component {
                 }
                 if (this.room) {
                     this.room.castNextChoice(this.state.leftCard, this.state.rightCard)
+                    this.room.castRoomVoters(this.state.roomVoters)
                 }
             });
         }
