@@ -42,6 +42,7 @@ class Choices extends React.Component {
         this.addVoteToVoters = this.addVoteToVoters.bind(this)
         this.getTrelloUserData(this);
         this.getAllRoomVoters = this.getAllRoomVoters.bind(this)
+        this.castRoomVoters = this. castRoomVoters.bind(this)
         this.room = false;
         this.state = {
             leftCard: null,
@@ -153,6 +154,10 @@ class Choices extends React.Component {
         }
     }
 
+    castRoomVoters () {
+        this.room.castRoomVoters(this.getAllRoomVoters())
+    }
+
     removeVoter (voterId) {
         let component = this
         if (find(component.state.roomVoters, {'id': voterId}) === undefined) {
@@ -166,7 +171,7 @@ class Choices extends React.Component {
         component.setState({
             roomVoters: newVoters
         }, () => {
-            component.room.castRoomVoters(this.getAllRoomVoters())
+            component.castRoomVoters()
         })
     }
 
@@ -179,7 +184,7 @@ class Choices extends React.Component {
         component.setState({
             roomVoters: voters
         }, () => {
-            component.room.castRoomVoters(this.getAllRoomVoters())
+            component.castRoomVoters()
         })
     }
 
@@ -216,7 +221,6 @@ class Choices extends React.Component {
                 }
                 if (this.room) {
                     this.room.castNextChoice(this.state.leftCard, this.state.rightCard)
-                    this.room.castRoomVoters(this.state.roomVoters)
                 }
             });
         }
