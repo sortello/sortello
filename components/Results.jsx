@@ -5,6 +5,7 @@ import AlmostDoneAnimation from './AlmostDoneAnimation.jsx';
 import Recap from './Recap.jsx';
 import SuccessAnimation from './SuccessAnimation.jsx';
 import Footer from "./Footer.jsx"
+import TrelloApi from "../api/TrelloApi.js"
 
 function openOverlay () {
     document.getElementById('recap-overlay').style.height = "100%";
@@ -59,8 +60,8 @@ class Results extends React.Component {
                 eventLabel: this.state.duration
             });
         }
-        let Trello = this.props.Trello;
-
+        // let Trello = this.props.Trello;
+        let BoardApi = new TrelloApi()
         let nextCardIndex = 0;
 
         function placeNextCard () {
@@ -68,7 +69,7 @@ class Results extends React.Component {
                 showUploadDone();
                 return;
             }
-            Trello.put('/cards/' + reorderedNodes[nextCardIndex].value.id, {pos: 'top'}, placeNextCard, restart);
+            BoardApi.putCards(reorderedNodes[nextCardIndex].value.id, 'top', placeNextCard, restart)
             nextCardIndex++;
         }
 

@@ -5,6 +5,7 @@ import queryString from 'query-string';
 import PrioritizationEnd from './PrioritizationEnd.jsx'
 import Room from '../model/Room.js'
 import ChoicesView from './view/ChoicesView.jsx'
+import TrelloApi from '../api/TrelloApi.js'
 
 let socket = false;
 if (typeof socketAddress !== 'undefined') {
@@ -43,6 +44,7 @@ class Choices extends React.Component {
     }
 
     setUpSocket (component) {
+
         socket.on('votesInfo', function (leftVoters, rightVoters) {
             component.setState({
                 voters: {
@@ -53,7 +55,8 @@ class Choices extends React.Component {
         })
 
         socket.on('castBoardIdToVoters', function (boardId) {
-            component.Trello.boards.get(boardId, function () {
+            let BoardApi = new TrelloApi()
+            BoardApi.getBoard(boardId, function () {
                 component.setState({
                     hasBoardPermissions: true
                 })
@@ -89,11 +92,12 @@ class Choices extends React.Component {
     }
 
     setUpRoom (component) {
+        let BoardApi = new TrelloApi()
         component.state.roomId = params.roomKey
         if (socket) {
             component.room = new Room(socket, params.roomKey);
             socket.on('connect', function () {
-                component.props.Trello.members.get('me', {}, function (data) {
+                BoardApi.get('me', {}, function (data) {
                     component.trelloId = data.id
                     component.trelloAvatar = '//trello-avatars.s3.amazonaws.com/' + data.avatarHash + '/50.png'
                     if (data.avatarHash === null) {
