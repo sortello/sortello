@@ -42,11 +42,16 @@
        class="chrome-desktop hero__button">
         <div class="button__primary button__text">Get the extension</div>
     </a>
+    <a target="_blank"
+       href="https://addons.mozilla.org/it/firefox/addon/sortello-extension/"
+       class="firefox-desktop hero__button">
+        <div class="button__primary button__text">Get the extension</div>
+    </a>
     <a href="/app.html"
        class="other-desktop mobile-other hero__button">
         <div class="button__primary button__text">Try Sortello!</div>
     </a>
-    <a href="/app.html" class="chrome-desktop hero__link">
+    <a href="/app.html" class="chrome-desktop firefox-desktop hero__link">
         <div class="hero__suggestion-button">or try it here!</div>
     </a>
 </div>
@@ -139,6 +144,11 @@
        class="chrome-desktop pricing__button">
         <div class="button__primary button__text">Get the extension</div>
     </a>
+    <a target="_blank"
+       href="https://addons.mozilla.org/it/firefox/addon/sortello-extension/"
+       class="firefox-desktop pricing__button">
+        <div class="button__primary button__text">Get the extension</div>
+    </a>
     <a href="/app.html"
        class="other-desktop mobile-other pricing__button">
         <div class="button__primary button__text">Get started</div>
@@ -173,6 +183,9 @@
     }
     else if (/Chrome/i.test(ua)) {
       $('.chrome-desktop').show();
+    }
+    else if (/Firefox/i.test(ua)) {
+        $('.firefox-desktop').show();
     }
     else {
       $('.other-desktop').show();

@@ -247,6 +247,6 @@ body {
     text-decoration: underline;
 }
 
- .chrome-desktop, .other-desktop, .mobile-other{
+ .chrome-desktop, .other-desktop, .mobile-other, .firefox-desktop{
      display: none;
  }
