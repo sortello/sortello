@@ -38,7 +38,7 @@ class ColumnSelection extends React.Component {
 
         if (params.extId !== undefined) {
             component.setState({fromExtension: true});
-            component.props.Trello.cards.get(params.extId, null, function (card) {
+            component.props.Trello.cards.get(this.cleanForFirefoxAddon(params.extId), null, function (card) {
                 component.retrieveCardsByListId(card.idList)
             });
         }
@@ -47,6 +47,10 @@ class ColumnSelection extends React.Component {
             return;
         }
         this.getBoards(Trello)
+    }
+
+    cleanForFirefoxAddon(str){
+        return str.replace('#','');
     }
 
     getBoards (Trello) {
