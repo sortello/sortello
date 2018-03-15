@@ -6,6 +6,7 @@ import ListSelector from './ListSelector.jsx'
 import LabelSelector from './LabelSelector.jsx'
 import queryString from "query-string";
 import Footer from "./Footer.jsx"
+import TrelloApi from "../api/TrelloApi.js"
 
 class ColumnSelection extends React.Component {
     constructor (props) {
@@ -30,6 +31,7 @@ class ColumnSelection extends React.Component {
 
     componentDidMount () {
         let component = this;
+        let BoardApi = new TrelloApi();
         const params = queryString.parse(location.search);
 
         if (params.boardId !== undefined && params.listName !== undefined) {
@@ -38,9 +40,12 @@ class ColumnSelection extends React.Component {
 
         if (params.extId !== undefined) {
             component.setState({fromExtension: true});
-            component.props.Trello.cards.get(this.cleanForFirefoxAddon(params.extId), null, function (card) {
+            BoardApi.getCards(params.extId,null,function (card){
                 component.retrieveCardsByListId(card.idList)
-            });
+            })
+            /*component.props.Trello.cards.get(params.extId, null, function (card) {
+                component.retrieveCardsByListId(card.idList)
+            });*/
         }
 
         if (this.state.organizations.length > 0) {
@@ -55,7 +60,8 @@ class ColumnSelection extends React.Component {
 
     getBoards (Trello) {
         let component = this
-        Trello.members.get('me', {
+        let BoardApi = new TrelloApi();
+        BoardApi.getMembers('me', {
             organizations: "all",
             organization_fields: "all",
             boards: "open",
@@ -84,6 +90,35 @@ class ColumnSelection extends React.Component {
         }, function (e) {
             console.log(e);
         });
+        /*Trello.members.get('me', {
+            organizations: "all",
+            organization_fields: "all",
+            boards: "open",
+            board_lists: "open"
+        }, function (data) {
+            let boardGroups = [];
+            let boards = data.boards;
+            let organizations = data.organizations;
+            for (let i = 0; i < boards.length; i++) {
+                let organization = find(organizations, {'id': boards[i].idOrganization});
+                let groupName = "Other";
+                if (organization !== undefined) {
+                    groupName = organization.displayName;
+                }
+                if (!boardGroups[groupName]) {
+                    boardGroups[groupName] = [];
+                }
+                boardGroups[groupName].push(boards[i]);
+            }
+            component.setState({
+                boards: boards,
+                groupedboards: boardGroups,
+                organizations: organizations
+            })
+
+        }, function (e) {
+            console.log(e);
+        });*/
     }
 
     labelSelected (labelId) {
@@ -100,7 +135,8 @@ class ColumnSelection extends React.Component {
     retrieveCardsByListId (listId) {
         let that = this;
         let labels = [];
-        this.props.Trello.lists.get(listId, {cards: "open"}, function (data) {
+        let BoardApi = new TrelloApi();
+        BoardApi.getLists(listId, {cards: "open"}, function (data) {
             let listCards = data.cards;
             that.setState({
                 listCards: listCards
@@ -123,6 +159,29 @@ class ColumnSelection extends React.Component {
         }, function (e) {
             console.log(e);
         });
+        /*this.props.Trello.lists.get(listId, {cards: "open"}, function (data) {
+            let listCards = data.cards;
+            that.setState({
+                listCards: listCards
+            });
+            listCards.forEach(function (card) {
+                card.labels.forEach(function (label) {
+                    if (find(labels, {'id': label.id}) === undefined) {
+                        labels.push(label);
+                    }
+                });
+            })
+            that.setState({
+                labels: labels,
+                boardId: data.idBoard
+            }, function () {
+                if (this.state.labels.length === 0) {
+                    that.labelSelected(0)
+                }
+            });
+        }, function (e) {
+            console.log(e);
+        });*/
     }
 
     getBoardColumns (board) {

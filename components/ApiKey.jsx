@@ -1,4 +1,5 @@
 import React from "react"
+import TrelloApi from "../api/TrelloApi.js"
 
 let LOCAL_STORAGE_KEY = "sortelloTrelloDevApiKey";
 
@@ -42,9 +43,23 @@ class ApiKey extends React.Component{
   handleStartButtonClick () {
     this.authenticateTrello(localStorage.getItem(LOCAL_STORAGE_KEY));
   }
+
   authenticateTrello (apiKey) {
     var that = this;
-    this.props.Trello.setKey(apiKey);
+    let BoardApi = new TrelloApi();
+    BoardApi.setKey(apiKey);
+    BoardApi.authorize({type: 'popup',
+      name: 'Sortello',
+      scope: {
+      read: 'true',
+      write: 'true'
+    },
+      expiration: 'never',
+      success: that.authenticationSuccess,
+      error: that.authenticationFailure
+    });
+  
+    /*this.props.Trello.setKey(apiKey);
     this.props.Trello.authorize({
       type: 'popup',
       name: 'Sortello',
@@ -55,7 +70,7 @@ class ApiKey extends React.Component{
       expiration: 'never',
       success: that.authenticationSuccess,
       error: that.authenticationFailure
-    });
+    });*/
   }
   authenticationSuccess () {
     this.props.onAuthentication();
