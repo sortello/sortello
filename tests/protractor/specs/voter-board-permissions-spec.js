@@ -9,7 +9,7 @@ describe('cannot vote if cannot access to board', function () {
   afterEach(function () {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
   });
-  it('prioritizes a list in ascending order with 1 host and 2 guests', function (done) {
+  it('cannot vote if does not have access to board', function (done) {
 
     browser.ignoreSynchronization = true;
     browser.driver.manage().window().setSize(840, 1032);
@@ -49,7 +49,7 @@ describe('cannot vote if cannot access to board', function () {
                     done()
                   })
                 })
-
+              //
               })
             })
           })

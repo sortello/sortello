@@ -97,7 +97,7 @@ class Choices extends React.Component {
         if (socket) {
             component.room = new Room(socket, params.roomKey);
             socket.on('connect', function () {
-                BoardApi.get('me', {}, function (data) {
+                BoardApi.getMembers('me', {}, function (data) {
                     component.trelloId = data.id
                     component.trelloAvatar = '//trello-avatars.s3.amazonaws.com/' + data.avatarHash + '/50.png'
                     if (data.avatarHash === null) {

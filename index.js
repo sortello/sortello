@@ -24,8 +24,5 @@ require("./css/responsive/send-ordered__responsive.css");
 require("./css/recap.css");
 require("./css/responsive/recap__responsive.css");
 
-
-
-
 const containerEl = document.getElementById("container")
 render(<App/>, containerEl)
