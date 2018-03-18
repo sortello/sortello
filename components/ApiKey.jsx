@@ -58,19 +58,7 @@ class ApiKey extends React.Component{
       success: that.authenticationSuccess,
       error: that.authenticationFailure
     });
-  
-    /*this.props.Trello.setKey(apiKey);
-    this.props.Trello.authorize({
-      type: 'popup',
-      name: 'Sortello',
-      scope: {
-        read: 'true',
-        write: 'true'
-      },
-      expiration: 'never',
-      success: that.authenticationSuccess,
-      error: that.authenticationFailure
-    });*/
+
   }
   authenticationSuccess () {
     this.props.onAuthentication();
