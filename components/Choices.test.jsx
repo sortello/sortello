@@ -1,6 +1,7 @@
 import React from "react";
 import {shallow} from 'enzyme';
 import Choices from "./Choices";
+import TrelloApi from "../Api/TrelloApi"
 
 describe("Choices", () => {
     let props;
@@ -15,20 +16,11 @@ describe("Choices", () => {
     }
 
     beforeEach(() => {
-        jest.mock(
-            '../trello',
-            () => {
-                return {
-                    members: {
-                        get: jest.fn(() => 42)
-                    }
-                };
-            },
-            {virtual: true},
-        );
-        const trello = require('../trello')
+        const BoardApi = new TrelloApi();
+        spyOn(BoardApi, 'getMembers').and.returnValue(Promise.resolve(42))
+
         props = {
-            Trello: trello,
+            BoardApi: BoardApi,
             setSortedRootNode: null,
             setStartTimeStamp: null,
             nodes: [],
@@ -38,7 +30,6 @@ describe("Choices", () => {
     });
 
     it("adds and removes voters", () => {
-
         wrapper().instance().castRoomVoters = jest.fn();
         wrapper().instance().addVoter('voter1', '')
         wrapper().instance().addVoter('voter2', '')

@@ -6,7 +6,6 @@ import ListSelector from './ListSelector.jsx'
 import LabelSelector from './LabelSelector.jsx'
 import queryString from "query-string";
 import Footer from "./Footer.jsx"
-import TrelloApi from "../api/TrelloApi.js"
 
 class ColumnSelection extends React.Component {
     constructor (props) {
@@ -30,9 +29,9 @@ class ColumnSelection extends React.Component {
     }
 
     componentDidMount () {
-        let component = this;
-        let BoardApi = new TrelloApi();
-        const params = queryString.parse(location.search);
+        let component = this
+        let BoardApi = this.props.BoardApi
+        const params = queryString.parse(location.search)
 
         if (params.boardId !== undefined && params.listName !== undefined) {
             alert("Looks like you are using and outdated version of the Sortello Chrome Extension, please update. Thank you!");
@@ -53,7 +52,7 @@ class ColumnSelection extends React.Component {
 
     getBoards () {
         let component = this
-        let BoardApi = new TrelloApi();
+        let BoardApi = this.props.BoardApi
         BoardApi.getMembers('me', {
             organizations: "all",
             organization_fields: "all",
@@ -99,7 +98,7 @@ class ColumnSelection extends React.Component {
     retrieveCardsByListId (listId) {
         let that = this;
         let labels = [];
-        let BoardApi = new TrelloApi();
+        let BoardApi = this.props.BoardApi
         BoardApi.getLists(listId, {cards: "open"}, function (data) {
             let listCards = data.cards;
             that.setState({

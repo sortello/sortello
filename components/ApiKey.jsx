@@ -1,5 +1,4 @@
 import React from "react"
-import TrelloApi from "../api/TrelloApi.js"
 
 let LOCAL_STORAGE_KEY = "sortelloTrelloDevApiKey";
 
@@ -46,7 +45,7 @@ class ApiKey extends React.Component{
 
   authenticateTrello (apiKey) {
     var that = this;
-    let BoardApi = new TrelloApi();
+    let BoardApi = this.props.BoardApi;
     BoardApi.setKey(apiKey);
     BoardApi.authorize({type: 'popup',
       name: 'Sortello',

@@ -72,7 +72,7 @@ describe('dotvoting', function () {
                 let rightCard = browser1.element(by.css('#right_button .card__title'));
                 browser1.wait(EC.and(EC.presenceOf(leftContinue), EC.presenceOf(rightContinue)), 20000).then(function () {
                   browser1.wait(EC.and(EC.presenceOf(leftCard), EC.presenceOf(rightCard)), 20000).then(function () {
-                    browser2.element.all(by.css(".card__voters .card__voter")).count().then(function (visibleVotesCount) {
+                    browser2.element.all(by.css(".room__voters .card__voter")).count().then(function (visibleVotesCount) {
                       expect(visibleVotesCount).toEqual(3);
                       leftCard.getText().then(function (leftValue) {
                         rightCard.getText().then(function (rightValue) {

@@ -5,7 +5,6 @@ import queryString from 'query-string';
 import PrioritizationEnd from './PrioritizationEnd.jsx'
 import Room from '../model/Room.js'
 import ChoicesView from './view/ChoicesView.jsx'
-import TrelloApi from '../api/TrelloApi.js'
 
 let socket = false;
 if (typeof socketAddress !== 'undefined') {
@@ -21,7 +20,7 @@ class Choices extends React.Component {
         super(props);
         let component = this
         this.handleCardClicked = this.handleCardClicked.bind(this)
-        this.Trello = this.props.Trello
+        this.BoardApi = this.props.BoardApi
         this.renderForbidden = this.renderForbidden.bind(this)
         this.renderLoading = this.renderLoading.bind(this)
         this.room = false;
@@ -55,8 +54,7 @@ class Choices extends React.Component {
         })
 
         socket.on('castBoardIdToVoters', function (boardId) {
-            let BoardApi = new TrelloApi()
-            BoardApi.getBoard(boardId, function () {
+            component.BoardApi.getBoard(boardId, function () {
                 component.setState({
                     hasBoardPermissions: true
                 })
@@ -92,12 +90,11 @@ class Choices extends React.Component {
     }
 
     setUpRoom (component) {
-        let BoardApi = new TrelloApi()
         component.state.roomId = params.roomKey
         if (socket) {
             component.room = new Room(socket, params.roomKey);
             socket.on('connect', function () {
-                BoardApi.getMembers('me', {}, function (data) {
+                component.BoardApi.getMembers('me', {}, function (data) {
                     component.trelloId = data.id
                     component.trelloAvatar = '//trello-avatars.s3.amazonaws.com/' + data.avatarHash + '/50.png'
                     if (data.avatarHash === null) {

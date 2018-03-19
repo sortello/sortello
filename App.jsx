@@ -6,12 +6,13 @@ import ChoicesVoter from "./components/ChoicesVoter.jsx"
 import Results from "./components/Results.jsx"
 import treeNodeFactory from "./model/treeNodeFactory"
 import queryString from "query-string"
+import TrelloApi from "./api/TrelloApi";
 
 class App extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
-            Trello: Trello,
+            BoardApi: new TrelloApi(),
             nodes: Array(),
             rootNode: null,
             currentView: 1,
@@ -80,16 +81,16 @@ class App extends React.Component {
     }
 
     renderApiKeyForm () {
-        return <ApiKey Trello={this.state.Trello} onAuthentication={this.handleAuthentication}/>
+        return <ApiKey BoardApi={this.state.BoardApi} onAuthentication={this.handleAuthentication}/>
     }
 
     renderColumnSelection () {
-        return <ColumnSelection Trello={this.state.Trello} handleCards={this.handleCards}/>
+        return <ColumnSelection BoardApi={this.state.BoardApi} handleCards={this.handleCards}/>
     }
 
     renderChoicesVoter () {
         return (
-            <ChoicesVoter Trello={this.state.Trello}
+            <ChoicesVoter BoardApi={this.state.BoardApi}
                           ref="choicesVoter" setSortedRootNode={this.setSortedRootNode}
                           setStartTimeStamp={this.setStartTimeStamp}
                           nodes={this.state.nodes}
@@ -99,7 +100,7 @@ class App extends React.Component {
 
     renderChoices () {
         return (
-            <Choices Trello={this.state.Trello}
+            <Choices BoardApi={this.state.BoardApi}
                      ref="choices" setSortedRootNode={this.setSortedRootNode}
                      setStartTimeStamp={this.setStartTimeStamp}
                      nodes={this.state.nodes}
@@ -110,7 +111,7 @@ class App extends React.Component {
 
     renderResults () {
         return (
-            <Results rootNode={this.state.rootNode} Trello={this.state.Trello}
+            <Results rootNode={this.state.rootNode} BoardApi={this.state.BoardApi}
                      startTimeStamp={this.state.startTimeStamp}/>
         )
     }

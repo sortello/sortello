@@ -9,7 +9,6 @@ import {remove} from "lodash"
 import Room from "../model/Room.js"
 import ChoicesView from './view/ChoicesView.jsx'
 import RoomLink from './RoomLink.jsx'
-import TrelloApi from '../api/TrelloApi.js'
 
 let socket = false;
 if (typeof socketAddress !== 'undefined') {
@@ -43,7 +42,7 @@ class Choices extends React.Component {
         this.addVoteToVoters = this.addVoteToVoters.bind(this)
         this.getTrelloUserData(this);
         this.getAllRoomVoters = this.getAllRoomVoters.bind(this)
-        this.castRoomVoters = this. castRoomVoters.bind(this)
+        this.castRoomVoters = this.castRoomVoters.bind(this)
         this.room = false;
         this.state = {
             leftCard: null,
@@ -57,8 +56,7 @@ class Choices extends React.Component {
     }
 
     getTrelloUserData (component) {
-        let BoardApi = new TrelloApi()
-        BoardApi.getMembers('me', {}, function (data) {
+        this.props.BoardApi.getMembers('me', {}, function (data) {
             component.trelloId = data.id
             component.trelloAvatar = '//trello-avatars.s3.amazonaws.com/' + data.avatarHash + '/50.png'
             if (data.avatarHash === null) {
