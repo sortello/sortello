@@ -1,5 +1,5 @@
 import React from "react"
-import ApiKey from "./components/ApiKey.jsx"
+import Authentication from "./components/Authentication.jsx"
 import ColumnSelection from "./components/ColumnSelection.jsx"
 import Choices from "./components/Choices.jsx"
 import ChoicesVoter from "./components/ChoicesVoter.jsx"
@@ -16,7 +16,7 @@ class App extends React.Component {
             nodes: Array(),
             rootNode: null,
             currentView: 1,
-            startTimeStamp: null,// 1-ApiKey 2-ColumnSelect 3-Choices 4-SendDataToServer
+            startTimeStamp: null,// 1-Authentication 2-ColumnSelect 3-Choices 4-SendDataToServer
             boardId: null
         };
         this.getCurrentView = this.getCurrentView.bind(this)
@@ -80,8 +80,8 @@ class App extends React.Component {
         })
     }
 
-    renderApiKeyForm () {
-        return <ApiKey BoardApi={this.state.BoardApi} onAuthentication={this.handleAuthentication}/>
+    renderAuthenticationForm () {
+        return <Authentication BoardApi={this.state.BoardApi} onAuthentication={this.handleAuthentication}/>
     }
 
     renderColumnSelection () {
@@ -123,7 +123,7 @@ class App extends React.Component {
     getCurrentView () {
         switch (this.state.currentView) {
             case 1:
-                return this.renderApiKeyForm()
+                return this.renderAuthenticationForm()
             case 2:
                 return this.renderColumnSelection()
             case 3:

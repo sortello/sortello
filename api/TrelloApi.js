@@ -28,6 +28,20 @@ class TrelloApi {
         Trello.authorize(params,expiration,success,error);
     }
 
+    authenticate (apiKey,onAuthenticationSuccess){
+        var component = this;
+        component.setKey(apiKey);
+        component.authorize({type: 'popup',
+        name: 'Sortello',
+        scope: {
+        read: 'true',
+        write: 'true'
+        },
+        expiration: 'never',
+        success: onAuthenticationSuccess,
+        error: console.log("Failed authentication")
+        });
+    }
 }
 
 export default TrelloApi;

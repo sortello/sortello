@@ -1,13 +1,6 @@
 module.exports.accessFromChromeExtension = function () {
   browser.get('/app.html?extId=' + (process.env.TEST_TRELLO_EXTID || browser.params.testTrelloExtId));
-  let EC = protractor.ExpectedConditions;
-  let continueButton = element(by.css('.continue-to-choices--button'));
-  browser.wait(EC.visibilityOf(continueButton), 2500).then(function () {
     let EC = protractor.ExpectedConditions;
-    let continueButton = element(by.css('.continue-to-choices--button'));
-    browser.wait(EC.visibilityOf(continueButton), 10000);
-    browser.actions().mouseMove(continueButton).click().perform();
-    browser.driver.sleep(1000);
     protractor.selectWindow.selectWindow(1, browser);
     EC = protractor.ExpectedConditions;
 
@@ -31,8 +24,5 @@ module.exports.accessFromChromeExtension = function () {
       browser.actions().mouseMove(approveButton).click().perform();
       protractor.selectWindow.selectWindow(0, browser);
     });
-  }, function () {
-    return;
-  });
   return;
 }

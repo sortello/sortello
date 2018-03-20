@@ -5,6 +5,7 @@ import ChoicesVoter from "./components/ChoicesVoter.jsx"
 import loremIpsum from 'lorem-ipsum'
 import RoomLink from './components/RoomLink.jsx'
 import SendToBottomButton from "./components/SendToBottomButton.jsx";
+import Authentication from "./components/Authentication.jsx";
 
 const randomColor = () => {
     return ['red', 'green', 'blue', 'yellow'][randInt(0, 3)]
@@ -122,6 +123,9 @@ class StyleguideApp extends React.Component {
                 <hr/>
                 <h2>Bottone</h2>
                 <SendToBottomButton/>
+                <h2> View for Authentication </h2>
+                <Authentication/>
+                <hr/>
             </div>
         )
     }
