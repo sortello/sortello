@@ -6,7 +6,7 @@ describe('sort list', function () {
     browser.ignoreSynchronization = true;
     protractor.simpleAccessFromChromeExtension.accessFromChromeExtension()
     let EC = protractor.ExpectedConditions;
-return;
+
     function nextChoice () {
       let leftCard = element(by.css('#left_button .card__title'));
       let rightCard = element(by.css('#right_button .card__title'));
