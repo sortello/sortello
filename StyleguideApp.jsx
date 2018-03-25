@@ -14,6 +14,7 @@ const randomColor = () => {
 const randInt = (min, max) => {
     return (Math.floor(Math.random() * ((max + 1) - min)) + min)
 }
+const trelloApiKey = "";
 
 const createCardData = () => {
     return {
@@ -124,11 +125,12 @@ class StyleguideApp extends React.Component {
                 <h2>Bottone</h2>
                 <SendToBottomButton/>
                 <h2> View for Authentication </h2>
-                <Authentication/>
+                <Authentication BoardApi ={TrelloApi}/>
                 <hr/>
             </div>
         )
     }
 }
 
+const TrelloApi = {authenticate: () => {}};
 export default StyleguideApp
