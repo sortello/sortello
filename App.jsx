@@ -32,7 +32,6 @@ class App extends React.Component {
         jQuery('.choice_button .card_link').click(function (e) {
             e.stopPropagation();
         });
-
     }
 
     handleAuthentication () {

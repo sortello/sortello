@@ -28,9 +28,9 @@ class TrelloApi {
         Trello.authorize(params,expiration,success,error);
     }
 
-    authenticate (apiKey,onAuthenticationSuccess){
+    authenticate (onAuthenticationSuccess){
         var component = this;
-        component.setKey(apiKey);
+        component.setKey(trelloApiKey); // from parameters.js
         component.authorize({type: 'popup',
         name: 'Sortello',
         scope: {
