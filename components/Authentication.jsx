@@ -21,6 +21,9 @@ class Authentication extends React.Component{
             <div className="centered-logo">
               <Logo/>
               <div className="api-key__claim">Prioritize your Trello's board in just a few steps</div>
+              <button className="continue-to-choices--button button__primary button__text" onClick={() => this.handleStartButtonClick()}>Authorize Sortello and
+                let's start!
+              </button>
             <a href="/landing.html"><div className="button__suggestion">Want to learn more about sortello?</div></a>
             </div>
           </div>
