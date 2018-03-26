@@ -31,15 +31,9 @@ class ColumnSelection extends React.Component {
     componentDidMount () {
         let component = this
         let BoardApi = this.props.BoardApi
-        const params = queryString.parse(location.search)
 
-        if (params.boardId !== undefined && params.listName !== undefined) {
-            alert("Looks like you are using and outdated version of the Sortello Chrome Extension, please update. Thank you!");
-        }
-
-        if (params.extId !== undefined) {
-            component.setState({fromExtension: true});
-            BoardApi.getCards(params.extId,null,function (card){
+        if (component.props.fromExtension !== undefined) {
+            BoardApi.getCards(component.props.extId,null,function (card){
                 component.retrieveCardsByListId(card.idList)
             })
         }
@@ -145,7 +139,7 @@ class ColumnSelection extends React.Component {
     }
 
     renderBoardSelector () {
-        if (this.state.fromExtension === true) {
+        if (this.props.fromExtension === true) {
             return ""
         }
         return <BoardSelector groupedboards={this.state.groupedboards}
@@ -153,7 +147,7 @@ class ColumnSelection extends React.Component {
     }
 
     renderListSelector () {
-        if (this.state.lists.length === 0 || this.state.fromExtension === true) {
+        if (this.state.lists.length === 0 || this.props.fromExtension === true) {
             return ""
         }
         return <p><ListSelector lists={this.state.lists}
@@ -174,7 +168,7 @@ class ColumnSelection extends React.Component {
                     <div className="selection__container selection__container--animation">
                         <div className="select-list--text-container selection__heading">
                             {
-                                (this.state.fromExtension === true) ?
+                                (this.props.fromExtension === true) ?
                                     "Filter by label, or select All" :
                                     "First of all, select the board you want to prioritize"
                             }

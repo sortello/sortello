@@ -50,7 +50,7 @@ describe('sort list asc', function () {
             browser.driver.sleep(1000);
             updateBoardButton = element(by.id('update_board'));
             browser.wait(EC.visibilityOf(updateBoardButton), 20000).then(function () {
-              updateBoardButton.click();
+                browser.actions().mouseMove(updateBoardButton).click().perform();
             });
 
           });

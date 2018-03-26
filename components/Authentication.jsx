@@ -16,9 +16,10 @@ class Authentication extends React.Component {
                 <div className="wrapper__api-key">
                     <div className="centered-logo">
                         <Logo/>
-                        <div className="api-key__claim">Prioritize your Trello's board in just a few steps</div>
+                        <div className="api-key__claim">Prioritize your {this.props.fromExtension!==null? this.props.fromExtension+"'s " : ""}
+                             board in just a few steps</div>
                         <button className="continue-to-choices--button button__primary button__text"
-                                onClick={() => this.handleStartButtonClick()}>Authorize Sortello and
+                                onClick={() => this.handleStartButtonClick()}>Authorize {this.props.fromExtension} and
                             let's start!
                         </button>
                         <a href="/landing.html">

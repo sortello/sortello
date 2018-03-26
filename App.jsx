@@ -17,7 +17,9 @@ class App extends React.Component {
             rootNode: null,
             currentView: 1,
             startTimeStamp: null,// 1-Authentication 2-ColumnSelect 3-Choices 4-SendDataToServer
-            boardId: null
+            boardId: null,
+            fromExtension: null,
+            extId:null
         };
         this.getCurrentView = this.getCurrentView.bind(this)
         this.setStartTimeStamp = this.setStartTimeStamp.bind(this)
@@ -32,6 +34,18 @@ class App extends React.Component {
         jQuery('.choice_button .card_link').click(function (e) {
             e.stopPropagation();
         });
+
+        const params = queryString.parse(location.search);
+        if(params.extId!==undefined) {
+            this.setState({
+                fromExtension: params.fw === "g" ? "Github" : "Trello",
+                extId: params.extId
+                /*BoardApi : params.fw==="g"? new GithubApi() : new TrelloApi()"*/
+            })
+        }
+        if (params.boardId !== undefined && params.listName !== undefined) {
+            alert("Looks like you are using and outdated version of the Sortello Chrome Extension, please update. Thank you!");
+        }
     }
 
     handleAuthentication () {
@@ -45,7 +59,7 @@ class App extends React.Component {
         } else {
             this.setState({
                 currentView: 2
-            });
+            })
         }
     }
 
@@ -80,11 +94,14 @@ class App extends React.Component {
     }
 
     renderAuthenticationForm () {
-        return <Authentication BoardApi={this.state.BoardApi} onAuthentication={this.handleAuthentication}/>
+        return <Authentication BoardApi={this.state.BoardApi} onAuthentication={this.handleAuthentication}
+                                fromExtension={this.state.fromExtension}/>
     }
 
     renderColumnSelection () {
-        return <ColumnSelection BoardApi={this.state.BoardApi} handleCards={this.handleCards}/>
+        return <ColumnSelection BoardApi={this.state.BoardApi} handleCards={this.handleCards}
+                                fromExtension={this.state.fromExtension}
+                                extId={this.state.extId}/>
     }
 
     renderChoicesVoter () {

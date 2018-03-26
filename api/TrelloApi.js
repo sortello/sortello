@@ -13,7 +13,7 @@ class TrelloApi {
     }
 
     getCards (extId,variable,success){
-        Trello.cards.get(extId,variable,success);
+        Trello.cards.get(extId, variable, success);
     }
 
     getLists (listId, cards, success,error){
