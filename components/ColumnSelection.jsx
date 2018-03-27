@@ -139,7 +139,7 @@ class ColumnSelection extends React.Component {
     }
 
     renderBoardSelector () {
-        if (this.props.fromExtension === true) {
+        if (this.props.fromExtension !== null) {
             return ""
         }
         return <BoardSelector groupedboards={this.state.groupedboards}
@@ -147,7 +147,7 @@ class ColumnSelection extends React.Component {
     }
 
     renderListSelector () {
-        if (this.state.lists.length === 0 || this.props.fromExtension === true) {
+        if (this.state.lists.length === 0 || this.props.fromExtension !== null) {
             return ""
         }
         return <p><ListSelector lists={this.state.lists}

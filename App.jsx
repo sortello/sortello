@@ -35,7 +35,7 @@ class App extends React.Component {
             e.stopPropagation();
         });
 
-        const params = queryString.parse(location.search);
+        const params =  queryString.parse(location.search);
         if(params.extId!==undefined) {
             this.setState({
                 fromExtension: params.fw === "g" ? "Github" : "Trello",

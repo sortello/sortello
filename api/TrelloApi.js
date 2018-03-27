@@ -32,14 +32,14 @@ class TrelloApi {
         var component = this;
         component.setKey(trelloApiKey); // from parameters.js
         component.authorize({type: 'popup',
-        name: 'Sortello',
-        scope: {
-        read: 'true',
-        write: 'true'
-        },
-        expiration: 'never',
-        success: onAuthenticationSuccess,
-        error: console.log("Failed authentication")
+            name: 'Sortello',
+            scope: {
+                read: 'true',
+                write: 'true'
+            },
+            expiration: 'never',
+            success: onAuthenticationSuccess,
+            error: console.log("Failed authentication")
         });
     }
 }
