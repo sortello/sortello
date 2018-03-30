@@ -53,6 +53,7 @@ class App extends React.Component {
         if(this.choice("code")) {
             let code = window.location.href.match(/\?code=(.*)/)[1];
             this.setState({
+                fromExtension: localStorage.getItem("fromExtension"),
                 BoardApi: new GithubApi()
             }, function () {
                 localStorage.setItem("code",code);
