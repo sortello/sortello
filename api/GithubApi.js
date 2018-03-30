@@ -3,14 +3,10 @@ import queryString from "query-string";
 class GithubApi {
 
     authenticate(onAuthenticationSuccess) {
-        console.log("entro in authenticate")
         let component = this;
         if(localStorage.getItem("code")===null){
-            console.log("entro in authenticate con onauthenticationSuccess = null")
             window.location = "https://github.com/login/oauth/authorize?client_id="+clientId
-            console.log("finito in authenticate aspetto il code")
         }else {
-            console.log("entro in authenticate con onauthenticationSuccess con dentro qualcosa")
             /*const url = "https://github.com/login/oauth/access_token";
             let data = new FormData()
             data.append('client_id', clientId)
@@ -18,7 +14,6 @@ class GithubApi {
             data.append('code',localStorage.getItem("code"))*/
             $.getJSON('http://localhost:9999/authenticate/'+window.localStorage.getItem("code"), function(data) {
                 alert(data.token);
-                console.log("token restituito:"+data.token)
                 localStorage.removeItem("code")
             });
 
