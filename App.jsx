@@ -28,7 +28,7 @@ class App extends React.Component {
         this.setSortedRootNode = this.setSortedRootNode.bind(this);
         this.handleCards = this.handleCards.bind(this);
         this.handleAuthentication = this.handleAuthentication.bind(this);
-        this.choice = this.componentDidMount.bind(this);
+        this.choice = this.choice.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
     }
 
@@ -38,7 +38,7 @@ class App extends React.Component {
         });
         const params =  queryString.parse(location.search);
 
-        if(params.extId!==undefined) {
+        if(this.choice("ext")) {
             this.setState({
                 fromExtension: params.fw === 'g' ? "Github" : "Trello",
                 extId: params.extId,
@@ -50,7 +50,7 @@ class App extends React.Component {
             })
         }
 
-        if(params.code !== undefined && !localStorage.getItem("code")) {
+        if(this.choice("code")) {
             let code = window.location.href.match(/\?code=(.*)/)[1];
             this.setState({
                 BoardApi: new GithubApi()
@@ -64,8 +64,13 @@ class App extends React.Component {
         }
     }
 
-    choice(){
-
+    choice(p){
+        const params =  queryString.parse(location.search);
+        if(p==="ext"){
+            return params.extId!==undefined
+        }else{
+            return params.code !== undefined && !localStorage.getItem("code")
+        }
     }
 
     handleAuthentication () {
