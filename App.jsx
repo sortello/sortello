@@ -6,7 +6,8 @@ import ChoicesVoter from "./components/ChoicesVoter.jsx"
 import Results from "./components/Results.jsx"
 import treeNodeFactory from "./model/treeNodeFactory"
 import queryString from "query-string"
-import TrelloApi from "./api/TrelloApi";
+import TrelloApi from "./api/TrelloApi"
+import GithubApi from "./api/GithubApi"
 
 class App extends React.Component {
     constructor (props) {
@@ -21,12 +22,12 @@ class App extends React.Component {
             fromExtension: null,
             extId:null
         };
-        this.getCurrentView = this.getCurrentView.bind(this)
-        this.setStartTimeStamp = this.setStartTimeStamp.bind(this)
-        this.setSortedRootNode = this.setSortedRootNode.bind(this)
-        this.setSortedRootNode = this.setSortedRootNode.bind(this)
-        this.handleCards = this.handleCards.bind(this)
-        this.handleAuthentication = this.handleAuthentication.bind(this)
+        this.getCurrentView = this.getCurrentView.bind(this);
+        this.setStartTimeStamp = this.setStartTimeStamp.bind(this);
+        this.setSortedRootNode = this.setSortedRootNode.bind(this);
+        this.setSortedRootNode = this.setSortedRootNode.bind(this);
+        this.handleCards = this.handleCards.bind(this);
+        this.handleAuthentication = this.handleAuthentication.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this)
     }
 
@@ -34,13 +35,39 @@ class App extends React.Component {
         jQuery('.choice_button .card_link').click(function (e) {
             e.stopPropagation();
         });
-
         const params =  queryString.parse(location.search);
+
         if(params.extId!==undefined) {
+            console.log("Ho trovato l'estensione e l'extId,setto parametri")
             this.setState({
-                fromExtension: params.fw === "g" ? "Github" : "Trello",
-                extId: params.extId
-                /*BoardApi : params.fw==="g"? new GithubApi() : new TrelloApi()"*/
+                fromExtension: params.fw === 'g' ? "Github" : "Trello",
+                extId: params.extId,
+                BoardApi : params.fw === 'g' ? new GithubApi() : new TrelloApi()
+            },function(){
+                console.log("fromExtension : "+this.state.fromExtension)
+                console.log("extId : "+this.state.extId)
+                console.log("BoardApi : "+this.state.BoardApi)
+                console.log("salvataggio nel localStorage di extId e fromExtension, pulisco code rimanente")
+                localStorage.setItem('extId', this.state.extId);
+                localStorage.setItem('fromExtension', this.state.fromExtension);
+                localStorage.removeItem("code")
+                console.log("extId : "+localStorage.getItem("extId"))
+                console.log("fromExtension : "+localStorage.getItem("fromExtension"))
+                console.log("code : "+localStorage.getItem("code"))
+            })
+        }
+
+        if(params.code !== undefined && !localStorage.getItem("code")) {
+            console.log("Ho trovato il codice")
+            var code = window.location.href.match(/\?code=(.*)/)[1];
+            console.log("Stampo codice : "+code)
+            this.setState({
+                BoardApi: new GithubApi()
+            }, function () {
+                console.log("Salvo codice in localStorage")
+                localStorage.setItem("code",code);
+                console.log("Chiamo authenticate mettendoci handleAuthentication dentro")
+                this.state.BoardApi.authenticate(this.handleAuthentication)
             })
         }
         if (params.boardId !== undefined && params.listName !== undefined) {
@@ -59,6 +86,8 @@ class App extends React.Component {
         } else {
             this.setState({
                 currentView: 2
+            },function(){
+                console.log(this.state.BoardApi)
             })
         }
     }

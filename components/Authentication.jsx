@@ -7,7 +7,11 @@ class Authentication extends React.Component {
     }
 
     handleStartButtonClick () {
-        this.props.BoardApi.authenticate(this.props.onAuthentication);
+        if(localStorage.getItem("fromExtension") === "Github") {
+            this.props.BoardApi.authenticate(null);
+        }else{
+            this.props.BoardApi.authenticate(this.props.onAuthentication);
+        }
     }
 
     render () {
@@ -16,10 +20,10 @@ class Authentication extends React.Component {
                 <div className="wrapper__api-key">
                     <div className="centered-logo">
                         <Logo/>
-                        <div className="api-key__claim">Prioritize your {this.props.fromExtension==="Github"? "Github's " : "Trello's "}
+                        <div className="api-key__claim">Prioritize your {localStorage.getItem("fromExtension")==="Github"? "Github's " : "Trello's "}
                              board in just a few steps</div>
                         <button className="continue-to-choices--button button__primary button__text"
-                                onClick={() => this.handleStartButtonClick()}>Authorize {this.props.fromExtension==="Github"? "Github " : "Trello "} and
+                                onClick={() => this.handleStartButtonClick()}>Authorize {localStorage.getItem("fromExtension")==="Github"? "Github " : "Trello "} and
                             let's start!
                         </button>
                         <a href="/landing.html">
