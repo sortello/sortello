@@ -36,18 +36,23 @@ class App extends React.Component {
         jQuery('.choice_button .card_link').click(function (e) {
             e.stopPropagation();
         });
+
         const params =  queryString.parse(location.search);
 
         if(this.choice("ext")) {
-            this.setState({
-                fromExtension: params.fw === 'g' ? "Github" : "Trello",
-                extId: params.extId,
-                BoardApi : params.fw === 'g' ? new GithubApi() : new TrelloApi()
-            },function(){
-                localStorage.setItem('extId', this.state.extId);
-                localStorage.setItem('fromExtension', this.state.fromExtension);
-                localStorage.removeItem("code");
-            })
+                this.setState({
+                    fromExtension: params.fw === 'g' ? "Github" : "Trello",
+                    extId: params.extId,
+                    BoardApi: params.fw === 'g' ? new GithubApi() : new TrelloApi()
+                }, function () {
+                    if(!localStorage.getItem("token")) {
+                        localStorage.setItem('extId', this.state.extId);
+                        localStorage.setItem('fromExtension', this.state.fromExtension);
+                        localStorage.removeItem("code");
+                    }else{
+                        this.handleAuthentication()
+                    }
+                })
         }
 
         if(this.choice("code")) {
