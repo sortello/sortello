@@ -83,6 +83,12 @@
 	.button-text__esclude {
 		font-size: 14px;
 	}
+	.wrapper__card-buttons {
+	display: flex;
+	flex-direction: column;
+	padding: 8px;
+	width: 100%;
+	}
 
 }
 
