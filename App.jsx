@@ -45,11 +45,10 @@ class App extends React.Component {
                     extId: params.extId,
                     BoardApi: params.fw === 'g' ? new GithubApi() : new TrelloApi()
                 }, function () {
-                    if(!localStorage.getItem("token")) {
-                        localStorage.setItem('extId', this.state.extId);
-                        localStorage.setItem('fromExtension', this.state.fromExtension);
-                        localStorage.removeItem("code");
-                    }else{
+                    localStorage.setItem('extId', this.state.extId);
+                    localStorage.setItem('fromExtension', this.state.fromExtension);
+                    localStorage.removeItem("code");
+                    if ((localStorage.getItem("token") !== null && localStorage.getItem("token") !== undefined) && this.state.fromExtension ==="Github") {
                         this.handleAuthentication()
                     }
                 })
@@ -59,6 +58,7 @@ class App extends React.Component {
             let code = window.location.href.match(/\?code=(.*)/)[1];
             this.setState({
                 fromExtension: localStorage.getItem("fromExtension"),
+                extId: localStorage.getItem("extId"),
                 BoardApi: new GithubApi()
             }, function () {
                 localStorage.setItem("code",code);
@@ -90,9 +90,7 @@ class App extends React.Component {
         } else {
             this.setState({
                 currentView: 2
-            },function(){
-                console.log(this.state.BoardApi)
-            })
+            });
         }
     }
 

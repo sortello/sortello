@@ -34,7 +34,11 @@ class ColumnSelection extends React.Component {
 
         if (component.props.fromExtension !== undefined) {
             BoardApi.getCards(component.props.extId,null,function (card){
-                component.retrieveCardsByListId(card.idList)
+                if(component.props.fromExtension === "Trello") {
+                    component.retrieveCardsByListId(card.idList)
+                }else{
+                    component.retrieveCardsByListId(null)
+                }
             })
         }
 
