@@ -52,12 +52,9 @@ class GithubApi {
                 pos: null,
             }
             if (cards[i].note === null) {
-                var p = new Promise(function(resolve,reject){
                     this.checkNote(cards[i]).then(function(title) {
                         data.name=title
                     })
-                },console.log(reject))
-                arrayPromise.push(p)
             }
             listlabels.push(data)
         }
