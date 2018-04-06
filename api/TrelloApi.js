@@ -12,13 +12,34 @@ class TrelloApi {
         Trello.boards.get(boardId, success,error);
     }
 
-    getCards (extId,variable,success){
+    getCardById (extId,variable,success){
         Trello.cards.get(extId, variable, success);
     }
 
-    getLists (listId, cards, success,error){
-        Trello.lists.get(listId,cards,success,error);
+    getCardsByListId (listId, cards, success,error){
+        let component = this;
+        Trello.lists.get(listId,cards,function(data){
+            success(component.normalizeCards(data.cards))
+        },error);
     }
+
+    normalizeCards(cards) {
+        let component = this;
+        let listlabels =[];
+        for (var i = 0; i < cards.length; i++) {
+            let data = {
+                id: cards[i].id,
+                idList: cards[i].idList,
+                idBoard: cards[i].idBoard,
+                labels: cards[i].labels,
+                name: cards[i].name,
+                pos: cards[i].pos,
+            }
+            listlabels.push(data)
+        }
+        return listlabels
+    }
+
 
     setKey (apiKey){
         Trello.setKey(apiKey);

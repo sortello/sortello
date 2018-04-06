@@ -20,7 +20,8 @@ class GithubApi {
         }
     }
 
-    getCards (externId,variable,success){
+    getCardsByListId (externId,variable,success){
+        let component = this
         const uri = "https://api.github.com/projects/columns/"+externId+"/cards"
         let h = new Headers();
         h.append("Accept","application/vnd.github.inertia-preview+json");
@@ -32,17 +33,57 @@ class GithubApi {
         fetch(url)
             .then((resp) => resp.json())
             .then(function(data){
-                console.log(data)
-                success()
+                success(component.normalizeCards(data))
             });
     }
 
-    getLists(listId, cards, success,error) {
-        alert("sono in getLists")
+    normalizeCards(cards){
+        let component = this;
+        let listlabels =[];
+        let title = null;
+        let arrayPromise = [];
+        for (var i = 0; i < cards.length; i++) {
+            let data = {
+                id: cards[i].id,
+                idList: null,
+                idBoard: null,
+                labels: [],
+                name: cards[i].note,
+                pos: null,
+            }
+            if (cards[i].note === null) {
+                var p = new Promise(function(resolve,reject){
+                    this.checkNote(cards[i]).then(function(title) {
+                        data.name=title
+                    })
+                },console.log(reject))
+                arrayPromise.push(p)
+            }
+            listlabels.push(data)
+        }
+        return listlabels
+    }
+
+    checkNote(card) {
+        let uri = card.content_url
+        let h = new Headers();
+        h.append("Accept", "application/vnd.github.inertia-preview+json");
+        h.append("Authorization", "token " + localStorage.getItem("token"));
+        let url = new Request(uri, {
+            method: "GET",
+            headers: h
+        })
+        return fetch(url)
+            .then((resp) => resp.json())
+            .then(function (data) {
+                console.log("Data : ",data)
+                console.log("Data.title : "+data.title)
+                return data.title
+            }  );
     }
 
     getMembers (memberId, params, success, error) {
-
+        //TODO PIU' AVANTI
     }
 
 }

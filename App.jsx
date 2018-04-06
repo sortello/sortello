@@ -97,7 +97,7 @@ class App extends React.Component {
     handleCards (listCards, boardId) {
         let that = this;
         let nodes = [];
-        for (let i = 0; i < listCards.length; i++) {
+        for (let i =0; i < listCards.length; i++) {
             let node = treeNodeFactory(listCards[i]);
             nodes.push(node);
         }
