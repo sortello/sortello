@@ -64,9 +64,15 @@ class ChoicesView extends React.Component {
                     {this.printCard('right_button', 'compareNode', this.props.rightCard.value, this.props.voters.right)}
                     {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
                     {undoButton}
-                    <div className="container__voter-info">
-                        <div className="voter-info__dot"></div>
-                        <div className="voter-info__text">You are in a shared room</div>
+                    <div className="container__voter-bar">
+                        <div className="container__voter-info">
+                            <div className="voter-info__dot"></div>
+                            <div className="voter-info__text">You are in a shared room</div>
+                        </div>
+                        <div className="container__avatars" >
+                            <div className="guest__label">Guests</div>
+                            <Avatars users={this.props.roomVoters} />
+                        </div>
                     </div>
                 </div>
                 <div className={"footer"}>
@@ -75,7 +81,7 @@ class ChoicesView extends React.Component {
                 </div>
                 {this.props.newRoomButton}
                 {this.props.roomLink}
-                <Avatars users={this.props.roomVoters}/>
+                
             </div>
         )
     }

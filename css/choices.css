@@ -38,7 +38,8 @@
 }
 
 .container__card-selected {
-  border: 5px solid #4a90e2;
+  background-color: #4a90e2;
+  color: white;
 }
 
 .container__choose-card {
@@ -314,11 +315,20 @@
   align-self: flex-end;
 }
 
-.container__voter-info {
+.container__voter-bar {
   display: flex;
   flex-direction: row;
   margin-top: 32px;
+  justify-content: space-between;
+  width: 100%;
 }
+
+.container__voter-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .voter-info__dot {
   width: 10px;
   height: 10px;
@@ -332,4 +342,16 @@
   font-size: 14px;
   line-height: 10px;
   color: rgba(0,0,0,0.7);
+}
+
+.container__avatars {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.guest__label {
+  margin-right: 8px;
+  font-size: 14px;
+  font-family: "Fira Sans", sans-serif;
 }
