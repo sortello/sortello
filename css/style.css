@@ -1,0 +1,174 @@
+html {
+    height: 100%;
+}
+
+body {
+
+    background: #005AFF; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left top, #68E0E6, #005AFF); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right, #68E0E6, #005AFF); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, #68E0E6, #005AFF); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right, #68E0E6, #005AFF); /* Standard syntax */
+    height: 100%;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.choice_button {
+    cursor: pointer;
+}
+
+.forkMeRibbon {
+    z-index: 2;
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+
+.forkMeRibbon img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 0;
+}
+
+
+/*.btn {
+    border: 2px solid white;
+    background: transparent;
+    color: white;
+    font-family: "montserrat", sans-serif;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    padding: 10px 20px;
+}
+
+.button--on-white {
+    border: 3px solid #0000a3;
+    border-bottom: 5px solid #0000a3;
+    background: transparent;
+    color: #0000a3;
+    font-family: "montserrat", sans-serif;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    border-radius: 3px;
+}*/
+
+/*.choices--button:hover .button--on-white {
+    border: 3px solid white;
+    border-bottom: 5px solid white;
+    background: transparent;
+    color: white;
+    font-family: "montserrat", sans-serif;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    border-radius: 3px;
+}*/
+
+/*.btn:hover {
+    background: white;
+    color: #0000a3;
+}
+*/
+/*.button--on-white:hover {
+    border: 3px solid white;
+    border-bottom: 5px solid white;
+    color: white;
+    background: none;
+}*/
+
+input[type="text"] {
+    border: 0 none;
+    padding: 4px 10px;
+}
+
+
+p.card_link {
+    text-align: right;
+}
+
+/*.choices--button {
+    transition: all 0.3s ease-in-out;
+    border-radius: 3px;
+    border: 3px solid #0000a3;
+    border-bottom: 5px solid #0000a3;
+    background: none;
+    margin: 10px;
+    padding: 30px 20px;
+    cursor: pointer;
+}*/
+
+/*.choices--button:hover h1 {
+    color: white;
+}*/
+
+/*.choices--button:hover {
+    background: #0000a3;
+}*/
+
+.checkboard {
+    display: none;
+    transition: all 0.3s ease;
+}
+
+/*#container_div {
+    height: 100%;
+    background: #005AFF;
+    background: -webkit-linear-gradient(left top, #68E0E6, #005AFF);
+    background: -o-linear-gradient(bottom right, #68E0E6, #005AFF);
+    background: -moz-linear-gradient(bottom right, #68E0E6, #005AFF);
+    background: linear-gradient(to bottom right, #68E0E6, #005AFF);
+}*/
+
+
+/*#last_div {
+    height: 100%;
+    background: #0000a3; 
+    background: -webkit-linear-gradient(left top, #68E0E6, #005AFF); 
+    background: -o-linear-gradient(bottom right, #68E0E6, #005AFF); 
+    background: -moz-linear-gradient(bottom right, #68E0E6, #005AFF); 
+    background: linear-gradient(to bottom right, #68E0E6, #005AFF); 
+    text-align: center;
+    color: white;
+}*/
+
+/*#completed_div {
+    height: 100%;
+    background: #0000a3; 
+    background: -webkit-linear-gradient(left top, #68E0E6, #005AFF); 
+    background: -o-linear-gradient(bottom right, #68E0E6, #005AFF); 
+    background: -moz-linear-gradient(bottom right, #68E0E6, #005AFF); 
+    background: linear-gradient(to bottom right, #68E0E6, #005AFF); 
+    text-align: center;
+    color: white;
+}*/
+
+
+/*a {
+    color: #fff;
+}
+
+a:hover {
+    color: white;
+}*/
+
+.st0 {
+    fill: white;
+    display: inline-block;
+}
+
+.centered-logo {
+    margin: 0 16px 32px;
+}
+
+#tree_draw{
+ padding-top: 0px !important;
+}
+

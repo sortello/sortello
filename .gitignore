@@ -1,0 +1,18 @@
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+.DS_Store
+assets/.DS_Store
+node_modules
+parameters.js
+Makefile
+.rsync_exclude
+build
+build/
+protractor.conf.js
+npm-debug.log*
+config.js
+styleguideBuild
+styleguideBuild/
