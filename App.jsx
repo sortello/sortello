@@ -62,6 +62,8 @@ class App extends React.Component {
                 BoardApi: new GithubApi()
             }, function () {
                 localStorage.setItem("code",code);
+                let fromwhere = this.state.fromExtension === "Github"? "g" : "t"
+                history.pushState(null, null, '/app.html?extId='+this.state.extId+"&fw="+fromwhere);
                 this.state.BoardApi.authenticate(this.handleAuthentication)
             })
         }

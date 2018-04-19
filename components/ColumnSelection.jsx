@@ -32,7 +32,6 @@ class ColumnSelection extends React.Component {
     componentDidMount() {
         let component = this
         let BoardApi = this.props.BoardApi
-
         if (component.props.fromExtension !== undefined) {
             if (component.props.fromExtension !== "Github") {
                 BoardApi.getCardById(component.props.extId, null, function (card) {
