@@ -6,6 +6,7 @@ class CardLabels extends React.Component {
             <div className={'container__label'}>
                 {this.props.labels.map(label => (
                     <div
+                        style={{ backgroundColor : '#'+label.color }}
                         className={`card__label card__label--${label.color}`}
                         key={label.id}
                     >
