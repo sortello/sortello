@@ -22,10 +22,10 @@
     min-width: 480px;
 }
 
-.check-trello__button {
+.check-sortello__button {
     min-width: 480px;
 }
-.check-trello__button:focus {
+.check-sortello__button:focus {
     color: #4A4A4A;
     text-decoration: none;
 }
@@ -34,7 +34,7 @@
     text-decoration: none;
 }
 
-.check-trello__button:hover {
+.check-sortello__button:hover {
     text-decoration: none;
 }
 

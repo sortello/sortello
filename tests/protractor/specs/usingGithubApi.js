@@ -49,8 +49,9 @@ describe('using Github Api', function () {
                 labelPassword.sendKeys(browser.params.testGithubPassword)
                 let signInButton = element(by.css(".btn.btn-primary.btn-block"))
                 signInButton.click()
-                let buttonAuthorize = element(by.css(".btn.btn-primary.d-block.width-full.ws-normal"))
-                browser.wait(EC.presenceOf(buttonAuthorize), 2000).then(function () {
+                let buttonAuthorize = element(by.css("#js-oauth-authorize-btn"))
+                browser.wait(EC.visibilityOf(buttonAuthorize), 2000).then(function () {
+                    browser.driver.sleep(2000);
                     buttonAuthorize.click()
                     chooseLabels()
                 }).catch(function () {
@@ -79,7 +80,7 @@ describe('using Github Api', function () {
                 });
             });
         });
-        let checkTrelloButton = element(by.css('.check-trello__button'));
+        let checkTrelloButton = element(by.css('.check-sortello__button'));
         browser.wait(EC.visibilityOf(checkTrelloButton), 50000).then(function () {
             browser.actions().mouseMove(checkTrelloButton).click().perform();
         });

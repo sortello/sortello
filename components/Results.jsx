@@ -86,13 +86,13 @@ class Results extends React.Component {
             <div className="success-buttons__container">
                 {localStorage.getItem("fromExtension") !== "Github" ?
                     <a href={"https://trello.com/b/" + this.props.rootNode.value.idBoard} target="_blank"
-                       className={"button__primary button__text check-trello__button"}>
+                       className={"button__primary button__text check-sortello__button"}>
                         <i className="fa fa-trello"></i>&nbsp;
                         Check your Trello board
                     </a> :
                     <a href={"https://github.com/sortello/sortello/projects/2#column-" + localStorage.getItem("extId")}
                        target="_blank"
-                       className={"button__primary button__text check-trello__button"}>
+                       className={"button__primary button__text check-sortello__button"}>
                         <i className="fa fa-trello"></i>&nbsp;
                         Check your Github board
                     </a>

@@ -57,7 +57,7 @@ describe('sort list asc', function () {
                 });
             });
         });
-        let checkTrelloButton = element(by.css('.check-trello__button'));
+        let checkTrelloButton = element(by.css('.check-sortello__button'));
         browser.wait(EC.visibilityOf(checkTrelloButton), 20000).then(function () {
             browser.actions().mouseMove(checkTrelloButton).click().perform();
         });
