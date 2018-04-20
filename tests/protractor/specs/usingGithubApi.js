@@ -27,7 +27,7 @@ describe('using Github Api', function () {
             })
         }
 
-        browser.get('/app.html?extId=1939962&fw=g');
+        browser.get('/app.html?extId='+browser.params.testGithubExtId+'&fw=g');
         let continueButton = element(by.css(".continue-to-choices--button"))
         browser.wait(EC.presenceOf(continueButton), 20000).then(function () {
             continueButton.click()
