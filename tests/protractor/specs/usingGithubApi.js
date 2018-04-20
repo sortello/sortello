@@ -92,7 +92,6 @@ describe('using Github Api', function () {
                 browser.wait(EC.presenceOf(githubList), 50000).then(function () {
                     let githubCards = element(by.css('.js-project-column-cards.js-card-drag-container')).all(
                         by.css('.js-comment-body > p'));
-                    browser.pause()
                     expect(githubCards.getText()).toEqual(recapListText);
                 });
             });
