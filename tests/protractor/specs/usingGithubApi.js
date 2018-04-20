@@ -27,7 +27,18 @@ describe('using Github Api', function () {
             })
         }
 
-        browser.get('/app.html?extId='+browser.params.testGithubExtId+'&fw=g');
+        function chooseLabels() {
+            let chooselabels = element(by.css('.label__none'))
+            browser.wait(EC.presenceOf(chooselabels), 20000).then(function () {
+                chooselabels.click()
+                let containerCard = element(by.css('.container__card'))
+                browser.wait(EC.presenceOf(containerCard), 20000).then(function () {
+                    nextChoice()
+                })
+            })
+        }
+
+        browser.get('/app.html?extId=' + browser.params.testGithubExtId + '&fw=g');
         let continueButton = element(by.css(".continue-to-choices--button"))
         browser.wait(EC.presenceOf(continueButton), 20000).then(function () {
             continueButton.click()
@@ -38,10 +49,12 @@ describe('using Github Api', function () {
                 labelPassword.sendKeys(browser.params.testGithubPassword)
                 let signInButton = element(by.css(".btn.btn-primary.btn-block"))
                 signInButton.click()
-                let containerCard = element(by.css('.container__card'))
-                browser.wait(EC.presenceOf(containerCard), 20000).then(function () {
-                    nextChoice()
-
+                let buttonAuthorize = element(by.css(".btn.btn-primary.d-block.width-full.ws-normal"))
+                browser.wait(EC.presenceOf(buttonAuthorize), 2000).then(function () {
+                    buttonAuthorize.click()
+                    chooseLabels()
+                }).catch(function () {
+                    chooseLabels()
                 })
             })
         })
@@ -76,7 +89,7 @@ describe('using Github Api', function () {
             let githubList = element(by.css('.list-cards'));
             browser.wait(EC.visibilityOf(githubList), 50000).then(function () {
                 let githubCards = element(by.css('.list-cards')).all(by.css('.list-card-details > span'));
-                    expect(githubCards.getText()).toEqual(recapListText);
+                expect(githubCards.getText()).toEqual(recapListText);
             });
         });
     });
