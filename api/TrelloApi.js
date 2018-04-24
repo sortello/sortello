@@ -34,6 +34,7 @@ class TrelloApi {
                 labels: cards[i].labels,
                 name: cards[i].name,
                 pos: cards[i].pos,
+                shortUrl : cards[i].shortUrl
             }
             listlabels.push(data)
         }

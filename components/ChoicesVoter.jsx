@@ -16,7 +16,7 @@ if (typeof socketAddress !== 'undefined') {
 const params = queryString.parse(location.search);
 
 class Choices extends React.Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
         let component = this
         this.handleCardClicked = this.handleCardClicked.bind(this)
@@ -42,8 +42,7 @@ class Choices extends React.Component {
         }
     }
 
-    setUpSocket (component) {
-
+    setUpSocket(component) {
         socket.on('votesInfo', function (leftVoters, rightVoters) {
             component.setState({
                 voters: {
@@ -89,7 +88,7 @@ class Choices extends React.Component {
         })
     }
 
-    setUpRoom (component) {
+    setUpRoom(component) {
         component.state.roomId = params.roomKey
         if (socket) {
             component.room = new Room(socket, params.roomKey);
@@ -115,7 +114,7 @@ class Choices extends React.Component {
         }
     }
 
-    handleCardClicked (side) {
+    handleCardClicked(side) {
         if (!this.state.hasVoted && this.room) {
             this.room.castCardClicked(side, this.trelloId, this.trelloAvatar)
         }
@@ -125,15 +124,15 @@ class Choices extends React.Component {
         })
     }
 
-    renderForbidden () {
+    renderForbidden() {
         return <div id="forbidden-div">You have no access to this board.</div>
     }
 
-    renderLoading () {
+    renderLoading() {
         return (<span>Loading...</span>);
     }
 
-    render () {
+    render() {
         if (!this.state.hasBoardPermissions) {
             return this.renderForbidden()
         }

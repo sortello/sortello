@@ -10,7 +10,7 @@ import TrelloApi from "./api/TrelloApi"
 import GithubApi from "./api/GithubApi"
 
 class App extends React.Component {
-    constructor (props) {
+    constructor(props) {
         super(props)
         this.state = {
             BoardApi: new TrelloApi(),
@@ -20,7 +20,7 @@ class App extends React.Component {
             startTimeStamp: null,// 1-Authentication 2-ColumnSelect 3-Choices 4-SendDataToServer
             boardId: null,
             fromExtension: null,
-            extId:null
+            extId: null
         };
         this.getCurrentView = this.getCurrentView.bind(this);
         this.setStartTimeStamp = this.setStartTimeStamp.bind(this);
@@ -32,54 +32,57 @@ class App extends React.Component {
         this.componentDidMount = this.componentDidMount.bind(this);
     }
 
-    componentDidMount () {
+    componentDidMount() {
         jQuery('.choice_button .card_link').click(function (e) {
             e.stopPropagation();
         });
 
-        const params =  queryString.parse(location.search);
+        const params = queryString.parse(location.search);
 
-        if(this.choice("ext")) {
-                this.setState({
-                    fromExtension: params.fw === 'g' ? "Github" : "Trello",
-                    extId: params.extId,
+        if (this.choice("ext")) {
+            this.setState({
+                fromExtension: params.fw === 'g' ? "Github" : "Trello",
+                extId: params.extId,
                     BoardApi: params.fw === 'g' ? new GithubApi() : new TrelloApi()
-                }, function () {
-                    localStorage.setItem('extId', this.state.extId);
-                    localStorage.setItem('fromExtension', this.state.fromExtension);
-                    localStorage.removeItem("code");
-                    if ((localStorage.getItem("token") !== null && localStorage.getItem("token") !== undefined) && this.state.fromExtension ==="Github") {
-                        this.handleAuthentication()
-                    }
-                })
+            }, function () {
+                localStorage.removeItem("code");
+                localStorage.setItem('extId', this.state.extId);
+                localStorage.setItem('fromExtension', this.state.fromExtension);
+                if ((localStorage.getItem("token") !== "undefined" && localStorage.getItem("token") !== null)
+                    && this.state.fromExtension === "Github") {
+                    this.handleAuthentication()
+                }
+            })
         }
 
-        if(this.choice("code")) {
+        if (this.choice("code")) {
             let code = window.location.href.match(/\?code=(.*)/)[1];
             this.setState({
                 fromExtension: localStorage.getItem("fromExtension"),
                 extId: localStorage.getItem("extId"),
                 BoardApi: new GithubApi()
             }, function () {
-                localStorage.setItem("code",code);
+                localStorage.setItem("code", code);
+                let fromWhere = this.state.fromExtension === "Github" ? "g" : "t"
+                history.pushState(null, null, '/app.html?extId=' + this.state.extId + "&fw=" + fromWhere);
                 this.state.BoardApi.authenticate(this.handleAuthentication)
             })
         }
         if (params.boardId !== undefined && params.listName !== undefined) {
-            alert("Looks like you are using and outdated version of the Sortello Chrome Extension, please update. Thank you!");
+            alert("Looks like you are using and outdated version of the Sortello Chrome Extension, please update.Thank you!");
         }
     }
 
-    choice(p){
-        const params =  queryString.parse(location.search);
-        if(p==="ext"){
-            return params.extId!==undefined
-        }else{
+    choice(p) {
+        const params = queryString.parse(location.search);
+        if (p === "ext") {
+            return params.extId !== undefined
+        } else {
             return params.code !== undefined && !localStorage.getItem("code")
         }
     }
 
-    handleAuthentication () {
+    handleAuthentication() {
         const params = queryString.parse(location.search);
         if (params.roomKey !== undefined) {
             this.setState({
@@ -94,10 +97,10 @@ class App extends React.Component {
         }
     }
 
-    handleCards (listCards, boardId) {
+    handleCards(listCards, boardId) {
         let that = this;
         let nodes = [];
-        for (let i =0; i < listCards.length; i++) {
+        for (let i = 0; i < listCards.length; i++) {
             let node = treeNodeFactory(listCards[i]);
             nodes.push(node);
         }
@@ -111,31 +114,31 @@ class App extends React.Component {
         })
     }
 
-    setSortedRootNode (rootNode) {
+    setSortedRootNode(rootNode) {
         this.setState({
             rootNode: rootNode,
             currentView: 4
         })
     }
 
-    setStartTimeStamp (timeStamp) {
+    setStartTimeStamp(timeStamp) {
         this.setState({
             startTimeStamp: timeStamp
         })
     }
 
-    renderAuthenticationForm () {
+    renderAuthenticationForm() {
         return <Authentication BoardApi={this.state.BoardApi} onAuthentication={this.handleAuthentication}
-                                fromExtension={this.state.fromExtension}/>
+                               fromExtension={this.state.fromExtension}/>
     }
 
-    renderColumnSelection () {
+    renderColumnSelection() {
         return <ColumnSelection BoardApi={this.state.BoardApi} handleCards={this.handleCards}
                                 fromExtension={this.state.fromExtension}
                                 extId={this.state.extId}/>
     }
 
-    renderChoicesVoter () {
+    renderChoicesVoter() {
         return (
             <ChoicesVoter BoardApi={this.state.BoardApi}
                           ref="choicesVoter" setSortedRootNode={this.setSortedRootNode}
@@ -145,7 +148,7 @@ class App extends React.Component {
         )
     }
 
-    renderChoices () {
+    renderChoices() {
         return (
             <Choices BoardApi={this.state.BoardApi}
                      ref="choices" setSortedRootNode={this.setSortedRootNode}
@@ -156,18 +159,18 @@ class App extends React.Component {
         )
     }
 
-    renderResults () {
+    renderResults() {
         return (
             <Results rootNode={this.state.rootNode} BoardApi={this.state.BoardApi}
                      startTimeStamp={this.state.startTimeStamp}/>
         )
     }
 
-    renderError(){
+    renderError() {
         return <h3>Error</h3>
     }
 
-    getCurrentView () {
+    getCurrentView() {
         switch (this.state.currentView) {
             case 1:
                 return this.renderAuthenticationForm()
@@ -184,7 +187,7 @@ class App extends React.Component {
         }
     }
 
-    render () {
+    render() {
         return (
             <div id="container_div">
                 {this.getCurrentView()}

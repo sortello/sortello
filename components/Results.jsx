@@ -84,15 +84,24 @@ class Results extends React.Component {
             <SuccessAnimation/>
             <div className="send-success__heading">Prioritization complete!</div>
             <div className="success-buttons__container">
-                <a href={"https://trello.com/b/" + this.props.rootNode.value.idBoard} target="_blank"
-                   className={"button__primary button__text check-trello__button"}>
-                    <i className="fa fa-trello"></i>&nbsp;
-                    Check your Trello board
-                </a>
-                <a href="/app.html" className={"button__primary button__text prioritize-again__button"}>
-                    <i className="fa fa-repeat"></i>&nbsp;
-                    Prioritize another list
-                </a>
+                {localStorage.getItem("fromExtension") !== "Github" ?
+                    <a href={"https://trello.com/b/" + this.props.rootNode.value.idBoard} target="_blank"
+                       className={"button__primary button__text check-sortello__button"}>
+                        <i className="fa fa-trello"></i>&nbsp;
+                        Check your Trello board
+                    </a> :
+                    <a href={"https://github.com/sortello/sortello/projects/2#column-" + localStorage.getItem("extId")}
+                       target="_blank"
+                       className={"button__primary button__text check-sortello__button"}>
+                        <i className="fa fa-trello"></i>&nbsp;
+                        Check your Github board
+                    </a>
+                }
+                {localStorage.getItem("fromExtension") !== "Github" ?
+                    <a href="/app.html" className={"button__primary button__text prioritize-again__button"}>
+                        <i className="fa fa-repeat"></i>&nbsp;
+                        Prioritize another list
+                    </a> : null}
             </div>
         </div>
     }

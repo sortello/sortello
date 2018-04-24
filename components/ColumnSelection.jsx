@@ -21,6 +21,7 @@ class ColumnSelection extends React.Component {
         }
         this.getBoardColumns = this.getBoardColumns.bind(this);
         this.retrieveCardsByListId = this.retrieveCardsByListId.bind(this);
+        /* this.retrieveCardsGithub = this.retrieveCardsGithub.bind(this);*/
         this.handleBoardClicked = this.handleBoardClicked.bind(this);
         this.handleListClicked = this.handleListClicked.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
@@ -31,15 +32,14 @@ class ColumnSelection extends React.Component {
     componentDidMount () {
         let component = this
         let BoardApi = this.props.BoardApi
-
         if (component.props.fromExtension !== undefined) {
-            BoardApi.getCards(component.props.extId,null,function (card){
-                if(component.props.fromExtension === "Trello") {
+            if (component.props.fromExtension !== "Github") {
+                BoardApi.getCardById(component.props.extId, null, function (card) {
                     component.retrieveCardsByListId(card.idList)
-                }else{
-                    component.retrieveCardsByListId(null)
-                }
-            })
+                })
+            } else {
+                component.retrieveCardsByListId(component.props.extId)
+            }
         }
 
         if (this.state.organizations.length > 0) {
@@ -97,8 +97,8 @@ class ColumnSelection extends React.Component {
         let that = this;
         let labels = [];
         let BoardApi = this.props.BoardApi
-        BoardApi.getLists(listId, {cards: "open"}, function (data) {
-            let listCards = data.cards;
+        BoardApi.getCardsByListId(listId, {cards: "open"}, function (data) {
+            let listCards = data;
             that.setState({
                 listCards: listCards
             });
