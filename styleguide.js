@@ -23,6 +23,8 @@ import "./css/responsive/send-success__responsive.css";
 import "./css/responsive/send-ordered__responsive.css";
 import "./css/recap.css";
 import "./css/responsive/recap__responsive.css";
+import "./css/prioritization-end.css";
+
 
 const containerEl = document.getElementById("container")
 render(<StyleguideApp/>, containerEl)

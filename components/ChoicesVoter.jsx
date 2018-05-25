@@ -155,6 +155,7 @@ class Choices extends React.Component {
                 }}
                 progress={0}
                 selectedSide={this.state.selectedSide}
+                role="voter"
             />
         )
     }

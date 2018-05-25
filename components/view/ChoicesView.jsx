@@ -26,6 +26,29 @@ class ChoicesView extends React.Component {
         />
     }
 
+    renderVoterInfo() {
+        if (this.props.role==='voter') {
+            return (
+                <div className="container__voter-info">
+                    <div className="voter-info__dot"></div>
+                    <div className="voter-info__text">You are in a shared room</div>
+                </div>
+            )
+        } 
+        return null
+    }
+
+    shareRoomButton() {
+        if (this.props.role === 'admin') {
+            return (
+                <div>
+                    <a href=""><div className="share-room__button">Share room</div></a>
+                </div>
+            )
+        }
+        return null
+    }
+
     render () {
         let undoButton = ''
         if (this.props.handleUndoClicked) {
@@ -63,15 +86,14 @@ class ChoicesView extends React.Component {
                     {this.printCard('left_button', 'node', this.props.leftCard.value, this.props.voters.left)}
                     {this.printCard('right_button', 'compareNode', this.props.rightCard.value, this.props.voters.right)}
                     {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
-                    {undoButton}
-                    <div className="container__voter-bar">
-                        <div className="container__voter-info">
-                            <div className="voter-info__dot"></div>
-                            <div className="voter-info__text">You are in a shared room</div>
-                        </div>
+                    
+                    <div className="container__actions-bar">
+                        {undoButton}
+                        {this.renderVoterInfo()}
                         <div className="container__avatars" >
                             <div className="guest__label">Guests</div>
                             <Avatars users={this.props.roomVoters} />
+                            {this.shareRoomButton()}
                         </div>
                     </div>
                 </div>

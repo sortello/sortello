@@ -303,7 +303,8 @@ class Choices extends React.Component {
         if (this.room) {
             joinedVoters = joinedVoters.concat({
                 id: this.trelloId,
-                avatar: this.trelloAvatar
+                avatar: this.trelloAvatar,
+                isAdmin: true
             })
         }
 
@@ -332,6 +333,7 @@ class Choices extends React.Component {
                 handleGoToNextVoting={this.handleGoToNextVoting}
                 progress={this.getProgress()}
                 selectedSide={this.state.selectedSide}
+                role="admin"
             />
         )
     }
