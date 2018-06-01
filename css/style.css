@@ -42,6 +42,12 @@ input[type="text"] {
     border: 0;
 }
 
+@media (max-width: 480px) {
+    .forkMeRibbon img {
+        width: 96px;
+    }
+}
+
 
 /*.btn {
     border: 2px solid white;

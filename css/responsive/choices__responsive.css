@@ -193,6 +193,7 @@
 	.share-room__heading {
 		font-size: 14px;
 		line-height: 20px;
+		margin-top: 32px;
 	}
 	#room-link {
 		width: 90%;
