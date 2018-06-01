@@ -1,0 +1,30 @@
+@media (max-width: 768px) {
+	.prioritization-end__buttons {
+   		flex-direction: column;
+	}
+	.prioritization-end__container {
+		padding: 16px 16px 20px;
+		margin: 56px 48px 32px;
+	}
+}
+
+@media (max-width: 480px) {	
+	.prioritization-end__container {
+		padding: 16px 16px 20px;
+		margin: 32px 8px 32px;
+	}
+	.prioritization-end__container svg {
+		width: 80px;
+	}
+	.prioritization-end__heading {
+		margin: 4px 0 8px;
+		font-size: 16px;
+	}
+	.prioritization-end__paragraph {
+		font-size: 12px;
+		margin-bottom: 16px;
+	}
+	.prioritization-end__buttons {
+   		flex-direction: row;
+	}
+}

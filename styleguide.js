@@ -24,6 +24,7 @@ import "./css/responsive/send-ordered__responsive.css";
 import "./css/recap.css";
 import "./css/responsive/recap__responsive.css";
 import "./css/prioritization-end.css";
+import "./css/responsive/prioritization-end__responsive.css";
 
 
 const containerEl = document.getElementById("container")

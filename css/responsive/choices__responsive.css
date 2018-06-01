@@ -17,6 +17,9 @@
 	.card-button__esclude {
 		font-size: 18px;
 	}
+	.card-button__continue {
+		font-size: 18px;
+	}
 	.text__prioritization-status {
 		font-size: 20px;
 		margin-top: 56px;
@@ -35,6 +38,9 @@
 	  border-radius: 16px;
 	  width: 800px;
 		}
+
+	
+	
 }
 
 @media (max-width: 1024px) {
@@ -43,7 +49,18 @@
     	margin: 16px 0 32px;
     }
     .container__choose-card {
-    	padding: 32px 56px 40px;
+    	padding: 32px 32px 40px;
+	}
+	.share-room__container {
+		margin: 20vh 56px;
+		padding: 32px 0;
+	}
+	.share-room__heading {
+		font-size: 20px;
+		line-height: 32px;
+	}
+	#second_div {
+    padding: 56px 56px 32px;
 	}
 }
 
@@ -59,6 +76,19 @@
 	#second_div {
 		padding: 56px 48px 32px;
 	}
+	.share-room__container {
+		margin: 10vh 5vw;
+		padding: 32px 0;
+	}
+	.share-room__heading {
+		font-size: 16px;
+		line-height: 24px;
+	}
+	#room-link {
+		width: 90%;
+		margin-bottom: 16px;
+		font-size: 12px;
+	}
 }
 
 @media (max-width: 480px) {
@@ -73,7 +103,7 @@
     }
     .container__card {
 		padding: 16px;
-		margin-bottom: 8px;
+		margin-top: 8px;
     }
     .container__choose-card {
 	    padding: 16px 16px 20px;
@@ -106,7 +136,7 @@
 		height: 1px;
 		width: 100%;
 		background: rgba(0,0,0,0.2);
-		margin: 8px 0;
+		margin: 2px 0 8px;
 	}
 	.choose-card__heading {
     	margin: 8px 0 16px;
@@ -149,6 +179,25 @@
 	}
 	.voter-info__text {
 		font-size: 10px;
+	}
+	.card__voters {
+		margin-top: 8px;
+	}
+	.progressive-bar__status-structure {
+		margin: 8px 8px 16px;
+	}
+	.share-room__container {
+		margin: 10vh 16px;
+		padding: 20px 0;
+	}
+	.share-room__heading {
+		font-size: 14px;
+		line-height: 20px;
+	}
+	#room-link {
+		width: 90%;
+		margin-bottom: 16px;
+		font-size: 12px;
 	}
 
 

@@ -24,6 +24,7 @@ require("./css/responsive/send-ordered__responsive.css");
 require("./css/recap.css");
 require("./css/responsive/recap__responsive.css");
 require("./css/prioritization-end.css");
+require("./css/responsive/prioritization-end__responsive.css");
 
 
 

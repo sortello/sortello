@@ -28,6 +28,12 @@
 	.wrapper__api-key {
     	padding: 96px 56px 96px;
 	}
+	.button__text {
+		font-size: 14px;
+	}
+	.button__primary {
+		padding: 16px;
+	}
 }
 
 @media (max-width: 480px) {
@@ -45,7 +51,7 @@
 		font-size: 14px;
 	}
 	.button__primary {
-		padding: 16px 20px;
+		padding: 16px;
 	}
 	.button__suggestion {
 	    font-size: 14px;
