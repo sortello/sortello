@@ -9,6 +9,17 @@ import {findIndex} from "lodash"
 import {remove} from "lodash"
 import Avatars from '../Avatars.jsx'
 
+function openOverlay() {
+    document.getElementById('overlay__share-room').style.height = "100%";
+    document.getElementById('overlay__share-room').style.opacity = "1";
+}
+
+function closeOverlay() {
+    document.getElementById('overlay__share-room').style.height = "0%";
+    document.getElementById('overlay__share-room').style.opacity = "0";
+}
+
+
 class ChoicesView extends React.Component {
 
     constructor (props) {
@@ -42,12 +53,18 @@ class ChoicesView extends React.Component {
         if (this.props.role === 'admin') {
             return (
                 <div>
-                    <a href=""><div className="share-room__button">Share room</div></a>
+                    <div onClick={() => { openOverlay() }}>
+                        <a href="#">
+                            <div className="share-room__button">Share room</div>
+                        </a>
+                    </div>
                 </div>
             )
         }
         return null
     }
+
+    
 
     render () {
         let undoButton = ''
@@ -101,8 +118,17 @@ class ChoicesView extends React.Component {
                     <Footer/>
                     <Header/>
                 </div>
-                {this.props.newRoomButton}
-                {this.props.roomLink}
+
+                <div className="overlay__share-room" id="overlay__share-room" onClick={() => {
+                    closeOverlay()
+                }}>
+                    <div className="share-room__container">
+                        <div className="share-room__heading">Share this link to invite your team mates</div>
+                        {this.props.newRoomButton}
+                        {this.props.roomLink}
+                    </div>
+                </div>
+                
                 
             </div>
         )

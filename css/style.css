@@ -13,6 +13,15 @@ body {
     margin: 0;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    
+}
+
+body::-webkit-scrollbar { 
+    display: none; 
+}
+
+input[type="text"] {
+    padding: unset;
 }
 
 .choice_button {

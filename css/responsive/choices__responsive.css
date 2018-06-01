@@ -63,36 +63,104 @@
 
 @media (max-width: 480px) {
 	#second_div {
-		padding: 32px 16px 32px;
+		padding: 32px 8px 32px;
 	}
 	.choose-card__heading {
     	font-size: 18px;
     }
     .card__title {
-    	font-size: 16px;
+    	font-size: 14px;
     }
     .container__card {
-    	padding: 16px;
+		padding: 16px;
+		margin-bottom: 8px;
     }
     .container__choose-card {
 	    padding: 16px 16px 20px;
 	}
 	.card-button__see-card {
-		font-size: 14px;
+		font-size: 12px;
+		margin: 4px;
+		padding: 8px;
 	}
 	.button-text__esclude {
-		font-size: 14px;
+		font-size: 12px;
+		padding: 8px;
 	}
 	.wrapper__card-buttons {
-	display: flex;
-	flex-direction: column;
-	padding: 8px;
-	width: 100%;
+		padding: 8px 0;
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
 	}
+	.card-button__continue {
+		font-size: 12px;
+		margin: 4px;
+		padding: 8px;
+	}
+	.card-button__esclude {
+		margin: 4px;
+	}
+	.label__separator {
+		height: 1px;
+		width: 100%;
+		background: rgba(0,0,0,0.2);
+		margin: 8px 0;
+	}
+	.choose-card__heading {
+    	margin: 8px 0 16px;
+	}
+	.wrapper__card {
+		padding: 0;
+	}
+	.share-room__button {
+		font-size: 10px;
+		margin: 0px 8px 0 16px;
+		padding: 8px;
+	}
+	.card__voter{
+		height: 16px;
+	}
+	.card__admin{
+		height: 16px;
+	} 
+	.guest__label {
+		font-size: 10px;
+	}
+	.undo__button {
+    font-size: 10px;
+	}
+	.undo__button img {
+    width: 16px;
+	}
+	.normalize__undo-button {
+		margin-top: 0;
+	}
+	.container__actions-bar {
+     margin-top: 8px;
+	}
+	.container__top-bar {
+		align-items: initial;
+	}
+	.choose-card__heading {
+		margin: 0;
+		font-size: 16px;
+	}
+	.voter-info__text {
+		font-size: 10px;
+	}
+
 
 }
 
 @media (max-width: 320px) {
+
+	.wrapper__card-buttons {
+	display: flex;
+	flex-direction: column;
+	}
+
 	.choose-card__heading {
     	font-size: 16px;
     	margin: 16px 0;
@@ -106,6 +174,9 @@
     }
 
 	.card-button__esclude {
+		padding: 12px;
+	}
+	.card-button__continue {
 		padding: 12px;
 	}
 }
