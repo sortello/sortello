@@ -1,4 +1,5 @@
 @media (min-width: 1280px) {
+	
 	.container__choose-card {
     	padding: 56px 72px 72px;
 	}
@@ -11,15 +12,16 @@
 	.card__title {
     	font-size: 24px;
     }
-    .card-button__see-card {
+    
+	.card-button__see-card {
 		font-size: 18px;
 	}
 	.card-button__esclude {
 		font-size: 18px;
 	}
-	.card-button__continue {
+	.button-text__continue {
 		font-size: 18px;
-	}
+	}	
 	.text__prioritization-status {
 		font-size: 20px;
 		margin-top: 56px;

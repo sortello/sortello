@@ -7,7 +7,7 @@ class CardButtons extends React.Component {
 
         let continueButton = null
         if (this.props.everybodyVoted) {
-            continueButton = <div className="card-button__continue"
+            continueButton = <div className="card-button__continue button-text__continue"
                                   onClick={() => this.props.handleGoToNextVoting(this.props.side)}>Continue</div>
         }
         return (
