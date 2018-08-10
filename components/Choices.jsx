@@ -298,7 +298,7 @@ class Choices extends React.Component {
             return (
                 <div>
                     <div onClick={() => { openOverlay() }}>
-                        <a href="#" onClick={this.createRoom}>
+                        <a href="#" id="new-room-button" onClick={this.createRoom}>
                             <div className="share-room__button">
                                 {this.room ? 'Share room' : 'Open new room' }</div>
                         </a>
