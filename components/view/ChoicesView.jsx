@@ -1,6 +1,5 @@
 import React from "react";
 import Header from '../Header.jsx';
-import TreeDraw from '../TreeDraw.jsx';
 import Card from '../Card.jsx';
 import Footer from "../Footer.jsx"
 import {clone} from "lodash"
@@ -8,11 +7,6 @@ import {find} from "lodash"
 import {findIndex} from "lodash"
 import {remove} from "lodash"
 import Avatars from '../Avatars.jsx'
-
-function openOverlay() {
-    document.getElementById('overlay__share-room').style.height = "100%";
-    document.getElementById('overlay__share-room').style.opacity = "1";
-}
 
 function closeOverlay() {
     document.getElementById('overlay__share-room').style.height = "0%";
@@ -48,23 +42,6 @@ class ChoicesView extends React.Component {
         } 
         return null
     }
-
-    shareRoomButton() {
-        if (this.props.role === 'admin') {
-            return (
-                <div>
-                    <div onClick={() => { openOverlay() }}>
-                        <a href="#">
-                            <div className="share-room__button">Share room</div>
-                        </a>
-                    </div>
-                </div>
-            )
-        }
-        return null
-    }
-
-    
 
     render () {
         let undoButton = ''
@@ -110,7 +87,7 @@ class ChoicesView extends React.Component {
                         <div className="container__avatars" >
                             <div className="guest__label">Guests</div>
                             <Avatars users={this.props.roomVoters} />
-                            {this.shareRoomButton()}
+                            {this.props.newRoomButton}
                         </div>
                     </div>
                 </div>
@@ -127,7 +104,6 @@ class ChoicesView extends React.Component {
                             <img src="assets/icons/quit.svg" alt="" />
                         </div>
                         <div className="share-room__heading">Share this link to invite your team mates</div>
-                        {this.props.newRoomButton}
                         {this.props.roomLink}
                     </div>
                 </div>
