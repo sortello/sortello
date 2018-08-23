@@ -13,6 +13,15 @@ body {
     margin: 0;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    
+}
+
+body::-webkit-scrollbar { 
+    display: none; 
+}
+
+input[type="text"] {
+    padding: unset;
 }
 
 .choice_button {
@@ -31,6 +40,12 @@ body {
     top: 0;
     right: 0;
     border: 0;
+}
+
+@media (max-width: 480px) {
+    .forkMeRibbon img {
+        width: 96px;
+    }
 }
 
 

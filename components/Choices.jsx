@@ -10,6 +10,11 @@ import Room from "../model/Room.js"
 import ChoicesView from './view/ChoicesView.jsx'
 import RoomLink from './RoomLink.jsx'
 
+function openOverlay() {
+    document.getElementById('overlay__share-room').style.height = "100%";
+    document.getElementById('overlay__share-room').style.opacity = "1";
+}
+
 let socket = false;
 if (typeof socketAddress !== 'undefined') {
     if (socketAddress !== null) {
@@ -68,6 +73,9 @@ class Choices extends React.Component {
     }
 
     createRoom () {
+        if(this.room){
+            return;
+        }
         let component = this;
         let randomKey = getRandomKey()
         this.room = new Room(socket, randomKey)
@@ -288,8 +296,15 @@ class Choices extends React.Component {
     renderNewRoomButton () {
         if (socket) {
             return (
-                <button id="new-room-button" className={"button__open-room"} onClick={this.createRoom}>Open new
-                    room</button>)
+                <div>
+                    <div onClick={() => { openOverlay() }}>
+                        <a href="#" id="new-room-button" onClick={this.createRoom}>
+                            <div className="share-room__button">
+                                {this.room ? 'Share room' : 'Open new room' }</div>
+                        </a>
+                    </div>
+                </div>
+            )
         }
         return ''
     }
@@ -303,7 +318,8 @@ class Choices extends React.Component {
         if (this.room) {
             joinedVoters = joinedVoters.concat({
                 id: this.trelloId,
-                avatar: this.trelloAvatar
+                avatar: this.trelloAvatar,
+                isAdmin: true
             })
         }
 

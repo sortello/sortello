@@ -2,4 +2,7 @@
 	.footer__item {
 	    font-size: 10px;
 	}
+	.footer {
+		margin-top: 0;
+	}
 }

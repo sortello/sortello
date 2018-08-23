@@ -1,0 +1,35 @@
+.prioritization-end__container {
+    text-align: center;
+    background-color: white;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 300px;
+    box-shadow: 0px 2px 4px -2px;
+    padding: 56px 56px 72px;
+    margin: 56px 96px 32px;
+}
+
+.prioritization-end__heading {
+    
+    margin: 16px 0 8px;
+    font-size: 24px;
+    font-family: Fira Sans,sans-serif;
+    font-weight: 700;
+    width: 100%;
+    color: #4a4a4a;
+}
+
+.prioritization-end__paragraph {
+    font-family: "Fira Sans", sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: #4a4a4a;
+    margin-bottom: 32px;
+}
+
+.prioritization-end__buttons {
+    display: flex;
+    flex-direction: column;
+}
