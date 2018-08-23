@@ -98,10 +98,10 @@ class ChoicesView extends React.Component {
 
                 <div className="overlay__share-room" id="overlay__share-room">
                     <div className="share-room__container">
-                        <div className="share-room__close" onClick={() => {
-                            closeOverlay()
-                        }}>
-                            <img src="assets/icons/quit.svg" alt="" />
+                        <div className="share-room__close" >
+                            <img id="share-room__close" src="assets/icons/quit.svg" alt="" onClick={() => {
+                                closeOverlay()
+                            }}/>
                         </div>
                         <div className="share-room__heading">Share this link to invite your team mates</div>
                         {this.props.roomLink}
