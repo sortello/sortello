@@ -5,6 +5,8 @@ import queryString from 'query-string';
 import PrioritizationEnd from './PrioritizationEnd.jsx'
 import Room from '../model/Room.js'
 import ChoicesView from './view/ChoicesView.jsx'
+import AccessdeniedAnimation from './AccessdeniedAnimation.jsx';
+
 
 let socket = false;
 if (typeof socketAddress !== 'undefined') {
@@ -124,8 +126,14 @@ class Choices extends React.Component {
         })
     }
 
-    renderForbidden() {
-        return <div id="forbidden-div">You have no access to this board.</div>
+    renderForbidden () {
+        return  <div>
+                    <div className="no-access-message__container">
+                        <AccessdeniedAnimation />
+                        <div id="forbidden-div" className="no-access-message__heading">Ooops!</div>
+                <div className="no-access-message__paragraph">You have no access to this board, please contact board's administrator to gain access.</div>
+                    </div>
+                </div>
     }
 
     renderLoading() {
@@ -155,6 +163,7 @@ class Choices extends React.Component {
                 }}
                 progress={0}
                 selectedSide={this.state.selectedSide}
+                role="voter"
             />
         )
     }

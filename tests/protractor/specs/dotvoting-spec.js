@@ -46,14 +46,17 @@ describe('dotvoting', function () {
             let newRoomButton = element(by.css('#new-room-button'))
             browser.wait(EC.presenceOf(newRoomButton), 20000).then(function () {
               newRoomButton.click();
-
               let roomLinkElement = element(by.css('#room-link'))
               browser.wait(EC.presenceOf(roomLinkElement), 20000).then(function () {
                 roomLinkElement.getAttribute('value').then(function (link) {
-                  link = link.replace(browser.params.hostname + "/app.html", browser.params.hostname + ":4000/app.html")
-                  browser2.get(link)
-                  browser3.get(link)
-                  startChoices()
+                    link = link.replace(browser.params.hostname + "/app.html", browser.params.hostname + ":4000/app.html")
+                    browser2.get(link)
+                    browser3.get(link)
+                    let closeNewRoomModalLink = element(by.css('#share-room__close'))
+                    browser.wait(EC.presenceOf(closeNewRoomModalLink), 20000).then(function () {
+                        closeNewRoomModalLink.click();
+                        startChoices();
+                    });
                 })
               })
             })

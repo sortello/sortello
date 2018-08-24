@@ -38,7 +38,8 @@
 }
 
 .container__card-selected {
-  border: 5px solid #4a90e2;
+  background-color: #4a90e2;
+  color: white;
 }
 
 .container__choose-card {
@@ -80,7 +81,7 @@
     padding: 4px 8px;
     font-family: 'Fira Sans', sans-serif;
     color: white;
-    font-size: 0.9em;
+    font-size: 0.7em;
 }
 
 .label__separator {
@@ -177,27 +178,16 @@
   background-color: #005AFF;
 }*/
 
-.card-button__continue {
-  padding: 16px;
-  box-shadow: 0px 2px 4px -2px;
-  margin-bottom: 8px;
-  color: white;
-  border-radius: 4px;
-  background-color: #61bd4f;
-  transition: all 0.2s ease-in-out;
-  margin: 16px 8px;
-  cursor: pointer;
-}
 
 .card-button__esclude {
-  padding: 16px;
+  padding: 16px 8px;
   box-shadow: 0px 2px 4px -2px;
   margin-bottom: 8px;
   color: black;
   border-radius: 4px;
   background-color: #ff6565;
   transition: all 0.2s ease-in-out;
-  margin: 16px 8px;
+  margin: 16px 4px;
   cursor: pointer;
 }
 
@@ -208,7 +198,7 @@
 .button-text__esclude {
   text-align: center;
   font-family: 'Fira Sans', sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   color: white;
 }
 
@@ -218,16 +208,16 @@
 }
 
 .card-button__see-card {
-  padding: 16px;
+  padding: 16px 8px;
   box-shadow: 0px 2px 4px -2px;
   text-align: center;
   font-family: 'Fira Sans', sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   color: #4a4a4a;
   border-radius: 4px;
   background-color: #f3f3f3;
   transition: background-color 0.2s ease-in-out;
-  margin: 16px 0px;
+  margin: 16px 8px;
   text-decoration: none;
 }
 
@@ -236,36 +226,30 @@
   text-decoration: none;
 }
 
-.card-button__continue {
-  padding: 16px;
-  box-shadow: 0px 2px 4px -2px;
-  text-align: center;
-  font-family: 'Fira Sans', sans-serif;
-  font-size: 16px;
-  color: #4a4a4a;
-  border-radius: 4px;
-  background-color: #61bd4f;
-  transition: background-color 0.2s ease-in-out;
-  margin: 16px 0px;
-  text-decoration: none;
-}
 
-.card-button__continue:hover {
-  background-color: #4b903d;
-  text-decoration: none;
-}
+
+
 
 .card-button__continue {
-  padding: 16px;
-  box-shadow: 0px 2px 4px -2px;
+  padding: 16px 8px;
+  box-shadow: 0px 2px 4px -2px #333;
   margin-bottom: 8px;
   color: white;
   border-radius: 4px;
-  background-color: #61bd4f;
+  background-color: #68e0e6;
   transition: all 0.2s ease-in-out;
   margin: 16px 8px;
   cursor: pointer;
+  text-decoration: none;
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 14px;
 }
+
+.card-button__continue:hover {
+  background-color: #54d1cb;
+  text-decoration: none;
+}
+
 
 
 .button__open-room{
@@ -320,12 +304,148 @@
 }
 .card__voter{
   height: 36px;
-  margin-right: 5px;
-  border-radius: 6px;
-  box-shadow: 0px 2px 4px -2px;
+  margin-right: -8px;
+  border-radius: 18px;
+}
+.card__admin{
+  height: 36px;
+  margin-right: -8px;
+  border-radius: 20px;
+  border: #68e0e6 solid 2px;
+  box-sizing: content-box;
+} 
+
+.card__voters{
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  align-self: flex-end;
 }
 
-div.card__voters{
+.container__actions-bar {
+  display: flex;
+  flex-direction: row;
+  margin-top: 32px;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.container__voter-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.voter-info__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 24px;
+  background-color: #2AEA8A;
+  margin-right: 8px;
+}
+
+.voter-info__text {
+  font-family: "Fira Sans", sans-serif;
+  font-size: 14px;
+  line-height: 10px;
+  color: rgba(0,0,0,0.7);
+}
+
+.container__avatars {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.guest__label {
+  margin-right: 8px;
+  font-size: 14px;
+  font-family: "Fira Sans", sans-serif;
+}
+
+.share-room__button {
+  margin: 0 8px 0 24px;
+  padding: 8px 12px;
+  background-color: #f3f3f3;
+  box-shadow: 0px 2px 4px -2px;
+  border-radius: 4px;
+  font-family: "Fira Sans", sans-serif;
+  color: #333;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.share-room__button:hover {
+  box-shadow: 0px 0px 4px -2px;
+  text-decoration: none;
+}
+
+.overlay__share-room {
+    position: fixed;
+    width: 100%;
+    height: 0%;
+    opacity: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.9);
+    overflow-x: hidden;
+    transition: all 0.5s ease-in-out;
+
+}
+
+.share-room__container {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 8px;
+  margin: 160px 240px; 
+  padding: 40px 0;
   position: relative;
-  bottom: -20px;
+
+}
+
+.share-room__heading {
+  font-size: 20px;
+  line-height: 32px;
+    font-family: "Fira Sans", sans-serif;
+    font-weight: bold;
+    color: #4A4A4A;
+    margin-bottom: 20px;
+}
+
+#room-link {
+  background: #f3f3f3;
+  border-radius: 8px;
+  max-width: 640px;
+  text-align: center;
+  font-size: 14px;
+  font-family: "Fira Sans", sans-serif;
+  padding: 8px;
+  width: 640px;
+  margin-bottom: 20px;
+}
+
+.share-link__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.copy-to-clipboard__button button {
+  border-radius: 4px;
+  background-color: #4A90E2;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+  color: #FFFFFF;
+  font-family: "Fira Sans";
+  font-size: 14px;
+  line-height: 22px;
+  padding: 8px 16px;
+}
+
+.share-room__close img {
+    position: absolute;
+    right: 32px;
+    top: 16px;
+    width: 16px;
+    cursor: pointer;
 }

@@ -23,6 +23,9 @@ require("./css/responsive/send-success__responsive.css");
 require("./css/responsive/send-ordered__responsive.css");
 require("./css/recap.css");
 require("./css/responsive/recap__responsive.css");
+require("./css/prioritization-end.css");
+require("./css/responsive/prioritization-end__responsive.css");
+require("./css/no-access-message.css");
 
 const containerEl = document.getElementById("container")
 render(<App/>, containerEl)

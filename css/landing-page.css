@@ -198,11 +198,11 @@ body {
 
 .landing-footer__container {
     margin: 0;
-    padding: 120px 320px 56px;
+    padding: 80px 320px 56px;
     text-align: center;
 }
 .landing-footer__item {
-    margin: 32px;
+    margin: 16px;
     font-size: 18px;
     color: #0099ff;
     font-family: "Fira Sans", sans-serif;
@@ -232,6 +232,17 @@ body {
     text-decoration: none;
 }
 
+.landing-footer__social {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+.social__item img {
+    margin: 0 16px;
+}
+
 .back-to-top__button {
     margin-top: 32px;
     font-family: "Fira Sans", sans-serif;
@@ -250,3 +261,17 @@ body {
  .chrome-desktop, .other-desktop, .mobile-other, .firefox-desktop{
      display: none;
  }
+
+ .forkMeRibbon {
+    z-index: 2;
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+
+.forkMeRibbon img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 0;
+}

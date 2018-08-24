@@ -9,7 +9,7 @@ describe('dotvoting', function () {
   afterEach(function () {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
   });
-  it('prioritizes a list in ascending order with 1 host and 2 guests', function (done) {
+  it('prioritizes multiple rooms', function (done) {
 
     browser.ignoreSynchronization = true;
     browser.driver.manage().window().setSize(840, 524);
@@ -58,21 +58,29 @@ describe('dotvoting', function () {
                 browser1.wait(EC.presenceOf(roomLinkElement), 20000).then(function () {
                   roomLinkElement.getAttribute('value').then(function (link) {
                     browser2.get(link.replace(browser.params.hostname + "/app.html", browser.params.hostname + ":4000/app.html"))
-                    browser3.get('/app.html?extId=' + browser1.params.testTrelloExtId2)
-                    let newRoomButton = browser3.element(by.css('#new-room-button'))
-                    allLabel = browser3.element(by.css('.label__item.label__none'))
-                    browser3.wait(EC.presenceOf(allLabel), 20000).then(function () {
-                      allLabel.click();
-                      browser3.wait(EC.presenceOf(newRoomButton), 20000).then(function () {
-                        newRoomButton.click();
-                        let roomLinkElement = browser3.element(by.css('#room-link'))
-                        browser3.wait(EC.presenceOf(roomLinkElement), 20000).then(function () {
-                          roomLinkElement.getAttribute('value').then(function (link) {
-                            browser4.get(link.replace(browser.params.hostname + "/app.html", browser.params.hostname + ":4000/app.html"))
-                            startChoices()
+                      let closeNewRoomModalLink1 = browser1.element(by.css('#share-room__close'))
+                      browser1.wait(EC.presenceOf(closeNewRoomModalLink1), 20000).then(function () {
+                          closeNewRoomModalLink1.click();
+                      browser3.get('/app.html?extId=' + browser1.params.testTrelloExtId2)
+                        let newRoomButton = browser3.element(by.css('#new-room-button'))
+                        allLabel = browser3.element(by.css('.label__item.label__none'))
+                        browser3.wait(EC.presenceOf(allLabel), 20000).then(function () {
+                          allLabel.click();
+                          browser3.wait(EC.presenceOf(newRoomButton), 20000).then(function () {
+                            newRoomButton.click();
+                            let roomLinkElement = browser3.element(by.css('#room-link'))
+                              browser3.wait(EC.presenceOf(roomLinkElement), 20000).then(function () {
+                              roomLinkElement.getAttribute('value').then(function (link) {
+                                  browser4.get(link.replace(browser.params.hostname + "/app.html", browser.params.hostname + ":4000/app.html"))
+                                  let closeNewRoomModalLink = browser3.element(by.css('#share-room__close'))
+                                  browser3.wait(EC.presenceOf(closeNewRoomModalLink), 20000).then(function () {
+                                      closeNewRoomModalLink.click();
+                                      startChoices()
+                                  })
+                              })
+                            })
                           })
                         })
-                      })
                     })
                   })
                 })
@@ -121,13 +129,22 @@ describe('dotvoting', function () {
                 else {
                   let leftCard = b.element(by.css('#left_button .card__title'));
                   let rightCard = b.element(by.css('#right_button .card__title'));
+                  let leftButton = b.element(by.css('#left_button .container__card'));
+                  let rightButton = b.element(by.css('#right_button .container__card'));
+
                   b.wait(EC.and(EC.presenceOf(leftCard), EC.presenceOf(rightCard)), 20000).then(function () {
                     leftCard.getText().then(function (leftValue) {
                       rightCard.getText().then(function (rightValue) {
                         if (bPriorities.indexOf(rightValue) < bPriorities.indexOf(leftValue)) {
-                          b.element(by.css('#right_button .container__card')).click()
+                            b.wait(EC.and(EC.elementToBeClickable(rightButton)), 20000).then(function () {
+                                b.actions().mouseMove(rightButton).click().perform();
+                                // rightButton.click()
+                            })
                         } else {
-                          b.element(by.css('#left_button .container__card')).click()
+                            b.wait(EC.and(EC.elementToBeClickable(leftButton)), 20000).then(function () {
+                                b.actions().mouseMove(leftButton).click().perform();
+                                // leftButton.click()
+                            })
                         }
                       });
                     });

@@ -53,7 +53,9 @@ const voters = {
 
 const roomVoters = [
     {trelloAvatar: '//www.gravatar.com/avatar/94d093eda664addd6e450d7ew881bcad?s=32&d=identicon&r=PG'},
-    {trelloAvatar: '//www.gravatar.com/avatar/94d093eda664addd6e450d7ew831bcad?s=32&d=identicon&r=PG'}
+    {trelloAvatar: '//www.gravatar.com/avatar/94d093eda664addd6e450d7ew831bcad?s=32&d=identicon&r=PG'},
+    {trelloAvatar: '//www.gravatar.com/avatar/94d093eda664addd6e450d7ew831bcad?s=32&d=identicon&r=PG'},
+    {trelloAvatar: '//www.gravatar.com/avatar/94d093eda664addd6e450d7ew831bcad?s=32&d=identicon&r=PG', isAdmin:true}
 ]
 
 class StyleguideApp extends React.Component {
@@ -80,6 +82,7 @@ class StyleguideApp extends React.Component {
                 }}
                 progress={75}
                 selectedSide={'compareNode'}
+                role="voter"
             />
         )
     }
@@ -103,6 +106,7 @@ class StyleguideApp extends React.Component {
                 }}
                 progress={60}
                 selectedSide={null}
+                role="admin"
             />
         )
     }

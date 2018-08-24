@@ -49,7 +49,6 @@ describe('cannot vote if cannot access to board', function () {
                     done()
                   })
                 })
-              //
               })
             })
           })
