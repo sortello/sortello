@@ -157,8 +157,8 @@ class ColumnSelection extends React.Component {
         if (this.state.lists.length === 0 || this.state.fromExtension === true) {
             return ""
         }
-        return <p><ListSelector lists={this.state.lists}
-                                onChange={this.handleListClicked}/></p>
+        return <ListSelector lists={this.state.lists}
+                                onChange={this.handleListClicked}/>
     }
 
     renderLabelSelector () {
@@ -172,21 +172,23 @@ class ColumnSelection extends React.Component {
         return (
             <div id="card_url_div">
                 <div className="selection__wrapper">
-                    <div className="selection__container selection__container--animation">
-                        <div className="select-list--text-container selection__heading">
+                    <div className="selection__container--animation">
+                        <div className="selection__heading">
                             {
                                 (this.state.fromExtension === true) ?
                                     "Filter by label, or select All" :
-                                    "First of all, select the board you want to prioritize"
+                                    "Welcome to sortello, Filippo"
                             }
                         </div>
-                        {this.renderBoardSelector()}
-                        {this.renderListSelector()}
-                        {this.renderLabelSelector()}
+                        <div className="selection__container">
+                          {this.renderBoardSelector()}
+                          {this.renderListSelector()}
+                          {this.renderLabelSelector()}
+                        </div>
                     </div>
-                    <div className={"footer footer--animated"}>
-                        <Footer/>
+                    <div className={"footer"}>
                         <Header/>
+                        <Footer/>
                     </div>
                 </div>
             </div>

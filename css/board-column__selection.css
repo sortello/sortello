@@ -82,19 +82,15 @@
 }
 
 .selection__heading {
-	font-size: 32px;
 	font-family: "Fira Sans", sans-serif;
 	color: #4A4A4A;
-	font-weight: bold;
-	margin-bottom: 20px;
+	margin-bottom: 40px;
+  color: #FFFFFF;
+  font-size: 28px;
+  line-height: 40px;
 }
 
-.selection__container {
-	background-color: #ffffff;
-	border-radius: 4px;
-	box-shadow: 0 2px 4px 0;
-	padding: 54px 80px;
-}
+
 
 .selection__container--animation {
 	animation-name: fade-in-container;
@@ -103,7 +99,12 @@
 
 .selection__wrapper {
 	padding: 120px 120px 56px;
-    text-align: center;
+  text-align: left;
+}
+
+.selection__container {
+  display: grid;
+  grid-template-columns: 50% 50%;
 }
 
 @keyframes fade-in-container {
@@ -149,4 +150,21 @@
 .undo__button img {
     width: 24px;
     margin-right: 8px;
+}
+
+
+.selection-form {
+  background: white;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.3);
+  padding: 20px 24px 24px 24px;
+  margin: 0 16px 20px 0;
+}
+
+.board-selection__microcopy {
+  color: #4A4A4A;
+  font-family: "Fira Sans";
+  font-size: 16px;
+  line-height: 20px;
 }
