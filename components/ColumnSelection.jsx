@@ -6,6 +6,7 @@ import ListSelector from './ListSelector.jsx'
 import LabelSelector from './LabelSelector.jsx'
 import queryString from "query-string";
 import Footer from "./Footer.jsx"
+import ProceedButton from "./ProceedButton.jsx"
 
 class ColumnSelection extends React.Component {
     constructor (props) {
@@ -17,15 +18,18 @@ class ColumnSelection extends React.Component {
             groupedboards: [],
             organizations: [],
             fromExtension: false,
-            boardId: null
+            boardId: null,
+            isLabelSelected: false
         }
         this.getBoardColumns = this.getBoardColumns.bind(this);
         this.retrieveCardsByListId = this.retrieveCardsByListId.bind(this);
         this.handleBoardClicked = this.handleBoardClicked.bind(this);
         this.handleListClicked = this.handleListClicked.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
-        this.labelSelected = this.labelSelected.bind(this);
+        this.handleProceedButtonClicked = this.handleProceedButtonClicked.bind(this);
         this.getBoards = this.getBoards.bind(this);
+        this.handleLabelClicked = this.handleLabelClicked.bind(this); 
+
     }
 
     componentDidMount () {
@@ -86,7 +90,18 @@ class ColumnSelection extends React.Component {
         });
     }
 
-    labelSelected (labelId) {
+    // labelSelected (labelId) {
+    //     let listCards = this.state.listCards;
+    //     if (labelId !== 0) {
+    //         let label = find(this.state.labels, {'id': labelId});
+    //         listCards = _.filter(this.state.listCards, function (card) {
+    //             return find(card.labels, {'id': label.id}) !== undefined;
+    //         });
+    //     }
+    //     this.props.handleCards(listCards, this.state.boardId);
+    // }
+
+    handleProceedButtonClicked (labelId) {
         let listCards = this.state.listCards;
         if (labelId !== 0) {
             let label = find(this.state.labels, {'id': labelId});
@@ -145,6 +160,10 @@ class ColumnSelection extends React.Component {
         this.retrieveCardsByListId(list.id);
     }
 
+    handleLabelClicked (labelId) {
+      this.setState({isLabelSelected:true})
+    }
+
     renderBoardSelector () {
         if (this.state.fromExtension === true) {
             return ""
@@ -165,14 +184,21 @@ class ColumnSelection extends React.Component {
         if (this.state.labels.length === 0) {
             return ""
         }
-        return <LabelSelector labels={this.state.labels} onClick={this.labelSelected}/>
+        return <LabelSelector labels={this.state.labels} onChange={this.handleLabelClicked}/>
+    }
+
+    renderProceedButton () {
+      if (!this.state.isLabelSelected) {
+        return ""
+      }
+      return <ProceedButton onClick={this.handleProceedButtonClicked} />
     }
 
     render () {
         return (
             <div id="card_url_div">
                 <div className="selection__wrapper">
-                    <div className="selection__container--animation">
+                    <div>
                         <div className="selection__heading">
                             {
                                 (this.state.fromExtension === true) ?
@@ -180,10 +206,11 @@ class ColumnSelection extends React.Component {
                                     "Welcome to sortello, Filippo"
                             }
                         </div>
-                        <div className="selection__container">
+                        <div className="selection__container selection__container--animation">
                           {this.renderBoardSelector()}
                           {this.renderListSelector()}
                           {this.renderLabelSelector()}
+                          {this.renderProceedButton()}
                         </div>
                     </div>
                     <div className={"footer"}>
