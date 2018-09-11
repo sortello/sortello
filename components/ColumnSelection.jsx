@@ -19,7 +19,7 @@ class ColumnSelection extends React.Component {
             organizations: [],
             fromExtension: false,
             boardId: null,
-            isLabelSelected: false
+            selectedLabel: null
         }
         this.getBoardColumns = this.getBoardColumns.bind(this);
         this.retrieveCardsByListId = this.retrieveCardsByListId.bind(this);
@@ -90,26 +90,8 @@ class ColumnSelection extends React.Component {
         });
     }
 
-    // labelSelected (labelId) {
-    //     let listCards = this.state.listCards;
-    //     if (labelId !== 0) {
-    //         let label = find(this.state.labels, {'id': labelId});
-    //         listCards = _.filter(this.state.listCards, function (card) {
-    //             return find(card.labels, {'id': label.id}) !== undefined;
-    //         });
-    //     }
-    //     this.props.handleCards(listCards, this.state.boardId);
-    // }
-
-    handleProceedButtonClicked (labelId) {
-        let listCards = this.state.listCards;
-        if (labelId !== 0) {
-            let label = find(this.state.labels, {'id': labelId});
-            listCards = _.filter(this.state.listCards, function (card) {
-                return find(card.labels, {'id': label.id}) !== undefined;
-            });
-        }
-        this.props.handleCards(listCards, this.state.boardId);
+    labelSelected (labelId) {
+        this.setState({selectedLabel: labelId})
     }
 
     retrieveCardsByListId (listId) {
@@ -161,7 +143,19 @@ class ColumnSelection extends React.Component {
     }
 
     handleLabelClicked (labelId) {
-      this.setState({isLabelSelected:true})
+        this.labelSelected(labelId)
+    }
+
+    handleProceedButtonClicked () {
+        let labelId = this.state.selectedLabel
+        let listCards = this.state.listCards;
+        if (labelId !== 0) {
+            let label = find(this.state.labels, {'id': labelId});
+            listCards = _.filter(this.state.listCards, function (card) {
+                return find(card.labels, {'id': label.id}) !== undefined;
+            });
+        }
+        this.props.handleCards(listCards, this.state.boardId);
     }
 
     renderBoardSelector () {
@@ -188,10 +182,10 @@ class ColumnSelection extends React.Component {
     }
 
     renderProceedButton () {
-      if (!this.state.isLabelSelected) {
-        return ""
-      }
-      return <ProceedButton onClick={this.handleProceedButtonClicked} />
+        if (this.state.selectedLabel === null) {
+            return ""
+        }
+        return <ProceedButton onClick={this.handleProceedButtonClicked} />
     }
 
     render () {
@@ -207,10 +201,10 @@ class ColumnSelection extends React.Component {
                             }
                         </div>
                         <div className="selection__container selection__container--animation">
-                          {this.renderBoardSelector()}
-                          {this.renderListSelector()}
-                          {this.renderLabelSelector()}
-                          {this.renderProceedButton()}
+                            {this.renderBoardSelector()}
+                            {this.renderListSelector()}
+                            {this.renderLabelSelector()}
+                            {this.renderProceedButton()}
                         </div>
                     </div>
                     <div className={"footer"}>
