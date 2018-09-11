@@ -34,7 +34,7 @@ const loaders = [{
 module.exports = [{
   entry: "./index.js",
   output: {
-    path: './build',       // target dir
+    ppath: __dirname + '/build',       // target dir
     filename: "bundle.js",
     publicPath: "/build/" // path in URL
   },
@@ -45,7 +45,7 @@ module.exports = [{
   {
     entry: "./styleguide.js",
     output: {
-      path: './styleguideBuild',       // target dir
+      path: __dirname + '/styleguideBuild',       // target dir
       filename: "styleguideBundle.js",
       publicPath: "/styleguideBuild/" // path in URL
     },
