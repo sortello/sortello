@@ -3,15 +3,17 @@
 	.selection__wrapper {
 		padding: 96px 25% 56px;
 	}
+
 	.selection__heading {
 		font-size: 32px;
 		margin-bottom: 32px;
 	}
+
 	.select-field__select {
 	    font-size: 18px;
 	    padding: 16px;
-	    margin: 16px 0;
 	}
+
 	.selection__container {
 	  display: grid;
 	  grid-template-columns: 100%;
@@ -24,22 +26,25 @@
 	.selection__wrapper {
 		padding: 96px 80px 56px;
 	}
+
 	.selection__container {
 		padding: 40px 32px;
 	}
+
 	.selection__heading {
 		font-size: 32px;
 		margin-bottom: 32px;
 	}
-	.select-field__select {
 
+	.select-field__select {
 	    font-size: 18px;
 	    padding: 16px;
-	    margin: 16px 0;
 	}
+
 	.button__start-prioritizing {
 		margin-right: 0;
 	}
+
 	.selection-form {
 		margin: 0 0 20px 0;
 	}
@@ -50,19 +55,21 @@
 	.selection__wrapper {
 		padding: 56px 56px 32px;
 	}
+
 	.selection__container {
 		padding: 40px 0;
 	}
+
 	.selection__heading {
 		font-size: 24px;
 		margin-bottom: 32px;
 	}
+
 	.select-field__select {
 
 	    font-size: 16px;
 	    padding: 16px;
 	    width:100%;
-	    margin: 16px 0;
 	}
 }
 
@@ -71,22 +78,26 @@
 	.selection__wrapper {
 		padding: 56px 16px 32px;
 	}
+
 	.selection__container {
 		padding: 24px 0;
 	}
+
 	.selection__heading {
 		font-size: 21px;
 		margin-bottom: 16px;
 	}
+
 	.select-field__select {
 
 	    font-size: 14px;
 	    padding: 16px;
-	    margin: 8px 0;
 	}
+
 	.undo__button {
 		font-size: 14px;
 	}
+
 	.selection-form {
 		margin-right: 0;
 		margin-bottom: 12px;
@@ -99,17 +110,19 @@
 	.selection__wrapper {
 		padding: 40px 16px 32px;
 	}
+
 	.selection__container {
 		padding: 16px;
 	}
+
 	.selection__heading {
 		font-size: 20px;
 		margin-bottom: 16px;
 	}
+	
 	.select-field__select {
 
 	    font-size: 14px;
 	    padding: 16px;
-	    margin: 8px 0;
 	}
 }
