@@ -2,7 +2,13 @@
 	.footer__item {
 	    font-size: 10px;
 	}
-	.footer {
-		margin-top: 0;
+
+	.footer{
+	    display: flex;
+	    flex-direction: row-reverse;
+	    align-items: center;
+			margin-top: 0;
+			position: inherit;
+
 	}
 }
