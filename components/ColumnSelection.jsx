@@ -167,7 +167,13 @@ class ColumnSelection extends React.Component {
         })
 
         let list = find(this.state.lists, { 'id': listId });
-        this.retrieveCardsByListId(list.id);
+        if (list) {
+            this.retrieveCardsByListId(list.id);
+        } else {
+            this.setState({
+                labels: [],
+            })
+        }
     }
 
     renderBoardSelector() {
