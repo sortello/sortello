@@ -23,7 +23,6 @@ class ColumnSelection extends React.Component {
         this.retrieveCardsByListId = this.retrieveCardsByListId.bind(this);
         this.handleBoardClicked = this.handleBoardClicked.bind(this);
         this.handleListClicked = this.handleListClicked.bind(this);
-        this.componentDidMount = this.componentDidMount.bind(this);
         this.labelSelected = this.labelSelected.bind(this);
         this.getBoards = this.getBoards.bind(this);
     }
@@ -131,13 +130,17 @@ class ColumnSelection extends React.Component {
         });
     }
 
-    handleBoardClicked (boardId) {
-        this.setState({
-            boardId: boardId
-        })
+    handleBoardClicked(boardId) {
+        const currentBoardId = this.state.boardId;
 
-        let board = find(this.state.boards, {'id': boardId});
-        this.getBoardColumns(board)
+        if (boardId !== currentBoardId) {
+            this.setState({
+                boardId,
+                labels: [],
+            })
+            let board = find(this.state.boards, { 'id': boardId });
+            this.getBoardColumns(board)
+        }
     }
 
     handleListClicked (listId) {
