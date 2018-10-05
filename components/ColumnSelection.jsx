@@ -166,6 +166,7 @@ class ColumnSelection extends React.Component {
             noCardsError: false,
         })
 
+        // If list does not exist, reset all labels (it means we have clicked the 'Select List' entry)
         let list = find(this.state.lists, { 'id': listId });
         if (list) {
             this.retrieveCardsByListId(list.id);
