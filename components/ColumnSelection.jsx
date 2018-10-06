@@ -80,7 +80,6 @@ class ColumnSelection extends React.Component {
                 groupedboards: boardGroups,
                 organizations: organizations
             })
-
         }, function (e) {
             console.log(e);
         });
@@ -112,8 +111,7 @@ class ColumnSelection extends React.Component {
             that.setState({
                 listCards: listCards
             });
-
-            // Display a message error if current list contains no cards
+            // Display an error message if current list contains no cards
             if (listCards.length === 0) {
                 that.setState({
                     labels: [],
