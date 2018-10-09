@@ -23,6 +23,7 @@ jobs:
         - v1-dep-
     - run: npm install
     - run: npm install webpack -g
+    - run: npm install webpack-cli -g
     - run: webpack
     - save_cache:
         key: v1-dep-{{ .Branch }}-{{ epoch }}
