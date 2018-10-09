@@ -9,6 +9,12 @@ import queryString from "query-string"
 import TrelloApi from "./api/TrelloApi"
 import GithubApi from "./api/GithubApi"
 
+const AUTHENTICATION_FORM = 1;
+const COLUMN_SELECT = 2;
+const CHOICES = 3;
+const SEND_DATA_TO_SERVER = 4;
+const CHOICES_VOTER = 5;
+
 class App extends React.Component {
     constructor(props) {
         super(props)
@@ -16,7 +22,7 @@ class App extends React.Component {
             BoardApi: new TrelloApi(),
             nodes: Array(),
             rootNode: null,
-            currentView: 1,
+            currentView: AUTHENTICATION_FORM,
             startTimeStamp: null,// 1-Authentication 2-ColumnSelect 3-Choices 4-SendDataToServer
             boardId: null,
             fromExtension: null,
@@ -38,7 +44,6 @@ class App extends React.Component {
         });
 
         const params = queryString.parse(location.search);
-
         if (this.choice("ext")) {
             this.setState({
                 fromExtension: params.fw === 'g' ? "Github" : "Trello",
@@ -88,11 +93,11 @@ class App extends React.Component {
             this.setState({
                 rootNode: [],
                 nodes: [],
-                currentView: 5
+                currentView: CHOICES_VOTER
             })
         } else {
             this.setState({
-                currentView: 2
+                currentView: COLUMN_SELECT
             });
         }
     }
@@ -108,7 +113,7 @@ class App extends React.Component {
             boardId: boardId,
             rootNode: nodes.shift(),
             nodes: nodes,
-            currentView: 3
+            currentView: CHOICES
         }, function () {
             that.refs.choices.startChoices();
         })
@@ -117,7 +122,7 @@ class App extends React.Component {
     setSortedRootNode(rootNode) {
         this.setState({
             rootNode: rootNode,
-            currentView: 4
+            currentView: SEND_DATA_TO_SERVER
         })
     }
 
@@ -172,15 +177,15 @@ class App extends React.Component {
 
     getCurrentView() {
         switch (this.state.currentView) {
-            case 1:
+            case AUTHENTICATION_FORM:
                 return this.renderAuthenticationForm()
-            case 2:
+            case COLUMN_SELECT:
                 return this.renderColumnSelection()
-            case 3:
+            case CHOICES:
                 return this.renderChoices()
-            case 4:
+            case SEND_DATA_TO_SERVER:
                 return this.renderResults()
-            case 5:
+            case CHOICES_VOTER:
                 return this.renderChoicesVoter()
             default:
                 return this.renderError()

@@ -4,6 +4,10 @@ import Logo from "./Logo.jsx"
 class Authentication extends React.Component {
     constructor (props) {
         super(props);
+
+        if(localStorage.getItem("trello_token") !== undefined){
+            this.props.BoardApi.authenticate(this.props.onAuthentication)
+        }
     }
 
     handleStartButtonClick () {
