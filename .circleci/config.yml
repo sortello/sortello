@@ -22,8 +22,8 @@ jobs:
         - v1-dep-master-
         - v1-dep-
     - run: npm install
-    - run: npm install webpack -g
-    - run: npm install webpack-cli -g
+    - run: npm install webpack@1.15.0 -g
+    - run: npm install webpack-cli@1.5.3 -g
     - run: webpack
     - save_cache:
         key: v1-dep-{{ .Branch }}-{{ epoch }}
