@@ -1,12 +1,11 @@
-const loaders = [{
-  test: /\.jsx?$/,         // Match both .js and .jsx files
-  exclude: /node_modules/,
-  loader: "babel",
-  query:
-    {
-      presets: ["react", "es2015"]
-    }
-},
+const path = require('path')
+  
+const loaders = [
+  {
+    test: /\.jsx?$/,         // Match both .js and .jsx files
+    exclude: /node_modules/,
+    loader: "babel-loader",
+  },
   {
     test: /\.css$/,
     loader: "style-loader!css-loader"
@@ -34,22 +33,22 @@ const loaders = [{
 module.exports = [{
   entry: "./index.js",
   output: {
-    path: './build',       // target dir
+    path: path.resolve(__dirname, 'build'),       // target dir
     filename: "bundle.js",
     publicPath: "/build/" // path in URL
   },
   module: {
-    loaders: loaders
+    rules: [...loaders]
   }
 },
-  {
-    entry: "./styleguide.js",
-    output: {
-      path: './styleguideBuild',       // target dir
-      filename: "styleguideBundle.js",
-      publicPath: "/styleguideBuild/" // path in URL
-    },
-    module: {
-      loaders: loaders
-    }
-  }]
+{
+  entry: "./styleguide.js",
+  output: {
+    path: path.resolve(__dirname, 'styleguideBuild'),      // target dir
+    filename: "styleguideBundle.js",
+    publicPath: "/styleguideBuild/" // path in URL
+  },
+  module: {
+    rules: [...loaders]
+  }
+}]
