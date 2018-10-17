@@ -95,24 +95,6 @@ class ColumnSelection extends React.Component {
         this.setState({selectedLabel: labelId})
     }
 
-    // labelSelected(labelId) {
-    //     let listCards = this.state.listCards;
-    //     if (labelId !== 0) {
-    //         let label = find(this.state.labels, { 'id': labelId });
-    //         listCards = _.filter(this.state.listCards, function (card) {
-    //             return find(card.labels, { 'id': label.id }) !== undefined;
-    //         });
-    //     }
-    //     if (listCards.length === 0) {
-    //         this.setState({
-    //             labels: [],
-    //             noCardsError: true
-    //         })
-    //     } else {
-    //         this.props.handleCards(listCards, this.state.boardId);
-    //     }
-    // }
-
     retrieveCardsByListId(listId) {
         let that = this;
         let labels = [];
@@ -192,7 +174,7 @@ class ColumnSelection extends React.Component {
     handleProceedButtonClicked () {
         let labelId = this.state.selectedLabel
         let listCards = this.state.listCards;
-        if (labelId !== 0) {
+        if (labelId !== 0 && labelId !== '0') {
             let label = find(this.state.labels, {'id': labelId});
             listCards = _.filter(this.state.listCards, function (card) {
                 return find(card.labels, {'id': label.id}) !== undefined;
@@ -213,8 +195,8 @@ class ColumnSelection extends React.Component {
         if (this.state.lists.length === 0 || this.state.fromExtension === true) {
             return ""
         }
-        return <p><ListSelector lists={this.state.lists}
-            onChange={this.handleListClicked} /></p>
+        return <ListSelector lists={this.state.lists}
+            onChange={this.handleListClicked} />
     }
 
     renderLabelSelector() {

@@ -9,11 +9,15 @@ export default ({labels, onChange}) => {
 
             <Select
                 onChange={onChange}
-                placeHolder={"Prioritize all labels"}
+                placeHolder={"Select labels"}
                 options={
-                    labels.map(function (item) {
-                        return <option key={item.id} value={item.id}>{item.name}</option>
-                    }.bind(this))
+                    [
+                        <option key={0} value={0}>Select All</option>
+                    ].concat(
+                        labels.map(function (item) {
+                            return <option key={item.id} value={item.id}>{item.name}</option>
+                        }.bind(this))
+                    )
                 }
             />
         </div>
