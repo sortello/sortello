@@ -80,7 +80,7 @@
 	}
 
 	.selection__container {
-		padding: 24px 0;
+		padding: 24px 0 0;
 	}
 
 	.selection__heading {
@@ -112,14 +112,14 @@
 	}
 
 	.selection__container {
-		padding: 16px;
+		padding: 16px 0;
 	}
 
 	.selection__heading {
 		font-size: 20px;
 		margin-bottom: 16px;
 	}
-	
+
 	.select-field__select {
 
 	    font-size: 14px;

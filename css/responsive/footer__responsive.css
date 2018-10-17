@@ -12,3 +12,28 @@
 
 	}
 }
+
+@media (max-width: 480px) {
+	.footer__container {
+    flex-direction: column-reverse;
+    text-align: center;
+    margin: 0;
+	}
+	.logout__button {
+    margin: 0 0 16px;
+    text-align: center;
+	}
+	.footer {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+		margin-top: 32px;
+	}
+	.logout__button--style {
+    margin-left: 0px;
+	}
+	.footer__item {
+    margin-left: 0;
+		margin-bottom: 16px;
+	}
+}
