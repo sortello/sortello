@@ -20,7 +20,8 @@ class ColumnSelection extends React.Component {
             noCardsError: false,
             fromExtension: false,
             boardId: null,
-            selectedLabel: null
+            selectedLabel: null,
+            username: null
         }
         this.getBoardColumns = this.getBoardColumns.bind(this);
         this.retrieveCardsByListId = this.retrieveCardsByListId.bind(this);
@@ -30,8 +31,8 @@ class ColumnSelection extends React.Component {
         this.handleProceedButtonClicked = this.handleProceedButtonClicked.bind(this);
         this.labelSelected = this.labelSelected.bind(this);
         this.getBoards = this.getBoards.bind(this);
-        this.handleLabelClicked = this.handleLabelClicked.bind(this); 
-
+        this.handleLabelClicked = this.handleLabelClicked.bind(this);
+        this.getTrelloUsername = this.getTrelloUsername.bind(this);
     }
 
     componentDidMount() {
@@ -52,6 +53,7 @@ class ColumnSelection extends React.Component {
         if (this.state.organizations.length > 0) {
             return;
         }
+        this.getTrelloUsername(Trello)
         this.getBoards(Trello)
     }
 
@@ -85,6 +87,18 @@ class ColumnSelection extends React.Component {
                 boards: boards,
                 groupedboards: boardGroups,
                 organizations: organizations
+            })
+        }, function (e) {
+            console.log(e);
+        });
+    }
+
+    getTrelloUsername(Trello) {
+        let component = this
+        Trello.members.get('me', function (data) {
+            let username = data.username;
+            component.setState({
+                username: username
             })
         }, function (e) {
             console.log(e);
@@ -222,7 +236,7 @@ class ColumnSelection extends React.Component {
                             {
                                 (this.state.fromExtension === true) ?
                                     "Filter by label, or select All" :
-                                    "Welcome to sortello, Filippo"
+                                    `Welcome to sortello, ${this.state.username}`
                             }
                         </div>
                         <div className="selection__container selection__container--animation">
