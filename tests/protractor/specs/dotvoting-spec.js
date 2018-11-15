@@ -12,19 +12,20 @@ describe('dotvoting', function () {
   it('prioritizes a list in ascending order with 1 host and 2 guests', function (done) {
 
     browser.ignoreSynchronization = true;
-    browser.driver.manage().window().setSize(840, 1032);
-    browser.driver.manage().window().setPosition(0, 0);
-    browser.driver.manage().window().toolbar = 0;
-    browser.driver.manage().window().menubar = 0;
 
     let browser1 = browser
-
     let browser2 = browser.forkNewDriverInstance();
+    let browser3 = browser.forkNewDriverInstance();
+
+    browser1.driver.manage().window().setSize(840, 1032);
+    browser1.driver.manage().window().setPosition(0, 0);
+    // browser1.driver.manage().window().toolbar = 0;
+    // browser1.driver.manage().window().menubar = 0;
+
     browser2.ignoreSynchronization = true;
     browser2.driver.manage().window().setSize(840, 524);
     browser2.driver.manage().window().setPosition(840, 0);
 
-    let browser3 = browser.forkNewDriverInstance();
     browser3.ignoreSynchronization = true;
     browser3.driver.manage().window().setSize(840, 524);
     browser3.driver.manage().window().setPosition(840, 524);
@@ -35,36 +36,29 @@ describe('dotvoting', function () {
       ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
     ]
 
-    protractor.accessFromChromeExtension.accessFromChromeExtension(browser).then(function () {
-      protractor.accessFromChromeExtension.accessFromChromeExtension(browser2, browser.params.testTrello2Username, browser.params.testTrello2Password).then(function () {
-        protractor.accessFromChromeExtension.accessFromChromeExtension(browser3, browser.params.testTrello3Username, browser.params.testTrello3Password).then(function () {
+    return protractor.accessFromChromeExtension.accessFromChromeExtension(browser1).then(function () {
+      protractor.accessFromChromeExtension.accessFromChromeExtension(browser2, browser1.params.testTrello2Username, browser1.params.testTrello2Password).then(function () {
+        protractor.accessFromChromeExtension.accessFromChromeExtension(browser3, browser1.params.testTrello3Username, browser1.params.testTrello3Password).then(function () {
 
-          let EC = protractor.ExpectedConditions;
-          let allLabel = element(by.css('.label__item.label__none'))
-          browser.wait(EC.presenceOf(allLabel), 20000).then(function () {
-            allLabel.click();
-            let newRoomButton = element(by.css('#new-room-button'))
-            browser.wait(EC.presenceOf(newRoomButton), 20000).then(function () {
-              newRoomButton.click();
-              let roomLinkElement = element(by.css('#room-link'))
-              browser.wait(EC.presenceOf(roomLinkElement), 20000).then(function () {
+          protractor.common.waitForElementAndClick('.label__item.label__none', browser1).then(() => {
+            protractor.common.waitForElementAndClick('#new-room-button', browser1).then(() => {
+              protractor.common.waitForElement('#room-link', browser1).then(function () {
+                let roomLinkElement = element(by.css('#room-link'))
                 roomLinkElement.getAttribute('value').then(function (link) {
-                    link = link.replace(browser.params.hostname + "/app.html", browser.params.hostname + ":4000/app.html")
-                    browser2.get(link)
-                    browser3.get(link)
-                    let closeNewRoomModalLink = element(by.css('#share-room__close'))
-                    browser.wait(EC.presenceOf(closeNewRoomModalLink), 20000).then(function () {
-                        closeNewRoomModalLink.click();
-                        startChoices();
-                    });
+                  link = link.replace(browser.params.hostname + "/app.html", browser.params.hostname + ":4000/app.html")
+                  browser2.get(link)
+                  browser3.get(link)
+                  protractor.common.waitForElementAndClick('#share-room__close', browser1).then(() => {
+                    startChoices();
+                  });
                 })
               })
             })
           })
 
           function startChoices () {
-            browser1.element.all(by.id("update_board")).count().then(function (size) {
 
+            browser1.element.all(by.id("update_board")).count().then(function (size) {
               if (size === 0) {
                 makeChoice(browser1, browsersPriorities[0])
                 makeChoice(browser2, browsersPriorities[1])
@@ -73,8 +67,8 @@ describe('dotvoting', function () {
                 let rightContinue = browser1.element.all(by.css(".card-button__continue")).get(1);
                 let leftCard = browser1.element(by.css('#left_button .card__title'));
                 let rightCard = browser1.element(by.css('#right_button .card__title'));
-                browser1.wait(EC.and(EC.presenceOf(leftContinue), EC.presenceOf(rightContinue)), 20000).then(function () {
-                  browser1.wait(EC.and(EC.presenceOf(leftCard), EC.presenceOf(rightCard)), 20000).then(function () {
+                protractor.common.waitForElement('.card-button__continue', browser1).then(function () {
+                  protractor.common.waitForElement('#left_button .card__title', browser1).then(function () {
                     browser2.element.all(by.css(".card__voters .card__voter")).count().then(function (visibleVotesCount) {
                       expect(visibleVotesCount).toEqual(3);
                       leftCard.getText().then(function (leftValue) {
@@ -93,9 +87,31 @@ describe('dotvoting', function () {
 
                   });
                 })
-
               } else {
-                checkResults()
+
+                // browser3.close()
+                // browser2.close()
+                protractor.selectWindow.selectWindow(0, browser1);
+                browser1.driver.manage().window().setSize(1280, 1032);
+                return protractor.common.waitForElementAndClick('.trigger-button__link', browser1).then(() => {
+                  protractor.common.waitForElement('div.order-recap', browser1).then(function () {
+                    let recap = browser1.element.all(by.css('div.order-recap div.recap__item'))
+                    // done();
+                    expect(recap.getText()).toEqual(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'])
+                    // recap.getText().then((txt) => {
+                      // expect(txt).toEqual(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'])
+                      // browser1.close()
+                    // })
+                      done();
+                  })
+                })
+                // protractor.common.waitForElementAndClick('.trigger-button__link', browser).then(() => {
+                // protractor.common.waitForElement('div.order-recap', browser).then(function () {
+                //   let recap = element.all(by.css('div.order-recap div.recap__item'))
+                //   expect(recap.getText()).toEqual(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'])
+                //   done()
+                // })
+                // })
               }
             });
           }
@@ -103,7 +119,7 @@ describe('dotvoting', function () {
           function makeChoice (b, bPriorities) {
             let leftCard = b.element(by.css('#left_button .card__title'));
             let rightCard = b.element(by.css('#right_button .card__title'));
-            b.wait(EC.and(EC.presenceOf(leftCard), EC.presenceOf(rightCard)), 2000).then(function () {
+            protractor.common.waitForElement('#left_button .card__title', b).then(function () {
               leftCard.getText().then(function (leftValue) {
                 rightCard.getText().then(function (rightValue) {
                   if (bPriorities.indexOf(rightValue) < bPriorities.indexOf(leftValue)) {
@@ -116,15 +132,6 @@ describe('dotvoting', function () {
             }).catch(function () {
               startChoices();
             });
-          }
-
-          function checkResults () {
-            console.log("Checking results");
-            protractor.expectRecap.toBe(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'], browser1);
-            browser1.close()
-            browser2.close()
-            browser3.close()
-            done();
           }
         });
       });

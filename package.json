@@ -18,8 +18,9 @@
     "build:bundle": "webpack -p",
     "test": "npm run protractor && npm run protractor-integration && npm run unit",
     "unit": "jest --verbose",
-    "protractor": "protractor protractor.conf.js --suite=single",
-    "protractor-integration": "protractor protractor.conf.js --specs tests/protractor/specs/dotvoting-spec.js && protractor protractor.conf.js --specs tests/protractor/specs/dotvoting-multiple-rooms-spec.js && protractor protractor.conf.js --specs tests/protractor/specs/voter-board-permissions-spec.js"
+    "webdriver-update": "./node_modules/protractor/bin/webdriver-manager update",
+    "protractor": "./node_modules/protractor/bin/protractor protractor.conf.js --suite=single",
+    "protractor-integration": "./node_modules/protractor/bin/protractor protractor.conf.js --specs tests/protractor/specs/dotvoting-spec.js && ./node_modules/protractor/bin/protractor protractor.conf.js --specs tests/protractor/specs/dotvoting-multiple-rooms-spec.js && ./node_modules/protractor/bin/protractor protractor.conf.js --specs tests/protractor/specs/voter-board-permissions-spec.js"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "./localStorageMock.js"
@@ -37,6 +38,7 @@
     "file-loader": "^0.9.0",
     "jest": "^18.0.0",
     "lorem-ipsum": "^1.0.4",
+    "protractor": "^5.4.1",
     "react-addons-test-utils": "^15.4.1",
     "react-test-renderer": "^15.4.1",
     "style-loader": "^0.13.1",
