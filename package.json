@@ -39,7 +39,6 @@
     "jest": "^18.0.0",
     "lorem-ipsum": "^1.0.4",
     "protractor": "^5.4.1",
-    "react-addons-test-utils": "^15.4.1",
     "react-test-renderer": "^15.4.1",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
@@ -54,7 +53,6 @@
     "popper.js": "^1.14.3",
     "query-string": "^5.0.1",
     "react": "^15.4.1",
-    "react-bootstrap": "^0.30.7",
     "react-dom": "^15.4.1",
     "socket.io-client": "^2.0.4"
   }
