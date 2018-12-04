@@ -1,4 +1,6 @@
 module.exports.accessFromChromeExtension = function () {
+
+
   browser.get('/app.html?extId=' + (process.env.TEST_TRELLO_EXTID || browser.params.testTrelloExtId));
   let EC = protractor.ExpectedConditions;
   let continueButton = element(by.css('.continue-to-choices--button'));
@@ -13,7 +15,7 @@ module.exports.accessFromChromeExtension = function () {
 
     let acceptButton = element(by.css('#surface form a.button.primary'));
     browser.wait(EC.presenceOf(acceptButton), 10000).then(function(){
-      browser.driver.manage().window().maximize();
+      // browser.driver.manage().window().maximize(); // this is not working anymore
       element(by.css('#surface form a.button.primary')).click();
     });
 

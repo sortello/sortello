@@ -1,14 +1,13 @@
 import React from "react"
-import {find} from "lodash"
+import { find } from "lodash"
 import Header from './Header.jsx';
 import BoardSelector from './BoardSelector.jsx'
 import ListSelector from './ListSelector.jsx'
 import LabelSelector from './LabelSelector.jsx'
-import queryString from "query-string";
 import Footer from "./Footer.jsx"
 
 class ColumnSelection extends React.Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
         this.state = {
             boards: [],
@@ -16,6 +15,7 @@ class ColumnSelection extends React.Component {
             labels: [],
             groupedboards: [],
             organizations: [],
+            noCardsError: false,
             fromExtension: false,
             boardId: null
         }
@@ -24,7 +24,6 @@ class ColumnSelection extends React.Component {
         /* this.retrieveCardsGithub = this.retrieveCardsGithub.bind(this);*/
         this.handleBoardClicked = this.handleBoardClicked.bind(this);
         this.handleListClicked = this.handleListClicked.bind(this);
-        this.componentDidMount = this.componentDidMount.bind(this);
         this.labelSelected = this.labelSelected.bind(this);
         this.getBoards = this.getBoards.bind(this);
     }
@@ -61,7 +60,7 @@ class ColumnSelection extends React.Component {
             let boards = data.boards;
             let organizations = data.organizations;
             for (let i = 0; i < boards.length; i++) {
-                let organization = find(organizations, {'id': boards[i].idOrganization});
+                let organization = find(organizations, { 'id': boards[i].idOrganization });
                 let groupName = "Other";
                 if (organization !== undefined) {
                     groupName = organization.displayName;
@@ -76,24 +75,30 @@ class ColumnSelection extends React.Component {
                 groupedboards: boardGroups,
                 organizations: organizations
             })
-
         }, function (e) {
             console.log(e);
         });
     }
 
-    labelSelected (labelId) {
+    labelSelected(labelId) {
         let listCards = this.state.listCards;
         if (labelId !== 0) {
-            let label = find(this.state.labels, {'id': labelId});
+            let label = find(this.state.labels, { 'id': labelId });
             listCards = _.filter(this.state.listCards, function (card) {
-                return find(card.labels, {'id': label.id}) !== undefined;
+                return find(card.labels, { 'id': label.id }) !== undefined;
             });
         }
-        this.props.handleCards(listCards, this.state.boardId);
+        if (listCards.length === 0) {
+            this.setState({
+                labels: [],
+                noCardsError: true
+            })
+        } else {
+            this.props.handleCards(listCards, this.state.boardId);
+        }
     }
 
-    retrieveCardsByListId (listId) {
+    retrieveCardsByListId(listId) {
         let that = this;
         let labels = [];
         let BoardApi = this.props.BoardApi
@@ -102,44 +107,68 @@ class ColumnSelection extends React.Component {
             that.setState({
                 listCards: listCards
             });
-            listCards.forEach(function (card) {
-                card.labels.forEach(function (label) {
-                    if (find(labels, {'id': label.id}) === undefined) {
-                        labels.push(label);
+            // Display an error message if current list contains no cards
+            if (listCards.length === 0) {
+                that.setState({
+                    labels: [],
+                    noCardsError: true
+                })
+            } else {
+                listCards.forEach(function (card) {
+                    card.labels.forEach(function (label) {
+                        if (find(labels, { 'id': label.id }) === undefined) {
+                            labels.push(label);
+                        }
+                    });
+                })
+                that.setState({
+                    labels: labels,
+                    boardId: data.idBoard
+                }, function () {
+                    if (that.state.labels.length === 0) {
+                        that.labelSelected(0)
                     }
                 });
-            })
-            that.setState({
-                labels: labels,
-                boardId: data.idBoard
-            }, function () {
-                if (this.state.labels.length === 0) {
-                    that.labelSelected(0)
-                }
-            });
+            }
         }, function (e) {
             console.log(e);
         });
     }
 
-    getBoardColumns (board) {
+    getBoardColumns(board) {
         this.setState({
             lists: board.lists
         });
     }
 
-    handleBoardClicked (boardId) {
-        this.setState({
-            boardId: boardId
-        })
+    handleBoardClicked(boardId) {
+        const currentBoardId = this.state.boardId;
 
-        let board = find(this.state.boards, {'id': boardId});
-        this.getBoardColumns(board)
+        if (boardId !== currentBoardId) {
+            this.setState({
+                boardId,
+                labels: [],
+                noCardsError: false,
+            })
+            let board = find(this.state.boards, { 'id': boardId });
+            this.getBoardColumns(board)
+        }
     }
 
-    handleListClicked (listId) {
-        let list = find(this.state.lists, {'id': listId});
-        this.retrieveCardsByListId(list.id);
+    handleListClicked(listId) {
+        this.setState({
+            noCardsError: false,
+        })
+
+        // If list does not exist, reset all labels (it means we have clicked the 'Select List' entry)
+        let list = find(this.state.lists, { 'id': listId });
+        if (list) {
+            this.retrieveCardsByListId(list.id);
+        } else {
+            this.setState({
+                labels: [],
+            })
+        }
     }
 
     renderBoardSelector () {
@@ -147,7 +176,7 @@ class ColumnSelection extends React.Component {
             return ""
         }
         return <BoardSelector groupedboards={this.state.groupedboards}
-                              onChange={this.handleBoardClicked}/>
+            onChange={this.handleBoardClicked} />
     }
 
     renderListSelector () {
@@ -155,17 +184,17 @@ class ColumnSelection extends React.Component {
             return ""
         }
         return <p><ListSelector lists={this.state.lists}
-                                onChange={this.handleListClicked}/></p>
+            onChange={this.handleListClicked} /></p>
     }
 
-    renderLabelSelector () {
+    renderLabelSelector() {
         if (this.state.labels.length === 0) {
             return ""
         }
-        return <LabelSelector labels={this.state.labels} onClick={this.labelSelected}/>
+        return <LabelSelector labels={this.state.labels} onClick={this.labelSelected} />
     }
 
-    render () {
+    render() {
         return (
             <div id="card_url_div">
                 <div className="selection__wrapper">
@@ -180,10 +209,16 @@ class ColumnSelection extends React.Component {
                         {this.renderBoardSelector()}
                         {this.renderListSelector()}
                         {this.renderLabelSelector()}
+
+                        {
+                            (this.state.noCardsError === true) ?
+                                "There are no cards for the selected list! Try choosing another one" :
+                                ""
+                        }
                     </div>
                     <div className={"footer footer--animated"}>
-                        <Footer/>
-                        <Header/>
+                        <Footer />
+                        <Header />
                     </div>
                 </div>
             </div>

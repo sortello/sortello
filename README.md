@@ -1,5 +1,6 @@
-[![CircleCI](https://circleci.com/gh/mazzcris/sortello.svg?style=shield)](https://circleci.com/gh/mazzcris/sortello)
+[![CircleCI](https://circleci.com/gh/sortello/sortello/tree/master.svg?style=svg)](https://circleci.com/gh/sortello/sortello/tree/master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/46bc18026cdefd1912e9/maintainability)](https://codeclimate.com/github/mazzcris/sortello/maintainability)
+[![Gitter chat](https://badges.gitter.im/org.png)](https://gitter.im/sortello)
 # Sortello
 A javascript application to sort/prioritize Trello cards
 
