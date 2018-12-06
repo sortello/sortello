@@ -51,13 +51,7 @@ class Results extends React.Component {
         let reorderedNodes = this.getReorderedNodes().reverse();
         let putCalls = reorderedNodes.length;
         if (gaTrackingId && this.state.duration !== null) {
-            console.log('Finished in ' + this.state.duration + ' ms with ' + putCalls + ' cards');
-            ga('send', {
-                hitType: 'event',
-                eventCategory: 'Time stats',
-                eventAction: putCalls,
-                eventLabel: this.state.duration
-            });
+            this.sendInfoGa(putCalls);
         }
         let BoardApi = this.props.BoardApi
         let nextCardIndex = 0;
@@ -77,6 +71,18 @@ class Results extends React.Component {
         }
 
         placeNextCard({pos: null});
+    }
+
+    sendInfoGa(putCalls){
+        console.log("entro");
+        console.log('Finished in ' + this.state.duration + ' ms with ' + putCalls + ' cards');
+        console.log("ancora qui");
+        ga('send', {
+            hitType: 'event',
+            eventCategory: 'Time stats',
+            eventAction: putCalls,
+            eventLabel: this.state.duration
+        });
     }
 
     renderUploadDone () {
