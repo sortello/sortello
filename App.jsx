@@ -34,7 +34,6 @@ class App extends React.Component {
         this.setSortedRootNode = this.setSortedRootNode.bind(this);
         this.handleCards = this.handleCards.bind(this);
         this.handleAuthentication = this.handleAuthentication.bind(this);
-        this.choice = this.choice.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
     }
 
@@ -44,11 +43,11 @@ class App extends React.Component {
         });
 
         const params = queryString.parse(location.search);
-        if (this.choice("ext")) {
+        if (params.extId !== undefined) {
             this.setState({
                 fromExtension: params.fw === 'g' ? "Github" : "Trello",
                 extId: params.extId,
-                    BoardApi: params.fw === 'g' ? new GithubApi() : new TrelloApi()
+                BoardApi: params.fw === 'g' ? new GithubApi() : new TrelloApi()
             }, function () {
                 localStorage.removeItem("code");
                 localStorage.setItem('extId', this.state.extId);
@@ -60,7 +59,7 @@ class App extends React.Component {
             })
         }
 
-        if (this.choice("code")) {
+        if (params.code !== undefined && !localStorage.getItem("code")) {
             let code = window.location.href.match(/\?code=(.*)/)[1];
             this.setState({
                 fromExtension: localStorage.getItem("fromExtension"),
@@ -75,15 +74,6 @@ class App extends React.Component {
         }
         if (params.boardId !== undefined && params.listName !== undefined) {
             alert("Looks like you are using and outdated version of the Sortello Chrome Extension, please update.Thank you!");
-        }
-    }
-
-    choice(p) {
-        const params = queryString.parse(location.search);
-        if (p === "ext") {
-            return params.extId !== undefined
-        } else {
-            return params.code !== undefined && !localStorage.getItem("code")
         }
     }
 
