@@ -34,20 +34,7 @@ class Choices extends React.Component {
     constructor (props) {
         super(props);
         this.engine = new Engine(clone(this.props.nodes), clone(this.props.rootNode))
-        this.handleCardClicked = this.handleCardClicked.bind(this)
-        this.cardClicked = this.cardClicked.bind(this)
-        this.handleAddToBlacklist = this.handleAddToBlacklist.bind(this)
-        this.handleUndoClicked = this.handleUndoClicked.bind(this)
-        this.startChoices = this.startChoices.bind(this)
-        this.createRoom = this.createRoom.bind(this)
-        this.removeVoter = this.removeVoter.bind(this)
-        this.addVoter = this.addVoter.bind(this)
-        this.handleGoToNextVoting = this.handleGoToNextVoting.bind(this)
-        this.registerVote = this.registerVote.bind(this)
-        this.addVoteToVoters = this.addVoteToVoters.bind(this)
-        this.getTrelloUserData(this);
-        this.getAllRoomVoters = this.getAllRoomVoters.bind(this)
-        this.castRoomVoters = this.castRoomVoters.bind(this)
+        this.bindMethod();
         this.room = false;
         this.state = {
             leftCard: null,
@@ -58,6 +45,24 @@ class Choices extends React.Component {
             everybodyVoted: false,
             selectedSide: null
         }
+    }
+
+    bindMethod(){
+        this.handleCardClicked = this.handleCardClicked.bind(this)
+        this.cardClicked = this.cardClicked.bind(this)
+        this.handleAddToBlacklist = this.handleAddToBlacklist.bind(this)
+        this.handleUndoClicked = this.handleUndoClicked.bind(this)
+        this.startChoices = this.startChoices.bind(this)
+        this.createRoom = this.createRoom.bind(this)
+        this.listenSocket = this.listenSocket.bind(this)
+        this.removeVoter = this.removeVoter.bind(this)
+        this.addVoter = this.addVoter.bind(this)
+        this.handleGoToNextVoting = this.handleGoToNextVoting.bind(this)
+        this.registerVote = this.registerVote.bind(this)
+        this.addVoteToVoters = this.addVoteToVoters.bind(this)
+        this.getTrelloUserData(this)
+        this.getAllRoomVoters = this.getAllRoomVoters.bind(this)
+        this.castRoomVoters = this.castRoomVoters.bind(this)
     }
 
     getTrelloUserData (component) {
@@ -76,10 +81,14 @@ class Choices extends React.Component {
         if(this.room){
             return;
         }
-        let component = this;
         let randomKey = getRandomKey()
         this.room = new Room(socket, randomKey)
         this.room.open(randomKey)
+        this.listenSocket()
+    }
+
+    listenSocket(){
+        let component = this;
         socket.on('newRoomOpened', roomId => {
             console.log("new room opened")
             component.setState({
