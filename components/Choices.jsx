@@ -63,6 +63,7 @@ class Choices extends React.Component {
         this.getTrelloUserData(this)
         this.getAllRoomVoters = this.getAllRoomVoters.bind(this)
         this.castRoomVoters = this.castRoomVoters.bind(this)
+        this.checkEnded = this.checkEnded.bind(this)
     }
 
     getTrelloUserData (component) {
@@ -221,6 +222,11 @@ class Choices extends React.Component {
                 component.room.castVotesInfo([], [])
             }
         })
+        component.checkEnded();
+    }
+
+    checkEnded(){
+        console.log("entro qui");
         if (this.engine.getEnded()) {
             if (this.room) {
                 this.room.castPrioritizationEnded()
@@ -242,7 +248,6 @@ class Choices extends React.Component {
             });
         }
     }
-
     handleUndoClicked () {
         this.engine.undo();
         this.getNextChoice()
