@@ -1,19 +1,24 @@
 import React from "react"
 import Logo from "./Logo.jsx"
+import queryString from "query-string";
 
 class Authentication extends React.Component {
     constructor (props) {
         super(props);
-
-        if(localStorage.getItem("trello_token") !== undefined){
+        const params = queryString.parse(location.search);
+        if(localStorage.getItem("trello_token") && localStorage.getItem("trello_token") !== undefined &&
+            params.fw !=="g" && localStorage.getItem("fromExtension")!=="Github"){
+            console.log("trello auth with token")
             this.props.BoardApi.authenticate(this.props.onAuthentication)
         }
     }
 
     handleStartButtonClick () {
         if(localStorage.getItem("fromExtension") === "Github") {
+            console.log("github auth");
             this.props.BoardApi.authenticate(null);
         }else{
+            console.log("trello auth")
             this.props.BoardApi.authenticate(this.props.onAuthentication);
         }
     }

@@ -41,7 +41,6 @@ class App extends React.Component {
         jQuery('.choice_button .card_link').click(function (e) {
             e.stopPropagation();
         });
-
         const params = queryString.parse(location.search);
         if (params.extId !== undefined) {
             this.setState({
@@ -60,6 +59,7 @@ class App extends React.Component {
         }
 
         if (params.code !== undefined && !localStorage.getItem("code")) {
+            console.log("Ho il code");
             let code = window.location.href.match(/\?code=(.*)/)[1];
             this.setState({
                 fromExtension: localStorage.getItem("fromExtension"),
@@ -72,6 +72,13 @@ class App extends React.Component {
                 this.state.BoardApi.authenticate(this.handleAuthentication)
             })
         }
+
+        if(params.fw !== "g"){
+            console.log("Entro qui perchè fw è ");
+            console.log(params.fw);
+            localStorage.setItem("fromExtension","Trello");
+        }
+
         if (params.boardId !== undefined && params.listName !== undefined) {
             alert("Looks like you are using and outdated version of the Sortello Chrome Extension, please update.Thank you!");
         }
