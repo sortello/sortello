@@ -5,6 +5,7 @@ import AlmostDoneAnimation from './AlmostDoneAnimation.jsx';
 import Recap from './Recap.jsx';
 import SuccessAnimation from './SuccessAnimation.jsx';
 import Footer from "./Footer.jsx"
+import queryString from "query-string";
 
 function openOverlay () {
     document.getElementById('recap-overlay').style.height = "100%";
@@ -74,9 +75,6 @@ class Results extends React.Component {
     }
 
     sendInfoGa(putCalls){
-        console.log("entro");
-        console.log('Finished in ' + this.state.duration + ' ms with ' + putCalls + ' cards');
-        console.log("ancora qui");
         ga('send', {
             hitType: 'event',
             eventCategory: 'Time stats',
@@ -86,11 +84,12 @@ class Results extends React.Component {
     }
 
     renderUploadDone () {
+        const params = queryString.parse(location.search);
         return <div className="send-success__container">
             <SuccessAnimation/>
             <div className="send-success__heading">Prioritization complete!</div>
             <div className="success-buttons__container">
-                {localStorage.getItem("fromExtension") !== "Github" ?
+                {params.fw !== "g" ?
                     <a href={"https://trello.com/b/" + this.props.rootNode.value.idBoard} target="_blank"
                        className={"button__primary button__text check-sortello__button"}>
                         <i className="fa fa-trello"></i>&nbsp;
