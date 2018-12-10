@@ -51,15 +51,14 @@ class App extends React.Component {
                 localStorage.removeItem("code");
                 localStorage.setItem('extId', this.state.extId);
                 localStorage.setItem('fromExtension', this.state.fromExtension);
-                if ((localStorage.getItem("token") !== "undefined" && localStorage.getItem("token") !== null)
-                    && this.state.fromExtension === "Github") {
+                if ((localStorage.getItem("token") !== undefined && localStorage.getItem("token") !== null)
+                    && this.state.fromExtension === "Github"){
                     this.handleAuthentication()
                 }
             })
         }
 
         if (params.code !== undefined && !localStorage.getItem("code")) {
-            console.log("Ho il code");
             let code = window.location.href.match(/\?code=(.*)/)[1];
             this.setState({
                 fromExtension: localStorage.getItem("fromExtension"),
@@ -72,10 +71,7 @@ class App extends React.Component {
                 this.state.BoardApi.authenticate(this.handleAuthentication)
             })
         }
-
-        if(params.fw !== "g"){
-            console.log("Entro qui perchè fw è ");
-            console.log(params.fw);
+        if(params.code === undefined){
             localStorage.setItem("fromExtension","Trello");
         }
 
