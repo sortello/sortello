@@ -5,6 +5,7 @@ class Header extends React.Component {
     handleLogout () {
         localStorage.removeItem('sortelloTrelloDevApiKey');
         localStorage.removeItem('trello_token');
+        localStorage.removeItem('token');
         location.reload();
     }
 
