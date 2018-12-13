@@ -6,6 +6,7 @@ import Recap from './Recap.jsx';
 import SuccessAnimation from './SuccessAnimation.jsx';
 import Footer from "./Footer.jsx"
 import queryString from "query-string";
+import CheckBoardButton from './CheckBoardButton.jsx';
 
 function openOverlay () {
     document.getElementById('recap-overlay').style.height = "100%";
@@ -90,18 +91,12 @@ class Results extends React.Component {
             <div className="send-success__heading">Prioritization complete!</div>
             <div className="success-buttons__container">
                 {params.fw !== "g" ?
-                    <a href={"https://trello.com/b/" + this.props.rootNode.value.idBoard} target="_blank"
-                       className={"button__primary button__text check-sortello__button"}>
-                        <i className="fa fa-trello"></i>&nbsp;
-                        Check your Trello board
-                    </a> :
-                    <a href={"https://github.com/sortello/sortello/projects/2#column-" + localStorage.getItem("extId")}
-                       target="_blank"
-                       className={"button__primary button__text check-sortello__button"}>
-                        <i className="fa fa-trello"></i>&nbsp;
-                        Check your Github board
-                    </a>
-                }
+                    <CheckBoardButton url={"https://trello.com/b/" + this.props.rootNode.value.idBoard}
+                                      text={"Check your Trello board"}/>
+                                      :
+                    <CheckBoardButton url={"https://github.com/sortello/sortello/projects/2#column-" + localStorage.getItem("extId")}
+                                      text={"Check your Github board"}/>}
+
                 {localStorage.getItem("fromExtension") !== "Github" ?
                     <a href="/app.html" className={"button__primary button__text prioritize-again__button"}>
                         <i className="fa fa-repeat"></i>&nbsp;

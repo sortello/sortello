@@ -51,14 +51,13 @@ class App extends React.Component {
                 localStorage.removeItem("code");
                 localStorage.setItem('extId', this.state.extId);
                 localStorage.setItem('fromExtension', this.state.fromExtension);
-                if ((localStorage.getItem("token") !== undefined && localStorage.getItem("token") !== null)
-                    && this.state.fromExtension === "Github"){
+                if (this.checkTokenGithubDefined()){
                     this.handleAuthentication()
                 }
             })
         }
 
-        if (params.code !== undefined && !localStorage.getItem("code")) {
+        if (this.checkCodeNotSaved()) {
             let code = window.location.href.match(/\?code=(.*)/)[1];
             this.setState({
                 fromExtension: localStorage.getItem("fromExtension"),
@@ -75,9 +74,24 @@ class App extends React.Component {
             localStorage.setItem("fromExtension","Trello");
         }
 
-        if (params.boardId !== undefined && params.listName !== undefined) {
+        if (this.checkOutdatedVersion()) {
             alert("Looks like you are using and outdated version of the Sortello Chrome Extension, please update.Thank you!");
         }
+    }
+
+    checkTokenGithubDefined(){
+        return localStorage.getItem("token") !== undefined && localStorage.getItem("token") !== null
+        && this.state.fromExtension === "Github"
+    }
+
+    checkCodeNotSaved(){
+        const params = queryString.parse(location.search);
+        return params.code !== undefined && !localStorage.getItem("code")
+    }
+
+    checkOutdatedVersion(){
+        const params = queryString.parse(location.search);
+        return params.boardId !== undefined && params.listName !== undefined
     }
 
     handleAuthentication() {
