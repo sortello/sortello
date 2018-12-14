@@ -1,6 +1,6 @@
 class GithubApi {
 
-    authenticate (onAuthenticationSuccess) {
+    authenticate(onAuthenticationSuccess) {
         if (localStorage.getItem("code") === null) {
             window.location = "https://github.com/login/oauth/authorize?scope=public_repo&client_id=" + clientId;
         } else {
@@ -17,7 +17,7 @@ class GithubApi {
         }
     }
 
-    getCardsByListId (externId, variable, success) {
+    getCardsByListId(externId, variable, success) {
         let component = this
         const uri = "https://api.github.com/projects/columns/" + externId + "/cards"
         let h = new Headers();
@@ -63,7 +63,7 @@ class GithubApi {
             )
     }
 
-    normalizeCards (cards, html_url) {
+    normalizeCards(cards, html_url) {
         let listCards = [];
         for (let i = 0; i < cards.length; i++) {
             listCards.push({
@@ -80,7 +80,7 @@ class GithubApi {
         return listCards
     }
 
-    getIssues (normalizedCards) {
+    getIssues(normalizedCards) {
         let promises = []
         for (let i = 0; i < normalizedCards.length; i++) {
             let card = normalizedCards[i]
@@ -109,11 +109,11 @@ class GithubApi {
         return Promise.all(promises)
     }
 
-    getMembers (memberId, params, success, error) {
+    getMembers(memberId, params, success, error) {
 
     }
 
-    putCards (cardId, pos, success, error) {
+    putCards(cardId, pos, success, error) {
         const uri = "https://api.github.com/projects/columns/cards/" + cardId + "/moves"
         let h = new Headers();
         let data = {
@@ -134,6 +134,14 @@ class GithubApi {
             .catch(function (e) {
                 error()
             })
+    }
+
+    getName() {
+        return "Github";
+    }
+
+    getIcon() {
+        return "fa fa-github"
     }
 }
 

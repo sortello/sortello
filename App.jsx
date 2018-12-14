@@ -44,14 +44,14 @@ class App extends React.Component {
         const params = queryString.parse(location.search);
         if (params.extId !== undefined) {
             this.setState({
+                BoardApi: params.fw === 'g' ? new GithubApi() : new TrelloApi(),
                 fromExtension: params.fw === 'g' ? "Github" : "Trello",
-                extId: params.extId,
-                BoardApi: params.fw === 'g' ? new GithubApi() : new TrelloApi()
+                extId: params.extId
             }, function () {
                 localStorage.removeItem("code");
                 localStorage.setItem('extId', this.state.extId);
                 localStorage.setItem('fromExtension', this.state.fromExtension);
-                if (this.checkTokenGithubDefined()){
+                if (this.checkTokenGithubDefined()) {
                     this.handleAuthentication()
                 }
             })
@@ -65,13 +65,9 @@ class App extends React.Component {
                 BoardApi: new GithubApi()
             }, function () {
                 localStorage.setItem("code", code);
-                let fromWhere = this.state.fromExtension === "Github" ? "g" : "t"
-                history.pushState(null, null, '/app.html?extId=' + this.state.extId + "&fw=" + fromWhere);
+                history.pushState(null, null, '/app.html?extId=' + this.state.extId + "&fw=g");
                 this.state.BoardApi.authenticate(this.handleAuthentication)
             })
-        }
-        if(params.code === undefined){
-            localStorage.setItem("fromExtension","Trello");
         }
 
         if (this.checkOutdatedVersion()) {
@@ -79,17 +75,17 @@ class App extends React.Component {
         }
     }
 
-    checkTokenGithubDefined(){
+    checkTokenGithubDefined() {
         return localStorage.getItem("token") !== undefined && localStorage.getItem("token") !== null
-        && this.state.fromExtension === "Github"
+            && this.state.BoardApi.getName() === "Github"
     }
 
-    checkCodeNotSaved(){
+    checkCodeNotSaved() {
         const params = queryString.parse(location.search);
         return params.code !== undefined && !localStorage.getItem("code")
     }
 
-    checkOutdatedVersion(){
+    checkOutdatedVersion() {
         const params = queryString.parse(location.search);
         return params.boardId !== undefined && params.listName !== undefined
     }
@@ -174,7 +170,8 @@ class App extends React.Component {
     renderResults() {
         return (
             <Results rootNode={this.state.rootNode} BoardApi={this.state.BoardApi}
-                     startTimeStamp={this.state.startTimeStamp}/>
+                     startTimeStamp={this.state.startTimeStamp} fromExtension={this.state.fromExtension}
+                     extId={this.state.extId}/>
         )
     }
 

@@ -1,31 +1,31 @@
 class TrelloApi {
 
-    putCards (cardId, pos, success, error) {
+    putCards(cardId, pos, success, error) {
         Trello.put('/cards/' + cardId, {pos: pos}, success, error);
     }
 
-    getMembers (memberId, params, success, error) {
+    getMembers(memberId, params, success, error) {
         Trello.members.get(memberId, params, success, error);
     }
 
-    getBoard (boardId,success,error){
-        Trello.boards.get(boardId, success,error);
+    getBoard(boardId, success, error) {
+        Trello.boards.get(boardId, success, error);
     }
 
-    getCardById (extId,variable,success){
+    getCardById(extId, variable, success) {
         Trello.cards.get(extId, variable, success);
     }
 
-    getCardsByListId (listId, cards, success,error){
+    getCardsByListId(listId, cards, success, error) {
         let component = this;
-        Trello.lists.get(listId,cards,function(data){
+        Trello.lists.get(listId, cards, function (data) {
             success(component.normalizeCards(data.cards))
-        },error);
+        }, error);
     }
 
     normalizeCards(cards) {
         let component = this;
-        let listlabels =[];
+        let listlabels = [];
         for (var i = 0; i < cards.length; i++) {
             let data = {
                 id: cards[i].id,
@@ -34,7 +34,7 @@ class TrelloApi {
                 labels: cards[i].labels,
                 name: cards[i].name,
                 pos: cards[i].pos,
-                shortUrl : cards[i].shortUrl
+                shortUrl: cards[i].shortUrl
             }
             listlabels.push(data)
         }
@@ -42,18 +42,19 @@ class TrelloApi {
     }
 
 
-    setKey (apiKey){
+    setKey(apiKey) {
         Trello.setKey(apiKey);
     }
 
-    authorize (params,expiration,success,error){
-        Trello.authorize(params,expiration,success,error);
+    authorize(params, expiration, success, error) {
+        Trello.authorize(params, expiration, success, error);
     }
 
-    authenticate (onAuthenticationSuccess){
+    authenticate(onAuthenticationSuccess) {
         var component = this;
         component.setKey(trelloApiKey); // from parameters.js
-        component.authorize({type: 'popup',
+        component.authorize({
+            type: 'popup',
             name: 'Sortello',
             scope: {
                 read: 'true',
@@ -63,6 +64,14 @@ class TrelloApi {
             success: onAuthenticationSuccess,
             error: console.log("Failed authentication")
         });
+    }
+
+    getName() {
+        return "Trello";
+    }
+
+    getIcon() {
+        return "fa fa-trello"
     }
 }
 

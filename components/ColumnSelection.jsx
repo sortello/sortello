@@ -16,12 +16,10 @@ class ColumnSelection extends React.Component {
             groupedboards: [],
             organizations: [],
             noCardsError: false,
-            fromExtension: false,
             boardId: null
         }
         this.getBoardColumns = this.getBoardColumns.bind(this);
         this.retrieveCardsByListId = this.retrieveCardsByListId.bind(this);
-        /* this.retrieveCardsGithub = this.retrieveCardsGithub.bind(this);*/
         this.handleBoardClicked = this.handleBoardClicked.bind(this);
         this.handleListClicked = this.handleListClicked.bind(this);
         this.labelSelected = this.labelSelected.bind(this);
@@ -31,8 +29,10 @@ class ColumnSelection extends React.Component {
     componentDidMount () {
         let component = this
         let BoardApi = this.props.BoardApi
-        if (component.props.fromExtension !== undefined) {
-            if (component.props.fromExtension !== "Github") {
+        localStorage.removeItem("extId");
+        localStorage.removeItem("fromExtension");
+        if (component.props.fromExtension !== null) {
+            if (component.props.BoardApi.getName() !== "Github") {
                 BoardApi.getCardById(component.props.extId, null, function (card) {
                     component.retrieveCardsByListId(card.idList)
                 })
@@ -201,7 +201,7 @@ class ColumnSelection extends React.Component {
                     <div className="selection__container selection__container--animation">
                         <div className="select-list--text-container selection__heading">
                             {
-                                (this.props.fromExtension === true) ?
+                                (this.props.fromExtension !== null) ?
                                     "Filter by label, or select All" :
                                     "First of all, select the board you want to prioritize"
                             }

@@ -7,28 +7,29 @@ import SuccessAnimation from './SuccessAnimation.jsx';
 import Footer from "./Footer.jsx"
 import queryString from "query-string";
 import CheckBoardButton from './CheckBoardButton.jsx';
+import PrioritizeAnotherListButton from './PrioritizeAnotherListButton.jsx';
 
-function openOverlay () {
+function openOverlay() {
     document.getElementById('recap-overlay').style.height = "100%";
 }
 
-function closeOverlay () {
+function closeOverlay() {
     document.getElementById('recap-overlay').style.height = "0%";
 }
 
 
 class Results extends React.Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
         this.state = {uploadDone: false, duration: null};
         this.componentDidMount = this.componentDidMount.bind(this);
     }
 
-    componentDidMount () {
+    componentDidMount() {
         this.setDuration();
     }
 
-    setDuration () {
+    setDuration() {
         let component = this;
         let start = this.props.startTimeStamp;
         let end = Date.now();
@@ -37,14 +38,14 @@ class Results extends React.Component {
         })
     }
 
-    getReorderedNodes () {
+    getReorderedNodes() {
         return traverseTree(this.props.rootNode)
     }
 
-    updateBoard () {
+    updateBoard() {
         let component = this;
 
-        function showUploadDone () {
+        function showUploadDone() {
             component.setState({
                 uploadDone: true
             })
@@ -58,7 +59,7 @@ class Results extends React.Component {
         let BoardApi = this.props.BoardApi
         let nextCardIndex = 0;
 
-        function placeNextCard () {
+        function placeNextCard() {
             if (nextCardIndex >= reorderedNodes.length) {
                 showUploadDone();
                 return;
@@ -67,7 +68,7 @@ class Results extends React.Component {
             nextCardIndex++;
         }
 
-        function restart () {
+        function restart() {
             nextCardIndex = 0;
             placeNextCard({pos: null});
         }
@@ -75,7 +76,7 @@ class Results extends React.Component {
         placeNextCard({pos: null});
     }
 
-    sendInfoGa(putCalls){
+    sendInfoGa(putCalls) {
         ga('send', {
             hitType: 'event',
             eventCategory: 'Time stats',
@@ -84,29 +85,27 @@ class Results extends React.Component {
         });
     }
 
-    renderUploadDone () {
-        const params = queryString.parse(location.search);
+    renderCheckBoardButton() {
+        let url = "https://github.com/sortello/sortello/projects/2#column-" + this.props.extId;
+        if (this.props.BoardApi.getName() === "Trello") {
+            url = " https://trello.com/b/" + this.props.rootNode.value.idBoard
+        }
+        return <CheckBoardButton url={url}
+                                 BoardApi={this.props.BoardApi}/>
+    }
+
+    renderUploadDone() {
         return <div className="send-success__container">
             <SuccessAnimation/>
             <div className="send-success__heading">Prioritization complete!</div>
             <div className="success-buttons__container">
-                {params.fw !== "g" ?
-                    <CheckBoardButton url={"https://trello.com/b/" + this.props.rootNode.value.idBoard}
-                                      text={"Check your Trello board"}/>
-                                      :
-                    <CheckBoardButton url={"https://github.com/sortello/sortello/projects/2#column-" + localStorage.getItem("extId")}
-                                      text={"Check your Github board"}/>}
-
-                {localStorage.getItem("fromExtension") !== "Github" ?
-                    <a href="/app.html" className={"button__primary button__text prioritize-again__button"}>
-                        <i className="fa fa-repeat"></i>&nbsp;
-                        Prioritize another list
-                    </a> : null}
+                {this.renderCheckBoardButton()}
+                {this.props.BoardApi.getName() === "Trello" && <PrioritizeAnotherListButton/>}
             </div>
         </div>
     }
 
-    renderAlmostDone () {
+    renderAlmostDone() {
         return <div>
             <AlmostDoneAnimation/>
             <div className="send-ordered__heading">Almost done!</div>
@@ -139,7 +138,7 @@ class Results extends React.Component {
         </div>
     }
 
-    render () {
+    render() {
         return (
             <div className={"send-ordered__wrapper"}>
                 <div id="last_div" className={"send-ordered__container"}>
