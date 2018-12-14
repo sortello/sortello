@@ -13,7 +13,7 @@ class Authentication extends React.Component {
     checkTrelloTokenDefined() {
         const params = queryString.parse(location.search);
         return localStorage.getItem("trello_token") && localStorage.getItem("trello_token") !== undefined &&
-            params.fw !== "g"
+           params.fw !== "g" && params.code === undefined
     }
 
     handleStartButtonClick() {

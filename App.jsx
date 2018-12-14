@@ -48,7 +48,6 @@ class App extends React.Component {
                 fromExtension: params.fw === 'g' ? "Github" : "Trello",
                 extId: params.extId
             }, function () {
-                localStorage.removeItem("code");
                 localStorage.setItem('extId', this.state.extId);
                 localStorage.setItem('fromExtension', this.state.fromExtension);
                 if (this.checkTokenGithubDefined()) {
@@ -57,7 +56,7 @@ class App extends React.Component {
             })
         }
 
-        if (this.checkCodeNotSaved()) {
+        if (this.codeIsNotSaved()) {
             let code = window.location.href.match(/\?code=(.*)/)[1];
             this.setState({
                 fromExtension: localStorage.getItem("fromExtension"),
@@ -80,7 +79,7 @@ class App extends React.Component {
             && this.state.BoardApi.getName() === "Github"
     }
 
-    checkCodeNotSaved() {
+    codeIsNotSaved() {
         const params = queryString.parse(location.search);
         return params.code !== undefined && !localStorage.getItem("code")
     }
