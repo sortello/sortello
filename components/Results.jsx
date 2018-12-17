@@ -94,13 +94,17 @@ class Results extends React.Component {
                                  BoardApi={this.props.BoardApi}/>
     }
 
+    renderPrioritizeAnotherListButton(){
+        return this.props.BoardApi.getName() === "Trello" && <PrioritizeAnotherListButton/>
+    }
+
     renderUploadDone() {
         return <div className="send-success__container">
             <SuccessAnimation/>
             <div className="send-success__heading">Prioritization complete!</div>
             <div className="success-buttons__container">
                 {this.renderCheckBoardButton()}
-                {this.props.BoardApi.getName() === "Trello" && <PrioritizeAnotherListButton/>}
+                {this.renderPrioritizeAnotherListButton()}
             </div>
         </div>
     }
