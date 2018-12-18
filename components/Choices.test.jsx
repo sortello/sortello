@@ -1,10 +1,8 @@
 import React from "react";
 import {shallow} from 'enzyme';
-import Avatars from "./Avatars";
 import TrelloApi from "../Api/TrelloApi"
 import Choices from "./Choices";
 import Room from "../model/Room";
-import Engine from "../model/Engine"
 
 describe("Choices", () => {
     let props = {
@@ -48,6 +46,15 @@ describe("Choices", () => {
         let wrapper = shallow(<Choices {...props}/>)
         spyOn(wrapper.instance().engine,'getListNodes').and.returnValue(["3","4"]);
         expect(wrapper.instance().getProgress()).toEqual(25);
+    });
+
+    xit("change text if room exists or not ", () => {
+        const socket = {emit: jest.fn()}
+        const roomKey = "123"
+        let wrapper = shallow(<Choices {...props}/>);
+        wrapper.instance().room = new Room(socket,roomKey)
+        wrapper.instance().renderNewRoomButton();
+        expect(wrapper.find(".share-room__button").text()).toEqual("Share room");
     });
 
 });
