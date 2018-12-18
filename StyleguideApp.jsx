@@ -6,6 +6,7 @@ import loremIpsum from 'lorem-ipsum'
 import RoomLink from './components/RoomLink.jsx'
 import SendToBottomButton from "./components/SendToBottomButton.jsx";
 import Authentication from "./components/Authentication.jsx";
+import TrelloApi from "./api/TrelloApi"
 
 const randomColor = () => {
     return ['red', 'green', 'blue', 'yellow'][randInt(0, 3)]
@@ -57,6 +58,8 @@ const roomVoters = [
     {trelloAvatar: '//www.gravatar.com/avatar/94d093eda664addd6e450d7ew831bcad?s=32&d=identicon&r=PG'},
     {trelloAvatar: '//www.gravatar.com/avatar/94d093eda664addd6e450d7ew831bcad?s=32&d=identicon&r=PG', isAdmin:true}
 ]
+
+const BoardApi = new TrelloApi();
 
 class StyleguideApp extends React.Component {
     constructor (props) {
@@ -129,12 +132,12 @@ class StyleguideApp extends React.Component {
                 <h2>Bottone</h2>
                 <SendToBottomButton/>
                 <h2> View for Authentication </h2>
-                <Authentication BoardApi ={TrelloApi}/>
+                <Authentication BoardApi ={BoardApi}/>
                 <hr/>
             </div>
         )
     }
 }
 
-const TrelloApi = {authenticate: () => {}};
+/*const TrelloApi = {authenticate: () => {}};*/
 export default StyleguideApp
