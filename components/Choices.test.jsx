@@ -1,57 +1,53 @@
 import React from "react";
 import {shallow} from 'enzyme';
-import Choices from "./Choices";
+import Avatars from "./Avatars";
 import TrelloApi from "../Api/TrelloApi"
+import Choices from "./Choices";
+import Room from "../model/Room";
+import Engine from "../model/Engine"
 
 describe("Choices", () => {
-    let props;
-    let shallowChoices;
-    const wrapper = () => {
-        if (!shallowChoices) {
-            shallowChoices = shallow(
-                <Choices {...props} />
-            );
-        }
-        return shallowChoices;
+    let props = {
+        BoardApi: null,
+        setSortedRootNode: null,
+        setStartTimeStamp: null,
+        nodes: [],
+        rootNode: null
     }
 
-    beforeEach(() => {
-        const BoardApi = new TrelloApi();
-        spyOn(BoardApi, 'getMembers').and.returnValue(Promise.resolve(42))
+    it("updates votes if a room is opened when card is clicked ", () => {
+        props.BoardApi = new TrelloApi();
+        let wrapper = shallow(<Choices {...props}/>)
+        const socket = {emit: jest.fn()}
+        const roomKey = "123"
+        wrapper.instance().room = new Room(socket,roomKey);
+        let spy = spyOn(wrapper.instance().room, 'addVoteToVoters');
+        wrapper.instance().cardClicked = jest.fn();
+        wrapper.instance().handleCardClicked("side");
+        expect(spy).toHaveBeenCalled();
 
-        props = {
-            BoardApi: BoardApi,
-            setSortedRootNode: null,
-            setStartTimeStamp: null,
-            nodes: [],
-            rootNode: null
-        };
-        shallowChoices = undefined;
     });
 
-    it("adds and removes voters", () => {
-        wrapper().instance().castRoomVoters = jest.fn();
-        wrapper().instance().addVoter('voter1', '')
-        wrapper().instance().addVoter('voter2', '')
-        wrapper().instance().addVoter('voter3', '')
-        expect(wrapper().instance().state.roomVoters.length).toEqual(3);
-        wrapper().instance().removeVoter('voter2')
-        expect(wrapper().instance().state.roomVoters.length).toEqual(2);
+    it("handles click of cards if room is opened and voters are zero or if the room isn't opened", () => {
+        props.BoardApi = new TrelloApi();
+        let wrapper = shallow(<Choices {...props}/>)
+        const socket = {emit: jest.fn()}
+        const roomKey = "123"
+        wrapper.instance().room = new Room(socket, roomKey);
+        let spy = spyOn(wrapper.instance(), 'cardClicked');
+        wrapper.instance().handleCardClicked("side");
+        expect(spy).toHaveBeenCalled();
+        spy.calls.reset();
+        wrapper.instance().room = null;
+        wrapper.instance().handleCardClicked();
+        expect(spy).toHaveBeenCalled();
     });
 
-    it("updates state after everybody has voted", () => {
-        let component = wrapper().instance()
-        component.castRoomVoters = jest.fn();
-        component.addVoter('voter1', '')
-        component.addVoter('voter2', '')
-        component.addVoter('voter3', '')
-        component.registerVote('node', 'voter0', '') // Room opener does not count as room voter ATM
-        component.registerVote('node', 'voter1', '')
-        expect(component.state.everybodyVoted).toBe(false)
-        component.registerVote('node', 'voter2', '')
-        expect(component.state.everybodyVoted).toBe(false)
-        component.registerVote('compareNode', 'voter3', '')
-        expect(component.state.everybodyVoted).toBe(true)
-    })
+    it("getProgress return the correct value", () => {
+        props.nodes = ["1", "2", "3", "4"];
+        let wrapper = shallow(<Choices {...props}/>)
+        spyOn(wrapper.instance().engine,'getListNodes').and.returnValue(["3","4"]);
+        expect(wrapper.instance().getProgress()).toEqual(25);
+    });
 
 });
