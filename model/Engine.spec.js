@@ -37,6 +37,7 @@ describe('Engine', () => {
 
     it("takes the next node if the listNode isn't empty ", () => {
         const engine = new Engine("listNodes", "rootNode");
+        spyOn(engine,'getNextNode')
         engine.goToNextStep();
         expect(engine.compareNode).toBe("rootNode");
     })
@@ -50,7 +51,7 @@ describe('Engine', () => {
 
     it("chooses if go left or right to the binary tree ", () => {
         const engine = new Engine("listNodes", "rootNode");
-        engine.node = "1";
+        engine.node = ["1"];
         let spy = spyOn(engine,'goLeft').and.returnValue(42);
         let spy2 = spyOn(engine,'addToHistory').and.returnValue(42);
         engine.choiceMade("node","source")
