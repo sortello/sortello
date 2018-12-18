@@ -165,7 +165,7 @@ class Engine {
     }
 
     getNextNode () {
-        return this.listNodes.shift();
+        return this.listNodes.shift;
     }
 
     getCompareNode () {
