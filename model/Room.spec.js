@@ -41,6 +41,23 @@ describe('Room', () => {
         spy.calls.reset();
     })
 
+    it('should remove voters', () => {
+        const socket = { emit : jest.fn() }
+        const roomKey = "123"
+        let room = new Room (socket,roomKey)
+        room.addVoter("voterId","trelloAvatar");
+        room.addVoter("voterId2","trelloAvatar2");
+        expect(room.roomVoters).toHaveLength(2);
+        let spy = spyOn(room,'castRoomVoters').and.returnValue(42);
+        room.removeVoter("voterId");
+        expect(room.roomVoters).toHaveLength(1);
+        expect(spy).toHaveBeenCalled();
+        spy.calls.reset();
+        room.removeVoter("voterId3");
+        expect(room.roomVoters).toHaveLength(1);
+        expect(spy).not.toHaveBeenCalled();
+    })
+
 
     it('should not add voters if voterId already exists',() => {
         const socket = {emit: jest.fn()}
@@ -59,21 +76,26 @@ describe('Room', () => {
         const socket = {emit: jest.fn()}
         const roomKey = "123"
         let room = new Room (socket,roomKey)
+        let spy = spyOn(room,'castVotesInfo').and.returnValue(42);
         room.addVoter("voterId","trelloAvatar");
         room.addVoter("voterId2","trelloAvatar2");
         room.addVoter("voterId3","trelloAvatar3");
         room.registerVote("node","voter0",""); // Room opener does not count as room voter ATM
         expect(room.voters.left).toHaveLength(1)
+        expect(spy).not.toHaveBeenCalled();
         room.registerVote("node","voterId","trelloAvatar");
         expect(room.voters.left).toHaveLength(2)
+        expect(spy).not.toHaveBeenCalled();
         expect(room.everybodyVoted).toBe(false)
         room.registerVote('node', 'voterId2', 'trelloAvatar2')
         expect(room.voters.left).toHaveLength(3)
+        expect(spy).not.toHaveBeenCalled();
         expect(room.everybodyVoted).toBe(false)
         room.registerVote('compareNode', 'voterId3', 'trelloAvatar3')
         expect(room.voters.right).toHaveLength(1)
         expect(room.voters.left).toHaveLength(3)
         expect(room.everybodyVoted).toBe(true)
+        expect(spy).toHaveBeenCalled();
     })
     
 })
