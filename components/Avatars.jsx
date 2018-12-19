@@ -8,9 +8,9 @@ class Avatars extends React.Component {
     render () {
         return (
             <div className={this.props.className ? this.props.className : ''}>
-                {this.props.users.map((item, index) => (
+                {this.props.users? this.props.users.map((item, index) => (
                 <img className={item.isAdmin ? "card__admin" : "card__voter"} key={index} src={item.avatar || item.trelloAvatar}/>
-                ))}
+                )) : null}
             </div>
         )
     }

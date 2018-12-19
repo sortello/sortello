@@ -34,35 +34,23 @@ class Choices extends React.Component {
     constructor (props) {
         super(props);
         this.engine = new Engine(clone(this.props.nodes), clone(this.props.rootNode))
-        this.bindMethod();
+        this.bindMethods();
         this.room = false;
         this.state = {
             leftCard: null,
             rightCard: null,
-            roomId: null,
-            voters: {left: [], right: []},
-            roomVoters: [],
-            everybodyVoted: false,
             selectedSide: null
-        }
-    }
+        }}
 
-    bindMethod(){
+    bindMethods(){
         this.handleCardClicked = this.handleCardClicked.bind(this)
         this.cardClicked = this.cardClicked.bind(this)
         this.handleAddToBlacklist = this.handleAddToBlacklist.bind(this)
         this.handleUndoClicked = this.handleUndoClicked.bind(this)
         this.startChoices = this.startChoices.bind(this)
         this.createRoom = this.createRoom.bind(this)
-        this.listenSocket = this.listenSocket.bind(this)
-        this.removeVoter = this.removeVoter.bind(this)
-        this.addVoter = this.addVoter.bind(this)
         this.handleGoToNextVoting = this.handleGoToNextVoting.bind(this)
-        this.registerVote = this.registerVote.bind(this)
-        this.addVoteToVoters = this.addVoteToVoters.bind(this)
-        this.getTrelloUserData(this)
-        this.getAllRoomVoters = this.getAllRoomVoters.bind(this)
-        this.castRoomVoters = this.castRoomVoters.bind(this)
+        this.getTrelloUserData = this.getTrelloUserData.bind(this)
         this.checkEnded = this.checkEnded.bind(this)
     }
 
@@ -85,125 +73,7 @@ class Choices extends React.Component {
         let randomKey = getRandomKey()
         this.room = new Room(socket, randomKey)
         this.room.open(randomKey)
-        this.listenSocket()
-    }
-
-    listenSocket(){
-        let component = this;
-        socket.on('newRoomOpened', roomId => {
-            console.log("new room opened")
-            component.setState({
-                roomId: roomId
-            })
-        })
-
-        socket.on('voterJoined', function (voterId, trelloAvatar) {
-            component.addVoter(voterId, trelloAvatar);
-        })
-
-        socket.on('voterLeft', function (voterId) {
-            component.removeVoter(voterId)
-        })
-
-        socket.on('getCurrentChoice', function () {
-            component.room.castNextChoice(component.state.leftCard, component.state.rightCard)
-        })
-
-        socket.on('cardClicked', function (side, trelloId, trelloAvatar) {
-            component.registerVote(side, trelloId, trelloAvatar)
-        })
-
-        socket.on('getBoardIdFromMaster', function () {
-            component.room.castBoardId(component.props.boardId)
-        })
-    }
-
-    addVoteToVoters (side, voter) {
-        let component = this
-        if ('node' === side) {
-            let lv = component.state.voters.left.concat(voter);
-            component.setState({
-                voters: {
-                    left: lv,
-                    right: component.state.voters.right,
-                }
-            }, function () {
-                component.checkTotalVotes()
-            })
-        }
-        if ('compareNode' === side) {
-            let rv = component.state.voters.right.concat(voter);
-            component.setState({
-                voters: {
-                    left: component.state.voters.left,
-                    right: rv,
-                }
-            }, function () {
-                component.checkTotalVotes()
-            })
-        }
-    }
-
-    registerVote (side, trelloId, trelloAvatar) {
-        let voter = {
-            voterId: trelloId,
-            trelloId: trelloId,
-            trelloAvatar: trelloAvatar
-        }
-
-        this.addVoteToVoters(side, voter)
-
-    }
-
-    checkTotalVotes () {
-        let component = this;
-        if (this.state.roomVoters.length == 0) {
-            return
-        }
-
-        if ((this.state.voters.left.length + this.state.voters.right.length) >= 1 + this.state.roomVoters.length) {
-            this.setState({
-                everybodyVoted: true
-            }, function () {
-                if (component.room) {
-                    component.room.castVotesInfo(component.state.voters.left, component.state.voters.right)
-                }
-            })
-        }
-    }
-
-    castRoomVoters () {
-        this.room.castRoomVoters(this.getAllRoomVoters())
-    }
-
-    removeVoter (voterId) {
-        let component = this
-        if (find(component.state.roomVoters, {'id': voterId}) === undefined) {
-            return
-        }
-        let newVoters = component.state.roomVoters.slice(); //copy array
-        let index = findIndex(newVoters, function (item) {
-            return item.id === voterId
-        })
-        newVoters.splice(index, 1); //remove element
-        component.setState({
-            roomVoters: newVoters
-        }, () => {
-            component.castRoomVoters()
-        })
-    }
-
-    addVoter (voterId, trelloAvatar) {
-        let component = this
-        if (find(component.state.roomVoters, {'id': voterId}) !== undefined) {
-            return
-        }
-        let voters = component.state.roomVoters.concat({id: voterId, avatar: trelloAvatar});
-        component.setState({
-            roomVoters: voters
-        }, () => {
-            component.castRoomVoters()
-        })
+        this.room.listenSocket()
     }
 
     startChoices () {
@@ -214,9 +84,11 @@ class Choices extends React.Component {
 
     getNextChoice () {
         let component = this
+        if(component.room) {
+            component.room.setEverybodyVoted(false);
+        }
         this.setState({
             hasVoted: false,
-            everybodyVoted: false
         }, function () {
             if (component.room) {
                 component.room.castVotesInfo([], [])
@@ -226,7 +98,6 @@ class Choices extends React.Component {
     }
 
     checkEnded(){
-        console.log("entro qui");
         if (this.engine.getEnded()) {
             if (this.room) {
                 this.room.castPrioritizationEnded()
@@ -236,7 +107,6 @@ class Choices extends React.Component {
             this.setState({
                 leftCard: this.engine.getNode(),
                 rightCard: this.engine.getCompareNode(),
-                voters: {left: [], right: []},
                 selectedSide: null
             }, function () {
                 if (this.engine.autoChoice()) {
@@ -268,7 +138,11 @@ class Choices extends React.Component {
     }
 
     handleCardClicked (side) {
-        if (this.state.roomVoters.length === 0) {
+        if(this.room) {
+            if (this.room.roomVoters.length === 0) {
+                this.cardClicked(side)
+            }
+        }else{
             this.cardClicked(side)
         }
 
@@ -287,8 +161,9 @@ class Choices extends React.Component {
             hasVoted: true,
             selectedSide: component.room ? side : null
         })
-
-        this.addVoteToVoters(side, voter)
+        if(this.room) {
+            this.room.addVoteToVoters(side, voter)
+        }
     }
 
     getProgress () {
@@ -303,7 +178,7 @@ class Choices extends React.Component {
     }
 
     renderRoomLink () {
-        return <RoomLink roomId={this.state.roomId}/>
+        return <RoomLink roomId={this.room? this.room.getRoomId : null}/>
     }
 
 
@@ -327,35 +202,21 @@ class Choices extends React.Component {
         return (<div><span>Loading...</span></div>)
     }
 
-    getAllRoomVoters () {
-        let joinedVoters = this.state.roomVoters
-        if (this.room) {
-            joinedVoters = joinedVoters.concat({
-                id: this.trelloId,
-                avatar: this.trelloAvatar,
-                isAdmin: true
-            })
-        }
-
-        return joinedVoters
-    }
-
     render () {
 
         if (this.state.leftCard == null || this.state.rightCard == null) {
             this.renderLoading()
         }
 
-
         return (
             <ChoicesView
                 newRoomButton={this.renderNewRoomButton()}
                 roomLink={this.renderRoomLink()}
-                roomVoters={this.getAllRoomVoters()}
+                roomVoters={this.room? this.room.getAllRoomVoters() : null}
                 leftCard={this.state.leftCard}
                 rightCard={this.state.rightCard}
-                everybodyVoted={this.state.everybodyVoted}
-                voters={this.state.voters}
+                everybodyVoted={this.room? this.room.getEverybodyVoted() : null}
+                voters={this.room? this.room.getVoters() : null}
                 handleAddToBlacklist={this.handleAddToBlacklist}
                 handleCardClicked={this.handleCardClicked}
                 handleUndoClicked={this.handleUndoClicked}

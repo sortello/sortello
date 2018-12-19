@@ -155,7 +155,7 @@ class Choices extends React.Component {
                 roomVoters={this.state.roomVoters}
                 leftCard={this.state.leftCard}
                 rightCard={this.state.rightCard}
-                everybodyVoted={this.state.voters.left.length + this.state.voters.right.length > 0}
+                everybodyVoted={this.room.voters.left.length + this.room.voters.right.length > 0}
                 voters={this.state.voters}
                 handleAddToBlacklist={null}
                 handleCardClicked={this.handleCardClicked}
