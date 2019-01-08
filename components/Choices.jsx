@@ -15,13 +15,6 @@ function openOverlay() {
     document.getElementById('overlay__share-room').style.opacity = "1";
 }
 
-let socket = false;
-if (typeof socketAddress !== 'undefined') {
-    if (socketAddress !== null) {
-        socket = io(socketAddress);
-    }
-}
-
 const getRandomKey = () => {
     let randomKey = '';
     let chars = '0123456789abcdefghijklmnopqrstuvwxyz';
@@ -36,6 +29,7 @@ class Choices extends React.Component {
         this.engine = new Engine(clone(this.props.nodes), clone(this.props.rootNode))
         this.bindMethods();
         this.room = false;
+        this.socket = false;
         this.state = {
             leftCard: null,
             rightCard: null,
@@ -52,6 +46,14 @@ class Choices extends React.Component {
         this.handleGoToNextVoting = this.handleGoToNextVoting.bind(this)
         this.getTrelloUserData = this.getTrelloUserData.bind(this)
         this.checkEnded = this.checkEnded.bind(this)
+    }
+
+    componentDidMount () {
+        if (typeof socketAddress !== 'undefined') {
+            if (socketAddress !== null) {
+                this.socket = io(socketAddress);
+            }
+        }
     }
 
     getTrelloUserData (component) {
@@ -71,7 +73,7 @@ class Choices extends React.Component {
             return;
         }
         let randomKey = getRandomKey()
-        this.room = new Room(socket, randomKey)
+        this.room = new Room(this.socket, randomKey)
         this.room.open(randomKey)
         this.room.listenSocket()
     }
@@ -183,7 +185,7 @@ class Choices extends React.Component {
 
 
     renderNewRoomButton () {
-        if (socket) {
+        if (this.socket) {
             return (
                 <div>
                     <div onClick={() => { openOverlay() }}>

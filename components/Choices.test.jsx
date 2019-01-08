@@ -48,13 +48,24 @@ describe("Choices", () => {
         expect(wrapper.instance().getProgress()).toEqual(25);
     });
 
+    it("show the open/share room if socket is declared", () => {
+        const socket = {emit: jest.fn()}
+        const roomKey = "123"
+        let wrapper = shallow(<Choices {...props}/>);
+        wrapper.instance().room = new Room(socket,roomKey)
+        wrapper.instance().socket = true;
+        let output = wrapper.instance().renderNewRoomButton();
+        expect(output).not.toEqual("");
+    });
+
     xit("change text if room exists or not ", () => {
         const socket = {emit: jest.fn()}
         const roomKey = "123"
         let wrapper = shallow(<Choices {...props}/>);
         wrapper.instance().room = new Room(socket,roomKey)
-        wrapper.instance().renderNewRoomButton();
-        expect(wrapper.find(".share-room__button").text()).toEqual("Share room");
+        wrapper.instance().socket = true;
+        let output = wrapper.instance().renderNewRoomButton();
+        expect(wrapper.find(".share-room__button").textContent).toEqual("Share room");
     });
 
 });

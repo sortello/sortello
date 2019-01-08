@@ -8,12 +8,7 @@ import ChoicesView from './view/ChoicesView.jsx'
 import AccessdeniedAnimation from './AccessdeniedAnimation.jsx';
 
 
-let socket = false;
-if (typeof socketAddress !== 'undefined') {
-    if (socketAddress !== null) {
-        socket = io(socketAddress);
-    }
-}
+
 
 const params = queryString.parse(location.search);
 
@@ -26,6 +21,7 @@ class Choices extends React.Component {
         this.renderForbidden = this.renderForbidden.bind(this)
         this.renderLoading = this.renderLoading.bind(this)
         this.room = false;
+        this.socket = false;
         this.state = {
             leftCard: null,
             rightCard: null,
@@ -39,13 +35,21 @@ class Choices extends React.Component {
         if (params.roomKey !== undefined) {
             this.setUpRoom(component);
         }
-        if (socket) {
+        if (this.socket) {
             this.setUpSocket(component);
         }
     }
 
+    componentDidMount () {
+        if (typeof socketAddress !== 'undefined') {
+            if (socketAddress !== null) {
+                this.socket = io(socketAddress);
+            }
+        }
+    }
+
     setUpSocket(component) {
-        socket.on('votesInfo', function (leftVoters, rightVoters) {
+        this.socket.on('votesInfo', function (leftVoters, rightVoters) {
             component.setState({
                 voters: {
                     left: leftVoters,
@@ -54,7 +58,7 @@ class Choices extends React.Component {
             })
         })
 
-        socket.on('castBoardIdToVoters', function (boardId) {
+        this.socket.on('castBoardIdToVoters', function (boardId) {
             component.BoardApi.getBoard(boardId, function () {
                 component.setState({
                     hasBoardPermissions: true
@@ -68,7 +72,7 @@ class Choices extends React.Component {
             })
         })
 
-        socket.on('nextChoice', function (leftCard, rightCard) {
+        this.socket.on('nextChoice', function (leftCard, rightCard) {
             component.setState({
                 leftCard: leftCard,
                 rightCard: rightCard,
@@ -77,13 +81,13 @@ class Choices extends React.Component {
             })
         })
 
-        socket.on('roomVotersUpdated', function (roomVoters) {
+        this.socket.on('roomVotersUpdated', function (roomVoters) {
             component.setState({
                 roomVoters: roomVoters
             })
         })
 
-        socket.on('prioritizationEnded', function () {
+        this.socket.on('prioritizationEnded', function () {
             component.setState({
                 ended: true
             })
@@ -92,9 +96,9 @@ class Choices extends React.Component {
 
     setUpRoom(component) {
         component.state.roomId = params.roomKey
-        if (socket) {
-            component.room = new Room(socket, params.roomKey);
-            socket.on('connect', function () {
+        if (this.socket) {
+            component.room = new Room(this.socket, params.roomKey);
+            this.socket.on('connect', function () {
                 component.BoardApi.getMembers('me', {}, function (data) {
                     component.trelloId = data.id
                     component.trelloAvatar = '//trello-avatars.s3.amazonaws.com/' + data.avatarHash + '/50.png'
