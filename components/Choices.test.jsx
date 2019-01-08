@@ -3,6 +3,7 @@ import {shallow} from 'enzyme';
 import TrelloApi from "../Api/TrelloApi"
 import Choices from "./Choices";
 import Room from "../model/Room";
+import Engine from "../model/Engine"
 
 describe("Choices", () => {
     let props = {
@@ -88,12 +89,49 @@ describe("Choices", () => {
         wrapper.instance().createRoom();
         expect(spy).not.toHaveBeenCalled();
         expect(spy2).not.toHaveBeenCalled();
+
         wrapper.instance().socket = {
             emit: jest.fn(),
             on: jest.fn()}
         wrapper.instance().room = null;
         wrapper.instance().createRoom();
         expect(wrapper.instance().room).toBeTruthy();
+    })
+
+    it("set variable 'setEverybodyVoted' to false if room isn't declared", () => {
+        let wrapper = shallow(<Choices {...props}/>)
+        const socket = {emit: jest.fn()}
+        const roomKey = "123"
+        wrapper.instance().room = new Room(socket,roomKey)
+        let spy = spyOn(wrapper.instance().room, 'setEverybodyVoted');
+        let spy2 = spyOn(wrapper.instance().room, 'castVotesInfo');
+        let spy3 = spyOn(wrapper.instance(), 'checkEnded');
+        wrapper.instance().room = null;
+        wrapper.instance().getNextChoice();
+        expect(spy).not.toHaveBeenCalled();
+        expect(spy2).not.toHaveBeenCalled();
+        expect(spy3).toHaveBeenCalled();
+    })
+
+    /*TODO la parte primaria che ho messo in commento*/
+    it("set the correct values of leftCard and rightCard when prioritization is not ended", () => {
+        let wrapper = shallow(<Choices {...props}/>)
+        const node = "[1]"
+        const compareNode = "[2]"
+        wrapper.instance().engine = new Engine("[[1][2]]","[1]");
+        let spy = spyOn(wrapper.instance().engine, 'autoChoice').and.returnValue(false);
+        wrapper.instance().engine.ended = false;
+        wrapper.instance().engine.node = node;
+        wrapper.instance().engine.compareNode = compareNode;
+        wrapper.instance().checkEnded();
+        expect(wrapper.instance().state.leftCard).toEqual(node)
+        expect(wrapper.instance().state.rightCard).toEqual(compareNode)
+        expect(spy).toHaveBeenCalled();
+
+        /*let spy = spyOn (wrapper.instance().props,"setSortedRootNode")
+        wrapper.instance().engine.ended = true;
+        wrapper.instance().checkEnded();
+        expect(spy).toHaveBeenCalled();*/
     })
 
 });
