@@ -62,7 +62,7 @@ describe("Choices", () => {
         const socket = {emit: jest.fn()}
         const roomKey = "123"
         let wrapper = shallow(<Choices {...props}/>);
-        wrapper.instance().room = new Room(socket,roomKey)
+        wrapper.instance().room = new Room(socket,roomKey);
         wrapper.instance().socket = true;
         let output = wrapper.instance().renderNewRoomButton();
         wrapper = shallow(output);
@@ -70,8 +70,6 @@ describe("Choices", () => {
     });
 
     it("show 'Open room' if socket is initialized but not the room", () => {
-        const socket = {emit: jest.fn()}
-        const roomKey = "123"
         let wrapper = shallow(<Choices {...props}/>);
         wrapper.instance().room = null;
         wrapper.instance().socket = true;
@@ -79,5 +77,23 @@ describe("Choices", () => {
         wrapper = shallow(output);
         expect(wrapper.find("div").at(2).props().children).toEqual("Open new room");
     });
+
+    it("create room if room isn't defined",() => {
+        let wrapper = shallow(<Choices {...props}/>)
+        const socket = {emit: jest.fn()}
+        const roomKey = "123"
+        wrapper.instance().room = new Room(socket,roomKey);
+        let spy = spyOn(wrapper.instance().room, 'open');
+        let spy2 = spyOn(wrapper.instance().room, 'listenSocket');
+        wrapper.instance().createRoom();
+        expect(spy).not.toHaveBeenCalled();
+        expect(spy2).not.toHaveBeenCalled();
+        wrapper.instance().socket = {
+            emit: jest.fn(),
+            on: jest.fn()}
+        wrapper.instance().room = null;
+        wrapper.instance().createRoom();
+        expect(wrapper.instance().room).toBeTruthy();
+    })
 
 });
