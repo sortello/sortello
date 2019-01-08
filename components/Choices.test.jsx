@@ -58,14 +58,26 @@ describe("Choices", () => {
         expect(output).not.toEqual("");
     });
 
-    xit("change text if room exists or not ", () => {
+    it("show 'Share room' if socket and room are initialized", () => {
         const socket = {emit: jest.fn()}
         const roomKey = "123"
         let wrapper = shallow(<Choices {...props}/>);
         wrapper.instance().room = new Room(socket,roomKey)
         wrapper.instance().socket = true;
         let output = wrapper.instance().renderNewRoomButton();
-        expect(wrapper.find(".share-room__button").textContent).toEqual("Share room");
+        wrapper = shallow(output);
+        expect(wrapper.find("div").at(2).props().children).toEqual("Share room");
+    });
+
+    it("show 'Open room' if socket is initialized but not the room", () => {
+        const socket = {emit: jest.fn()}
+        const roomKey = "123"
+        let wrapper = shallow(<Choices {...props}/>);
+        wrapper.instance().room = null;
+        wrapper.instance().socket = true;
+        let output = wrapper.instance().renderNewRoomButton();
+        wrapper = shallow(output);
+        expect(wrapper.find("div").at(2).props().children).toEqual("Open new room");
     });
 
 });
