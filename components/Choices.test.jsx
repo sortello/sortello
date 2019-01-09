@@ -8,7 +8,7 @@ import Engine from "../model/Engine"
 describe("Choices", () => {
     let props = {
         BoardApi: null,
-        setSortedRootNode: null,
+        setSortedRootNode: jest.fn(),
         setStartTimeStamp: null,
         nodes: [],
         rootNode: null
@@ -79,7 +79,7 @@ describe("Choices", () => {
         expect(wrapper.find("div").at(2).props().children).toEqual("Open new room");
     });
 
-    it("create room if room isn't defined",() => {
+    it("return nothing if room is already created when user wants to create a room",() => {
         let wrapper = shallow(<Choices {...props}/>)
         const socket = {emit: jest.fn()}
         const roomKey = "123"
@@ -89,11 +89,14 @@ describe("Choices", () => {
         wrapper.instance().createRoom();
         expect(spy).not.toHaveBeenCalled();
         expect(spy2).not.toHaveBeenCalled();
+    })
 
+    it("create room when user wants to create it", () => {
+        let wrapper = shallow(<Choices {...props}/>)
+        wrapper.instance().room = null;
         wrapper.instance().socket = {
             emit: jest.fn(),
             on: jest.fn()}
-        wrapper.instance().room = null;
         wrapper.instance().createRoom();
         expect(wrapper.instance().room).toBeTruthy();
     })
@@ -113,12 +116,11 @@ describe("Choices", () => {
         expect(spy3).toHaveBeenCalled();
     })
 
-    /*TODO la parte primaria che ho messo in commento*/
     it("set the correct values of leftCard and rightCard when prioritization is not ended", () => {
         let wrapper = shallow(<Choices {...props}/>)
         const node = "[1]"
         const compareNode = "[2]"
-        wrapper.instance().engine = new Engine("[[1][2]]","[1]");
+        wrapper.instance().engine = new Engine("[[1],[2]]","[1]");
         let spy = spyOn(wrapper.instance().engine, 'autoChoice').and.returnValue(false);
         wrapper.instance().engine.ended = false;
         wrapper.instance().engine.node = node;
@@ -127,11 +129,27 @@ describe("Choices", () => {
         expect(wrapper.instance().state.leftCard).toEqual(node)
         expect(wrapper.instance().state.rightCard).toEqual(compareNode)
         expect(spy).toHaveBeenCalled();
+    })
 
-        /*let spy = spyOn (wrapper.instance().props,"setSortedRootNode")
+    it("check if the sort is finished in local", () => {
+        let spy2 = spyOn (props,"setSortedRootNode");
+        let wrapper = shallow(<Choices {...props}/>)
         wrapper.instance().engine.ended = true;
         wrapper.instance().checkEnded();
-        expect(spy).toHaveBeenCalled();*/
+        expect(spy2).toHaveBeenCalled();
+    })
+
+    it("check if the sort is finished not in local", () => {
+        let spy2 = spyOn (props,"setSortedRootNode");
+        let wrapper = shallow(<Choices {...props}/>)
+        const socket = {emit: jest.fn()}
+        const roomKey = "123"
+        wrapper.instance().room = new Room(socket,roomKey);
+        wrapper.instance().engine.ended = true;
+        let spy = spyOn(wrapper.instance().room, 'castPrioritizationEnded');
+        wrapper.instance().checkEnded();
+        expect(spy).toHaveBeenCalled();
+        expect(spy2).toHaveBeenCalled();
     })
 
 });

@@ -12,7 +12,6 @@ class Room {
     }
 
     open (newRoomKey) {
-        console.log("emit openNewRoom");
         this.socket.emit('openNewRoom', newRoomKey)
     }
 
