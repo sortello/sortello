@@ -20,7 +20,7 @@ describe("Results", () => {
         expect(wrapper.instance().renderPrioritizeAnotherListButton()).toBeTruthy();
     });
 
-    it("use github and not visualize 'Prioritize another list' button", () => {
+    it("use github and don't visualize 'Prioritize another list' button", () => {
         props.BoardApi = new GithubApi();
         let wrapper = shallow(<Results {...props}/>)
         wrapper.instance().renderUploadDone = jest.fn();

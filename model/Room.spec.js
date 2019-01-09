@@ -97,5 +97,45 @@ describe('Room', () => {
         expect(room.everybodyVoted).toBe(true)
         expect(spy).toHaveBeenCalled();
     })
+
+    it("add vote to voters correctly", () => {
+        const socket = {emit: jest.fn()}
+        const roomKey = "123"
+        let room = new Room (socket,roomKey)
+        let side = "node";
+        let voter = "voter";
+        room.addVoteToVoters(side,voter)
+        expect(room.voters.left.length).toBe(1);
+        expect(room.voters.right.length).toBe(0);
+        side="compareNode"
+        room.addVoteToVoters(side,voter)
+        expect(room.voters.right.length).toBe(1);
+        expect(room.voters.left.length).toBe(1);
+    })
+
+    it("check if everybody voted", () =>{
+        const socket = {emit: jest.fn()}
+        const roomKey = "123"
+        let room = new Room (socket,roomKey)
+        let spy = spyOn(room,"castVotesInfo")
+        room.voters.left = "[[1],[2]]"
+        room.voters.right = "[[3],[4]]"
+        room.roomVoters = "[[1],[2],[3]]"
+        room.checkTotalVotes()
+        expect(spy).toHaveBeenCalled();
+        spy.calls.reset();
+        room.roomVoters = "[[1],[2],[3],[4],[5]]"
+        expect(spy).not.toHaveBeenCalled();
+    })
+
+    it("get all voters in the room", () =>{
+        const socket = {emit: jest.fn()}
+        const roomKey = "123"
+        let room = new Room (socket,roomKey)
+        room.roomVoters = "[voter]"
+        let output = room.getAllRoomVoters()
+        expect(output).toBeTruthy();
+        expect(output).toContain("voter");
+    })
     
 })
