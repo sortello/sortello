@@ -148,25 +148,83 @@ describe("Choices", () => {
         expect(spy).toHaveBeenCalled();
     })
 
-    it("check if the sort is finished in local", () => {
-        let spy2 = spyOn (props,"setSortedRootNode");
-        let wrapper = shallow(<Choices {...props}/>)
-        wrapper.instance().engine.ended = true;
-        wrapper.instance().checkEnded();
-        expect(spy2).toHaveBeenCalled();
-    })
-
-    it("check if the sort is finished not in local", () => {
-        let spy2 = spyOn (props,"setSortedRootNode");
+    it("check if the sort is finished in local and server", () => {
+        let spy = spyOn (props,"setSortedRootNode");
         let wrapper = shallow(<Choices {...props}/>)
         const socket = {emit: jest.fn()}
         const roomKey = "123"
         wrapper.instance().room = new Room(socket,roomKey);
         wrapper.instance().engine.ended = true;
-        let spy = spyOn(wrapper.instance().room, 'castPrioritizationEnded');
+        let spy2 = spyOn(wrapper.instance().room, 'castPrioritizationEnded');
         wrapper.instance().checkEnded();
         expect(spy).toHaveBeenCalled();
         expect(spy2).toHaveBeenCalled();
+        spy.calls.reset();
+        spy2.calls.reset();
+        wrapper.instance().room = null;
+        wrapper.instance().checkEnded();
+        expect(spy).toHaveBeenCalled();
+        expect(spy2).not.toHaveBeenCalled();
+
+    })
+
+    it("start nextChoice if prioritization isn't ended and we got other card to prioritize, in local", () => {
+        let wrapper = shallow(<Choices {...props}/>)
+        wrapper.instance().engine = new Engine("[[1],[2]]","[1]");
+        const node = "[1]"
+        const compareNode = "[2]"
+        wrapper.instance().engine.ended = false;
+        wrapper.instance().engine.node = node;
+        wrapper.instance().engine.compareNode = compareNode;
+        let spy = spyOn(wrapper.instance().engine, 'autoChoice').and.returnValue(true);
+        let spy2 = spyOn(wrapper.instance(), 'getNextChoice')
+        wrapper.instance().checkEnded();
+        expect(spy).toHaveBeenCalled();
+        expect(spy2).toHaveBeenCalled();
+        expect(wrapper.instance().state.leftCard).toEqual(node)
+        expect(wrapper.instance().state.rightCard).toEqual(compareNode)
+    })
+
+    it("check if prioritization is not ended and cast to all users nextChoices", () => {
+        let wrapper = shallow(<Choices {...props}/>)
+        wrapper.instance().engine = new Engine("[[1],[2]]","[1]");
+        const node = "[1]"
+        const compareNode = "[2]"
+        const socket = {emit: jest.fn()}
+        const roomKey = "123"
+        wrapper.instance().room = new Room(socket,roomKey);
+        wrapper.instance().engine.ended = false;
+        wrapper.instance().engine.node = node;
+        wrapper.instance().engine.compareNode = compareNode;
+        let spy = spyOn(wrapper.instance().engine, 'autoChoice').and.returnValue(false);
+        let spy2 = spyOn(wrapper.instance().room, 'castNextChoice')
+        wrapper.instance().checkEnded();
+        expect(spy).toHaveBeenCalled();
+        expect(spy2).toHaveBeenCalled();
+        expect(wrapper.instance().state.leftCard).toEqual(node)
+        expect(wrapper.instance().state.rightCard).toEqual(compareNode)
+    })
+
+    it("check if prioritization is not ended, cast to all users nextChoices and get next Choice", () => {
+        let wrapper = shallow(<Choices {...props}/>)
+        wrapper.instance().engine = new Engine("[[1],[2]]","[1]");
+        const node = "[1]"
+        const compareNode = "[2]"
+        const socket = {emit: jest.fn()}
+        const roomKey = "123"
+        wrapper.instance().room = new Room(socket,roomKey);
+        wrapper.instance().engine.ended = false;
+        wrapper.instance().engine.node = node;
+        wrapper.instance().engine.compareNode = compareNode;
+        let spy = spyOn(wrapper.instance().engine, 'autoChoice').and.returnValue(true);
+        let spy2 = spyOn(wrapper.instance().room, 'castNextChoice')
+        let spy3 = spyOn(wrapper.instance(), 'getNextChoice')
+        wrapper.instance().checkEnded();
+        expect(spy).toHaveBeenCalled();
+        expect(spy2).toHaveBeenCalled();
+        expect(spy3).toHaveBeenCalled();
+        expect(wrapper.instance().state.leftCard).toEqual(node)
+        expect(wrapper.instance().state.rightCard).toEqual(compareNode)
     })
 
 
