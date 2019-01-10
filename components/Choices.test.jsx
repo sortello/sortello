@@ -101,7 +101,7 @@ describe("Choices", () => {
         expect(wrapper.instance().room).toBeTruthy();
     })
 
-    it("set variable 'setEverybodyVoted' to false if room isn't declared", () => {
+    it("check if prioritization is ended each time we selected a card", () => {
         let wrapper = shallow(<Choices {...props}/>)
         const socket = {emit: jest.fn()}
         const roomKey = "123"
@@ -112,7 +112,24 @@ describe("Choices", () => {
         wrapper.instance().room = null;
         wrapper.instance().getNextChoice();
         expect(spy).not.toHaveBeenCalled();
+        expect(wrapper.instance().state.hasVoted).toEqual(false);
         expect(spy2).not.toHaveBeenCalled();
+        expect(spy3).toHaveBeenCalled();
+    })
+
+    it("communicate with server if room is not null", () => {
+        let wrapper = shallow(<Choices {...props}/>)
+        const socket = {emit: jest.fn()}
+        const roomKey = "123"
+        wrapper.instance().room = new Room(socket,roomKey)
+        let spy = spyOn(wrapper.instance().room, 'setEverybodyVoted');
+        let spy2 = spyOn(wrapper.instance().room, 'castVotesInfo');
+        let spy3 = spyOn(wrapper.instance(), 'checkEnded');
+        wrapper.instance().getNextChoice();
+        expect(spy).toHaveBeenCalled();
+        expect(wrapper.instance().state.hasVoted).toEqual(false);
+        expect(wrapper.instance().room.everybodyVoted).toEqual(false);
+        expect(spy2).toHaveBeenCalled();
         expect(spy3).toHaveBeenCalled();
     })
 
@@ -151,5 +168,7 @@ describe("Choices", () => {
         expect(spy).toHaveBeenCalled();
         expect(spy2).toHaveBeenCalled();
     })
+
+
 
 });
