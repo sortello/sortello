@@ -54,7 +54,7 @@ describe("Card", () => {
                 ]
             },
             everybodyVoted: false,
-            handleCardClicked: () => {
+            handleClick: () => {
             },
         };
         let wrapper = card(props)
@@ -95,7 +95,7 @@ describe("Card", () => {
                 ]
             },
             everybodyVoted: true,
-            handleCardClicked: () => {
+            handleClick: () => {
             },
         };
         let wrapper = card(props)
@@ -104,4 +104,174 @@ describe("Card", () => {
         expect(wrapper.find('CardVoters').props().voters).toEqual(props.voters)
         expect(wrapper.find('CardButtons').props().continueButton).not.toBe(null)
     })
+
+    it("show CardButtons when needed", () => {
+        let props = {
+            voters:
+                [{
+                    voterId: 'voter1',
+                    trelloId: 'voter1',
+                    trelloAvatar: ''
+                }, {
+                    voterId: 'voter2',
+                    trelloId: 'voter2',
+                    trelloAvatar: ''
+                }]
+            ,
+            data: {
+                id: 2,
+                shortUrl: "#",
+                name: "Right card with some text",
+                labels: [
+                    {
+                        color: "green",
+                        name: "Label",
+                        id: 3
+                    },
+                    {
+                        color: "yellow",
+                        name: "Label",
+                        id: 4
+                    }
+                ]
+            },
+            everybodyVoted: true,
+            forget: "forget",
+            handleClick: () => {
+            },
+        };
+
+        let wrapper = card(props)
+        expect(wrapper.find('CardButtons')).toBeTruthy();
+    })
+
+    it("upgrade className of a div when is selected", () => {
+        let props = {
+            voters:
+                [{
+                    voterId: 'voter1',
+                    trelloId: 'voter1',
+                    trelloAvatar: ''
+                }, {
+                    voterId: 'voter2',
+                    trelloId: 'voter2',
+                    trelloAvatar: ''
+                }]
+            ,
+            data: {
+                id: 2,
+                shortUrl: "#",
+                name: "Right card with some text",
+                labels: [
+                    {
+                        color: "green",
+                        name: "Label",
+                        id: 3
+                    },
+                    {
+                        color: "yellow",
+                        name: "Label",
+                        id: 4
+                    }
+                ]
+            },
+            everybodyVoted: true,
+            selected : true,
+            handleClick: () => {
+            },
+        };
+
+        let wrapper = card(props)
+        console.log(wrapper.find("div").at(1).props().className)
+        expect(wrapper.find("div").at(1).props().className).toEqual("container__card container__card-selected")
+    })
+
+    it("don't upgrade className of a div when isn't selected", () => {
+        let props = {
+            voters:
+                [{
+                    voterId: 'voter1',
+                    trelloId: 'voter1',
+                    trelloAvatar: ''
+                }, {
+                    voterId: 'voter2',
+                    trelloId: 'voter2',
+                    trelloAvatar: ''
+                }]
+            ,
+            data: {
+                id: 2,
+                shortUrl: "#",
+                name: "Right card with some text",
+                labels: [
+                    {
+                        color: "green",
+                        name: "Label",
+                        id: 3
+                    },
+                    {
+                        color: "yellow",
+                        name: "Label",
+                        id: 4
+                    }
+                ]
+            },
+            everybodyVoted: true,
+            selected : false,
+            handleClick: () => {
+            },
+        };
+
+        let wrapper = card(props)
+        expect(wrapper.find("div").at(1).props().className).toEqual("container__card ")
+    })
+
+    it("check if other components are created with correct values", () => {
+        let props = {
+            voters:
+                [{
+                    voterId: 'voter1',
+                    trelloId: 'voter1',
+                    trelloAvatar: ''
+                }, {
+                    voterId: 'voter2',
+                    trelloId: 'voter2',
+                    trelloAvatar: ''
+                }]
+            ,
+            data: {
+                id: 2,
+                shortUrl: "#",
+                name: "Right card with some text",
+                labels: [
+                    {
+                        color: "green",
+                        name: "Label",
+                        id: 3
+                    },
+                    {
+                        color: "yellow",
+                        name: "Label",
+                        id: 4
+                    }
+                ]
+            },
+            everybodyVoted: true,
+            forget : true,
+            side : "side",
+            handleClick: () => {
+            },
+        };
+
+        let wrapper = card(props)
+        expect(wrapper.find("CardLabels").props().labels).toHaveLength(2);
+        expect(wrapper.find("CardLabels").props().labels).toEqual(props.data.labels);
+        expect(wrapper.find("CardVoters").props().voters).toHaveLength(2);
+        expect(wrapper.find("CardVoters").props().voters).toEqual(props.voters);
+        expect(wrapper.find("CardButtons").props().everybodyVoted).toEqual(props.everybodyVoted);
+        expect(wrapper.find("CardButtons").props().side).toEqual(props.side);
+        expect(wrapper.find("CardButtons").props().data).toEqual(props.data);
+        expect(wrapper.find("CardButtons").props().forget).toEqual(props.forget);
+    })
+
 })
