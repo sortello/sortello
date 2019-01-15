@@ -12,7 +12,6 @@ class Room {
     }
 
     open (newRoomKey) {
-        console.log("emit openNewRoom");
         this.socket.emit('openNewRoom', newRoomKey)
     }
 
@@ -28,28 +27,9 @@ class Room {
         this.socket.emit('getBoardId', this.roomKey)
     }
 
-    getCurrentChoice () {
-        this.socket.emit('getCurrentChoice', this.roomKey);
-    }
-
-    getRoomId(){
-        return this.roomId;
-    }
 
     getRoomVoters(){
         return this.roomVoters;
-    }
-
-    getVoters(){
-        return this.voters;
-    }
-
-    getEverybodyVoted(){
-        return this.everybodyVoted;
-    }
-
-    setEverybodyVoted(value){
-        this.everybodyVoted=value;
     }
 
     castCardClicked (side, trelloId, trelloAvatar) {
@@ -76,34 +56,6 @@ class Room {
 
     castVotesInfo (leftVoters, rightVoters) {
         this.socket.emit('votesInfo', leftVoters, rightVoters, this.roomKey)
-    }
-
-    listenSocket(){
-        let component = this;
-        this.socket.on('newRoomOpened', roomId => {
-            console.log("new room opened")
-            this.roomId=roomId;
-        })
-
-        this.socket.on('voterJoined', function (voterId, trelloAvatar) {
-            component.addVoter(voterId, trelloAvatar);
-        })
-
-        this.socket.on('voterLeft', function (voterId) {
-            component.removeVoter(voterId)
-        })
-
-        this.socket.on('getCurrentChoice', function () {
-            component.castNextChoice(component.state.leftCard, component.state.rightCard)
-        })
-
-        this.socket.on('cardClicked', function (side, trelloId, trelloAvatar) {
-            component.registerVote(side, trelloId, trelloAvatar)
-        })
-
-        this.socket.on('getBoardIdFromMaster', function () {
-            component.castBoardId(component.props.boardId)
-        })
     }
 
     addVoter (voterId, trelloAvatar) {

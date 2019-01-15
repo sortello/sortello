@@ -34,7 +34,6 @@ class Choices extends React.Component {
     constructor (props) {
         super(props);
         this.engine = new Engine(clone(this.props.nodes), clone(this.props.rootNode))
-        this.bindMethod();
         this.room = false;
         this.state = {
             leftCard: null,
@@ -45,6 +44,10 @@ class Choices extends React.Component {
             everybodyVoted: false,
             selectedSide: null
         }
+    }
+
+    componentDidMount(){
+        this.bindMethod();
     }
 
     bindMethod(){
@@ -91,7 +94,6 @@ class Choices extends React.Component {
     listenSocket(){
         let component = this;
         socket.on('newRoomOpened', roomId => {
-            console.log("new room opened")
             component.setState({
                 roomId: roomId
             })
@@ -226,7 +228,6 @@ class Choices extends React.Component {
     }
 
     checkEnded(){
-        console.log("entro qui");
         if (this.engine.getEnded()) {
             if (this.room) {
                 this.room.castPrioritizationEnded()
@@ -308,13 +309,13 @@ class Choices extends React.Component {
 
 
     renderNewRoomButton () {
-        if (socket) {
+        if (socket && this.props.fromExtension !== "Github") {
             return (
                 <div>
                     <div onClick={() => { openOverlay() }}>
                         <a href="#" id="new-room-button" onClick={this.createRoom}>
                             <div className="share-room__button">
-                                {this.room ? 'Share room' : 'Open new room' }</div>
+                                {this.room? 'Share room' : 'Open new room' }</div>
                         </a>
                     </div>
                 </div>

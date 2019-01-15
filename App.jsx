@@ -105,6 +105,7 @@ class App extends React.Component {
     }
 
     handleCards(listCards, boardId) {
+        console.log("in handleCards boardId è "+ boardId);
         let that = this;
         let nodes = [];
         for (let i = 0; i < listCards.length; i++) {
@@ -142,7 +143,8 @@ class App extends React.Component {
     renderColumnSelection() {
         return <ColumnSelection BoardApi={this.state.BoardApi} handleCards={this.handleCards}
                                 fromExtension={this.state.fromExtension}
-                                extId={this.state.extId}/>
+                                extId={this.state.extId}
+                                boardId = {this.props.boardId}/>
     }
 
     renderChoicesVoter() {
@@ -162,7 +164,8 @@ class App extends React.Component {
                      setStartTimeStamp={this.setStartTimeStamp}
                      nodes={this.state.nodes}
                      boardId={this.state.boardId}
-                     rootNode={this.state.rootNode}/>
+                     rootNode={this.state.rootNode}
+                     fromExtension = {this.state.fromExtension}/>
         )
     }
 

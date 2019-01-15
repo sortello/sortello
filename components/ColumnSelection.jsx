@@ -101,8 +101,7 @@ class ColumnSelection extends React.Component {
     retrieveCardsByListId(listId) {
         let that = this;
         let labels = [];
-        let BoardApi = this.props.BoardApi
-        BoardApi.getCardsByListId(listId, {cards: "open"}, function (data) {
+        this.props.BoardApi.getCardsByListId(listId, {cards: "open"}, function (data) {
             let listCards = data;
             that.setState({
                 listCards: listCards
@@ -123,7 +122,7 @@ class ColumnSelection extends React.Component {
                 })
                 that.setState({
                     labels: labels,
-                    boardId: data.idBoard
+                    boardId: data[0].idBoard
                 }, function () {
                     if (that.state.labels.length === 0) {
                         that.labelSelected(0)

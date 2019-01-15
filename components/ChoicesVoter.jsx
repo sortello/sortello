@@ -34,7 +34,8 @@ class Choices extends React.Component {
             hasVoted: false,
             hasBoardPermissions: false,
             selectedSide: null,
-            roomVoters: []
+            roomVoters: [],
+            boardId : null,
         }
         if (params.roomKey !== undefined) {
             this.setUpRoom(component);
@@ -57,10 +58,12 @@ class Choices extends React.Component {
         socket.on('castBoardIdToVoters', function (boardId) {
             component.BoardApi.getBoard(boardId, function () {
                 component.setState({
+                    boardId : boardId,
                     hasBoardPermissions: true
                 })
             }, function () {
                 component.setState({
+                    boardId : boardId,
                     hasBoardPermissions: false
                 }, function () {
                     component.room.leave(component.trelloId)
@@ -69,6 +72,8 @@ class Choices extends React.Component {
         })
 
         socket.on('nextChoice', function (leftCard, rightCard) {
+            console.log(leftCard);
+            console.log(rightCard);
             component.setState({
                 leftCard: leftCard,
                 rightCard: rightCard,
@@ -91,7 +96,6 @@ class Choices extends React.Component {
     }
 
     setUpRoom(component) {
-        component.state.roomId = params.roomKey
         if (socket) {
             component.room = new Room(socket, params.roomKey);
             socket.on('connect', function () {
@@ -103,7 +107,6 @@ class Choices extends React.Component {
                     }
                     component.room.join(component.trelloId, component.trelloAvatar)
                     component.room.getBoardId()
-                    component.room.getCurrentChoice()
                 }, function (e) {
                     console.log(e);
                 });
@@ -148,7 +151,8 @@ class Choices extends React.Component {
             return this.renderLoading()
         }
         if (this.state.ended) {
-            return (<PrioritizationEnd/>)
+            return (<PrioritizationEnd
+                        url = {"https://trello.com/b/" +this.state.boardId}/>)
         }
         return (
             <ChoicesView
