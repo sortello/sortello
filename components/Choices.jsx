@@ -363,6 +363,7 @@ class Choices extends React.Component {
                 handleGoToNextVoting={this.handleGoToNextVoting}
                 progress={this.getProgress()}
                 selectedSide={this.state.selectedSide}
+                fromExtension = {this.props.fromExtension}
             />
         )
     }

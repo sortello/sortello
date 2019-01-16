@@ -105,7 +105,6 @@ class App extends React.Component {
     }
 
     handleCards(listCards, boardId) {
-        console.log("in handleCards boardId è "+ boardId);
         let that = this;
         let nodes = [];
         for (let i = 0; i < listCards.length; i++) {

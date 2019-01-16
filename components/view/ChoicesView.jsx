@@ -85,7 +85,7 @@ class ChoicesView extends React.Component {
                         {undoButton}
                         {this.renderVoterInfo()}
                         <div className="container__avatars" >
-                            <div className="guest__label">Guests</div>
+                            {this.props.fromExtension !== "Github"? <div className="guest__label">Guests</div> : null}
                             <Avatars users={this.props.roomVoters} />
                             {this.props.newRoomButton}
                         </div>
