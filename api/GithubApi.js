@@ -46,9 +46,7 @@ class GithubApi {
             .then((resp) => resp.json())
             .then((projectData) => {
                 data.projectName = projectData.name;
-                console.log("ProjectName " + data.projectName);
                 data.projectCreator = projectData.creator.login;
-                console.log("ProjectCreator " + data.projectCreator);
                 const uri3 = "https://api.github.com/user";
                 let url3 = new Request(uri3, {
                     method: "GET",
@@ -59,9 +57,7 @@ class GithubApi {
             .then((resp) => resp.json())
             .then((dataUserConnected) => {
                 data.connectedUser = dataUserConnected.login;
-                console.log("ConnectedUser " + data.connectedUser);
                 const uri4 = "https://api.github.com/repos/" + data.projectCreator + "/" + data.projectName + "/collaborators/" + data.connectedUser + "/permission"
-                console.log(uri4);
                 let url4 = new Request(uri4, {
                     method: "GET",
                     headers: h
@@ -71,7 +67,6 @@ class GithubApi {
             .then((resp) => resp.json())
             .then((dataPermissions) => {
                 data.userPermission = dataPermissions.permission;
-                console.log("permission " + data.userPermission);
                 if(data.userPermission === "write"){
                     return true;
                 }else{
@@ -82,6 +77,7 @@ class GithubApi {
 
     getCardsByListId(externId, variable, success) {
         let component = this
+        let allCards = null
         const uri = "https://api.github.com/projects/columns/" + externId + "/cards"
         let h = new Headers();
         h.append("Accept", "application/vnd.github.inertia-preview+json");
@@ -91,38 +87,32 @@ class GithubApi {
             headers: h
         })
         fetch(url)
-            .then(function (resp) {
-                return resp.json()
-                    .then(function (cards) {
-                        const uri2 = "https://api.github.com/projects/columns/" + externId
-                        let url2 = new Request(uri2, {
-                            method: "GET",
-                            headers: h
-                        })
-                        fetch(url2)
-                            .then(function (resp) {
-                                resp.json()
-                                    .then(function (projectData) {
-                                        const uri3 = projectData.project_url
-                                        let url3 = new Request(uri3, {
-                                            method: "GET",
-                                            headers: h
-                                        })
-                                        fetch(url3)
-                                            .then(function (resp) {
-                                                resp.json()
-                                                    .then(function (data3) {
-                                                        let htmlUrlProject = data3.html_url;
-                                                        let normalizedCards = component.normalizeCards(cards, data3.html_url);
-                                                        component.getIssues(normalizedCards).then(function (cards) {
-                                                            success(cards, htmlUrlProject)
-                                                        })
-                                                    })
-                                            })
-                                    })
-                            })
-
-                    })
+            .then((resp) => resp.json())
+            .then((cards) => {
+                allCards = cards
+                const uri2 = "https://api.github.com/projects/columns/" + externId
+                let url2 = new Request(uri2, {
+                    method: "GET",
+                    headers: h
+                })
+                return fetch(url2)
+            })
+            .then((resp) => resp.json())
+            .then((projectData) => {
+                const uri3 = projectData.project_url
+                let url3 = new Request(uri3, {
+                    method: "GET",
+                    headers: h
+                })
+                return fetch(url3)
+            })
+            .then((resp) => resp.json())
+            .then((data3) => {
+                let htmlUrlProject = data3.html_url;
+                let normalizedCards = component.normalizeCards(allCards, data3.html_url);
+                component.getIssues(normalizedCards).then(function (cards) {
+                    success(cards, htmlUrlProject)
+                })
             })
     }
 
