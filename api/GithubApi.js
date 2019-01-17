@@ -67,7 +67,7 @@ class GithubApi {
             .then((resp) => resp.json())
             .then((dataPermissions) => {
                 data.userPermission = dataPermissions.permission;
-                if(data.userPermission === "write"){
+                if(data.userPermission === "write" || data.userPermission === "admin"){
                     return true;
                 }else{
                     return false;
