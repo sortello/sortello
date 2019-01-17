@@ -37,7 +37,13 @@ class ColumnSelection extends React.Component {
                     component.retrieveCardsByListId(card.idList)
                 })
             } else {
-                component.retrieveCardsByListId(component.props.extId)
+                    component.props.BoardApi.checkPermissions(component.props.extId).then(function(res){
+                    if(res) {
+                        component.retrieveCardsByListId(component.props.extId)
+                    }
+                },function(e){
+                    console.log(e);
+                })
             }
         }
 
