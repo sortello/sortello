@@ -12,7 +12,7 @@ describe('using Github Api', function () {
 
                     leftCard.getText().then(function (leftValue) {
                         rightCard.getText().then(function (rightValue) {
-                            if (Math.random() >= 0.5) {
+                            if (parseInt(leftValue) < parseInt(rightValue)) {
                                 element(by.css('#right_button .container__card')).click()
                             } else {
                                 element(by.css('#left_button .container__card')).click()
@@ -86,7 +86,6 @@ describe('using Github Api', function () {
                 browser.actions().mouseMove(checkTrelloButton).click().perform();
             });
 
-            browser.driver.sleep(2000);
             protractor.selectWindow.selectWindow(1, browser).then(function () {
                 let githubList = element(by.css('.js-project-column-cards.js-card-drag-container'));
                 browser.wait(EC.presenceOf(githubList), 50000).then(function () {

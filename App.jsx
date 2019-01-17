@@ -26,13 +26,15 @@ class App extends React.Component {
             startTimeStamp: null,// 1-Authentication 2-ColumnSelect 3-Choices 4-SendDataToServer
             boardId: null,
             fromExtension: null,
-            extId: null
+            extId: null,
+            urlProject: null,
         };
         this.getCurrentView = this.getCurrentView.bind(this);
         this.setStartTimeStamp = this.setStartTimeStamp.bind(this);
         this.setSortedRootNode = this.setSortedRootNode.bind(this);
         this.setSortedRootNode = this.setSortedRootNode.bind(this);
         this.handleCards = this.handleCards.bind(this);
+        this.setUrl = this.setUrl.bind(this);
         this.handleAuthentication = this.handleAuthentication.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
     }
@@ -77,6 +79,13 @@ class App extends React.Component {
     checkTokenGithubDefined() {
         return localStorage.getItem("token") !== undefined && localStorage.getItem("token") !== null
             && this.state.BoardApi.getName() === "Github"
+    }
+
+    setUrl(html_url){
+        this.setState({
+            urlProject : html_url
+        })
+
     }
 
     codeIsNotSaved() {
@@ -143,7 +152,8 @@ class App extends React.Component {
         return <ColumnSelection BoardApi={this.state.BoardApi} handleCards={this.handleCards}
                                 fromExtension={this.state.fromExtension}
                                 extId={this.state.extId}
-                                boardId = {this.props.boardId}/>
+                                boardId = {this.props.boardId}
+                                setUrl = {this.setUrl}/>
     }
 
     renderChoicesVoter() {
@@ -172,7 +182,8 @@ class App extends React.Component {
         return (
             <Results rootNode={this.state.rootNode} BoardApi={this.state.BoardApi}
                      startTimeStamp={this.state.startTimeStamp} fromExtension={this.state.fromExtension}
-                     extId={this.state.extId}/>
+                     extId={this.state.extId}
+                     urlProject = {this.state.urlProject}/>
         )
     }
 

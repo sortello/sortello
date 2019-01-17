@@ -16,7 +16,7 @@ class ColumnSelection extends React.Component {
             groupedboards: [],
             organizations: [],
             noCardsError: false,
-            boardId: null
+            boardId: null,
         }
         this.getBoardColumns = this.getBoardColumns.bind(this);
         this.retrieveCardsByListId = this.retrieveCardsByListId.bind(this);
@@ -101,7 +101,7 @@ class ColumnSelection extends React.Component {
     retrieveCardsByListId(listId) {
         let that = this;
         let labels = [];
-        this.props.BoardApi.getCardsByListId(listId, {cards: "open"}, function (data) {
+        this.props.BoardApi.getCardsByListId(listId, {cards: "open"}, function (data,html_url) {
             let listCards = data;
             that.setState({
                 listCards: listCards
@@ -124,6 +124,7 @@ class ColumnSelection extends React.Component {
                     labels: labels,
                     boardId: data[0].idBoard
                 }, function () {
+                    this.props.setUrl(html_url);
                     if (that.state.labels.length === 0) {
                         that.labelSelected(0)
                     }

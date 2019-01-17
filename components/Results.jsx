@@ -86,7 +86,7 @@ class Results extends React.Component {
     }
 
     renderCheckBoardButton() {
-        let url = "https://github.com/sortello/sortello/projects/2#column-" + this.props.extId;
+        let url = this.props.urlProject+"#column-" + this.props.extId;
         if (this.props.BoardApi.getName() === "Trello") {
             url = " https://trello.com/b/" + this.props.rootNode.value.idBoard
         }

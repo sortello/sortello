@@ -49,9 +49,10 @@ class GithubApi {
                                                 .then(function (resp) {
                                                     resp.json()
                                                         .then(function (data3) {
+                                                            let htmlUrlProject = data3.html_url;
                                                             let normalizedCards = component.normalizeCards(cards, data3.html_url);
                                                             component.getIssues(normalizedCards).then(function (cards) {
-                                                                success(cards)
+                                                                success(cards,htmlUrlProject)
                                                             })
                                                         })
                                                 })
