@@ -72,8 +72,6 @@ class Choices extends React.Component {
         })
 
         socket.on('nextChoice', function (leftCard, rightCard) {
-            console.log(leftCard);
-            console.log(rightCard);
             component.setState({
                 leftCard: leftCard,
                 rightCard: rightCard,
@@ -98,7 +96,6 @@ class Choices extends React.Component {
     setUpRoom(component) {
         if (socket) {
             component.room = new Room(socket, params.roomKey);
-            socket.on('connect', function () {
                 component.BoardApi.getMembers('me', {}, function (data) {
                     component.trelloId = data.id
                     component.trelloAvatar = '//trello-avatars.s3.amazonaws.com/' + data.avatarHash + '/50.png'
@@ -110,7 +107,6 @@ class Choices extends React.Component {
                 }, function (e) {
                     console.log(e);
                 });
-            });
 
             window.addEventListener("beforeunload", (ev) => {
                 ev.preventDefault()
