@@ -28,9 +28,6 @@ describe('cannot vote if cannot access to board', function () {
       protractor.accessFromChromeExtension.accessFromChromeExtension(browser2, browser.params.testTrello2Username, browser1.params.testTrello2Password).then(function () {
         let EC = protractor.ExpectedConditions;
         browser1.get('/app.html?extId=' + browser.params.testTrelloPrivateBoardExtId);
-        let allLabel = element(by.css('.label__item.label__none'))
-        browser1.wait(EC.presenceOf(allLabel), 20000).then(function () {
-          allLabel.click();
           let newRoomButton = element(by.css('#new-room-button'))
           browser1.wait(EC.presenceOf(newRoomButton), 20000).then(function () {
             newRoomButton.click();
@@ -52,8 +49,7 @@ describe('cannot vote if cannot access to board', function () {
               })
             })
           })
-        })
       });
     });
-  });
+ });
 });
