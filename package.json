@@ -44,7 +44,8 @@
     "url-loader": "^0.5.7",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.9"
+    "webpack-dev-server": "^3.1.14",
+    "webpack-mild-compile": "^3.3.1"
   },
   "dependencies": {
     "bootstrap": "^4.1.3",
