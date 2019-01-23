@@ -87,10 +87,9 @@ describe('using Github Api', function () {
             });
 
             protractor.selectWindow.selectWindow(1, browser).then(function () {
-                let githubList = element(by.css('.js-project-column-cards.js-card-drag-container'));
-                browser.wait(EC.presenceOf(githubList), 50000).then(function () {
-                    let githubCards = element(by.css('.js-project-column-cards.js-card-drag-container')).all(
-                        by.css('.js-comment-body > p'));
+                let githubCards = element(by.css('.js-project-column-cards.js-card-drag-container')).all(
+                    by.css('.js-comment-body > p'));
+                browser.wait(EC.presenceOf(githubCards), 50000).then(function () {
                     expect(githubCards.getText()).toEqual(recapListText);
                 });
             });
