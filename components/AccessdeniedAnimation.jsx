@@ -9,7 +9,6 @@ class AccessdeniedAnimation extends React.Component{
 				<line className="denied-illo__fill" x1="30.9" y1="30.9" x2="69.1" y2="69.1" />
 				<line className="denied-illo__fill" x1="69.1" y1="30.9" x2="30.9" y2="69.1" />
 				</svg>
-
 			</div>
         );
     }

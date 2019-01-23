@@ -1,10 +1,11 @@
 import React from "react"
-import { find } from "lodash"
+import {find} from "lodash"
 import Header from './Header.jsx';
 import BoardSelector from './BoardSelector.jsx'
 import ListSelector from './ListSelector.jsx'
 import LabelSelector from './LabelSelector.jsx'
 import Footer from "./Footer.jsx"
+import NoAccessBoard from './NoAccessBoard.jsx';
 
 class ColumnSelection extends React.Component {
     constructor(props) {
@@ -17,6 +18,7 @@ class ColumnSelection extends React.Component {
             organizations: [],
             noCardsError: false,
             boardId: null,
+            hasBoardPermissions: null,
         }
         this.getBoardColumns = this.getBoardColumns.bind(this);
         this.retrieveCardsByListId = this.retrieveCardsByListId.bind(this);
@@ -24,9 +26,10 @@ class ColumnSelection extends React.Component {
         this.handleListClicked = this.handleListClicked.bind(this);
         this.labelSelected = this.labelSelected.bind(this);
         this.getBoards = this.getBoards.bind(this);
+        this.renderForbidden = this.renderForbidden.bind(this);
     }
 
-    componentDidMount () {
+    componentDidMount() {
         let component = this
         let BoardApi = this.props.BoardApi
         localStorage.removeItem("extId");
@@ -35,14 +38,18 @@ class ColumnSelection extends React.Component {
             if (component.props.BoardApi.getName() !== "Github") {
                 BoardApi.getCardById(component.props.extId, null, function (card) {
                     component.retrieveCardsByListId(card.idList)
+                }, function () {
+                    component.setState({
+                        hasBoardPermissions: false
+                    })
                 })
             } else {
-                    component.props.BoardApi.checkPermissions(component.props.extId).then(function(res){
-                    if(res) {
-                        component.retrieveCardsByListId(component.props.extId)
-                    }
-                },function(e){
-                    console.log(e);
+                component.props.BoardApi.checkPermissions(component.props.extId).then(function (res) {
+                    component.retrieveCardsByListId(component.props.extId)
+                }, function () {
+                    component.setState({
+                        hasBoardPermissions: false
+                    })
                 })
             }
         }
@@ -53,7 +60,7 @@ class ColumnSelection extends React.Component {
         this.getBoards()
     }
 
-    getBoards () {
+    getBoards() {
         let component = this
         let BoardApi = this.props.BoardApi
         BoardApi.getMembers('me', {
@@ -66,7 +73,7 @@ class ColumnSelection extends React.Component {
             let boards = data.boards;
             let organizations = data.organizations;
             for (let i = 0; i < boards.length; i++) {
-                let organization = find(organizations, { 'id': boards[i].idOrganization });
+                let organization = find(organizations, {'id': boards[i].idOrganization});
                 let groupName = "Other";
                 if (organization !== undefined) {
                     groupName = organization.displayName;
@@ -89,9 +96,9 @@ class ColumnSelection extends React.Component {
     labelSelected(labelId) {
         let listCards = this.state.listCards;
         if (labelId !== 0) {
-            let label = find(this.state.labels, { 'id': labelId });
+            let label = find(this.state.labels, {'id': labelId});
             listCards = _.filter(this.state.listCards, function (card) {
-                return find(card.labels, { 'id': label.id }) !== undefined;
+                return find(card.labels, {'id': label.id}) !== undefined;
             });
         }
         if (listCards.length === 0) {
@@ -107,7 +114,7 @@ class ColumnSelection extends React.Component {
     retrieveCardsByListId(listId) {
         let that = this;
         let labels = [];
-        this.props.BoardApi.getCardsByListId(listId, {cards: "open"}, function (data,html_url) {
+        this.props.BoardApi.getCardsByListId(listId, {cards: "open"}, function (data, html_url) {
             let listCards = data;
             that.setState({
                 listCards: listCards
@@ -121,7 +128,7 @@ class ColumnSelection extends React.Component {
             } else {
                 listCards.forEach(function (card) {
                     card.labels.forEach(function (label) {
-                        if (find(labels, { 'id': label.id }) === undefined) {
+                        if (find(labels, {'id': label.id}) === undefined) {
                             labels.push(label);
                         }
                     });
@@ -156,7 +163,7 @@ class ColumnSelection extends React.Component {
                 labels: [],
                 noCardsError: false,
             })
-            let board = find(this.state.boards, { 'id': boardId });
+            let board = find(this.state.boards, {'id': boardId});
             this.getBoardColumns(board)
         }
     }
@@ -167,7 +174,7 @@ class ColumnSelection extends React.Component {
         })
 
         // If list does not exist, reset all labels (it means we have clicked the 'Select List' entry)
-        let list = find(this.state.lists, { 'id': listId });
+        let list = find(this.state.lists, {'id': listId});
         if (list) {
             this.retrieveCardsByListId(list.id);
         } else {
@@ -177,30 +184,41 @@ class ColumnSelection extends React.Component {
         }
     }
 
-    renderBoardSelector () {
+    renderForbidden() {
+        return (
+            <div>
+                <NoAccessBoard/>
+            </div>
+        )
+    }
+
+    renderBoardSelector() {
         if (this.props.fromExtension !== null) {
             return ""
         }
         return <BoardSelector groupedboards={this.state.groupedboards}
-            onChange={this.handleBoardClicked} />
+                              onChange={this.handleBoardClicked}/>
     }
 
-    renderListSelector () {
+    renderListSelector() {
         if (this.state.lists.length === 0 || this.props.fromExtension !== null) {
             return ""
         }
         return <p><ListSelector lists={this.state.lists}
-            onChange={this.handleListClicked} /></p>
+                                onChange={this.handleListClicked}/></p>
     }
 
     renderLabelSelector() {
         if (this.state.labels.length === 0) {
             return ""
         }
-        return <LabelSelector labels={this.state.labels} onClick={this.labelSelected} />
+        return <LabelSelector labels={this.state.labels} onClick={this.labelSelected}/>
     }
 
     render() {
+        if (this.state.hasBoardPermissions === false) {
+            return this.renderForbidden();
+        }
         return (
             <div id="card_url_div">
                 <div className="selection__wrapper">
@@ -223,8 +241,8 @@ class ColumnSelection extends React.Component {
                         }
                     </div>
                     <div className={"footer footer--animated"}>
-                        <Footer />
-                        <Header />
+                        <Footer/>
+                        <Header/>
                     </div>
                 </div>
             </div>
