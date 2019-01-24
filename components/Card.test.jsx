@@ -28,12 +28,12 @@ describe("Card", () => {
             voters:
                 [{
                     voterId: 'voter1',
-                    trelloId: 'voter1',
-                    trelloAvatar: ''
+                    sortelloId: 'voter1',
+                    sortelloAvatar: ''
                 }, {
                     voterId: 'voter2',
-                    trelloId: 'voter2',
-                    trelloAvatar: ''
+                    sortelloId: 'voter2',
+                    sortelloAvatar: ''
                 }]
             ,
             data: {
@@ -69,12 +69,12 @@ describe("Card", () => {
             voters:
                 [{
                     voterId: 'voter1',
-                    trelloId: 'voter1',
-                    trelloAvatar: ''
+                    sortelloId: 'voter1',
+                    sortelloAvatar: ''
                 }, {
                     voterId: 'voter2',
-                    trelloId: 'voter2',
-                    trelloAvatar: ''
+                    sortelloId: 'voter2',
+                    sortelloAvatar: ''
                 }]
             ,
             data: {
@@ -110,12 +110,12 @@ describe("Card", () => {
             voters:
                 [{
                     voterId: 'voter1',
-                    trelloId: 'voter1',
-                    trelloAvatar: ''
+                    sortelloId: 'voter1',
+                    sortelloAvatar: ''
                 }, {
                     voterId: 'voter2',
-                    trelloId: 'voter2',
-                    trelloAvatar: ''
+                    sortelloId: 'voter2',
+                    sortelloAvatar: ''
                 }]
             ,
             data: {
@@ -150,12 +150,12 @@ describe("Card", () => {
             voters:
                 [{
                     voterId: 'voter1',
-                    trelloId: 'voter1',
-                    trelloAvatar: ''
+                    sortelloId: 'voter1',
+                    sortelloAvatar: ''
                 }, {
                     voterId: 'voter2',
-                    trelloId: 'voter2',
-                    trelloAvatar: ''
+                    sortelloId: 'voter2',
+                    sortelloAvatar: ''
                 }]
             ,
             data: {
@@ -191,12 +191,12 @@ describe("Card", () => {
             voters:
                 [{
                     voterId: 'voter1',
-                    trelloId: 'voter1',
-                    trelloAvatar: ''
+                    sortelloId: 'voter1',
+                    sortelloAvatar: ''
                 }, {
                     voterId: 'voter2',
-                    trelloId: 'voter2',
-                    trelloAvatar: ''
+                    sortelloId: 'voter2',
+                    sortelloAvatar: ''
                 }]
             ,
             data: {
@@ -231,12 +231,12 @@ describe("Card", () => {
             voters:
                 [{
                     voterId: 'voter1',
-                    trelloId: 'voter1',
-                    trelloAvatar: ''
+                    sortelloId: 'voter1',
+                    sortelloAvatar: ''
                 }, {
                     voterId: 'voter2',
-                    trelloId: 'voter2',
-                    trelloAvatar: ''
+                    sortelloId: 'voter2',
+                    sortelloAvatar: ''
                 }]
             ,
             data: {

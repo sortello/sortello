@@ -66,7 +66,7 @@ class Choices extends React.Component {
                     boardId : boardId,
                     hasBoardPermissions: false
                 }, function () {
-                    component.room.leave(component.trelloId)
+                    component.room.leave(component.sortelloId)
                 })
             })
         })
@@ -98,12 +98,12 @@ class Choices extends React.Component {
             component.room = new Room(socket, params.roomKey);
                 component.BoardApi.getMembers('me', {}, function (data) {
                     var normalizedData = component.BoardApi.normalizeData(data)
-                    component.trelloId = normalizedData.id
-                    component.trelloAvatar = normalizedData.avatar;
-                    if (normalizedData.avatar === null) {
-                        component.trelloAvatar = '//www.gravatar.com/avatar/' + normalizedData.gravatar + '?s=64&d=identicon'
+                    component.sortelloId = normalizedData.id
+                    component.sortelloAvatar = normalizedData.avatar;
+                    if (normalizedData.avatar.includes("null")) {
+                        component.sortelloAvatar = '//www.gravatar.com/avatar/' + normalizedData.gravatar + '?s=64&d=identicon'
                     }
-                    component.room.join(component.trelloId, component.trelloAvatar)
+                    component.room.join(component.sortelloId, component.sortelloAvatar)
                     component.room.getBoardId()
                 }, function (e) {
                     console.log(e);
@@ -111,14 +111,14 @@ class Choices extends React.Component {
 
             window.addEventListener("beforeunload", (ev) => {
                 ev.preventDefault()
-                component.room.leave(component.trelloId)
+                component.room.leave(component.sortelloId)
             });
         }
     }
 
     handleCardClicked(side) {
         if (!this.state.hasVoted && this.room) {
-            this.room.castCardClicked(side, this.trelloId, this.trelloAvatar)
+            this.room.castCardClicked(side, this.sortelloId, this.sortelloAvatar)
         }
         this.setState({
             hasVoted: true,

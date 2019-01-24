@@ -73,10 +73,10 @@ class Choices extends React.Component {
     getTrelloUserData (component) {
         component.props.BoardApi.getMembers('me', {}, function (data) {
             var normalizedData = component.props.BoardApi.normalizeData(data);
-            component.trelloId = normalizedData.id
-            component.trelloAvatar = normalizedData.avatar
+            component.sortelloId = normalizedData.id
+            component.sortelloAvatar = normalizedData.avatar
             if (normalizedData.avatar.includes("null")) {
-                component.trelloAvatar = '//www.gravatar.com/avatar/' + normalizedData.gravatar + '?s=64&d=identicon'
+                component.sortelloAvatar = '//www.gravatar.com/avatar/' + normalizedData.gravatar + '?s=64&d=identicon'
             }
         }, function (e) {
             console.log(e);
@@ -101,8 +101,8 @@ class Choices extends React.Component {
             })
         })
 
-        socket.on('voterJoined', function (voterId, trelloAvatar) {
-            component.addVoter(voterId, trelloAvatar);
+        socket.on('voterJoined', function (voterId, sortelloAvatar) {
+            component.addVoter(voterId, sortelloAvatar);
         })
 
         socket.on('voterLeft', function (voterId) {
@@ -113,8 +113,8 @@ class Choices extends React.Component {
             component.room.castNextChoice(component.state.leftCard, component.state.rightCard)
         })
 
-        socket.on('cardClicked', function (side, trelloId, trelloAvatar) {
-            component.registerVote(side, trelloId, trelloAvatar)
+        socket.on('cardClicked', function (side, sortelloId, sortelloAvatar) {
+            component.registerVote(side, sortelloId, sortelloAvatar)
         })
 
         socket.on('getBoardIdFromMaster', function () {
@@ -152,11 +152,11 @@ class Choices extends React.Component {
         }
     }
 
-    registerVote (side, trelloId, trelloAvatar) {
+    registerVote (side, sortelloId, sortelloAvatar) {
         let voter = {
-            voterId: trelloId,
-            trelloId: trelloId,
-            trelloAvatar: trelloAvatar
+            voterId: sortelloId,
+            sortelloId: sortelloId,
+            sortelloAvatar: sortelloAvatar
         }
 
         this.addVoteToVoters(side, voter)
@@ -201,12 +201,12 @@ class Choices extends React.Component {
         })
     }
 
-    addVoter (voterId, trelloAvatar) {
+    addVoter (voterId, sortelloAvatar) {
         let component = this
         if (find(component.state.roomVoters, {'id': voterId}) !== undefined) {
             return
         }
-        let voters = component.state.roomVoters.concat({id: voterId, avatar: trelloAvatar});
+        let voters = component.state.roomVoters.concat({id: voterId, avatar: sortelloAvatar});
         component.setState({
             roomVoters: voters
         }, () => {
@@ -285,9 +285,9 @@ class Choices extends React.Component {
         let component = this
 
         let voter = {
-            voterId: component.trelloId,
-            trelloId: component.trelloId,
-            trelloAvatar: component.trelloAvatar
+            voterId: component.sortelloId,
+            sortelloId: component.sortelloId,
+            sortelloAvatar: component.sortelloAvatar
         }
 
         component.setState({
@@ -338,8 +338,8 @@ class Choices extends React.Component {
         let joinedVoters = this.state.roomVoters
         if (this.room) {
             joinedVoters = joinedVoters.concat({
-                id: this.trelloId,
-                avatar: this.trelloAvatar,
+                id: this.sortelloId,
+                avatar: this.sortelloAvatar,
                 isAdmin: true
             })
         }
