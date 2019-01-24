@@ -70,7 +70,8 @@ class App extends React.Component {
                 BoardApi: new GithubApi(),
             }, function () {
                 localStorage.setItem("code", code);
-                if(localStorage.getItem("roomKey") === null) {
+                console.log(localStorage.getItem("roomKey"))
+                if(localStorage.getItem("roomKey") === "undefined") {
                     history.pushState(null, null, '/app.html?extId=' + this.state.extId + "&fw=g");
                 }else{
                     history.pushState(null, null, '/app.html?roomKey='+this.state.roomKey+'&extId='+ this.state.extId + "&fw=g");

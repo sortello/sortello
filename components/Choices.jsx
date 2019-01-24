@@ -71,16 +71,11 @@ class Choices extends React.Component {
     }
 
     getTrelloUserData (component) {
-        const params = queryString.parse(location.search);
         component.props.BoardApi.getMembers('me', {}, function (data) {
             var normalizedData = component.props.BoardApi.normalizeData(data);
             component.trelloId = normalizedData.id
-            if(params.fw === "t") {
-                component.trelloAvatar = '//trello-avatars.s3.amazonaws.com/' + normalizedData.avatar + '/50.png'
-            }else{
-                component.trelloAvatar = normalizedData.avatar;
-            }
-            if (normalizedData.avatar === null) {
+            component.trelloAvatar = normalizedData.avatar
+            if (normalizedData.avatar.includes("null")) {
                 component.trelloAvatar = '//www.gravatar.com/avatar/' + normalizedData.gravatar + '?s=64&d=identicon'
             }
         }, function (e) {
@@ -123,7 +118,7 @@ class Choices extends React.Component {
         })
 
         socket.on('getBoardIdFromMaster', function () {
-            if(component.props.fromExtension === "Trello") {
+            if(component.props.BoardApi.getName() === "Trello") {
                 component.room.castBoardId(component.props.boardId)
             }else{
                 component.room.castBoardId(component.props.urlProject);
