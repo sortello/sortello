@@ -97,10 +97,11 @@ class Choices extends React.Component {
         if (socket) {
             component.room = new Room(socket, params.roomKey);
                 component.BoardApi.getMembers('me', {}, function (data) {
-                    component.trelloId = data.id
-                    component.trelloAvatar = '//trello-avatars.s3.amazonaws.com/' + data.avatarHash + '/50.png'
-                    if (data.avatarHash === null) {
-                        component.trelloAvatar = '//www.gravatar.com/avatar/' + data.gravatarHash + '?s=64&d=identicon'
+                    var normalizedData = component.BoardApi.normalizeData(data)
+                    component.trelloId = normalizedData.id
+                    component.trelloAvatar = normalizedData.avatar;
+                    if (normalizedData.avatar === null) {
+                        component.trelloAvatar = '//www.gravatar.com/avatar/' + normalizedData.gravatar + '?s=64&d=identicon'
                     }
                     component.room.join(component.trelloId, component.trelloAvatar)
                     component.room.getBoardId()
@@ -141,8 +142,9 @@ class Choices extends React.Component {
             return this.renderLoading()
         }
         if (this.state.ended) {
+            let url = (params.fw ==="t"? "https://trello.com/b/" +this.state.boardId : this.state.boardId+"#column-" + params.extId)
             return (<PrioritizationEnd
-                        url = {"https://trello.com/b/" +this.state.boardId}/>)
+                        url = {url} BoardApi = {this.BoardApi} fw={params.fw}/>)
         }
         return (
             <ChoicesView

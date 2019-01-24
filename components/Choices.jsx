@@ -9,6 +9,7 @@ import {remove} from "lodash"
 import Room from "../model/Room.js"
 import ChoicesView from './view/ChoicesView.jsx'
 import RoomLink from './RoomLink.jsx'
+import queryString from "query-string";
 
 function openOverlay() {
     document.getElementById('overlay__share-room').style.height = "100%";
@@ -70,11 +71,17 @@ class Choices extends React.Component {
     }
 
     getTrelloUserData (component) {
-        this.props.BoardApi.getMembers('me', {}, function (data) {
-            component.trelloId = data.id
-            component.trelloAvatar = '//trello-avatars.s3.amazonaws.com/' + data.avatarHash + '/50.png'
-            if (data.avatarHash === null) {
-                component.trelloAvatar = '//www.gravatar.com/avatar/' + data.gravatarHash + '?s=64&d=identicon'
+        const params = queryString.parse(location.search);
+        component.props.BoardApi.getMembers('me', {}, function (data) {
+            var normalizedData = component.props.BoardApi.normalizeData(data);
+            component.trelloId = normalizedData.id
+            if(params.fw === "t") {
+                component.trelloAvatar = '//trello-avatars.s3.amazonaws.com/' + normalizedData.avatar + '/50.png'
+            }else{
+                component.trelloAvatar = normalizedData.avatar;
+            }
+            if (normalizedData.avatar === null) {
+                component.trelloAvatar = '//www.gravatar.com/avatar/' + normalizedData.gravatar + '?s=64&d=identicon'
             }
         }, function (e) {
             console.log(e);
@@ -116,7 +123,11 @@ class Choices extends React.Component {
         })
 
         socket.on('getBoardIdFromMaster', function () {
-            component.room.castBoardId(component.props.boardId)
+            if(component.props.fromExtension === "Trello") {
+                component.room.castBoardId(component.props.boardId)
+            }else{
+                component.room.castBoardId(component.props.urlProject);
+            }
         })
     }
 
@@ -304,12 +315,12 @@ class Choices extends React.Component {
     }
 
     renderRoomLink () {
-        return <RoomLink roomId={this.state.roomId}/>
+        return <RoomLink roomId={this.state.roomId} extId={this.props.extId} fromExtension ={this.props.fromExtension}/>
     }
 
 
     renderNewRoomButton () {
-        if (socket && this.props.fromExtension !== "Github") {
+        if (socket) {
             return (
                 <div>
                     <div onClick={() => { openOverlay() }}>

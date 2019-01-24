@@ -43,6 +43,7 @@ class Room {
     }
 
     castBoardId (boardId) {
+        console.log("sto mandando boardId = "+boardId);
         this.socket.emit('castBoardId', this.roomKey, boardId)
     }
 

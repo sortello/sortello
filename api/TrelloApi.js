@@ -23,6 +23,13 @@ class TrelloApi {
         }, error);
     }
 
+    normalizeData(data){
+        return {
+            id:data.id,
+            avatar: '//trello-avatars.s3.amazonaws.com/' + data.avatarHash + '/50.png',
+            gravatar: data.gravatarHash,
+        }
+    }
     normalizeCards(cards) {
         let component = this;
         let listlabels = [];

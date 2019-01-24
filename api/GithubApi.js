@@ -1,3 +1,5 @@
+import queryString from "query-string";
+
 class GithubApi {
 
     authenticate(onAuthenticationSuccess) {
@@ -36,6 +38,9 @@ class GithubApi {
         return fetch(url)
             .then((resp) => resp.json())
             .then((idColumnData) => {
+                if(idColumnData.project_url === undefined){
+                    return false;
+                }
                 const uri2 = idColumnData.project_url
                 let url2 = new Request(uri2, {
                     method: "GET",
@@ -47,12 +52,7 @@ class GithubApi {
             .then((projectData) => {
                 data.projectName = projectData.name;
                 data.projectCreator = projectData.creator.login;
-                const uri3 = "https://api.github.com/user";
-                let url3 = new Request(uri3, {
-                    method: "GET",
-                    headers: h
-                })
-                return fetch(url3);
+                return this.getInfoUser(h);
             })
             .then((resp) => resp.json())
             .then((dataUserConnected) => {
@@ -73,6 +73,15 @@ class GithubApi {
                     return false;
                 }
             })
+    }
+
+    getInfoUser(h){
+        const uri3 = "https://api.github.com/user";
+        let url3 = new Request(uri3, {
+            method: "GET",
+            headers: h
+        })
+        return fetch(url3);
     }
 
     getCardsByListId(externId, variable, success) {
@@ -163,7 +172,34 @@ class GithubApi {
     }
 
     getMembers(memberId, params, success, error) {
+        let h = new Headers();
+        h.append("Accept", "application/vnd.github.inertia-preview+json");
+        h.append("Authorization", "token " + localStorage.getItem("token"));
+            this.getInfoUser(h).then(function (resp) {
+                return resp.json()
+                    .then(function (data) {
+                        return success(data);
+                    })
+            })
+    }
 
+    normalizeData(data){
+        return {
+            id: data.id,
+            avatar: data.avatar_url,
+            gravatar: data.gravatar_id,
+        }
+    }
+
+    getBoard(boardId, success, error) {
+        let param = queryString.parse(location.search);
+        this.checkPermissions(param.extId).then(function (res) {
+            if(res) {
+                return success();
+            }
+        },function(){
+            return error();
+        })
     }
 
     putCards(cardId, pos, success, error) {
