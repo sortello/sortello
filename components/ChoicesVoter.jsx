@@ -37,7 +37,7 @@ class Choices extends React.Component {
             roomVoters: [],
             boardId : null,
         }
-        if (params.roomKey !== undefined) {
+        if (this.props.roomKey !== null) {
             this.setUpRoom(component);
         }
         if (socket) {
@@ -95,12 +95,12 @@ class Choices extends React.Component {
 
     setUpRoom(component) {
         if (socket) {
-            component.room = new Room(socket, params.roomKey);
+            component.room = new Room(socket, this.props.roomKey);
                 component.BoardApi.getMembers('me', {}, function (data) {
                     var normalizedData = component.BoardApi.normalizeData(data)
                     component.sortelloId = normalizedData.id
                     component.sortelloAvatar = normalizedData.avatar;
-                    if (normalizedData.avatar.includes("null")) {
+                    if (component.sortelloAvatar.includes("null")) {
                         component.sortelloAvatar = '//www.gravatar.com/avatar/' + normalizedData.gravatar + '?s=64&d=identicon'
                     }
                     component.room.join(component.sortelloId, component.sortelloAvatar)

@@ -50,10 +50,12 @@ class App extends React.Component {
                 BoardApi: params.fw === 'g' ? new GithubApi() : new TrelloApi(),
                 fromExtension: params.fw === 'g' ? "Github" : "Trello",
                 extId: params.extId,
-                roomKey : params.roomKey,
+                roomKey : params.roomKey!==undefined? params.roomKey: null,
             }, function () {
                 localStorage.setItem('extId', this.state.extId);
-                localStorage.setItem('roomKey', this.state.roomKey);
+                if(this.state.roomKey !== null) {
+                    localStorage.setItem('roomKey', this.state.roomKey);
+                }
                 localStorage.setItem('fromExtension', this.state.fromExtension);
                 if (this.checkTokenGithubDefined()) {
                     this.handleAuthentication()
@@ -109,14 +111,14 @@ class App extends React.Component {
 
     handleAuthentication() {
         const params = queryString.parse(location.search);
-        if (params.roomKey !== undefined) {
-            this.setState({
-                rootNode: [],
-                nodes: [],
-                currentView: CHOICES_VOTER
-            })
-        } else {
-            this.setState({
+            if (params.roomKey !== undefined) {
+                this.setState({
+                    rootNode: [],
+                    nodes: [],
+                    currentView: CHOICES_VOTER
+                })
+            } else {
+                this.setState({
                 currentView: COLUMN_SELECT
             });
         }
@@ -172,7 +174,8 @@ class App extends React.Component {
                           setStartTimeStamp={this.setStartTimeStamp}
                           nodes={this.state.nodes}
                           extId = {this.state.extId}
-                          rootNode={this.state.rootNode}/>
+                          rootNode={this.state.rootNode}
+                          roomKey ={this.state.roomKey}/>
         )
     }
 

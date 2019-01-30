@@ -197,7 +197,8 @@ class GithubApi {
             if(res) {
                 return success();
             }
-        },function(){
+        },function(e){
+            console.log(e);
             return error();
         })
     }
