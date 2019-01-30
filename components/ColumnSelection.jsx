@@ -34,7 +34,6 @@ class ColumnSelection extends React.Component {
         let BoardApi = this.props.BoardApi
         localStorage.removeItem("extId");
         localStorage.removeItem("fromExtension");
-        localStorage.removeItem("roomKey");
         if (component.props.fromExtension !== null) {
             if (component.props.BoardApi.getName() !== "Github") {
                 BoardApi.getCardById(component.props.extId, null, function (card) {
