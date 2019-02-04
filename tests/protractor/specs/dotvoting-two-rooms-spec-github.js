@@ -74,10 +74,8 @@ describe('dotvoting with github', function () {
                                         rightCard.getText().then(function (rightValue) {
                                             console.log("main browser is selecting the choice")
                                             if (bPriorities.indexOf(rightValue) < bPriorities.indexOf(leftValue)) {
-                                                console.log("right");
                                                 rightContinue.click()
                                             } else {
-                                                console.log("left")
                                                 leftContinue.click()
                                             }
                                         });

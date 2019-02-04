@@ -310,7 +310,7 @@ class Choices extends React.Component {
     }
 
     renderRoomLink () {
-        return <RoomLink roomId={this.state.roomId} extId={this.props.extId} fromExtension ={this.props.fromExtension}/>
+        return <RoomLink roomId={this.state.roomId} extId={this.props.extId} BoardApi ={this.props.BoardApi}/>
     }
 
 
@@ -369,7 +369,7 @@ class Choices extends React.Component {
                 handleGoToNextVoting={this.handleGoToNextVoting}
                 progress={this.getProgress()}
                 selectedSide={this.state.selectedSide}
-                fromExtension = {this.props.fromExtension}
+                BoardApi = {this.props.BoardApi}
             />
         )
     }
