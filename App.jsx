@@ -7,7 +7,7 @@ import Results from "./components/Results.jsx"
 import treeNodeFactory from "./model/treeNodeFactory"
 import queryString from "query-string"
 import TrelloApi from "./api/TrelloApi"
-import GithubApi from "./api/GithubApi"
+import GithubApi from "./api/GithubApi";
 
 const AUTHENTICATION_FORM = 1;
 const COLUMN_SELECT = 2;
@@ -17,7 +17,7 @@ const CHOICES_VOTER = 5;
 
 class App extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             BoardApi: new TrelloApi(),
             nodes: Array(),
@@ -52,13 +52,13 @@ class App extends React.Component {
             }, function () {
                 localStorage.setItem('extId', this.state.extId);
                 localStorage.setItem('fromExtension', this.state.fromExtension);
-                if (this.checkTokenGithubDefined()) {
-                    this.handleAuthentication()
+                if(this.tokenGithubDefined()){
+                    this.handleAuthentication();
                 }
             })
         }
 
-        if (this.codeIsNotSaved()) {
+        if (this.codeShowedButNotSaved()) {
             let code = window.location.href.match(/\?code=(.*)/)[1];
             this.setState({
                 fromExtension: localStorage.getItem("fromExtension"),
@@ -76,9 +76,13 @@ class App extends React.Component {
         }
     }
 
-    checkTokenGithubDefined() {
-        return localStorage.getItem("token") !== undefined && localStorage.getItem("token") !== null
-            && this.state.BoardApi.getName() === "Github"
+    tokenGithubDefined() {
+        return localStorage.getItem("token")!==null && this.state.BoardApi.getName() === "Github"
+    }
+
+    codeShowedButNotSaved() {
+        const params = queryString.parse(location.search);
+        return params.code !== undefined && !localStorage.getItem("code")
     }
 
     setUrl(html_url){
@@ -86,11 +90,6 @@ class App extends React.Component {
             urlProject : html_url
         })
 
-    }
-
-    codeIsNotSaved() {
-        const params = queryString.parse(location.search);
-        return params.code !== undefined && !localStorage.getItem("code")
     }
 
     checkOutdatedVersion() {
@@ -144,15 +143,14 @@ class App extends React.Component {
     }
 
     renderAuthenticationForm() {
-        return <Authentication BoardApi={this.state.BoardApi} onAuthentication={this.handleAuthentication}
-                               fromExtension={this.state.fromExtension}/>
+        return <Authentication BoardApi={this.state.BoardApi} onAuthentication={this.handleAuthentication}/>
     }
 
     renderColumnSelection() {
         return <ColumnSelection BoardApi={this.state.BoardApi} handleCards={this.handleCards}
                                 fromExtension={this.state.fromExtension}
                                 extId={this.state.extId}
-                                boardId = {this.props.boardId}
+                                boardId = {this.state.boardId}
                                 setUrl = {this.setUrl}/>
     }
 
@@ -194,17 +192,17 @@ class App extends React.Component {
     getCurrentView() {
         switch (this.state.currentView) {
             case AUTHENTICATION_FORM:
-                return this.renderAuthenticationForm()
+                return this.renderAuthenticationForm();
             case COLUMN_SELECT:
-                return this.renderColumnSelection()
+                return this.renderColumnSelection();
             case CHOICES:
-                return this.renderChoices()
+                return this.renderChoices();
             case SEND_DATA_TO_SERVER:
-                return this.renderResults()
+                return this.renderResults();
             case CHOICES_VOTER:
-                return this.renderChoicesVoter()
+                return this.renderChoicesVoter();
             default:
-                return this.renderError()
+                return this.renderError();
         }
     }
 

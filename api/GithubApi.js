@@ -5,12 +5,12 @@ class GithubApi {
             window.location = "https://github.com/login/oauth/authorize?scope=public_repo&client_id=" + clientId;
         } else {
             $.getJSON('http://localhost:9999/authenticate/' + window.localStorage.getItem("code"), function (data) {
-                localStorage.removeItem("code")
-                localStorage.setItem("token", data.token)
+                localStorage.removeItem("code");
+                localStorage.setItem("token", data.token);
                 const url = "https://api.github.com/user?access_token=" + data.token;
                 fetch(url)
                     .then((resp) => resp.json())
-                    .then(function (data) {
+                    .then(function () {
                         onAuthenticationSuccess()
                     });
             });
@@ -23,7 +23,7 @@ class GithubApi {
             projectName : null,
             connectedUser : null,
             userPermission : null
-        }
+        };
         const uri = "https://api.github.com/projects/columns/" + externId;
         let h = new Headers();
         h.append("Accept", "application/vnd.github.inertia-preview+json");
@@ -32,15 +32,15 @@ class GithubApi {
         let url = new Request(uri, {
             method: "GET",
             headers: h
-        })
+        });
         return fetch(url)
             .then((resp) => resp.json())
             .then((idColumnData) => {
-                const uri2 = idColumnData.project_url
+                const uri2 = idColumnData.project_url;
                 let url2 = new Request(uri2, {
                     method: "GET",
                     headers: h
-                })
+                });
                 return fetch(url2)
             })
             .then((resp) => resp.json())
@@ -51,59 +51,55 @@ class GithubApi {
                 let url3 = new Request(uri3, {
                     method: "GET",
                     headers: h
-                })
+                });
                 return fetch(url3);
             })
             .then((resp) => resp.json())
             .then((dataUserConnected) => {
                 data.connectedUser = dataUserConnected.login;
-                const uri4 = "https://api.github.com/repos/" + data.projectCreator + "/" + data.projectName + "/collaborators/" + data.connectedUser + "/permission"
+                const uri4 = "https://api.github.com/repos/" + data.projectCreator + "/" + data.projectName + "/collaborators/" + data.connectedUser + "/permission";
                 let url4 = new Request(uri4, {
                     method: "GET",
                     headers: h
-                })
+                });
                 return fetch(url4)
             })
             .then((resp) => resp.json())
             .then((dataPermissions) => {
                 data.userPermission = dataPermissions.permission;
-                if(data.userPermission === "write" || data.userPermission === "admin"){
-                    return true;
-                }else{
-                    return false;
-                }
+                return data.userPermission === "write" || data.userPermission === "admin";
             })
     }
 
     getCardsByListId(externId, variable, success) {
-        let component = this
-        let allCards = null
-        const uri = "https://api.github.com/projects/columns/" + externId + "/cards"
+        let component = this;
+        let allCards = null;
+        const uri = "https://api.github.com/projects/columns/" + externId + "/cards";
         let h = new Headers();
         h.append("Accept", "application/vnd.github.inertia-preview+json");
         h.append("Authorization", "token " + localStorage.getItem("token"));
         let url = new Request(uri, {
             method: "GET",
             headers: h
-        })
+        });
         fetch(url)
             .then((resp) => resp.json())
             .then((cards) => {
-                allCards = cards
-                const uri2 = "https://api.github.com/projects/columns/" + externId
+                allCards = cards;
+                const uri2 = "https://api.github.com/projects/columns/" + externId;
                 let url2 = new Request(uri2, {
                     method: "GET",
                     headers: h
-                })
+                });
                 return fetch(url2)
             })
             .then((resp) => resp.json())
             .then((projectData) => {
-                const uri3 = projectData.project_url
+                const uri3 = projectData.project_url;
                 let url3 = new Request(uri3, {
                     method: "GET",
                     headers: h
-                })
+                });
                 return fetch(url3)
             })
             .then((resp) => resp.json())
@@ -167,24 +163,24 @@ class GithubApi {
     }
 
     putCards(cardId, pos, success, error) {
-        const uri = "https://api.github.com/projects/columns/cards/" + cardId + "/moves"
+        const uri = "https://api.github.com/projects/columns/cards/" + cardId + "/moves";
         let h = new Headers();
         let data = {
             position: pos,
-        }
+        };
         h.append("Accept", "application/vnd.github.inertia-preview+json");
         h.append("Authorization", "token " + localStorage.getItem("token"));
         let url = new Request(uri, {
             method: "POST",
             headers: h,
             body: JSON.stringify(data)
-        })
+        });
         fetch(url)
             .then((resp) => resp.json())
-            .then(function (data) {
+            .then(function () {
                 success()
             })
-            .catch(function (e) {
+            .catch(function () {
                 error()
             })
     }

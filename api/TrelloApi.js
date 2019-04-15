@@ -24,7 +24,6 @@ class TrelloApi {
     }
 
     normalizeCards(cards) {
-        let component = this;
         let listlabels = [];
         for (var i = 0; i < cards.length; i++) {
             let data = {
@@ -35,7 +34,7 @@ class TrelloApi {
                 name: cards[i].name,
                 pos: cards[i].pos,
                 shortUrl: cards[i].shortUrl
-            }
+            };
             listlabels.push(data)
         }
         return listlabels

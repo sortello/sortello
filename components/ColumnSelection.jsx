@@ -17,7 +17,7 @@ class ColumnSelection extends React.Component {
             organizations: [],
             noCardsError: false,
             boardId: null,
-        }
+        };
         this.getBoardColumns = this.getBoardColumns.bind(this);
         this.retrieveCardsByListId = this.retrieveCardsByListId.bind(this);
         this.handleBoardClicked = this.handleBoardClicked.bind(this);
@@ -27,8 +27,8 @@ class ColumnSelection extends React.Component {
     }
 
     componentDidMount () {
-        let component = this
-        let BoardApi = this.props.BoardApi
+        let component = this;
+        let BoardApi = this.props.BoardApi;
         localStorage.removeItem("extId");
         localStorage.removeItem("fromExtension");
         if (component.props.fromExtension !== null) {
@@ -54,8 +54,8 @@ class ColumnSelection extends React.Component {
     }
 
     getBoards () {
-        let component = this
-        let BoardApi = this.props.BoardApi
+        let component = this;
+        let BoardApi = this.props.BoardApi;
         BoardApi.getMembers('me', {
             organizations: "all",
             organization_fields: "all",
@@ -125,7 +125,7 @@ class ColumnSelection extends React.Component {
                             labels.push(label);
                         }
                     });
-                })
+                });
                 that.setState({
                     labels: labels,
                     boardId: data[0].idBoard
@@ -155,7 +155,7 @@ class ColumnSelection extends React.Component {
                 boardId,
                 labels: [],
                 noCardsError: false,
-            })
+            });
             let board = find(this.state.boards, { 'id': boardId });
             this.getBoardColumns(board)
         }
@@ -164,7 +164,7 @@ class ColumnSelection extends React.Component {
     handleListClicked(listId) {
         this.setState({
             noCardsError: false,
-        })
+        });
 
         // If list does not exist, reset all labels (it means we have clicked the 'Select List' entry)
         let list = find(this.state.lists, { 'id': listId });
