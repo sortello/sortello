@@ -20,7 +20,7 @@
     "unit": "jest --verbose",
     "webdriver-update": "./node_modules/protractor/bin/webdriver-manager update",
     "protractor": "./node_modules/protractor/bin/protractor protractor.conf.js --suite=single",
-    "protractor-integration": "./node_modules/protractor/bin/protractor protractor.conf.js --specs tests/protractor/specs/dotvoting-spec.js && ./node_modules/protractor/bin/protractor protractor.conf.js --specs tests/protractor/specs/dotvoting-multiple-rooms-spec.js && ./node_modules/protractor/bin/protractor protractor.conf.js --specs tests/protractor/specs/voter-board-permissions-spec.js"
+    "protractor-integration": "./node_modules/protractor/bin/protractor protractor.conf.js --suite=server"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "./localStorageMock.js"

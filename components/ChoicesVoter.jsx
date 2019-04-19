@@ -1,10 +1,11 @@
 import React from 'react';
+import {clone} from 'lodash'
 import io from 'socket.io-client';
 import queryString from 'query-string';
 import PrioritizationEnd from './PrioritizationEnd.jsx'
 import Room from '../model/Room.js'
 import ChoicesView from './view/ChoicesView.jsx'
-import NoAccessBoard from './NoAccessBoard.jsx'
+import NoAccessBoard from './NoAccessBoard.jsx';
 
 
 let socket = false;
@@ -31,12 +32,12 @@ class Choices extends React.Component {
             ended: false,
             voters: {left: [], right: []},
             hasVoted: false,
-            hasBoardPermissions: null,
+            hasBoardPermissions: false,
             selectedSide: null,
             roomVoters: [],
             boardId : null,
         }
-        if (params.roomKey !== undefined) {
+        if (this.props.roomKey !== null) {
             this.setUpRoom(component);
         }
         if (socket) {
@@ -65,7 +66,7 @@ class Choices extends React.Component {
                     boardId : boardId,
                     hasBoardPermissions: false
                 }, function () {
-                    component.room.leave(component.trelloId)
+                    component.room.leave(component.sortelloId)
                 })
             })
         })
@@ -94,29 +95,30 @@ class Choices extends React.Component {
 
     setUpRoom(component) {
         if (socket) {
-            component.room = new Room(socket, params.roomKey);
-                component.BoardApi.getMembers('me', {}, function (data) {
-                    component.trelloId = data.id
-                    component.trelloAvatar = '//trello-avatars.s3.amazonaws.com/' + data.avatarHash + '/50.png'
-                    if (data.avatarHash === null) {
-                        component.trelloAvatar = '//www.gravatar.com/avatar/' + data.gravatarHash + '?s=64&d=identicon'
-                    }
-                    component.room.join(component.trelloId, component.trelloAvatar)
-                    component.room.getBoardId()
-                }, function (e) {
-                    console.log(e);
-                });
+            component.room = new Room(socket, this.props.roomKey);
+            component.BoardApi.getMembers('me', {}, function (data) {
+                var normalizedData = component.BoardApi.normalizeData(data)
+                component.sortelloId = normalizedData.id
+                component.sortelloAvatar = normalizedData.avatar;
+                if (component.sortelloAvatar.includes("null")) {
+                    component.sortelloAvatar = '//www.gravatar.com/avatar/' + normalizedData.gravatar + '?s=64&d=identicon'
+                }
+                component.room.join(component.sortelloId, component.sortelloAvatar)
+                component.room.getBoardId()
+            }, function (e) {
+                console.log(e);
+            });
 
             window.addEventListener("beforeunload", (ev) => {
                 ev.preventDefault()
-                component.room.leave(component.trelloId)
+                component.room.leave(component.sortelloId)
             });
         }
     }
 
     handleCardClicked(side) {
         if (!this.state.hasVoted && this.room) {
-            this.room.castCardClicked(side, this.trelloId, this.trelloAvatar)
+            this.room.castCardClicked(side, this.sortelloId, this.sortelloAvatar)
         }
         this.setState({
             hasVoted: true,
@@ -140,8 +142,9 @@ class Choices extends React.Component {
             return this.renderLoading()
         }
         if (this.state.ended) {
+            let url = (params.fw ==="t"? "https://trello.com/b/" +this.state.boardId : this.state.boardId+"#column-" + params.extId)
             return (<PrioritizationEnd
-                        url = {"https://trello.com/b/" +this.state.boardId}/>)
+                url = {url} BoardApi = {this.BoardApi} fw={params.fw}/>)
         }
         return (
             <ChoicesView

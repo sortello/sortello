@@ -28,6 +28,7 @@ class App extends React.Component {
             fromExtension: null,
             extId: null,
             urlProject: null,
+            roomKey: null,
         };
         this.getCurrentView = this.getCurrentView.bind(this);
         this.setStartTimeStamp = this.setStartTimeStamp.bind(this);
@@ -48,9 +49,13 @@ class App extends React.Component {
             this.setState({
                 BoardApi: params.fw === 'g' ? new GithubApi() : new TrelloApi(),
                 fromExtension: params.fw === 'g' ? "Github" : "Trello",
-                extId: params.extId
+                extId: params.extId,
+                roomKey : params.roomKey!==undefined? params.roomKey: null,
             }, function () {
                 localStorage.setItem('extId', this.state.extId);
+                if(this.state.roomKey !== null) {
+                    localStorage.setItem('roomKey', this.state.roomKey);
+                }
                 localStorage.setItem('fromExtension', this.state.fromExtension);
                 if(this.tokenGithubDefined()){
                     this.handleAuthentication();
@@ -63,10 +68,16 @@ class App extends React.Component {
             this.setState({
                 fromExtension: localStorage.getItem("fromExtension"),
                 extId: localStorage.getItem("extId"),
+                roomKey : localStorage.getItem("roomKey"),
                 BoardApi: new GithubApi()
             }, function () {
                 localStorage.setItem("code", code);
-                history.pushState(null, null, '/app.html?extId=' + this.state.extId + "&fw=g");
+                localStorage.removeItem("roomKey");
+                if(this.state.roomKey === null) {
+                    history.pushState(null, null, '/app.html?extId=' + this.state.extId + "&fw=g");
+                }else{
+                    history.pushState(null, null, '/app.html?roomKey='+this.state.roomKey+'&extId='+ this.state.extId + "&fw=g");
+                }
                 this.state.BoardApi.authenticate(this.handleAuthentication)
             })
         }
@@ -160,7 +171,9 @@ class App extends React.Component {
                           ref="choicesVoter" setSortedRootNode={this.setSortedRootNode}
                           setStartTimeStamp={this.setStartTimeStamp}
                           nodes={this.state.nodes}
-                          rootNode={this.state.rootNode}/>
+                          extId = {this.state.extId}
+                          rootNode={this.state.rootNode}
+                          roomKey ={this.state.roomKey}/>
         )
     }
 
@@ -171,6 +184,8 @@ class App extends React.Component {
                      setStartTimeStamp={this.setStartTimeStamp}
                      nodes={this.state.nodes}
                      boardId={this.state.boardId}
+                     urlProject = {this.state.urlProject}
+                     extId = {this.state.extId}
                      rootNode={this.state.rootNode}
                      fromExtension = {this.state.fromExtension}/>
         )

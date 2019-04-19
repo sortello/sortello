@@ -15,12 +15,12 @@ class Room {
         this.socket.emit('openNewRoom', newRoomKey)
     }
 
-    join (trelloId, trelloAvatar) {
-        this.socket.emit('room', this.roomKey, trelloId, trelloAvatar);
+    join (sortelloId, sortelloAvatar) {
+        this.socket.emit('room', this.roomKey, sortelloId, sortelloAvatar);
     }
 
-    leave (trelloId) {
-        this.socket.emit('leaveRoom', this.roomKey, trelloId)
+    leave (sortelloId) {
+        this.socket.emit('leaveRoom', this.roomKey, sortelloId)
     }
 
     getBoardId () {
@@ -32,8 +32,8 @@ class Room {
         return this.roomVoters;
     }
 
-    castCardClicked (side, trelloId, trelloAvatar) {
-        this.socket.emit('cardClicked', side, this.roomKey, trelloId, trelloAvatar)
+    castCardClicked (side, sortelloId, sortelloAvatar) {
+        this.socket.emit('cardClicked', side, this.roomKey, sortelloId, sortelloAvatar)
     }
 
 
@@ -58,12 +58,12 @@ class Room {
         this.socket.emit('votesInfo', leftVoters, rightVoters, this.roomKey)
     }
 
-    addVoter (voterId, trelloAvatar) {
+    addVoter (voterId, sortelloAvatar) {
         let component = this
         if (find(component.roomVoters, {'id': voterId}) !== undefined) {
             return
         }
-        let voters = component.roomVoters.concat({id: voterId, avatar: trelloAvatar});
+        let voters = component.roomVoters.concat({id: voterId, avatar: sortelloAvatar});
         this.roomVoters= voters
         component.castRoomVoters(this.getAllRoomVoters())
     }
@@ -82,11 +82,11 @@ class Room {
         component.castRoomVoters(this.getAllRoomVoters())
     }
 
-    registerVote (side, trelloId, trelloAvatar) {
+    registerVote (side, sortelloId, sortelloAvatar) {
         let voter = {
-            voterId: trelloId,
-            trelloId: trelloId,
-            trelloAvatar: trelloAvatar
+            voterId: sortelloId,
+            sortelloId: sortelloId,
+            sortelloAvatar: sortelloAvatar
         }
         this.addVoteToVoters(side, voter)
 
@@ -118,8 +118,8 @@ class Room {
     getAllRoomVoters () {
         let joinedVoters = this.getRoomVoters();
         joinedVoters = joinedVoters.concat({
-            id: this.trelloId,
-            avatar: this.trelloAvatar,
+            id: this.sortelloId,
+            avatar: this.sortelloAvatar,
             isAdmin: true
         })
         return joinedVoters
