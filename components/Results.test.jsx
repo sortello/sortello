@@ -1,8 +1,8 @@
 import React from "react";
 import {shallow} from 'enzyme';
 import Results from "./Results";
-import TrelloApi from "../Api/TrelloApi"
-import GithubApi from "../Api/GithubApi"
+import TrelloApi from "../api/TrelloApi"
+import GithubApi from "../api/GithubApi"
 
 describe("Results", () => {
     let props = {
