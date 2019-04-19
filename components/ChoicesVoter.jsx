@@ -1,11 +1,10 @@
 import React from 'react';
-import {clone} from 'lodash'
 import io from 'socket.io-client';
 import queryString from 'query-string';
 import PrioritizationEnd from './PrioritizationEnd.jsx'
 import Room from '../model/Room.js'
 import ChoicesView from './view/ChoicesView.jsx'
-import AccessdeniedAnimation from './AccessdeniedAnimation.jsx';
+import NoAccessBoard from './NoAccessBoard.jsx'
 
 
 let socket = false;
@@ -32,7 +31,7 @@ class Choices extends React.Component {
             ended: false,
             voters: {left: [], right: []},
             hasVoted: false,
-            hasBoardPermissions: false,
+            hasBoardPermissions: null,
             selectedSide: null,
             roomVoters: [],
             boardId : null,
@@ -126,13 +125,7 @@ class Choices extends React.Component {
     }
 
     renderForbidden () {
-        return  <div>
-                    <div className="no-access-message__container">
-                        <AccessdeniedAnimation />
-                        <div id="forbidden-div" className="no-access-message__heading">Ooops!</div>
-                <div className="no-access-message__paragraph">You have no access to this board, please contact board's administrator to gain access.</div>
-                    </div>
-                </div>
+        return  <NoAccessBoard/>
     }
 
     renderLoading() {

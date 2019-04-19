@@ -1,10 +1,11 @@
 import React from "react"
-import { find } from "lodash"
+import {find} from "lodash"
 import Header from './Header.jsx';
 import BoardSelector from './BoardSelector.jsx'
 import ListSelector from './ListSelector.jsx'
 import LabelSelector from './LabelSelector.jsx'
 import Footer from "./Footer.jsx"
+import NoAccessBoard from './NoAccessBoard.jsx';
 
 class ColumnSelection extends React.Component {
     constructor(props) {
@@ -17,6 +18,7 @@ class ColumnSelection extends React.Component {
             organizations: [],
             noCardsError: false,
             boardId: null,
+            hasBoardPermissions: null,
         };
         this.getBoardColumns = this.getBoardColumns.bind(this);
         this.retrieveCardsByListId = this.retrieveCardsByListId.bind(this);
@@ -24,6 +26,7 @@ class ColumnSelection extends React.Component {
         this.handleListClicked = this.handleListClicked.bind(this);
         this.labelSelected = this.labelSelected.bind(this);
         this.getBoards = this.getBoards.bind(this);
+        this.renderForbidden = this.renderForbidden.bind(this);
     }
 
     componentDidMount () {
@@ -35,14 +38,18 @@ class ColumnSelection extends React.Component {
             if (component.props.BoardApi.getName() !== "Github") {
                 BoardApi.getCardById(component.props.extId, null, function (card) {
                     component.retrieveCardsByListId(card.idList)
+                }, function () {
+                    component.setState({
+                        hasBoardPermissions: false
+                    })
                 })
             } else {
-                    component.props.BoardApi.checkPermissions(component.props.extId).then(function(res){
-                    if(res) {
-                        component.retrieveCardsByListId(component.props.extId)
-                    }
-                },function(e){
-                    console.log(e);
+                component.props.BoardApi.checkPermissions(component.props.extId).then(function(res){
+                    component.retrieveCardsByListId(component.props.extId)
+                }, function () {
+                    component.setState({
+                        hasBoardPermissions: false
+                    })
                 })
             }
         }
@@ -177,6 +184,14 @@ class ColumnSelection extends React.Component {
         }
     }
 
+    renderForbidden(){
+        return (
+            <div>
+                <NoAccessBoard/>
+            </div>
+        )
+    }
+
     renderBoardSelector () {
         if (this.props.fromExtension !== null) {
             return ""
@@ -201,6 +216,9 @@ class ColumnSelection extends React.Component {
     }
 
     render() {
+        if (this.state.hasBoardPermissions === false) {
+            return this.renderForbidden();
+        }
         return (
             <div id="card_url_div">
                 <div className="selection__wrapper">

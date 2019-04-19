@@ -12,8 +12,8 @@ class TrelloApi {
         Trello.boards.get(boardId, success, error);
     }
 
-    getCardById(extId, variable, success) {
-        Trello.cards.get(extId, variable, success);
+    getCardById(extId, variable, success, error) {
+        Trello.cards.get(extId, variable, success, error);
     }
 
     getCardsByListId(listId, cards, success, error) {
