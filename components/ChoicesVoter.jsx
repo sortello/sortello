@@ -56,7 +56,6 @@ class Choices extends React.Component {
         });
 
         socket.on('castBoardIdToVoters', function (boardId) {
-            console.log("entro qui?");
             component.BoardApi.getBoard(boardId, function () {
                 component.setState({
                     boardId : boardId,
@@ -108,9 +107,7 @@ class Choices extends React.Component {
                     component.sortelloAvatar = '//www.gravatar.com/avatar/' + normalizedData.gravatar + '?s=64&d=identicon'
                 }
                 component.room.join(component.sortelloId, component.sortelloAvatar);
-                console.log("join fatta");
                 component.room.castGetBoardId();
-                console.log("castGetBoardId fatta");
             }, function (e) {
                 console.log(e);
             });

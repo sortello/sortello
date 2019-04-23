@@ -38,7 +38,6 @@ class GithubApi {
         return fetch(url)
             .then((resp) => resp.json())
             .then((idColumnData) => {
-                console.log("1");
                 if(idColumnData.project_url === undefined){
                     return false;
                 }
@@ -51,14 +50,12 @@ class GithubApi {
             })
             .then((resp) => resp.json())
             .then((projectData) => {
-                console.log("2");
                 data.projectName = projectData.name;
                 data.projectCreator = projectData.creator.login;
                 return this.getInfoUser(h);
             })
             .then((resp) => resp.json())
             .then((dataUserConnected) => {
-                console.log("3");
                 data.connectedUser = dataUserConnected.login;
                 const uri4 = "https://api.github.com/repos/" + data.projectCreator + "/" + data.projectName + "/collaborators/" + data.connectedUser + "/permission";
                 let url4 = new Request(uri4, {
@@ -69,7 +66,6 @@ class GithubApi {
             })
             .then((resp) => resp.json())
             .then((dataPermissions) => {
-                console.log("4");
                 data.userPermission = dataPermissions.permission;
                 if(data.userPermission === "write" || data.userPermission === "admin"){
                     return true;
