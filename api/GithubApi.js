@@ -38,7 +38,6 @@ class GithubApi {
         return fetch(url)
             .then((resp) => resp.json())
             .then((idColumnData) => {
-                console.log("prima fetch");
                 if(idColumnData.project_url === undefined){
                     return false;
                 }
@@ -51,17 +50,14 @@ class GithubApi {
             })
             .then((resp) => resp.json())
             .then((projectData) => {
-                console.log("seconda fetch");
                 data.projectName = projectData.name;
                 data.projectCreator = projectData.creator.login;
                 return this.getInfoUser(h);
             })
             .then((resp) => resp.json())
             .then((dataUserConnected) => {
-                console.log("terza fetch");
                 data.connectedUser = dataUserConnected.login;
                 const uri4 = "https://api.github.com/repos/" + data.projectCreator + "/" + data.projectName + "/collaborators/" + data.connectedUser + "/permission";
-                console.log(uri4);
                 let url4 = new Request(uri4, {
                     method: "GET",
                     headers: h
@@ -70,12 +66,10 @@ class GithubApi {
             })
             .then((resp) => resp.json())
             .then((dataPermissions) => {
-                console.log("quarta fetch");
                 data.userPermission = dataPermissions.permission;
                 if(data.userPermission === "write" || data.userPermission === "admin"){
                     return true;
                 }else{
-                    console.log("non entro in false?");
                     return false;
                 }
             })
@@ -201,10 +195,8 @@ class GithubApi {
         let param = queryString.parse(location.search);
         this.checkPermissions(param.extId).then(function (res) {
             if (res) {
-                console.log("success");
                 return success();
             } else {
-                console.log("error");
                 return error();
             }
         });
