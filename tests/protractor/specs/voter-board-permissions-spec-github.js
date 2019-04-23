@@ -25,7 +25,7 @@ describe('cannot vote if cannot access to board on github', function () {
         browser2.driver.manage().window().setPosition(840, 0);
 
         protractor.accessFromChromeExtensionGithub.accessFromChromeExtensionGithub(browser1).then(function () {
-            protractor.accessFromChromeExtensionGithub.accessFromChromeExtensionGithub(browser2, browser.params.testGithubUsername, browser1.params.testGithubPassword).then(function () {
+            protractor.accessFromChromeExtensionGithub.accessFromChromeExtensionGithub(browser2, browser.params.testGithubUsername2, browser1.params.testGithubPassword2).then(function () {
                 let EC = protractor.ExpectedConditions;
                 browser1.get('/app.html?extId=' + browser.params.testGithubExtId+"&fw=g");
                 let newRoomButton = element(by.css('#new-room-button'))
@@ -34,8 +34,13 @@ describe('cannot vote if cannot access to board on github', function () {
                     let roomLinkElement = element(by.css('#room-link'))
                     browser1.wait(EC.presenceOf(roomLinkElement), 20000).then(function () {
                         roomLinkElement.getAttribute('value').then(function (link) {
-                            browser2.get('/app.html?roomKey=123456&extId=123456&fw=g');
+                            let roomKey = link.substring(
+                                link.indexOf("=") + 1,
+                                link.indexOf("&")
+                            );
+                            browser2.get('/app.html?roomKey='+roomKey+'&extId='+browser.params.testGithubExtId+'&fw=g');
                             browser2.wait(EC.presenceOf(element(by.id('container_div'))), 20000).then(function () {
+                                browser.sleep(3000);
                                 expect(browser2.element(by.id('container_div')).getText()).toMatch(/.*You have no access to this board.*/)
                                 browser2.element.all(by.id("second_div")).count().then(function (count) {
                                     expect(count).toEqual(0)
