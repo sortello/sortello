@@ -5,11 +5,10 @@ import Engine from "../model/Engine.js"
 import io from 'socket.io-client';
 import {find} from "lodash"
 import {findIndex} from "lodash"
-import {remove} from "lodash"
 import Room from "../model/Room.js"
 import ChoicesView from './view/ChoicesView.jsx'
 import RoomLink from './RoomLink.jsx'
-import queryString from "query-string";
+import Loader from "./Loader.jsx";
 
 function openOverlay() {
     document.getElementById('overlay__share-room').style.height = "100%";
@@ -302,12 +301,12 @@ class Choices extends React.Component {
         return Math.round(((100 * (this.props.nodes.length - this.engine.getListNodes().length - 1)) / (this.props.nodes.length)))
     }
 
-    renderCard (id, side, value) {
+    /*renderCard (id, side, value) {
         return (
             <Card id={id} side={side} handleClick={this.handleCardClicked}
                   forget={this.handleAddToBlacklist} data={value}/>
         )
-    }
+    }*/
 
     renderRoomLink () {
         return <RoomLink roomId={this.state.roomId} extId={this.props.extId} BoardApi ={this.props.BoardApi}/>
@@ -331,7 +330,7 @@ class Choices extends React.Component {
     }
 
     renderLoading () {
-        return (<div><span>Loading...</span></div>)
+        return <Loader/>;
     }
 
     getAllRoomVoters () {
@@ -352,7 +351,6 @@ class Choices extends React.Component {
         if (this.state.leftCard == null || this.state.rightCard == null) {
             this.renderLoading()
         }
-
 
         return (
             <ChoicesView

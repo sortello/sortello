@@ -19,14 +19,17 @@ class Room {
         this.socket.emit('room', this.roomKey, sortelloId, sortelloAvatar);
     }
 
+    castGetBoardId(){
+        this.socket.emit('getBoardId', this.roomKey);
+    }
+
+    castGetCurrentChoice(){
+        this.socket.emit('getCurrentChoice', this.roomKey);
+    }
+
     leave (sortelloId) {
         this.socket.emit('leaveRoom', this.roomKey, sortelloId)
     }
-
-    getBoardId () {
-        this.socket.emit('getBoardId', this.roomKey)
-    }
-
 
     getRoomVoters(){
         return this.roomVoters;

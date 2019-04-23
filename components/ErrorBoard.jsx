@@ -3,7 +3,7 @@ import AccessdeniedAnimation from './AccessdeniedAnimation.jsx';
 import Header from './Header.jsx';
 import Footer from './Footer.jsx';
 
-class NoAccessBoard extends React.Component {
+class ErrorBoard extends React.Component {
     render() {
         return (
             <div className="no-access-board__container">
@@ -23,4 +23,4 @@ class NoAccessBoard extends React.Component {
     }
 }
 
-export default NoAccessBoard
+export default ErrorBoard

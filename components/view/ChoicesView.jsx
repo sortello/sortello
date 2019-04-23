@@ -2,11 +2,8 @@ import React from "react";
 import Header from '../Header.jsx';
 import Card from '../Card.jsx';
 import Footer from "../Footer.jsx"
-import {clone} from "lodash"
-import {find} from "lodash"
-import {findIndex} from "lodash"
-import {remove} from "lodash"
 import Avatars from '../Avatars.jsx'
+import Loader from "../Loader.jsx";
 
 function closeOverlay() {
     document.getElementById('overlay__share-room').style.height = "0%";
@@ -35,7 +32,7 @@ class ChoicesView extends React.Component {
         if (this.props.role==='voter') {
             return (
                 <div className="container__voter-info">
-                    <div className="voter-info__dot"></div>
+                    <div className="voter-info__dot"/>
                     <div className="voter-info__text">You are in a shared room</div>
                 </div>
             )
@@ -60,8 +57,9 @@ class ChoicesView extends React.Component {
 
 
         if (this.props.leftCard == null || this.props.rightCard == null) {
-            return (<div><span>Loading...</span></div>);
+            return (<Loader/>);
         }
+
         return (
             <div id="second_div">
                 <div className="container__choose-card">
@@ -99,7 +97,7 @@ class ChoicesView extends React.Component {
                 <div className="overlay__share-room" id="overlay__share-room">
                     <div className="share-room__container">
                         <div className="share-room__close" >
-                            <img id="share-room__close" src="assets/icons/quit.svg" alt="" onClick={() => {
+                            <img id="share-room__close" src="../../assets/icons/quit.svg" alt="" onClick={() => {
                                 closeOverlay()
                             }}/>
                         </div>

@@ -5,7 +5,7 @@ import BoardSelector from './BoardSelector.jsx'
 import ListSelector from './ListSelector.jsx'
 import LabelSelector from './LabelSelector.jsx'
 import Footer from "./Footer.jsx"
-import NoAccessBoard from './NoAccessBoard.jsx';
+import ErrorBoard from './ErrorBoard.jsx';
 
 class ColumnSelection extends React.Component {
     constructor(props) {
@@ -187,7 +187,7 @@ class ColumnSelection extends React.Component {
     renderForbidden(){
         return (
             <div>
-                <NoAccessBoard/>
+                <ErrorBoard/>
             </div>
         )
     }
