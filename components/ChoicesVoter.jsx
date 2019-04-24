@@ -36,7 +36,8 @@ class Choices extends React.Component {
             selectedSide: null,
             roomVoters: [],
             boardId : null,
-        }
+            hasExtIdWrong:false,
+        };
         if (this.props.roomKey !== null) {
             this.setUpRoom(component);
         }
@@ -89,6 +90,18 @@ class Choices extends React.Component {
             })
         });
 
+        socket.on('extIdToVoters',function(extId){
+            //if extId null = object, if extId string = string
+            if(typeof(extId)!=="string"){
+                extId=JSON.stringify(extId);
+            }
+           if(extId!==component.props.extId) {
+               component.setState({
+                   hasExtIdWrong:true
+               })
+           }
+        });
+
         socket.on('prioritizationEnded', function () {
             component.setState({
                 ended: true
@@ -107,6 +120,7 @@ class Choices extends React.Component {
                     component.sortelloAvatar = '//www.gravatar.com/avatar/' + normalizedData.gravatar + '?s=64&d=identicon'
                 }
                 component.room.join(component.sortelloId, component.sortelloAvatar);
+                component.room.checkExtId();
                 component.room.castGetBoardId();
             }, function (e) {
                 console.log(e);
@@ -130,7 +144,12 @@ class Choices extends React.Component {
     }
 
     renderForbidden () {
-        return  <ErrorBoard/>
+        return  <ErrorBoard text="You have no access to this board, please contact
+                        board's administrator to gain access."/>
+    }
+
+    renderExtIdError(){
+        return <ErrorBoard text="Url isn't correct, please contact board's administrator to get a new one."/>
     }
 
     renderLoading() {
@@ -138,12 +157,17 @@ class Choices extends React.Component {
     }
 
     render() {
-        if ((this.state.leftCard == null || this.state.rightCard == null) && this.state.hasBoardPermissions === null) {
+        if ((this.state.leftCard == null || this.state.rightCard == null) && this.state.hasBoardPermissions === null &&
+        !this.state.hasExtIdWrong) {
             return this.renderLoading()
         }
 
         if (this.state.hasBoardPermissions===false) {
             return this.renderForbidden()
+        }
+
+        if(this.state.hasExtIdWrong){
+            return this.renderExtIdError();
         }
 
         if (this.state.ended) {

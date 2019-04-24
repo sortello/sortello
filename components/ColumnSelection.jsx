@@ -187,7 +187,8 @@ class ColumnSelection extends React.Component {
     renderForbidden(){
         return (
             <div>
-                <ErrorBoard/>
+                <ErrorBoard text="You have no access to this board, please contact
+                        board's administrator to gain access."/>
             </div>
         )
     }
