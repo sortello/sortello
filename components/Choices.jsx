@@ -1,5 +1,4 @@
 import React from "react";
-import Card from './Card.jsx';
 import {clone} from "lodash"
 import Engine from "../model/Engine.js"
 import io from 'socket.io-client';
