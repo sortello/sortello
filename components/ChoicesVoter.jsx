@@ -36,7 +36,7 @@ class Choices extends React.Component {
             selectedSide: null,
             roomVoters: [],
             boardId : null,
-            hasExtIdWrong:false,
+            hasExtIdWrong:false
         };
         if (this.props.roomKey !== null) {
             this.setUpRoom(component);
@@ -44,6 +44,10 @@ class Choices extends React.Component {
         if (socket) {
             this.setUpSocket(component);
         }
+    }
+
+    componentDidMount() {
+        console.log(this.props.hasParamsMissing);
     }
 
     setUpSocket(component) {
@@ -148,7 +152,7 @@ class Choices extends React.Component {
                         board's administrator to gain access."/>
     }
 
-    renderExtIdError(){
+    renderUrlError(){
         return <ErrorBoard text="Url isn't correct, please contact board's administrator to get a new one."/>
     }
 
@@ -158,7 +162,7 @@ class Choices extends React.Component {
 
     render() {
         if ((this.state.leftCard == null || this.state.rightCard == null) && this.state.hasBoardPermissions === null &&
-        !this.state.hasExtIdWrong) {
+        !this.state.hasExtIdWrong && !this.props.hasParamsMissing) {
             return this.renderLoading()
         }
 
@@ -166,8 +170,8 @@ class Choices extends React.Component {
             return this.renderForbidden()
         }
 
-        if(this.state.hasExtIdWrong){
-            return this.renderExtIdError();
+        if(this.state.hasExtIdWrong || this.props.hasParamsMissing){
+            return this.renderUrlError();
         }
 
         if (this.state.ended) {

@@ -29,8 +29,8 @@ class App extends React.Component {
             fromExtension: null,
             extId: null,
             urlProject: null,
-            hasUrlWrong : false,
             roomKey: null,
+            hasParamsMissing: false
         };
         this.getCurrentView = this.getCurrentView.bind(this);
         this.setStartTimeStamp = this.setStartTimeStamp.bind(this);
@@ -113,17 +113,17 @@ class App extends React.Component {
     handleAuthentication() {
         const params = queryString.parse(location.search);
         if (params.roomKey !== undefined) {
-            if(params.extId === undefined || params.fw ===undefined){
+            if(params.extId === undefined || params.fw === undefined){
+                console.log("params missing");
                 this.setState({
-                    hasUrlWrong:true
-                })
-            }else {
-                this.setState({
-                    rootNode: [],
-                    nodes: [],
-                    currentView: CHOICES_VOTER
+                    hasParamsMissing: true
                 })
             }
+            this.setState({
+                rootNode: [],
+                nodes: [],
+                currentView: CHOICES_VOTER
+            })
         } else {
             this.setState({
                 currentView: COLUMN_SELECT
@@ -180,8 +180,10 @@ class App extends React.Component {
                           setStartTimeStamp={this.setStartTimeStamp}
                           nodes={this.state.nodes}
                           extId = {this.state.extId}
+                          fromExtension = {this.state.fromExtension}
                           rootNode={this.state.rootNode}
-                          roomKey ={this.state.roomKey}/>
+                          roomKey ={this.state.roomKey}
+                          hasParamsMissing = {this.state.hasParamsMissing}/>
         )
     }
 
@@ -230,9 +232,6 @@ class App extends React.Component {
     }
 
     render() {
-        if(this.state.hasUrlWrong){
-            return <ErrorBoard text="Url isn't correct, please contact board's administrator to get a new one."/>
-        }
         return (
             <div id="container_div">
                 {this.getCurrentView()}
