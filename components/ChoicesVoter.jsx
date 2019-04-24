@@ -1,6 +1,5 @@
 import React from 'react';
 import io from 'socket.io-client';
-import queryString from 'query-string';
 import PrioritizationEnd from './PrioritizationEnd.jsx'
 import Room from '../model/Room.js'
 import ChoicesView from './view/ChoicesView.jsx'
@@ -20,10 +19,11 @@ class Choices extends React.Component {
         super(props);
         let component = this
         this.handleCardClicked = this.handleCardClicked.bind(this)
-        this.BoardApi = this.props.BoardApi
         this.renderForbidden = this.renderForbidden.bind(this)
         this.renderLoading = this.renderLoading.bind(this)
+        this.BoardApi = this.props.BoardApi
         this.room = false;
+        this.timer = null;
         this.state = {
             leftCard: null,
             rightCard: null,
@@ -34,7 +34,8 @@ class Choices extends React.Component {
             selectedSide: null,
             roomVoters: [],
             boardId : null,
-            hasExtIdWrong:false
+            hasExtIdWrong:false,
+            timeout : false
         };
         if (this.props.roomKey !== null) {
             this.setUpRoom(component);
@@ -44,8 +45,10 @@ class Choices extends React.Component {
         }
     }
 
-    componentDidMount() {
-        console.log(this.props.hasParamsMissing);
+    toggleTimeout () {
+        this.setState({
+            timeout: !this.state.timeout
+        })
     }
 
     setUpSocket(component) {
@@ -93,7 +96,7 @@ class Choices extends React.Component {
         });
 
         socket.on('extIdToVoters',function(extId){
-            //if extId null = object, if extId string = string
+            //if extId is null = object, if extId is string = string
             if(typeof(extId)!=="string"){
                 extId=JSON.stringify(extId);
             }
@@ -154,29 +157,43 @@ class Choices extends React.Component {
         return <ErrorBoard text="Url isn't correct, please contact board's administrator to get a new one."/>
     }
 
+    renderRoomKeyError(){
+        return <ErrorBoard text="RoomKey isn't correct, please contact board's administrator to get a new one."/>
+    }
+
+
     renderLoading() {
+        this.timer = setTimeout(this.toggleTimeout.bind(this), 5000);
         return <Loader/>;
     }
 
     render() {
         if ((this.state.leftCard == null || this.state.rightCard == null) && this.state.hasBoardPermissions === null &&
-        !this.state.hasExtIdWrong && !this.props.hasParamsMissing) {
+        !this.state.hasExtIdWrong && !this.props.hasParamsMissing && !this.state.timeout) {
             return this.renderLoading()
         }
 
+        if (this.state.timeout){
+            clearTimeout(this.timer);
+            return this.renderRoomKeyError();
+        }
+
         if (this.state.hasBoardPermissions===false) {
+            clearTimeout(this.timer);
             return this.renderForbidden()
         }
 
         if(this.state.hasExtIdWrong || this.props.hasParamsMissing){
+            clearTimeout(this.timer);
             return this.renderUrlError();
         }
 
         if (this.state.ended) {
+            clearTimeout(this.timer);
             let url = this.props.BoardApi.getName() === "Trello"? "https://trello.com/b/" +this.state.boardId :
                 this.state.boardId+"#column-" + this.props.extId;
-            return (<PrioritizationEnd
-                url = {url} BoardApi = {this.BoardApi}/>)
+            return <PrioritizationEnd
+                url = {url} BoardApi = {this.BoardApi}/>
         }
         return (
             <ChoicesView

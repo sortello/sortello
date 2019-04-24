@@ -8,7 +8,6 @@ import treeNodeFactory from "./model/treeNodeFactory"
 import queryString from "query-string"
 import TrelloApi from "./api/TrelloApi"
 import GithubApi from "./api/GithubApi";
-import ErrorBoard from "./components/ErrorBoard.jsx";
 
 const AUTHENTICATION_FORM = 1;
 const COLUMN_SELECT = 2;

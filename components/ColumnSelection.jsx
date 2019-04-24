@@ -6,6 +6,9 @@ import ListSelector from './ListSelector.jsx'
 import LabelSelector from './LabelSelector.jsx'
 import Footer from "./Footer.jsx"
 import ErrorBoard from './ErrorBoard.jsx';
+import queryString from "query-string";
+
+const params = queryString.parse(location.search);
 
 class ColumnSelection extends React.Component {
     constructor(props) {
@@ -19,6 +22,7 @@ class ColumnSelection extends React.Component {
             noCardsError: false,
             boardId: null,
             hasBoardPermissions: null,
+            hasNotEnoughCard: false,
         };
         this.getBoardColumns = this.getBoardColumns.bind(this);
         this.retrieveCardsByListId = this.retrieveCardsByListId.bind(this);
@@ -31,6 +35,11 @@ class ColumnSelection extends React.Component {
 
     componentDidMount () {
         let component = this;
+        if(params.extId === "error"){
+            component.setState({
+                hasNotEnoughCard : true
+            });
+        }
         let BoardApi = this.props.BoardApi;
         localStorage.removeItem("extId");
         localStorage.removeItem("fromExtension");
@@ -193,6 +202,14 @@ class ColumnSelection extends React.Component {
         )
     }
 
+    renderNotEnoughCard(){
+        return (
+            <div>
+                <ErrorBoard text="Your list seems have 0 or 1 card, please fill the list with more cards."/>
+            </div>
+        )
+    }
+
     renderBoardSelector () {
         if (this.props.fromExtension !== null) {
             return ""
@@ -217,6 +234,10 @@ class ColumnSelection extends React.Component {
     }
 
     render() {
+        if(this.state.hasNotEnoughCard === true){
+            return this.renderNotEnoughCard();
+        }
+
         if (this.state.hasBoardPermissions === false) {
             return this.renderForbidden();
         }
