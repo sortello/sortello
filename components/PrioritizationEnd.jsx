@@ -18,7 +18,7 @@ class PrioritizationEnd extends React.Component {
             <div className="prioritization-end__buttons">
                 <CheckBoardButton url={this.props.url}
                                   BoardApi={this.props.BoardApi}/>
-                {this.props.fw === "t"? <PrioritizeAnotherListButton/> : null}
+                {this.props.BoardApi.getName() === "Trello"? <PrioritizeAnotherListButton/> : null}
             </div>
         </div>
     )}

@@ -15,8 +15,6 @@ if (typeof socketAddress !== 'undefined') {
     }
 }
 
-const params = queryString.parse(location.search);
-
 class Choices extends React.Component {
     constructor(props) {
         super(props);
@@ -175,9 +173,10 @@ class Choices extends React.Component {
         }
 
         if (this.state.ended) {
-            let url = (params.fw ==="t"? "https://trello.com/b/" +this.state.boardId : this.state.boardId+"#column-" + params.extId)
+            let url = this.props.BoardApi.getName() === "Trello"? "https://trello.com/b/" +this.state.boardId :
+                this.state.boardId+"#column-" + this.props.extId;
             return (<PrioritizationEnd
-                url = {url} BoardApi = {this.BoardApi} fw={params.fw}/>)
+                url = {url} BoardApi = {this.BoardApi}/>)
         }
         return (
             <ChoicesView
