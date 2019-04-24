@@ -108,6 +108,10 @@ class Choices extends React.Component {
             component.removeVoter(voterId)
         })
 
+        socket.on('checkExtIdFromMaster',function(){
+            component.room.castExtId(component.props.extId);
+        })
+
         socket.on('getCurrentChoice', function () {
             component.room.castNextChoice(component.state.leftCard, component.state.rightCard)
         })
