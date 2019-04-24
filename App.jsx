@@ -8,6 +8,7 @@ import treeNodeFactory from "./model/treeNodeFactory"
 import queryString from "query-string"
 import TrelloApi from "./api/TrelloApi"
 import GithubApi from "./api/GithubApi";
+import ErrorBoard from "./components/ErrorBoard.jsx";
 
 const AUTHENTICATION_FORM = 1;
 const COLUMN_SELECT = 2;
@@ -28,6 +29,7 @@ class App extends React.Component {
             fromExtension: null,
             extId: null,
             urlProject: null,
+            hasUrlWrong : false,
             roomKey: null,
         };
         this.getCurrentView = this.getCurrentView.bind(this);
@@ -111,11 +113,17 @@ class App extends React.Component {
     handleAuthentication() {
         const params = queryString.parse(location.search);
         if (params.roomKey !== undefined) {
-            this.setState({
-                rootNode: [],
-                nodes: [],
-                currentView: CHOICES_VOTER
-            })
+            if(params.extId === undefined || params.fw ===undefined){
+                this.setState({
+                    hasUrlWrong:true
+                })
+            }else {
+                this.setState({
+                    rootNode: [],
+                    nodes: [],
+                    currentView: CHOICES_VOTER
+                })
+            }
         } else {
             this.setState({
                 currentView: COLUMN_SELECT
@@ -222,6 +230,9 @@ class App extends React.Component {
     }
 
     render() {
+        if(this.state.hasUrlWrong){
+            return <ErrorBoard text="Url isn't correct, please contact board's administrator to get a new one."/>
+        }
         return (
             <div id="container_div">
                 {this.getCurrentView()}
