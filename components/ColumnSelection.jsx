@@ -205,7 +205,7 @@ class ColumnSelection extends React.Component {
     renderNotEnoughCard(){
         return (
             <div>
-                <ErrorBoard text="Your list seems have 0 or 1 card, please fill the list with more cards."/>
+                <ErrorBoard text={"Your list seems have 0 or 1 card, please fill the list with more cards."} message={true}/>
             </div>
         )
     }

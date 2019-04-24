@@ -16,6 +16,7 @@ class ErrorBoard extends React.Component {
                     <AccessdeniedAnimation/>
                     <div id="forbidden-div" className="no-access-message__heading">Ooops!</div>
                     <div className="no-access-message__paragraph">{this.props.text}
+                        <p>{this.props.message? <a href="../index.html" style={{color:'blue'}}>Learn how to use Sortello!</a>:null}</p>
                     </div>
                 </div>
                 <div className={"footer footer--fade"}>
