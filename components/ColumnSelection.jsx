@@ -158,14 +158,19 @@ class ColumnSelection extends React.Component {
     }
 
     getBoardColumns(board) {
-        this.setState({
-            lists: board.lists
-        });
+        if(board===undefined){
+            this.setState({
+                lists: []
+            });
+        }else{
+            this.setState({
+                lists: board.lists
+            });
+        }
     }
 
     handleBoardClicked(boardId) {
         const currentBoardId = this.state.boardId;
-
         if (boardId !== currentBoardId) {
             this.setState({
                 boardId,
