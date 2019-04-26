@@ -29,7 +29,6 @@ class App extends React.Component {
             extId: null,
             urlProject: null,
             roomKey: null,
-            hasParamsMissing: false
         };
         this.getCurrentView = this.getCurrentView.bind(this);
         this.setStartTimeStamp = this.setStartTimeStamp.bind(this);
@@ -112,12 +111,6 @@ class App extends React.Component {
     handleAuthentication() {
         const params = queryString.parse(location.search);
         if (params.roomKey !== undefined) {
-            if(params.extId === undefined || params.fw === undefined){
-                console.log("params missing");
-                this.setState({
-                    hasParamsMissing: true
-                })
-            }
             this.setState({
                 rootNode: [],
                 nodes: [],
@@ -180,8 +173,7 @@ class App extends React.Component {
                           nodes={this.state.nodes}
                           extId = {this.state.extId}
                           rootNode={this.state.rootNode}
-                          roomKey ={this.state.roomKey}
-                          hasParamsMissing = {this.state.hasParamsMissing}/>
+                          roomKey ={this.state.roomKey}/>
         )
     }
 

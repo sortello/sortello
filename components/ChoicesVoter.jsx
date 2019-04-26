@@ -33,11 +33,17 @@ class Choices extends React.Component {
             voters: {left: [], right: []},
             hasVoted: false,
             hasBoardPermissions: null,
+            hasParamsMissing: false,
             selectedSide: null,
             roomVoters: [],
             boardId : null,
             hasUrlWrong:false,
         };
+        if(params.extId === undefined || params.fw === undefined){
+            this.setState({
+                hasParamsMissing: true
+            })
+        }
         if (this.props.roomKey !== null) {
             this.setUpRoom(component);
         }
@@ -165,7 +171,7 @@ class Choices extends React.Component {
 
     render() {
         if ((this.state.leftCard == null || this.state.rightCard == null) && this.state.hasBoardPermissions === null &&
-        !this.state.hasUrlWrong && !this.props.hasParamsMissing) {
+        !this.state.hasUrlWrong && !this.state.hasParamsMissing) {
             return this.renderLoading()
         }
 
@@ -173,8 +179,7 @@ class Choices extends React.Component {
             return this.renderForbidden()
         }
 
-        if(this.state.hasUrlWrong || this.props.hasParamsMissing){
-            //TODO hasParamsMissing unico variabile in props calcolata da App
+        if(this.state.hasUrlWrong || this.state.hasParamsMissing){
             return this.renderUrlError();
         }
 
