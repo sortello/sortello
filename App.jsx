@@ -179,7 +179,6 @@ class App extends React.Component {
                           setStartTimeStamp={this.setStartTimeStamp}
                           nodes={this.state.nodes}
                           extId = {this.state.extId}
-                          fromExtension = {this.state.fromExtension}
                           rootNode={this.state.rootNode}
                           roomKey ={this.state.roomKey}
                           hasParamsMissing = {this.state.hasParamsMissing}/>
@@ -195,8 +194,7 @@ class App extends React.Component {
                      boardId={this.state.boardId}
                      urlProject = {this.state.urlProject}
                      extId = {this.state.extId}
-                     rootNode={this.state.rootNode}
-                     fromExtension = {this.state.fromExtension}/>
+                     rootNode={this.state.rootNode}/>
         )
     }
 

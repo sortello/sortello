@@ -23,12 +23,12 @@ class Room {
         this.socket.emit('getBoardId', this.roomKey);
     }
 
-    checkExtId(){
-        this.socket.emit("checkExtId",this.roomKey);
+    checkParams(){
+        this.socket.emit("checkParams",this.roomKey);
     }
 
-    castExtId(extId){
-        this.socket.emit("extId",this.roomKey,extId);
+    castParams(extId,fw){
+        this.socket.emit("params",this.roomKey,extId,fw);
     }
 
     castGetCurrentChoice(){

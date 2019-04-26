@@ -107,8 +107,9 @@ class Choices extends React.Component {
             component.removeVoter(voterId)
         })
 
-        socket.on('checkExtIdFromMaster',function(){
-            component.room.castExtId(component.props.extId);
+        socket.on('checkParamsFromMaster',function(){
+            let fw = component.props.BoardApi.getName() === "Trello"? "t":"g";
+            component.room.castParams(component.props.extId,fw);
         })
 
         socket.on('getCurrentChoice', function () {
