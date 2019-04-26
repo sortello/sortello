@@ -61,6 +61,11 @@ class App extends React.Component {
                     this.handleAuthentication();
                 }
             })
+        }else if(params.extId === undefined && params.roomKey!==undefined){
+            //Just for ChoicesVoter
+            this.setState({
+                roomKey : params.roomKey
+            })
         }
 
         if (this.codeShowedButNotSaved()) {

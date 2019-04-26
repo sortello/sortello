@@ -39,11 +39,6 @@ class Choices extends React.Component {
             boardId : null,
             hasUrlWrong:false,
         };
-        if(params.extId === undefined || params.fw === undefined){
-            this.setState({
-                hasParamsMissing: true
-            })
-        }
         if (this.props.roomKey !== null) {
             this.setUpRoom(component);
         }
@@ -123,6 +118,11 @@ class Choices extends React.Component {
     }
 
     setUpRoom(component) {
+        if(params.extId === undefined || params.fw === undefined){
+            component.setState({
+                hasUrlWrong: true
+            })
+        }
         if (socket) {
             component.room = new Room(socket, this.props.roomKey);
             component.BoardApi.getMembers('me', {}, function (data) {
@@ -171,7 +171,7 @@ class Choices extends React.Component {
 
     render() {
         if ((this.state.leftCard == null || this.state.rightCard == null) && this.state.hasBoardPermissions === null &&
-        !this.state.hasUrlWrong && !this.state.hasParamsMissing) {
+        !this.state.hasUrlWrong) {
             return this.renderLoading()
         }
 
@@ -179,13 +179,12 @@ class Choices extends React.Component {
             return this.renderForbidden()
         }
 
-        if(this.state.hasUrlWrong || this.state.hasParamsMissing){
+        if(this.state.hasUrlWrong){
             return this.renderUrlError();
         }
 
         if (this.state.ended) {
-            let url = this.props.BoardApi.getName() === "Trello"? "https://trello.com/b/" +this.state.boardId :
-                this.state.boardId+"#column-" + this.props.extId;
+            let url = this.props.BoardApi.getFinalUrl(this.state.boardId, this.props.extId);
             return <PrioritizationEnd
                 url = {url} BoardApi = {this.BoardApi}/>
         }
