@@ -8,7 +8,7 @@ class RoomLink extends React.Component {
         let copyToClipboardError = <button>Error</button>
         if (this.props.roomId !== null) {
             let shareLink = window.location.protocol + "//" + window.location.hostname + port + window.location.pathname +
-                '?roomKey=' + this.props.roomId + "&extId="+this.props.extId+"&fw="+(this.props.BoardApi.getName() === "Trello"? "t" : "g")
+                '?roomKey=' + this.props.roomId + "&extId="+this.props.extId+"&fw="+(this.props.BoardApi.getShortenedExtension());
             return (
 
                     <div className="share-link__container">

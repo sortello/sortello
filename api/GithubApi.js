@@ -232,6 +232,14 @@ class GithubApi {
     getIcon() {
         return "fa fa-github"
     }
+
+    getFinalUrl(boardId,extId){
+        return boardId+"#column-" + extId;
+    }
+
+    getShortenedExtension(){
+        return "g";
+    }
 }
 
 export default GithubApi

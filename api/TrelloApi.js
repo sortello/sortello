@@ -80,6 +80,14 @@ class TrelloApi {
     getIcon() {
         return "fa fa-trello"
     }
+
+    getFinalUrl(boardId,extId){
+        return "https://trello.com/b/" +boardId;
+    }
+
+    getShortenedExtension(){
+        return "t";
+    }
 }
 
 export default TrelloApi;

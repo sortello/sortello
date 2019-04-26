@@ -108,7 +108,7 @@ class Choices extends React.Component {
         })
 
         socket.on('checkParamsFromMaster',function(){
-            let fw = component.props.BoardApi.getName() === "Trello"? "t":"g";
+            let fw = component.props.BoardApi.getShortenedExtension();
             component.room.castParams(component.props.extId,fw);
         })
 
