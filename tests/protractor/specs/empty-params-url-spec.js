@@ -1,4 +1,4 @@
-describe('cannot vote if url is wrong', function () {
+describe('cannot vote if params is empty', function () {
     var originalTimeout;
 
     beforeEach(function () {
@@ -35,7 +35,7 @@ describe('cannot vote if url is wrong', function () {
                     browser1.wait(EC.presenceOf(roomLinkElement), 20000).then(function () {
                         roomLinkElement.getAttribute('value').then(function (link) {
                             let extId = link.substring(
-                                link.indexOf("&") + 1,
+                                link.indexOf("&"),
                                 link.lastIndexOf("&")
                             );
                             link = link.replace(browser.params.hostname + "/app.html", browser.params.hostname + ":4000/app.html");
