@@ -25,7 +25,7 @@ class ColumnSelection extends React.Component {
             hasBoardPermissions: null,
             hasNotEnoughCard: false,
             selectedLabel: null,
-            username: null
+            username: ""
         };
         this.getBoardColumns = this.getBoardColumns.bind(this);
         this.retrieveCardsByListId = this.retrieveCardsByListId.bind(this);
@@ -167,7 +167,8 @@ class ColumnSelection extends React.Component {
     getBoardColumns(board) {
         if(board===undefined){
             this.setState({
-                lists: []
+                lists: [],
+                selectedLabel: null
             });
         }else{
             this.setState({
@@ -201,6 +202,7 @@ class ColumnSelection extends React.Component {
         } else {
             this.setState({
                 labels: [],
+                selectedLabel: null
             })
         }
     }
