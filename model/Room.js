@@ -49,8 +49,8 @@ class Room {
 
 
     // master methods
-    castNextChoice (leftCard, rightCard) {
-        this.socket.emit('nextChoice', leftCard, rightCard, this.roomKey)
+    castNextChoice (leftCard, rightCard, progress) {
+        this.socket.emit('nextChoice', leftCard, rightCard, progress, this.roomKey)
     }
 
     castBoardId (boardId) {

@@ -38,6 +38,7 @@ class Choices extends React.Component {
             roomVoters: [],
             boardId : null,
             hasUrlWrong:false,
+            progress: 0
         };
         if (this.props.roomKey !== null) {
             this.setUpRoom(component);
@@ -76,10 +77,11 @@ class Choices extends React.Component {
             });
         });
 
-        socket.on('nextChoice', function (leftCard, rightCard) {
+        socket.on('nextChoice', function (leftCard, rightCard, progress) {
             component.setState({
                 leftCard: leftCard,
                 rightCard: rightCard,
+                progress: progress,
                 hasVoted: false,
                 selectedSide: null
             })
@@ -94,6 +96,12 @@ class Choices extends React.Component {
         socket.on('error', function () {
             component.setState({
                 hasUrlWrong: true
+            })
+        });
+
+        socket.on('progress-bar', function(progress){
+            component.setState({
+                progress: progress
             })
         });
 
@@ -199,7 +207,7 @@ class Choices extends React.Component {
                 handleCardClicked={this.handleCardClicked}
                 handleGoToNextVoting={() => {
                 }}
-                progress={0}
+                progress={this.state.progress}
                 selectedSide={this.state.selectedSide}
                 role="voter"
             />

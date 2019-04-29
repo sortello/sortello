@@ -113,7 +113,7 @@ class Choices extends React.Component {
         })
 
         socket.on('getCurrentChoice', function () {
-            component.room.castNextChoice(component.state.leftCard, component.state.rightCard)
+            component.room.castNextChoice(component.state.leftCard, component.state.rightCard, component.getProgress())
         })
 
         socket.on('cardClicked', function (side, sortelloId, sortelloAvatar) {
@@ -253,7 +253,7 @@ class Choices extends React.Component {
                     this.getNextChoice()
                 }
                 if (this.room) {
-                    this.room.castNextChoice(this.state.leftCard, this.state.rightCard)
+                    this.room.castNextChoice(this.state.leftCard, this.state.rightCard,this.getProgress())
                 }
             });
         }
