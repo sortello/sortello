@@ -182,7 +182,6 @@ describe("Card", () => {
         };
 
         let wrapper = card(props)
-        console.log(wrapper.find("div").at(1).props().className)
         expect(wrapper.find("div").at(1).props().className).toEqual("container__card container__card-selected")
     })
 
