@@ -4,8 +4,9 @@ import Header from './Header.jsx';
 import BoardSelector from './BoardSelector.jsx'
 import ListSelector from './ListSelector.jsx'
 import LabelSelector from './LabelSelector.jsx'
-import Footer from "./Footer.jsx"
+import Footer from "./Footer.jsx";
 import ErrorBoard from './ErrorBoard.jsx';
+import ProceedButton from "./ProceedButton.jsx";
 import queryString from "query-string";
 
 const params = queryString.parse(location.search);
@@ -23,14 +24,20 @@ class ColumnSelection extends React.Component {
             boardId: null,
             hasBoardPermissions: null,
             hasNotEnoughCard: false,
+            selectedLabel: null,
+            username: null
         };
         this.getBoardColumns = this.getBoardColumns.bind(this);
         this.retrieveCardsByListId = this.retrieveCardsByListId.bind(this);
         this.handleBoardClicked = this.handleBoardClicked.bind(this);
         this.handleListClicked = this.handleListClicked.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this);
+        this.handleProceedButtonClicked = this.handleProceedButtonClicked.bind(this);
         this.labelSelected = this.labelSelected.bind(this);
         this.getBoards = this.getBoards.bind(this);
         this.renderForbidden = this.renderForbidden.bind(this);
+        this.handleLabelClicked = this.handleLabelClicked.bind(this);
+        this.getTrelloUsername = this.getTrelloUsername.bind(this);
     }
 
     componentDidMount () {
@@ -66,6 +73,7 @@ class ColumnSelection extends React.Component {
         if (this.state.organizations.length > 0) {
             return;
         }
+        this.getTrelloUsername(Trello);
         this.getBoards()
     }
 
@@ -102,22 +110,21 @@ class ColumnSelection extends React.Component {
         });
     }
 
-    labelSelected(labelId) {
-        let listCards = this.state.listCards;
-        if (labelId !== 0) {
-            let label = find(this.state.labels, { 'id': labelId });
-            listCards = _.filter(this.state.listCards, function (card) {
-                return find(card.labels, { 'id': label.id }) !== undefined;
-            });
-        }
-        if (listCards.length === 0) {
-            this.setState({
-                labels: [],
-                noCardsError: true
+    //TODO MODIFICARE PER GITHUB
+    getTrelloUsername(Trello) {
+        let component = this
+        Trello.members.get('me', function (data) {
+            let username = data.username;
+            component.setState({
+                username: username
             })
-        } else {
-            this.props.handleCards(listCards, this.state.boardId);
-        }
+        }, function (e) {
+            console.log(e);
+        });
+    }
+
+    labelSelected (labelId) {
+        this.setState({selectedLabel: labelId})
     }
 
     retrieveCardsByListId(listId) {
@@ -220,22 +227,45 @@ class ColumnSelection extends React.Component {
             return ""
         }
         return <BoardSelector groupedboards={this.state.groupedboards}
-            onChange={this.handleBoardClicked} />
+                              onChange={this.handleBoardClicked} />
+    }
+
+    handleLabelClicked (labelId) {
+        this.labelSelected(labelId)
+    }
+
+    handleProceedButtonClicked () {
+        let labelId = this.state.selectedLabel
+        let listCards = this.state.listCards;
+        if (labelId !== 0 && labelId !== '0') {
+            let label = find(this.state.labels, {'id': labelId});
+            listCards = _.filter(this.state.listCards, function (card) {
+                return find(card.labels, {'id': label.id}) !== undefined;
+            });
+        }
+        this.props.handleCards(listCards, this.state.boardId);
     }
 
     renderListSelector () {
         if (this.state.lists.length === 0 || this.props.fromExtension !== null) {
             return ""
         }
-        return <p><ListSelector lists={this.state.lists}
-            onChange={this.handleListClicked} /></p>
+        return <ListSelector lists={this.state.lists}
+            onChange={this.handleListClicked} />
     }
 
     renderLabelSelector() {
         if (this.state.labels.length === 0) {
             return ""
         }
-        return <LabelSelector labels={this.state.labels} onClick={this.labelSelected} />
+        return <LabelSelector labels={this.state.labels} onChange={this.handleLabelClicked}/>
+    }
+
+    renderProceedButton () {
+        if (this.state.selectedLabel === null) {
+            return ""
+        }
+        return <ProceedButton onClick={this.handleProceedButtonClicked} />
     }
 
     render() {
@@ -249,27 +279,29 @@ class ColumnSelection extends React.Component {
         return (
             <div id="card_url_div">
                 <div className="selection__wrapper">
-                    <div className="selection__container selection__container--animation">
-                        <div className="select-list--text-container selection__heading">
+                    <div>
+                        <div className="selection__heading">
                             {
                                 (this.props.fromExtension !== null) ?
                                     "Filter by label, or select All" :
-                                    "First of all, select the board you want to prioritize"
+                                    `Welcome to sortello, ${this.state.username}`
                             }
                         </div>
-                        {this.renderBoardSelector()}
-                        {this.renderListSelector()}
-                        {this.renderLabelSelector()}
-
-                        {
-                            (this.state.noCardsError === true) ?
-                                "There are no cards for the selected list! Try choosing another one" :
-                                ""
-                        }
+                        <div className="selection__container selection__container--animation">
+                            {this.renderBoardSelector()}
+                            {this.renderListSelector()}
+                            {this.renderLabelSelector()}
+                            {this.renderProceedButton()}
+                            {
+                                (this.state.noCardsError === true) ?
+                                    "There are no cards for the selected list! Try choosing another one" :
+                                    ""
+                            }
+                        </div>
                     </div>
                     <div className={"footer footer--animated"}>
-                        <Footer />
-                        <Header />
+                        <Header/>
+                        <Footer/>
                     </div>
                 </div>
             </div>

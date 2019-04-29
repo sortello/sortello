@@ -9,13 +9,15 @@ class Header extends React.Component {
         location.reload();
     }
 
-    render () {
-        return (
-            <div>
-                <button className="logout__button--style" onClick={this.handleLogout}>Logout</button>
-            </div>
-        );
-    }
+  render () {
+    return (
+      <div>
+        <div className="logout__button">
+          <button className="logout__button--style" onClick={this.handleLogout}>Logout</button>
+        </div>
+      </div>
+    );
+  }
 };
 
 export default Header
