@@ -235,7 +235,7 @@ class ColumnSelection extends React.Component {
     renderNotEnoughCard(){
         return (
             <div>
-                <ErrorBoard text={"Your list seems have 0 or 1 card, please fill the list with more cards."} message={true}/>
+                <ErrorBoard text={"Your list seems to have 0 or 1 card, please fill the list with more cards."} message={true}/>
             </div>
         )
     }
@@ -253,15 +253,22 @@ class ColumnSelection extends React.Component {
     }
 
     handleProceedButtonClicked () {
-        let labelId = this.state.selectedLabel
+        let labelId = this.state.selectedLabel;
         let listCards = this.state.listCards;
         if (labelId !== 0 && labelId !== '0') {
+            labelId = this.props.BoardApi.getShortenedExtension() === "g"? parseInt(labelId):labelId;
             let label = find(this.state.labels, {'id': labelId});
             listCards = _.filter(this.state.listCards, function (card) {
                 return find(card.labels, {'id': label.id}) !== undefined;
             });
         }
-        this.props.handleCards(listCards, this.state.boardId);
+        if(listCards.length<2){
+            this.setState({
+                hasNotEnoughCard : true,
+            })
+        }else{
+            this.props.handleCards(listCards, this.state.boardId);
+        }
     }
 
     renderListSelector () {
@@ -294,6 +301,7 @@ class ColumnSelection extends React.Component {
         if (this.state.hasBoardPermissions === false) {
             return this.renderForbidden();
         }
+
         return (
             <div id="card_url_div">
                 <div className="selection__wrapper">
@@ -301,8 +309,11 @@ class ColumnSelection extends React.Component {
                         <div className="selection__heading">
                             {
                                 (this.props.fromExtension !== null) ?
-                                    "Filter by label, or select All" :
-                                    `Welcome to sortello, ${this.state.username}`
+                                    (!this.state.selectedList)?
+                                        null:
+                                        "Filter by label, or select All"
+                                    :`Welcome to sortello, ${this.state.username}`
+
                             }
                         </div>
                         <div className="selection__container selection__container--animation">
