@@ -25,6 +25,7 @@ class ColumnSelection extends React.Component {
             hasBoardPermissions: null,
             hasNotEnoughCard: false,
             selectedLabel: null,
+            selectedList: false,
             username: ""
         };
         this.getBoardColumns = this.getBoardColumns.bind(this);
@@ -123,8 +124,10 @@ class ColumnSelection extends React.Component {
         });
     }
 
-    labelSelected (labelId) {
-        this.setState({selectedLabel: labelId})
+    labelSelected (labelId, cb) {
+        this.setState({selectedLabel: labelId},function(){
+            cb();
+        })
     }
 
     retrieveCardsByListId(listId) {
@@ -133,7 +136,8 @@ class ColumnSelection extends React.Component {
         this.props.BoardApi.getCardsByListId(listId, {cards: "open"}, function (data,html_url) {
             let listCards = data;
             that.setState({
-                listCards: listCards
+                listCards: listCards,
+                selectedList : true
             });
             // Display an error message if current list contains no cards
             if (listCards.length === 0) {
@@ -154,10 +158,15 @@ class ColumnSelection extends React.Component {
                     boardId: data[0].idBoard
                 }, function () {
                     this.props.setUrl(html_url);
-                    if (that.state.labels.length === 0) {
-                        that.labelSelected(0)
-                    }
-                });
+                        if(that.props.fromExtension !== null){
+                            if(that.state.labels.length === 0){
+                                that.labelSelected(0,function(){
+                                    that.handleProceedButtonClicked();
+                                });
+
+                            }
+                        }
+                    });
             }
         }, function (e) {
             console.log(e);
@@ -178,21 +187,27 @@ class ColumnSelection extends React.Component {
     }
 
     handleBoardClicked(boardId) {
-        const currentBoardId = this.state.boardId;
-        if (boardId !== currentBoardId) {
+        //const currentBoardId = this.state.boardId;
+        //if (boardId !== currentBoardId) {
             this.setState({
                 boardId,
                 labels: [],
                 noCardsError: false,
+                selectedList: 0,
+                selectedLabel: null,
+                lists : [],
+            },function(){
+                let board = find(this.state.boards, { 'id': boardId });
+                this.getBoardColumns(board)
             });
-            let board = find(this.state.boards, { 'id': boardId });
-            this.getBoardColumns(board)
-        }
+        //}
     }
 
     handleListClicked(listId) {
         this.setState({
             noCardsError: false,
+            selectedList: false,
+            selectedLabel: null,
         });
 
         // If list does not exist, reset all labels (it means we have clicked the 'Select List' entry)
@@ -233,7 +248,7 @@ class ColumnSelection extends React.Component {
     }
 
     handleLabelClicked (labelId) {
-        this.labelSelected(labelId)
+        this.labelSelected(labelId, () => {})
     }
 
     handleProceedButtonClicked () {
@@ -257,7 +272,7 @@ class ColumnSelection extends React.Component {
     }
 
     renderLabelSelector() {
-        if (this.state.labels.length === 0) {
+        if (!this.state.selectedList) {
             return ""
         }
         return <LabelSelector labels={this.state.labels} onChange={this.handleLabelClicked}/>
