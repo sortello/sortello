@@ -27,9 +27,9 @@ describe('sort list asc', function () {
         });
       }
 
-      let allLabels = element.all(by.tagName('option')).get(3);
-      browser.wait(EC.presenceOf(allLabels),2000).then(function(){
-          allLabels.click();
+      let blueLabel = element.all(by.tagName('option')).get(3);
+      browser.wait(EC.presenceOf(blueLabel),2000).then(function(){
+          blueLabel.click();
           let buttonStart = element(by.css('.button__start-prioritizing'));
           browser.wait(EC.presenceOf(buttonStart),2000).then(function(){
               buttonStart.click();
