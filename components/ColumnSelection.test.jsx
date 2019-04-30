@@ -44,4 +44,12 @@ describe("ColumnSelection", () => {
         expect(wrapper.instance().state.selectedList).toBe(false);
         expect(wrapper.instance().state.selectedLabel).toBe(null);
     })
+
+    it("checks if the list has 0 or 1 card", () =>{
+        let wrapper = shallow(<ColumnSelection {...props}/>);
+        wrapper.instance().state.selectedLabel = 0;
+        wrapper.instance().state.listCards = [];
+        wrapper.instance().handleProceedButtonClicked();
+        expect(wrapper.instance().state.hasNotEnoughCard).toBe(true);
+    })
 });

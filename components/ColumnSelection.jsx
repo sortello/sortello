@@ -17,6 +17,7 @@ class ColumnSelection extends React.Component {
         this.state = {
             boards: [],
             lists: [],
+            listCards : [],
             labels: [],
             groupedboards: [],
             organizations: [],
