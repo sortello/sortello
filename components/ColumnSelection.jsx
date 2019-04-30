@@ -157,20 +157,24 @@ class ColumnSelection extends React.Component {
                     labels: labels,
                     boardId: data[0].idBoard
                 }, function () {
-                    this.props.setUrl(html_url);
-                        if(that.props.fromExtension !== null){
-                            if(that.state.labels.length === 0){
-                                that.labelSelected(0,function(){
-                                    that.handleProceedButtonClicked();
-                                });
-
-                            }
-                        }
-                    });
+                    that.props.setUrl(html_url);
+                    if(that.props.fromExtension !== null) {
+                        that.clickProceedButtonIfLabelsAreZero();
+                    }
+                });
             }
         }, function (e) {
             console.log(e);
         });
+    }
+
+    clickProceedButtonIfLabelsAreZero(){
+        let that=this;
+        if(that.state.labels.length === 0){
+            that.labelSelected(0,function(){
+                that.handleProceedButtonClicked();
+            });
+        }
     }
 
     getBoardColumns(board) {
@@ -187,20 +191,17 @@ class ColumnSelection extends React.Component {
     }
 
     handleBoardClicked(boardId) {
-        //const currentBoardId = this.state.boardId;
-        //if (boardId !== currentBoardId) {
-            this.setState({
-                boardId,
-                labels: [],
-                noCardsError: false,
-                selectedList: 0,
-                selectedLabel: null,
-                lists : [],
-            },function(){
-                let board = find(this.state.boards, { 'id': boardId });
-                this.getBoardColumns(board)
-            });
-        //}
+        this.setState({
+            boardId,
+            labels: [],
+            noCardsError: false,
+            selectedList: 0,
+            selectedLabel: null,
+            lists : [],
+        },function(){
+            let board = find(this.state.boards, { 'id': boardId });
+            this.getBoardColumns(board)
+        });
     }
 
     handleListClicked(listId) {
