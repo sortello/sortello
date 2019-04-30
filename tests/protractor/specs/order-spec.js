@@ -28,11 +28,16 @@ describe('sort list', function () {
       });
     }
 
-    let allLabel = element(by.css('.label__item.label__none'));
-    browser.wait(EC.presenceOf(allLabel), 20000).then(function () {
-      allLabel.click();
-      nextChoice();
-    })
+    //TODO CAMBIARE QUESTA PARTE DI CODICE
+    let allLabels = element.all(by.tagName('option')).get(1);
+      browser.wait(EC.presenceOf(allLabels),2000).then(function(){
+        allLabels.click();
+        let buttonStart = element(by.css('.button__start-prioritizing'));
+        browser.wait(EC.presenceOf(buttonStart),2000).then(function(){
+          buttonStart.click();
+          nextChoice();
+        });
+    });
 
     protractor.expectRecap.toBe(targetOrder);
   });

@@ -27,11 +27,15 @@ describe('sort list asc', function () {
         });
       }
 
-      let blueLabel = element(by.css('.label__item.label__blue'));
-      browser.wait(EC.presenceOf(blueLabel), 20000).then(function () {
-        blueLabel.click();
-        nextChoice();
-      })
+      let allLabels = element.all(by.tagName('option')).get(3);
+      browser.wait(EC.presenceOf(allLabels),2000).then(function(){
+          allLabels.click();
+          let buttonStart = element(by.css('.button__start-prioritizing'));
+          browser.wait(EC.presenceOf(buttonStart),2000).then(function(){
+              buttonStart.click();
+              nextChoice();
+          });
+      });
 
 
       protractor.expectRecap.toBe(['3', '4', '6', '10']);
