@@ -225,6 +225,10 @@ class GithubApi {
             })
     }
 
+    getUsername(){
+        return "";
+    }
+
     getName() {
         return "Github";
     }

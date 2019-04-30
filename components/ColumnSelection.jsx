@@ -39,7 +39,6 @@ class ColumnSelection extends React.Component {
         this.getBoards = this.getBoards.bind(this);
         this.renderForbidden = this.renderForbidden.bind(this);
         this.handleLabelClicked = this.handleLabelClicked.bind(this);
-        this.getTrelloUsername = this.getTrelloUsername.bind(this);
     }
 
     componentDidMount () {
@@ -75,7 +74,15 @@ class ColumnSelection extends React.Component {
         if (this.state.organizations.length > 0) {
             return;
         }
-        this.getTrelloUsername(Trello);
+        this.props.BoardApi.getMembers('me', function (data) {
+            let username = data.username;
+            component.setState({
+                username: username
+            })
+        }, function (e) {
+            console.log("error username");
+        });
+
         this.getBoards()
     }
 
@@ -106,19 +113,6 @@ class ColumnSelection extends React.Component {
                 boards: boards,
                 groupedboards: boardGroups,
                 organizations: organizations
-            })
-        }, function (e) {
-            console.log(e);
-        });
-    }
-
-    //TODO MODIFICARE PER GITHUB
-    getTrelloUsername(Trello) {
-        let component = this
-        Trello.members.get('me', function (data) {
-            let username = data.username;
-            component.setState({
-                username: username
             })
         }, function (e) {
             console.log(e);

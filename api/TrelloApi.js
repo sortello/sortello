@@ -58,7 +58,7 @@ class TrelloApi {
     }
 
     authenticate(onAuthenticationSuccess) {
-        var component = this;
+        let component = this;
         component.setKey(trelloApiKey); // from parameters.js
         component.authorize({
             type: 'popup',
