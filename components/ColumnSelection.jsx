@@ -8,6 +8,7 @@ import Footer from "./Footer.jsx";
 import ErrorBoard from './ErrorBoard.jsx';
 import ProceedButton from "./ProceedButton.jsx";
 import queryString from "query-string";
+import Loader from "./Loader.jsx";
 
 const params = queryString.parse(location.search);
 
@@ -305,7 +306,7 @@ class ColumnSelection extends React.Component {
                             {
                                 (this.props.fromExtension !== null) ?
                                     (!this.state.selectedList)?
-                                        null:
+                                        <Loader/>:
                                         "Filter by label, or select All"
                                     :`Welcome to sortello, ${this.state.username}`
 

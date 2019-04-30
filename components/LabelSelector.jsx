@@ -14,7 +14,8 @@ export default ({labels, onChange}) => {
                         <option key={0} value={0}>Select All</option>
                     ].concat(
                         labels.map(function (item) {
-                            return <option key={item.id} value={item.id}>{item.name}</option>
+                            return item.name!== ""?  <option key={item.id} value={item.id}>{item.name}</option> :
+                             <option key={item.id} value={item.id}>{item.color}</option>
                         }.bind(this))
                     )
                 }
