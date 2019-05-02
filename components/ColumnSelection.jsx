@@ -9,6 +9,7 @@ import ErrorBoard from './ErrorBoard.jsx';
 import ProceedButton from "./ProceedButton.jsx";
 import queryString from "query-string";
 import Loader from "./Loader.jsx";
+import {Colors} from "../model/colors.js"
 
 const params = queryString.parse(location.search);
 
@@ -31,6 +32,8 @@ class ColumnSelection extends React.Component {
             username: ""
         };
         this.getBoardColumns = this.getBoardColumns.bind(this);
+        this.changeColor = this.changeColor.bind(this);
+        this.hexToRgb = this.hexToRgb.bind(this);
         this.retrieveCardsByListId = this.retrieveCardsByListId.bind(this);
         this.handleBoardClicked = this.handleBoardClicked.bind(this);
         this.handleListClicked = this.handleListClicked.bind(this);
@@ -70,19 +73,21 @@ class ColumnSelection extends React.Component {
                     })
                 })
             }
+        }else{
+            this.props.BoardApi.getMembers('me', function (data) {
+                let username = data.username;
+                component.setState({
+                    username: username
+                })
+            }, function (e) {
+                console.log("error username");
+            });
         }
 
         if (this.state.organizations.length > 0) {
             return;
         }
-        this.props.BoardApi.getMembers('me', function (data) {
-            let username = data.username;
-            component.setState({
-                username: username
-            })
-        }, function (e) {
-            console.log("error username");
-        });
+
 
         this.getBoards()
     }
@@ -186,21 +191,56 @@ class ColumnSelection extends React.Component {
         }
     }
 
-    handleBoardClicked(boardId) {
+    colorNameToHex(color)
+    {
+        let colors = Colors;
+        if (typeof colors[color.toLowerCase()] != 'undefined')
+            return colors[color.toLowerCase()];
+        return false;
+    }
+
+    hexToRgb(hex) {
+        let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+    }
+
+    changeColor(labelElement){
+        let color = $('option:selected', labelElement).attr('id');
+        if(color!==undefined){
+            let hex = this.props.fromExtension==="Github"? "#"+color : this.colorNameToHex(color);
+            let rgb = this.hexToRgb(hex);
+            $('#color_me').css('background-color', hex);
+            if (rgb['r']*0.299 + rgb['g']*0.587 + rgb['b']*0.114 >186){
+                $('#color_me').css('color', '#000000');
+            }else{
+                $('#color_me').css('color', '#FFFFFF');
+            }
+        }else{
+            $('#color_me').css('background-color',"#F3F3F3");
+            $('#color_me').css('color',"black");
+        }
+
+    }
+
+    handleBoardClicked(boardElement) {
         this.setState({
-            boardId,
+            boardId: boardElement.value,
             labels: [],
             noCardsError: false,
             selectedList: 0,
             selectedLabel: null,
             lists : [],
         },function(){
-            let board = find(this.state.boards, { 'id': boardId });
+            let board = find(this.state.boards, { 'id': boardElement.value });
             this.getBoardColumns(board)
         });
     }
 
-    handleListClicked(listId) {
+    handleListClicked(listElement) {
         this.setState({
             noCardsError: false,
             selectedList: false,
@@ -208,7 +248,7 @@ class ColumnSelection extends React.Component {
         });
 
         // If list does not exist, reset all labels (it means we have clicked the 'Select List' entry)
-        let list = find(this.state.lists, { 'id': listId });
+        let list = find(this.state.lists, { 'id': listElement.value });
         if (list) {
             this.retrieveCardsByListId(list.id);
         } else {
@@ -218,6 +258,31 @@ class ColumnSelection extends React.Component {
             })
         }
     }
+
+    handleLabelClicked (labelElement) {
+        this.changeColor(labelElement);
+        this.labelSelected(labelElement.value, () => {})
+    }
+
+    handleProceedButtonClicked () {
+        let labelId = this.state.selectedLabel;
+        let listCards = this.state.listCards;
+        if (labelId !== 0 && labelId !== '0') {
+            labelId = this.props.BoardApi.getShortenedExtension() === "g"? parseInt(labelId):labelId;
+            let label = find(this.state.labels, {'id': labelId});
+            listCards = _.filter(this.state.listCards, function (card) {
+                return find(card.labels, {'id': label.id}) !== undefined;
+            });
+        }
+        if(listCards.length<2){
+            this.setState({
+                hasNotEnoughCard : true,
+            })
+        }else{
+            this.props.handleCards(listCards, this.state.boardId);
+        }
+    }
+
 
     renderForbidden(){
         return (
@@ -242,29 +307,6 @@ class ColumnSelection extends React.Component {
         }
         return <BoardSelector groupedboards={this.state.groupedboards}
                               onChange={this.handleBoardClicked} />
-    }
-
-    handleLabelClicked (labelId) {
-        this.labelSelected(labelId, () => {})
-    }
-
-    handleProceedButtonClicked () {
-        let labelId = this.state.selectedLabel;
-        let listCards = this.state.listCards;
-        if (labelId !== 0 && labelId !== '0') {
-            labelId = this.props.BoardApi.getShortenedExtension() === "g"? parseInt(labelId):labelId;
-            let label = find(this.state.labels, {'id': labelId});
-            listCards = _.filter(this.state.listCards, function (card) {
-                return find(card.labels, {'id': label.id}) !== undefined;
-            });
-        }
-        if(listCards.length<2){
-            this.setState({
-                hasNotEnoughCard : true,
-            })
-        }else{
-            this.props.handleCards(listCards, this.state.boardId);
-        }
     }
 
     renderListSelector () {

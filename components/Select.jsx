@@ -1,8 +1,8 @@
 import React from 'react'
 
-export default ({options, onChange, placeHolder}) => {
+export default ({id,options, onChange, placeHolder}) => {
     return <div className="input-select">
-            <select onChange={(event) => onChange(event.target.value)} className={"select-field__select input-select__field"}>
+            <select id={id} onChange={(event) => onChange(event.target)} className={"select-field__select input-select__field"}>
                 <option selected disabled>{placeHolder}</option>
                 {options}
             </select>
