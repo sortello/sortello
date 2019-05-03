@@ -41,14 +41,14 @@ class ChoicesView extends React.Component {
     }
 
     render () {
-        let undoButton = ''
+        let undoButton = '';
         if (this.props.handleUndoClicked) {
             undoButton =
                 <button onClick={() => this.props.handleUndoClicked()} id="undo_button"
                         className="normalize__undo-button">
                     <div className="undo__button">
                         <div className="undo__icon">
-                            <img src="assets/icons/undo-icon.svg" alt=""/>
+                            <img src="../../assets/icons/undo-icon.svg" alt=""/>
                             Undo choice
                         </div>
                     </div>
@@ -77,7 +77,6 @@ class ChoicesView extends React.Component {
                     </div>
                     {this.printCard('left_button', 'node', this.props.leftCard.value, this.props.voters.left)}
                     {this.printCard('right_button', 'compareNode', this.props.rightCard.value, this.props.voters.right)}
-                    {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
 
                     <div className="container__actions-bar">
                         {undoButton}

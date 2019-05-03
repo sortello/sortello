@@ -11,6 +11,6 @@ class Recap extends React.Component {
             </div>
         );
     }
-};
+}
 
 export default Recap

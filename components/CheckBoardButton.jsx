@@ -5,7 +5,7 @@ class CheckBoardButton extends React.Component {
         return (
             <a href={this.props.url} target="_blank"
                className={"button__primary button__text check-sortello__button"}>
-                <i className={this.props.BoardApi.getIcon()}></i>&nbsp;
+                <i className={this.props.BoardApi.getIcon()}/>&nbsp;
                 {"Check your " + this.props.BoardApi.getName() + " board"}
             </a>
         )

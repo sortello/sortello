@@ -26,13 +26,13 @@ const getRandomKey = () => {
     let chars = '0123456789abcdefghijklmnopqrstuvwxyz';
     for (let i = 32; i > 0; --i) randomKey += chars[Math.floor(Math.random() * chars.length)];
     return randomKey
-}
+};
 
 class Choices extends React.Component {
 
     constructor (props) {
         super(props);
-        this.engine = new Engine(clone(this.props.nodes), clone(this.props.rootNode))
+        this.engine = new Engine(clone(this.props.nodes), clone(this.props.rootNode));
         this.room = false;
         this.state = {
             leftCard: null,
@@ -50,29 +50,29 @@ class Choices extends React.Component {
     }
 
     bindMethod(){
-        this.handleCardClicked = this.handleCardClicked.bind(this)
-        this.cardClicked = this.cardClicked.bind(this)
-        this.handleAddToBlacklist = this.handleAddToBlacklist.bind(this)
-        this.handleUndoClicked = this.handleUndoClicked.bind(this)
-        this.startChoices = this.startChoices.bind(this)
-        this.createRoom = this.createRoom.bind(this)
-        this.listenSocket = this.listenSocket.bind(this)
-        this.removeVoter = this.removeVoter.bind(this)
-        this.addVoter = this.addVoter.bind(this)
-        this.handleGoToNextVoting = this.handleGoToNextVoting.bind(this)
-        this.registerVote = this.registerVote.bind(this)
-        this.addVoteToVoters = this.addVoteToVoters.bind(this)
-        this.getTrelloUserData(this)
-        this.getAllRoomVoters = this.getAllRoomVoters.bind(this)
-        this.castRoomVoters = this.castRoomVoters.bind(this)
+        this.handleCardClicked = this.handleCardClicked.bind(this);
+        this.cardClicked = this.cardClicked.bind(this);
+        this.handleAddToBlacklist = this.handleAddToBlacklist.bind(this);
+        this.handleUndoClicked = this.handleUndoClicked.bind(this);
+        this.startChoices = this.startChoices.bind(this);
+        this.createRoom = this.createRoom.bind(this);
+        this.listenSocket = this.listenSocket.bind(this);
+        this.removeVoter = this.removeVoter.bind(this);
+        this.addVoter = this.addVoter.bind(this);
+        this.handleGoToNextVoting = this.handleGoToNextVoting.bind(this);
+        this.registerVote = this.registerVote.bind(this);
+        this.addVoteToVoters = this.addVoteToVoters.bind(this);
+        this.getTrelloUserData(this);
+        this.getAllRoomVoters = this.getAllRoomVoters.bind(this);
+        this.castRoomVoters = this.castRoomVoters.bind(this);
         this.checkEnded = this.checkEnded.bind(this)
     }
 
     getTrelloUserData (component) {
         component.props.BoardApi.getMembers('me', {}, function (data) {
             var normalizedData = component.props.BoardApi.normalizeData(data);
-            component.sortelloId = normalizedData.id
-            component.sortelloAvatar = normalizedData.avatar
+            component.sortelloId = normalizedData.id;
+            component.sortelloAvatar = normalizedData.avatar;
             if (normalizedData.avatar.includes("null")) {
                 component.sortelloAvatar = '//www.gravatar.com/avatar/' + normalizedData.gravatar + '?s=64&d=identicon'
             }
@@ -85,9 +85,9 @@ class Choices extends React.Component {
         if(this.room){
             return;
         }
-        let randomKey = getRandomKey()
-        this.room = new Room(socket, randomKey)
-        this.room.open(randomKey)
+        let randomKey = getRandomKey();
+        this.room = new Room(socket, randomKey);
+        this.room.open(randomKey);
         this.listenSocket()
     }
 
@@ -97,28 +97,28 @@ class Choices extends React.Component {
             component.setState({
                 roomId: roomId
             })
-        })
+        });
 
         socket.on('voterJoined', function (voterId, sortelloAvatar) {
             component.addVoter(voterId, sortelloAvatar);
-        })
+        });
 
         socket.on('voterLeft', function (voterId) {
             component.removeVoter(voterId)
-        })
+        });
 
         socket.on('checkParamsFromMaster',function(){
             let fw = component.props.BoardApi.getShortenedExtension();
             component.room.castParams(component.props.extId,fw);
-        })
+        });
 
         socket.on('getCurrentChoice', function () {
             component.room.castNextChoice(component.state.leftCard, component.state.rightCard, component.getProgress())
-        })
+        });
 
         socket.on('cardClicked', function (side, sortelloId, sortelloAvatar) {
             component.registerVote(side, sortelloId, sortelloAvatar)
-        })
+        });
 
         socket.on('getBoardIdFromMaster', function () {
             if(component.props.BoardApi.getName() === "Trello"){
@@ -160,7 +160,7 @@ class Choices extends React.Component {
             voterId: sortelloId,
             sortelloId: sortelloId,
             sortelloAvatar: sortelloAvatar
-        }
+        };
 
         this.addVoteToVoters(side, voter)
 
@@ -168,7 +168,7 @@ class Choices extends React.Component {
 
     checkTotalVotes () {
         let component = this;
-        if (this.state.roomVoters.length == 0) {
+        if (this.state.roomVoters.length === 0) {
             return
         }
 
@@ -188,14 +188,14 @@ class Choices extends React.Component {
     }
 
     removeVoter (voterId) {
-        let component = this
+        let component = this;
         if (find(component.state.roomVoters, {'id': voterId}) === undefined) {
             return
         }
         let newVoters = component.state.roomVoters.slice(); //copy array
         let index = findIndex(newVoters, function (item) {
             return item.id === voterId
-        })
+        });
         newVoters.splice(index, 1); //remove element
         component.setState({
             roomVoters: newVoters
@@ -205,7 +205,7 @@ class Choices extends React.Component {
     }
 
     addVoter (voterId, sortelloAvatar) {
-        let component = this
+        let component = this;
         if (find(component.state.roomVoters, {'id': voterId}) !== undefined) {
             return
         }
@@ -218,13 +218,13 @@ class Choices extends React.Component {
     }
 
     startChoices () {
-        this.props.setStartTimeStamp(Date.now())
+        this.props.setStartTimeStamp(Date.now());
         this.engine.nextStepOrEnd();
         this.getNextChoice()
     }
 
     getNextChoice () {
-        let component = this
+        let component = this;
         this.setState({
             hasVoted: false,
             everybodyVoted: false
@@ -232,7 +232,7 @@ class Choices extends React.Component {
             if (component.room) {
                 component.room.castVotesInfo([], [])
             }
-        })
+        });
         component.checkEnded();
     }
 
@@ -285,18 +285,18 @@ class Choices extends React.Component {
         if (this.state.hasVoted) {
             return
         }
-        let component = this
+        let component = this;
 
         let voter = {
             voterId: component.sortelloId,
             sortelloId: component.sortelloId,
             sortelloAvatar: component.sortelloAvatar
-        }
+        };
 
         component.setState({
             hasVoted: true,
             selectedSide: component.room ? side : null
-        })
+        });
 
         this.addVoteToVoters(side, voter)
     }
@@ -304,13 +304,6 @@ class Choices extends React.Component {
     getProgress () {
         return Math.round(((100 * (this.props.nodes.length - this.engine.getListNodes().length - 1)) / (this.props.nodes.length)))
     }
-
-    /*renderCard (id, side, value) {
-        return (
-            <Card id={id} side={side} handleClick={this.handleCardClicked}
-                  forget={this.handleAddToBlacklist} data={value}/>
-        )
-    }*/
 
     renderRoomLink () {
         return <RoomLink roomId={this.state.roomId} extId={this.props.extId} BoardApi ={this.props.BoardApi}/>
@@ -338,7 +331,7 @@ class Choices extends React.Component {
     }
 
     getAllRoomVoters () {
-        let joinedVoters = this.state.roomVoters
+        let joinedVoters = this.state.roomVoters;
         if (this.room) {
             joinedVoters = joinedVoters.concat({
                 id: this.sortelloId,
