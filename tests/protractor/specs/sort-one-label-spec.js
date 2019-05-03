@@ -27,9 +27,13 @@ describe('sort list asc', function () {
         });
       }
 
-      let blueLabel = element.all(by.tagName('option')).get(5);
-      browser.wait(EC.presenceOf(blueLabel),2000).then(function(){
-          blueLabel.click();
+      let options = element.all(by.tagName('option'));
+      browser.wait(EC.presenceOf(options),2000).then(function(){
+          options.filter(function(elem){
+              return elem.getText().then(function (text) {
+                  return text === 'Blue';
+              });
+          }).first().click()
           let buttonStart = element(by.css('.button__start-prioritizing'));
           browser.wait(EC.presenceOf(buttonStart),2000).then(function(){
               buttonStart.click();
