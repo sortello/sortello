@@ -21,7 +21,7 @@ describe('sort list asc', function () {
         });
 
         element.all(by.id("update_board")).count().then(function (size) {
-          if (size == 0) {
+          if (size === 0) {
             nextChoice();
           }
         });
