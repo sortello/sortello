@@ -24,6 +24,7 @@ class ColumnSelection extends React.Component {
             organizations: [],
             noCardsError: false,
             boardId: null,
+            finishLoading: false,
             hasBoardPermissions: null,
             hasNotEnoughCard: false,
             selectedLabel: null,
@@ -79,13 +80,19 @@ class ColumnSelection extends React.Component {
             }, function (e) {
                 console.log("error username");
             });
+
+            if (this.state.organizations.length > 0) {
+                return;
+            }
+
+            this.getBoards()
         }
 
-        if (this.state.organizations.length > 0) {
-            return;
-        }
+        this.setState({
+            finishLoading:true
+        });
 
-        this.getBoards()
+
     }
 
     getBoards () {
@@ -111,6 +118,7 @@ class ColumnSelection extends React.Component {
                 }
                 boardGroups[groupName].push(boards[i]);
             }
+            console.log(boardGroups);
             component.setState({
                 boards: boards,
                 groupedboards: boardGroups,
@@ -290,7 +298,12 @@ class ColumnSelection extends React.Component {
         return <ProceedButton onClick={this.handleProceedButtonClicked} />
     }
 
+    renderLoader(){
+        return <Loader/>
+    }
+
     render() {
+
         if(this.state.hasNotEnoughCard === true){
             return this.renderNotEnoughCard();
         }
@@ -299,6 +312,10 @@ class ColumnSelection extends React.Component {
             return this.renderForbidden();
         }
 
+        if(!this.state.finishLoading){
+            return this.renderLoader();
+        }
+        
         return (
             <div id="card_url_div">
                 <div className="selection__wrapper">
