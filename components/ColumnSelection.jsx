@@ -70,19 +70,20 @@ class ColumnSelection extends React.Component {
                     })
                 })
             }
+        }else{
+            this.props.BoardApi.getMembers('me', function (data) {
+                let username = data.username;
+                component.setState({
+                    username: username
+                })
+            }, function (e) {
+                console.log("error username");
+            });
         }
 
         if (this.state.organizations.length > 0) {
             return;
         }
-        this.props.BoardApi.getMembers('me', function (data) {
-            let username = data.username;
-            component.setState({
-                username: username
-            })
-        }, function (e) {
-            console.log("error username");
-        });
 
         this.getBoards()
     }

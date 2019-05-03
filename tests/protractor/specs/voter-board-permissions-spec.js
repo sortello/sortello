@@ -24,6 +24,7 @@ describe('cannot vote if cannot access to board', function () {
     browser2.driver.manage().window().setSize(840, 524);
     browser2.driver.manage().window().setPosition(840, 0);
 
+
     protractor.accessFromChromeExtension.accessFromChromeExtension(browser1).then(function () {
       protractor.accessFromChromeExtension.accessFromChromeExtension(browser2, browser.params.testTrello2Username, browser1.params.testTrello2Password).then(function () {
         let EC = protractor.ExpectedConditions;

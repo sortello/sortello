@@ -1,9 +1,9 @@
 describe('sort list', function () {
   it('prioritizes the test column in defined order', function () {
-    let targetOrder = ['6', '9', '5', '4', '1', '8', '3', '10', '2', '7']
+    let targetOrder = ['6', '9', '5', '4', '1', '8', '3', '10', '2', '7'];
 
     browser.ignoreSynchronization = true;
-    protractor.simpleAccessFromChromeExtension.accessFromChromeExtension()
+    protractor.simpleAccessFromChromeExtension.accessFromChromeExtension();
     let EC = protractor.ExpectedConditions;
 
     function nextChoice () {
@@ -22,13 +22,12 @@ describe('sort list', function () {
         });
       });
       element.all(by.id("update_board")).count().then(function (size) {
-        if (size == 0) {
+        if (size === 0) {
           nextChoice();
         }
       });
     }
 
-    //TODO CAMBIARE QUESTA PARTE DI CODICE
     let allLabels = element.all(by.tagName('option')).get(1);
       browser.wait(EC.presenceOf(allLabels),2000).then(function(){
         allLabels.click();
