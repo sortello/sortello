@@ -324,8 +324,7 @@ class ColumnSelection extends React.Component {
                                 (this.props.fromExtension !== null) ?
                                     (!this.state.selectedList)?
                                         <Loader/>:
-                                        "Filter by label, or select All"
-                                    :`Welcome to sortello, ${this.state.username}`
+                                        "Filter by label, or select All" :`Welcome to sortello, ${this.state.username}`
 
                             }
                         </div>
@@ -336,8 +335,7 @@ class ColumnSelection extends React.Component {
                             {this.renderProceedButton()}
                             {
                                 (this.state.noCardsError === true) ?
-                                    "There are no cards for the selected list! Try choosing another one" :
-                                    ""
+                                    "There are no cards for the selected list! Try choosing another one" : ""
                             }
                         </div>
                     </div>
