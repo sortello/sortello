@@ -5,7 +5,7 @@ exports.config = {
       'tests/protractor/specs/order-spec.js',
       'tests/protractor/specs/undo-forget-spec.js',
       'tests/protractor/specs/undo-multiple-spec.js',
-      'tests/protractor/specs/send-to-board-spec.js', //fallisce se fatto eseguire assieme agli altri
+      'tests/protractor/specs/send-to-board-spec.js',
       'tests/protractor/specs/sort-one-label-spec.js',
       'tests/protractor/specs/usingGithubApi.js',
       'tests/protractor/specs/handle-0-1-card-error-spec.js',
