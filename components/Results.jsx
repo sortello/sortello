@@ -5,7 +5,6 @@ import AlmostDoneAnimation from './AlmostDoneAnimation.jsx';
 import Recap from './Recap.jsx';
 import SuccessAnimation from './SuccessAnimation.jsx';
 import Footer from "./Footer.jsx"
-import queryString from "query-string";
 import CheckBoardButton from './CheckBoardButton.jsx';
 import PrioritizeAnotherListButton from './PrioritizeAnotherListButton.jsx';
 
@@ -130,7 +129,7 @@ class Results extends React.Component {
             }}>
                 <div className="recap-overlay__container">
                     <div className="recap-overlay__title">Check it out! This is your new list</div>
-                    <Recap cards={this.getReorderedNodes()}/>
+                    <Recap buttons={this.getReorderedNodes()}/>
                     <div className="button__primary button__text recap-overlay__button"
                          onClick={(e) => this.updateBoard(e)}>
                         <button id="recap_update_board">

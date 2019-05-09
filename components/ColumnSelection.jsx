@@ -9,7 +9,6 @@ import ErrorBoard from './ErrorBoard.jsx';
 import ProceedButton from "./ProceedButton.jsx";
 import queryString from "query-string";
 import Loader from "./Loader.jsx";
-import {Colors} from "../model/colors.js"
 
 const params = queryString.parse(location.search);
 
@@ -32,8 +31,7 @@ class ColumnSelection extends React.Component {
             username: ""
         };
         this.getBoardColumns = this.getBoardColumns.bind(this);
-        this.changeColor = this.changeColor.bind(this);
-        this.hexToRgb = this.hexToRgb.bind(this);
+        this.setSelectedLabel = this.setSelectedLabel.bind(this);
         this.retrieveCardsByListId = this.retrieveCardsByListId.bind(this);
         this.handleBoardClicked = this.handleBoardClicked.bind(this);
         this.handleListClicked = this.handleListClicked.bind(this);
@@ -90,6 +88,12 @@ class ColumnSelection extends React.Component {
 
 
         this.getBoards()
+    }
+
+    setSelectedLabel(value){
+        this.setState({
+            selectedLabel: value
+        })
     }
 
     getBoards () {
@@ -191,41 +195,6 @@ class ColumnSelection extends React.Component {
         }
     }
 
-    colorNameToHex(color)
-    {
-        let colors = Colors;
-        if (typeof colors[color.toLowerCase()] != 'undefined')
-            return colors[color.toLowerCase()];
-        return false;
-    }
-
-    hexToRgb(hex) {
-        let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? {
-            r: parseInt(result[1], 16),
-            g: parseInt(result[2], 16),
-            b: parseInt(result[3], 16)
-        } : null;
-    }
-
-    changeColor(labelElement){
-        let color = $('option:selected', labelElement).attr('id');
-        if(color!==undefined){
-            let hex = this.props.fromExtension==="Github"? "#"+color : this.colorNameToHex(color);
-            let rgb = this.hexToRgb(hex);
-            $('#color_me').css('background-color', hex);
-            if (rgb['r']*0.299 + rgb['g']*0.587 + rgb['b']*0.114 >186){
-                $('#color_me').css('color', '#000000');
-            }else{
-                $('#color_me').css('color', '#FFFFFF');
-            }
-        }else{
-            $('#color_me').css('background-color',"#F3F3F3");
-            $('#color_me').css('color',"black");
-        }
-
-    }
-
     handleBoardClicked(boardElement) {
         this.setState({
             boardId: boardElement.value,
@@ -260,12 +229,11 @@ class ColumnSelection extends React.Component {
     }
 
     handleLabelClicked (labelElement) {
-        this.changeColor(labelElement);
         this.labelSelected(labelElement.value, () => {})
     }
 
-    handleProceedButtonClicked () {
-        let labelId = this.state.selectedLabel;
+    handleProceedButtonClicked (){
+        let labelId = this.state.selectedLabel.id;
         let listCards = this.state.listCards;
         if (labelId !== 0 && labelId !== '0') {
             labelId = this.props.BoardApi.getShortenedExtension() === "g"? parseInt(labelId):labelId;
@@ -317,11 +285,12 @@ class ColumnSelection extends React.Component {
             onChange={this.handleListClicked} />
     }
 
+
     renderLabelSelector() {
         if (!this.state.selectedList) {
             return ""
         }
-        return <LabelSelector labels={this.state.labels} onChange={this.handleLabelClicked}/>
+        return <LabelSelector selectedLabel={this.state.selectedLabel} labels={this.state.labels} setSelectedLabel={this.setSelectedLabel}/>
     }
 
     renderProceedButton () {

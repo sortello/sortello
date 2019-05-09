@@ -17,7 +17,7 @@ class Card extends React.Component {
                      }
                      } data-cardId="0">
                     <CardLabels labels={this.props.data.labels}/>
-                    <div className={'label__separator'}></div>
+                    <div className={'label__separator'}/>
                     <div className="card__title">{this.props.data.name}</div>
                     {this.props.everybodyVoted ? <CardVoters voters={this.props.voters}/> : null}
                 </div>
