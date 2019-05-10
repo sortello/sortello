@@ -5,6 +5,7 @@ import React from "react"
 class Recap extends React.Component {
     constructor(props) {
         super(props);
+        console.log(this.props.buttons);
     }
 
     handleClick(item){
@@ -30,10 +31,10 @@ class Recap extends React.Component {
                     </div>
                 </div>
                 {this.props.buttons.map((item, index) => (
-                    <div className="recap__item" key={index} style={{"backgroundColor":item.color}}
-                         onClick={() => this.handleClick(item)}>
+                    <div className="recap__item" key={index} style={{"backgroundColor":item.value.color}}
+                         onClick={() => this.handleClick(item.value)}>
                         <div style={{"color":"white","textAlign":"center"}}>
-                            {item.name}
+                            {item.value.name}
                         </div>
                     </div>
                 ))}

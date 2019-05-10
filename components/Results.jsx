@@ -38,6 +38,7 @@ class Results extends React.Component {
     }
 
     getReorderedNodes() {
+        console.log(this.props.rootNode);
         return traverseTree(this.props.rootNode)
     }
 

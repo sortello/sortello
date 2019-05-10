@@ -40,6 +40,21 @@ class LabelSelector extends React.Component {
         }
     }
 
+    normalizeButtons(labels){
+        let normalizedLabels = [];
+        labels.map((item,index)=>{
+            normalizedLabels[index] = {
+                value: {
+                    color: labels[index].color,
+                    id: labels[index].id,
+                    idBoard: labels[index].idBoard,
+                    name: labels[index].name,
+                }
+            }
+        });
+        return normalizedLabels;
+    }
+
     closeOverlay() {
         document.getElementById('recap-overlay').style.height = "0%";
     }
@@ -66,7 +81,7 @@ class LabelSelector extends React.Component {
                 }}>
                     <div className="recap-overlay__container">
                         <div className="recap-overlay__title">Choose one Label</div>
-                        {this.state.labelsReady? <Recap buttons={this.props.labels} labelColor={this.state.selectedLabelColor}
+                        {this.state.labelsReady? <Recap buttons={this.normalizeButtons(this.props.labels)} labelColor={this.state.selectedLabelColor}
                                                         setLabelColor = {this.setLabelColor}
                                                         setSelectedLabel={this.props.setSelectedLabel}/> : null}
                     </div>
