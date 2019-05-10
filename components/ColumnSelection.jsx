@@ -290,7 +290,7 @@ class ColumnSelection extends React.Component {
         if (!this.state.selectedList) {
             return ""
         }
-        return <LabelSelector selectedLabel={this.state.selectedLabel} labels={this.state.labels}
+        return <LabelSelector BoardApi={this.props.BoardApi} selectedLabel={this.state.selectedLabel} labels={this.state.labels}
                               currentView = {this.props.currentView} setSelectedLabel={this.setSelectedLabel}/>
     }
 

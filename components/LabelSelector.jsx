@@ -21,7 +21,7 @@ class LabelSelector extends React.Component {
     changeLabels(){
         let labels = this.props.labels;
         labels.map((item,index) => {
-            labels[index].color = colorNameToHex(item.color);
+            labels[index].color = this.props.BoardApi.getName()==="Trello"? colorNameToHex(item.color) : "#"+item.color;
         });
 
         this.setState({
