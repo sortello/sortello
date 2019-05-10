@@ -1,11 +1,8 @@
 import React from "react"
-/*import {hexToRgb} from "../model/colorsMethod";*/
-
 
 class Recap extends React.Component {
     constructor(props) {
         super(props);
-        console.log(this.props.buttons);
     }
 
     handleClick(item){
@@ -24,21 +21,24 @@ class Recap extends React.Component {
     render () {
         return (
             <div className="order-recap recap__container">
-                <div className="recap__item" style={{"backgroundColor":"white", "border":"1px solid black", "color":"black"}}
-                     onClick={() => this.handleClick("0")}>
-                    <div style={{"textAlign":"center"}}>
-                       Select All
-                    </div>
-                </div>
+                {
+                    this.props.currentView===2?
+                        <div className="recap__item" style={{"backgroundColor":"white", "border":"1px solid black", "color":"black"}}
+                            onClick={() => this.props.currentView===2? this.handleClick("0"): null}>
+                            <div style={{"textAlign":"center"}}>
+                                Select All
+                            </div>
+                        </div> : null
+                }
                 {this.props.buttons.map((item, index) => (
-                    <div className="recap__item" key={index} style={{"backgroundColor":item.value.color}}
-                         onClick={() => this.handleClick(item.value)}>
-                        <div style={{"color":"white","textAlign":"center"}}>
-                            {item.value.name}
+                        <div className="recap__item" key={index} style={{"backgroundColor":item.value.color}}
+                             onClick={() => this.props.currentView===2? this.handleClick(item.value): null}>
+                            <div style={{"color":this.props.currentView===2? "white":"black","textAlign":"center"}}>
+                                {item.value.name}
+                            </div>
                         </div>
-                    </div>
                 ))}
-            </div>
+        </div>
         );
     }
 };

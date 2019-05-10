@@ -167,6 +167,7 @@ class App extends React.Component {
                                 fromExtension={this.state.fromExtension}
                                 extId={this.state.extId}
                                 boardId = {this.state.boardId}
+                                currentView = {this.state.currentView}
                                 setUrl = {this.setUrl}/>
     }
 
@@ -200,6 +201,7 @@ class App extends React.Component {
             <Results rootNode={this.state.rootNode} BoardApi={this.state.BoardApi}
                      startTimeStamp={this.state.startTimeStamp} fromExtension={this.state.fromExtension}
                      extId={this.state.extId}
+                     currentView = {this.state.currentView}
                      urlProject = {this.state.urlProject}/>
         )
     }

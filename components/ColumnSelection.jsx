@@ -290,7 +290,8 @@ class ColumnSelection extends React.Component {
         if (!this.state.selectedList) {
             return ""
         }
-        return <LabelSelector selectedLabel={this.state.selectedLabel} labels={this.state.labels} setSelectedLabel={this.setSelectedLabel}/>
+        return <LabelSelector selectedLabel={this.state.selectedLabel} labels={this.state.labels}
+                              currentView = {this.props.currentView} setSelectedLabel={this.setSelectedLabel}/>
     }
 
     renderProceedButton () {

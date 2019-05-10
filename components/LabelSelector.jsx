@@ -81,9 +81,11 @@ class LabelSelector extends React.Component {
                 }}>
                     <div className="recap-overlay__container">
                         <div className="recap-overlay__title">Choose one Label</div>
-                        {this.state.labelsReady? <Recap buttons={this.normalizeButtons(this.props.labels)} labelColor={this.state.selectedLabelColor}
+                        {this.state.labelsReady? <Recap buttons={this.normalizeButtons(this.props.labels)}
+                                                        labelColor={this.state.selectedLabelColor}
                                                         setLabelColor = {this.setLabelColor}
-                                                        setSelectedLabel={this.props.setSelectedLabel}/> : null}
+                                                        setSelectedLabel={this.props.setSelectedLabel}
+                                                        currentView = {this.props.currentView}/> : null}
                     </div>
                 </div>
             </div>

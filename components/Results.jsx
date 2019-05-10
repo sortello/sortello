@@ -38,7 +38,6 @@ class Results extends React.Component {
     }
 
     getReorderedNodes() {
-        console.log(this.props.rootNode);
         return traverseTree(this.props.rootNode)
     }
 
@@ -130,7 +129,7 @@ class Results extends React.Component {
             }}>
                 <div className="recap-overlay__container">
                     <div className="recap-overlay__title">Check it out! This is your new list</div>
-                    <Recap buttons={this.getReorderedNodes()}/>
+                    <Recap buttons={this.getReorderedNodes()} currentView = {this.props.currentView}/>
                     <div className="button__primary button__text recap-overlay__button"
                          onClick={(e) => this.updateBoard(e)}>
                         <button id="recap_update_board">
