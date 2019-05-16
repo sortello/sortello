@@ -54,7 +54,7 @@ class ColumnSelection extends React.Component {
         localStorage.removeItem("extId");
         localStorage.removeItem("fromExtension");
         if (component.props.fromExtension !== null) {
-            if (component.props.BoardApi.getName() !== "Github") {
+            if (component.props.BoardApi.getName() === "Trello") {
                 BoardApi.getCardById(component.props.extId, null, function (card) {
                     component.retrieveCardsByListId(card.idList)
                 }, function () {
@@ -176,7 +176,10 @@ class ColumnSelection extends React.Component {
     clickProceedButtonIfLabelsAreZero(){
         let that=this;
         if(that.state.labels.length === 0){
-            that.labelSelected(0,function(){
+            that.labelSelected({
+                    id:0,
+                    name:"Select All"
+                },function(){
                 that.handleProceedButtonClicked();
             });
         }
@@ -236,17 +239,19 @@ class ColumnSelection extends React.Component {
         let labelId = this.state.selectedLabel.id;
         let listCards = this.state.listCards;
         if (labelId !== 0 && labelId !== '0') {
+            console.log("labelId=0");
             labelId = this.props.BoardApi.getShortenedExtension() === "g"? parseInt(labelId):labelId;
-            let label = find(this.state.labels, {'id': labelId});
-            listCards = _.filter(this.state.listCards, function (card) {
-                return find(card.labels, {'id': label.id}) !== undefined;
+            listCards = this.state.listCards.filter(function(card){
+                return find(card.labels, {'id': labelId}) !== undefined;
             });
         }
         if(listCards.length<2){
+            console.log("listCards<2");
             this.setState({
                 hasNotEnoughCard : true,
             })
         }else{
+            console.log("handleCards");
             this.props.handleCards(listCards, this.state.boardId);
         }
     }
