@@ -6,6 +6,6 @@ export default ({id,options, onChange, placeHolder}) => {
                 <option selected disabled>{placeHolder}</option>
                 {options}
             </select>
-            <i className="material-icons input-select__icon">arrow_right</i>
+            <i className="material-icons input-select__icon">arrow_drop_down</i>
           </div>
 };

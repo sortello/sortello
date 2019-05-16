@@ -8,8 +8,7 @@ class LabelSelector extends React.Component {
         this.setLabelColor = this.setLabelColor.bind(this);
         this.state={
             labelsReady:false,
-            selectedLabelColorText:"#4A4A4A",
-            selectedLabelColor: "#F3F3F3"
+            selectedLabelColor: null
         }
     }
 
@@ -31,11 +30,10 @@ class LabelSelector extends React.Component {
         return labels;
     }
 
-    setLabelColor(color,colorText){
-        if(color!==undefined || colorText !== undefined){
+    setLabelColor(color){
+        if(color!==undefined){
             this.setState({
-                selectedLabelColor:color,
-                selectedLabelColorText:colorText
+                selectedLabelColor:color
             })
         }
     }
@@ -62,33 +60,37 @@ class LabelSelector extends React.Component {
 
     render() {
         return (
-            <div>
                 <div className="selection-form">
                     <div className="board-selection__microcopy">Select a label</div>
-                    <div className="overlay-trigger__button button__primary button__text"
-                         style={{"backgroundColor": this.state.selectedLabelColor}}
+                    <div className="input-select"
                          onClick={() => {
                              this.openOverlay()
                          }}
                     >
-                        <a href="#" className="trigger-button__link"
-                           style={{"color": this.state.selectedLabelColorText}}>
-                            {this.props.selectedLabel!==null? this.props.selectedLabel.name : "Select Labels" }</a>
+                        <div className="select-field__select input-select__field">
+                            <a href="#" className="trigger-recap__button">
+                                {this.props.selectedLabel!==null? this.props.selectedLabel.name : "Select Labels" }
+                            </a>
+                        </div>
+                        {this.state.selectedLabelColor === null ?
+                            <i className="material-icons input-select__icon">arrow_right</i> :
+                            <i className="material-icons circle-color-labels" style={{"backgroundColor": this.state.selectedLabelColor}}/>}
+
+                    </div>
+
+                    <div className="recap__overlay" id="recap-overlay" onClick={() => {
+                        this.closeOverlay();
+                    }}>
+                        <div className="recap-overlay__container">
+                            <div className="recap-overlay__title">Choose one Label</div>
+                            {this.state.labelsReady? <Recap buttons={this.normalizeButtons(this.props.labels)}
+                                                            labelColor={this.state.selectedLabelColor}
+                                                            setLabelColor = {this.setLabelColor}
+                                                            setSelectedLabel={this.props.setSelectedLabel}
+                                                            currentView = {this.props.currentView}/> : null}
+                        </div>
                     </div>
                 </div>
-                <div className="recap__overlay" id="recap-overlay" onClick={() => {
-                    this.closeOverlay();
-                }}>
-                    <div className="recap-overlay__container">
-                        <div className="recap-overlay__title">Choose one Label</div>
-                        {this.state.labelsReady? <Recap buttons={this.normalizeButtons(this.props.labels)}
-                                                        labelColor={this.state.selectedLabelColor}
-                                                        setLabelColor = {this.setLabelColor}
-                                                        setSelectedLabel={this.props.setSelectedLabel}
-                                                        currentView = {this.props.currentView}/> : null}
-                    </div>
-                </div>
-            </div>
         )
     }
 }

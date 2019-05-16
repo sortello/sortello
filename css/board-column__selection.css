@@ -76,13 +76,19 @@
     background-color: #EB5A46;
 }
 
+.circle-color-labels{
+    width:24px;
+    height: 24px;
+    border-radius: 100%;
+    border:2px solid white;
+}
+
 .selection__heading {
-	font-family: "Fira Sans", sans-serif;
-	color: #4A4A4A;
-	margin-bottom: 40px;
-  color: #FFFFFF;
-  font-size: 28px;
-  line-height: 40px;
+    font-family: "Fira Sans", sans-serif;
+    margin-bottom: 40px;
+    color: #FFFFFF;
+    font-size: 28px;
+    line-height: 40px;
 }
 
 .selection__container--animation {
@@ -182,7 +188,6 @@
   position: absolute;
   line-height: 64px;
   pointer-events: none;
-
 }
 
 .input-select {
