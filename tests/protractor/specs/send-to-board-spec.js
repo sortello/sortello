@@ -28,13 +28,17 @@ describe('sort list asc', function () {
             })
         }
 
-        let allLabels = element.all(by.tagName('option')).get(1);
-        browser.wait(EC.presenceOf(allLabels),2000).then(function(){
-            allLabels.click();
-            let buttonStart = element(by.css('.button__start-prioritizing'));
-            browser.wait(EC.presenceOf(buttonStart),2000).then(function(){
-                buttonStart.click();
-                nextChoice();
+        let recapButton = element.all(by.css(".trigger-recap__button"));
+        browser.wait(EC.presenceOf(recapButton),2000).then(function(){
+            recapButton.click();
+            let allLabels = element.all(by.css(".recap__content")).get(0);
+            browser.wait(EC.presenceOf(allLabels),2000).then(function(){
+                allLabels.click();
+                let buttonStart = element(by.css('.button__start-prioritizing'));
+                browser.wait(EC.presenceOf(buttonStart),2000).then(function() {
+                    buttonStart.click();
+                    nextChoice();
+                });
             });
         });
 
@@ -69,7 +73,7 @@ describe('sort list asc', function () {
         browser.driver.sleep(2000);
         protractor.selectWindow.selectWindow(1, browser).then(function () {
             let trelloList = element(by.css('.list-cards'));
-            browser.wait(EC.visibilityOf(trelloList), 40000).then(function () {
+            browser.wait(EC.visibilityOf(trelloList), 50000).then(function () {
                 let trelloCards = element.all(by.css('.list-cards')).first().all(by.css('.list-card-details > span'));
                 expect(trelloCards.getText()).toEqual(recapListText);
             });

@@ -21,19 +21,23 @@ describe('sort list asc', function () {
         });
 
         element.all(by.id("update_board")).count().then(function (size) {
-          if (size == 0) {
+          if (size === 0) {
             nextChoice();
           }
         });
       }
 
-      let blueLabel = element.all(by.tagName('option')).get(3);
-      browser.wait(EC.presenceOf(blueLabel),2000).then(function(){
-          blueLabel.click();
-          let buttonStart = element(by.css('.button__start-prioritizing'));
-          browser.wait(EC.presenceOf(buttonStart),2000).then(function(){
-              buttonStart.click();
-              nextChoice();
+      let recapButton = element.all(by.css(".trigger-recap__button"));
+      browser.wait(EC.presenceOf(recapButton),2000).then(function(){
+          recapButton.click();
+          let blueLabel = element.all(by.css(".recap__content")).get(2);
+          browser.wait(EC.presenceOf(blueLabel),2000).then(function(){
+              blueLabel.click();
+              let buttonStart = element(by.css('.button__start-prioritizing'));
+              browser.wait(EC.presenceOf(buttonStart),2000).then(function() {
+                  buttonStart.click();
+                  nextChoice();
+              });
           });
       });
 
