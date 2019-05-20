@@ -40,17 +40,27 @@ describe('dotvoting', function () {
       protractor.accessFromChromeExtension.accessFromChromeExtension(browser2, browser1.params.testTrello2Username, browser1.params.testTrello2Password).then(function () {
         protractor.accessFromChromeExtension.accessFromChromeExtension(browser3, browser1.params.testTrello3Username, browser1.params.testTrello3Password).then(function () {
 
-          protractor.common.waitForElementAndClick('.label__item.label__none', browser1).then(() => {
-            protractor.common.waitForElementAndClick('#new-room-button', browser1).then(() => {
-              protractor.common.waitForElement('#room-link', browser1).then(function () {
-                let roomLinkElement = element(by.css('#room-link'))
-                roomLinkElement.getAttribute('value').then(function (link) {
-                  link = link.replace(browser.params.hostname + "/app.html", browser.params.hostname + ":4000/app.html")
-                  browser2.get(link)
-                  browser3.get(link)
-                  protractor.common.waitForElementAndClick('#share-room__close', browser1).then(() => {
-                    startChoices();
-                  });
+          let EC = protractor.ExpectedConditions;
+
+          let recapButton = element.all(by.css(".trigger-recap__button"));
+            recapButton.click();
+            let allLabels = element.all(by.css(".recap__content")).get(0);
+            browser1.wait(EC.presenceOf(allLabels),20000).then(function() {
+              browser1.actions().mouseMove(allLabels).click().perform();
+              let buttonStart = element(by.css('.button__start-prioritizing'));
+              browser1.wait(EC.presenceOf(buttonStart),20000).then(function() {
+                buttonStart.click();
+              protractor.common.waitForElementAndClick('#new-room-button', browser1).then(() => {
+                protractor.common.waitForElement('#room-link', browser1).then(function () {
+                  let roomLinkElement = element(by.css('#room-link'))
+                  roomLinkElement.getAttribute('value').then(function (link) {
+                    link = link.replace(browser.params.hostname + "/app.html", browser.params.hostname + ":4000/app.html")
+                    browser2.get(link)
+                    browser3.get(link)
+                    protractor.common.waitForElementAndClick('#share-room__close', browser1).then(() => {
+                      startChoices();
+                    });
+                  })
                 })
               })
             })

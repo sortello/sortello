@@ -47,45 +47,47 @@ describe('dotvoting', function () {
           protractor.accessFromChromeExtension.accessFromChromeExtension(browser4, browser1.params.testTrello4Username, browser1.params.testTrello4Password).then(function () {
 
             let EC = protractor.ExpectedConditions;
-            let allLabel = element(by.css('.label__item.label__none'))
+            let allLabel = element.all(by.css(".recap__content")).get(0);
 
-            browser1.wait(EC.presenceOf(allLabel), 20000).then(function () {
-              allLabel.click();
-              let newRoomButton = element(by.css('#new-room-button'))
-              browser1.wait(EC.presenceOf(newRoomButton), 20000).then(function () {
-                newRoomButton.click();
-                let roomLinkElement = element(by.css('#room-link'))
-                browser1.wait(EC.presenceOf(roomLinkElement), 20000).then(function () {
-                  roomLinkElement.getAttribute('value').then(function (link) {
-                    browser2.get(link.replace(browser.params.hostname + "/app.html", browser.params.hostname + ":4000/app.html"))
-                      let closeNewRoomModalLink1 = browser1.element(by.css('#share-room__close'))
-                      browser1.wait(EC.presenceOf(closeNewRoomModalLink1), 20000).then(function () {
-                          closeNewRoomModalLink1.click();
-                      browser3.get('/app.html?extId=' + browser1.params.testTrelloExtId2)
-                        let newRoomButton = browser3.element(by.css('#new-room-button'))
-                        allLabel = browser3.element(by.css('.label__item.label__none'))
-                        browser3.wait(EC.presenceOf(allLabel), 20000).then(function () {
-                          allLabel.click();
-                          browser3.wait(EC.presenceOf(newRoomButton), 20000).then(function () {
-                            newRoomButton.click();
-                            let roomLinkElement = browser3.element(by.css('#room-link'))
-                              browser3.wait(EC.presenceOf(roomLinkElement), 20000).then(function () {
-                              roomLinkElement.getAttribute('value').then(function (link) {
-                                  browser4.get(link.replace(browser.params.hostname + "/app.html", browser.params.hostname + ":4000/app.html"))
-                                  let closeNewRoomModalLink = browser3.element(by.css('#share-room__close'))
-                                  browser3.wait(EC.presenceOf(closeNewRoomModalLink), 20000).then(function () {
+              let recapButton = element.all(by.css(".trigger-recap__button"));
+                browser1.wait(EC.presenceOf(recapButton),60000).then(function(){
+                recapButton.click();
+                browser1.wait(EC.presenceOf(allLabel),20000).then(function(){
+                  browser1.actions().mouseMove(allLabel).click().perform();
+                  let buttonStart = element(by.css('.button__start-prioritizing'));
+                  browser1.wait(EC.presenceOf(buttonStart),20000).then(function() {
+                    buttonStart.click();
+                  let newRoomButton = element(by.css('#new-room-button'))
+                  browser1.wait(EC.presenceOf(newRoomButton), 20000).then(function () {
+                    newRoomButton.click();
+                    let roomLinkElement = element(by.css('#room-link'))
+                    browser1.wait(EC.presenceOf(roomLinkElement), 20000).then(function () {
+                      roomLinkElement.getAttribute('value').then(function (link) {
+                        browser2.get(link.replace(browser.params.hostname + "/app.html", browser.params.hostname + ":4000/app.html"))
+                          let closeNewRoomModalLink1 = browser1.element(by.css('#share-room__close'))
+                          browser1.wait(EC.presenceOf(closeNewRoomModalLink1), 20000).then(function () {
+                            closeNewRoomModalLink1.click();
+                           browser3.get('/app.html?extId=' + browser1.params.testTrelloExtId2)
+                              protractor.common.waitForElementAndClick('#new-room-button', browser3).then(() => {
+                                let roomLinkElement = browser3.element(by.css('#room-link'))
+                                browser3.wait(EC.presenceOf(roomLinkElement), 20000).then(function () {
+                                  roomLinkElement.getAttribute('value').then(function (link) {
+                                    browser4.get(link.replace(browser.params.hostname + "/app.html", browser.params.hostname + ":4000/app.html"))
+                                    let closeNewRoomModalLink = browser3.element(by.css('#share-room__close'))
+                                    browser3.wait(EC.presenceOf(closeNewRoomModalLink), 20000).then(function () {
                                       closeNewRoomModalLink.click();
                                       startChoices()
+                                    })
                                   })
+                                })
                               })
-                            })
+                           })
                           })
                         })
+                      })
                     })
                   })
-                })
-              })
-            })
+                });
 
             function startChoices () {
               for (let i = 0; i < 5; i++) {

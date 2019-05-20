@@ -239,19 +239,16 @@ class ColumnSelection extends React.Component {
         let labelId = this.state.selectedLabel.id;
         let listCards = this.state.listCards;
         if (labelId !== 0 && labelId !== '0') {
-            console.log("labelId=0");
             labelId = this.props.BoardApi.getShortenedExtension() === "g"? parseInt(labelId):labelId;
             listCards = this.state.listCards.filter(function(card){
                 return find(card.labels, {'id': labelId}) !== undefined;
             });
         }
         if(listCards.length<2){
-            console.log("listCards<2");
             this.setState({
                 hasNotEnoughCard : true,
             })
         }else{
-            console.log("handleCards");
             this.props.handleCards(listCards, this.state.boardId);
         }
     }
