@@ -11,10 +11,10 @@ class Recap extends React.Component {
             this.props.setSelectedLabel({
                 id:0,
                 name:"Select All"
-            })
+            }, () =>{})
         }else{
             this.props.setLabelColor(item.color);
-            this.props.setSelectedLabel(item)
+            this.props.setSelectedLabel(item, () =>{})
         }
     }
 

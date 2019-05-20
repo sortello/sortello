@@ -11,7 +11,7 @@ describe("ColumnSelection", () => {
 
     it("clicks proceedButton instantly if user use Sortello from Extension and labels of the list are 0", () => {
         let wrapper = shallow(<ColumnSelection {...props}/>);
-        let spy = spyOn(wrapper.instance(), 'labelSelected');
+        let spy = spyOn(wrapper.instance(), 'setSelectedLabel');
         wrapper.instance().state.labels = [];
         wrapper.instance().clickProceedButtonIfLabelsAreZero();
         expect(spy).toHaveBeenCalled();
@@ -19,7 +19,7 @@ describe("ColumnSelection", () => {
 
     it("not click proceedButton instantly if user use Sortello normally or labels of the list are more than 0", () => {
         let wrapper = shallow(<ColumnSelection {...props}/>);
-        let spy = spyOn(wrapper.instance(), 'labelSelected');
+        let spy = spyOn(wrapper.instance(), 'setSelectedLabel');
         wrapper.instance().state.labels = [];
         wrapper.instance().clickProceedButtonIfLabelsAreZero();
         expect(spy).toHaveBeenCalled();
@@ -51,5 +51,11 @@ describe("ColumnSelection", () => {
         wrapper.instance().state.listCards = [];
         wrapper.instance().handleProceedButtonClicked();
         expect(wrapper.instance().state.hasNotEnoughCard).toBe(true);
+    })
+
+    it("sets labels correctly", () =>{
+        let wrapper = shallow(<ColumnSelection {...props}/>);
+        wrapper.instance().setSelectedLabel("0", () => {});
+        expect(wrapper.instance().state.selectedLabel).toBe("0");
     })
 });

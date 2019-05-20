@@ -37,7 +37,7 @@ class ColumnSelection extends React.Component {
         this.handleListClicked = this.handleListClicked.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
         this.handleProceedButtonClicked = this.handleProceedButtonClicked.bind(this);
-        this.labelSelected = this.labelSelected.bind(this);
+        this.setSelectedLabel = this.setSelectedLabel.bind(this);
         this.getBoards = this.getBoards.bind(this);
         this.renderForbidden = this.renderForbidden.bind(this);
         this.handleLabelClicked = this.handleLabelClicked.bind(this);
@@ -85,14 +85,12 @@ class ColumnSelection extends React.Component {
         if (this.state.organizations.length > 0) {
             return;
         }
-
-
         this.getBoards()
     }
 
-    setSelectedLabel(value){
-        this.setState({
-            selectedLabel: value
+    setSelectedLabel (labelId, cb) {
+        this.setState({selectedLabel: labelId},function(){
+            cb();
         })
     }
 
@@ -127,12 +125,6 @@ class ColumnSelection extends React.Component {
         }, function (e) {
             console.log(e);
         });
-    }
-
-    labelSelected (labelId, cb) {
-        this.setState({selectedLabel: labelId},function(){
-            cb();
-        })
     }
 
     retrieveCardsByListId(listId) {
@@ -176,7 +168,7 @@ class ColumnSelection extends React.Component {
     clickProceedButtonIfLabelsAreZero(){
         let that=this;
         if(that.state.labels.length === 0){
-            that.labelSelected({
+            that.setSelectedLabel({
                     id:0,
                     name:"Select All"
                 },function(){
@@ -232,7 +224,7 @@ class ColumnSelection extends React.Component {
     }
 
     handleLabelClicked (labelElement) {
-        this.labelSelected(labelElement.value, () => {})
+        this.setSelectedLabel(labelElement.value, () => {})
     }
 
     handleProceedButtonClicked (){
