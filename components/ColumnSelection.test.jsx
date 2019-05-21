@@ -7,7 +7,7 @@ describe("ColumnSelection", () => {
     let props = {
         BoardApi: new TrelloApi(),
         fromExtension: "Trello"
-    }
+    };
 
     it("clicks proceedButton instantly if user use Sortello from Extension and labels of the list are 0", () => {
         let wrapper = shallow(<ColumnSelection {...props}/>);
@@ -34,7 +34,7 @@ describe("ColumnSelection", () => {
         expect(wrapper.instance().state.selectedList).toBe(0);
         expect(wrapper.instance().state.selectedLabel).toBe(null);
         expect(wrapper.instance().state.lists.length).toBe(0)
-    })
+    });
 
     it("updates selectedList and selectedLabel when List is clicked", () =>{
         let wrapper = shallow(<ColumnSelection {...props}/>);
@@ -43,7 +43,7 @@ describe("ColumnSelection", () => {
         wrapper.instance().handleListClicked("listId");
         expect(wrapper.instance().state.selectedList).toBe(false);
         expect(wrapper.instance().state.selectedLabel).toBe(null);
-    })
+    });
 
     it("checks if the list has 0 or 1 card", () =>{
         let wrapper = shallow(<ColumnSelection {...props}/>);
@@ -51,7 +51,7 @@ describe("ColumnSelection", () => {
         wrapper.instance().state.listCards = [];
         wrapper.instance().handleProceedButtonClicked();
         expect(wrapper.instance().state.hasNotEnoughCard).toBe(true);
-    })
+    });
 
     it("sets labels correctly", () =>{
         let wrapper = shallow(<ColumnSelection {...props}/>);

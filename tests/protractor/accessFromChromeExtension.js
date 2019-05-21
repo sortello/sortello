@@ -8,7 +8,7 @@ module.exports.accessFromChromeExtension = function (b = null, username = null, 
     let EC = protractor.ExpectedConditions;
     let continueButton = browser.element(by.css('.continue-to-choices--button'));
     browser.wait(EC.visibilityOf(continueButton), 20000).then(function () {
-      continueButton.click()
+      continueButton.click();
       browser.driver.sleep(500);
       protractor.selectWindow.selectWindow(1, browser);
       browser.driver.manage().window().setSize(800, 800);
@@ -48,4 +48,4 @@ module.exports.accessFromChromeExtension = function (b = null, username = null, 
     });
   }
 
-}
+};

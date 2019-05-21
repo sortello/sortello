@@ -26,7 +26,7 @@ describe("LabelSelector", () => {
         let wrapper = shallow(<LabelSelector {...props}/>);
         let labels = wrapper.instance().changeColorLabels();
         expect(wrapper.instance().state.labelsReady).toBe(true);
-        expect(labels[0].color).not.toBe("green")
+        expect(labels[0].color).not.toBe("green");
         expect(labels[0].color).toBe("#008000")
     });
 
@@ -44,7 +44,7 @@ describe("LabelSelector", () => {
          });
         let labels = wrapper.instance().changeColorLabels();
         expect(wrapper.instance().state.labelsReady).toBe(true);
-        expect(labels[0].color).not.toBe("008000")
+        expect(labels[0].color).not.toBe("008000");
         expect(labels[0].color).toBe("#008000")
     });
 

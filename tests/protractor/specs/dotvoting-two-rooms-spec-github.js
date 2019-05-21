@@ -17,7 +17,7 @@ describe('dotvoting with github', function () {
         browser.driver.manage().window().toolbar = 0;
         browser.driver.manage().window().menubar = 0;
 
-        let browser1 = browser
+        let browser1 = browser;
 
         let browser2 = browser.forkNewDriverInstance();
         browser2.ignoreSynchronization = true;
@@ -27,28 +27,28 @@ describe('dotvoting with github', function () {
         let browsersPriorities = [
             ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
             ['10', '9', '8', '7', '6', '5', '4', '3', '2', '1'],
-        ]
+        ];
 
 
         protractor.accessFromChromeExtensionGithub.accessFromChromeExtensionGithub(browser1).then(function () {
             protractor.accessFromChromeExtensionGithub.accessFromChromeExtensionGithub(browser2).then(function () {
 
                 let EC = protractor.ExpectedConditions;
-                let newRoomButton = element(by.css('#new-room-button'))
+                let newRoomButton = element(by.css('#new-room-button'));
                 browser1.wait(EC.presenceOf(newRoomButton), 20000).then(function () {
                     newRoomButton.click();
-                    let roomLinkElement = element(by.css('#room-link'))
+                    let roomLinkElement = element(by.css('#room-link'));
                     browser1.wait(EC.presenceOf(roomLinkElement), 20000).then(function () {
                         roomLinkElement.getAttribute('value').then(function (link) {
-                            browser2.get(link.replace(browser.params.hostname + "/app.html", browser.params.hostname + ":4000/app.html"))
-                            let closeNewRoomModalLink1 = browser1.element(by.css('#share-room__close'))
+                            browser2.get(link.replace(browser.params.hostname + "/app.html", browser.params.hostname + ":4000/app.html"));
+                            let closeNewRoomModalLink1 = browser1.element(by.css('#share-room__close'));
                             browser1.wait(EC.presenceOf(closeNewRoomModalLink1), 20000).then(function () {
                                 closeNewRoomModalLink1.click();
                                 startChoices()
                             })
                         })
                     })
-                })
+                });
 
                 function startChoices() {
                     for (let i = 0; i < 5; i++) {
@@ -56,8 +56,8 @@ describe('dotvoting with github', function () {
                         makeChoice(browser2, browsersPriorities[1]);
                         expectCardsToBeTheSame(browser1, browser2);
                     }
-                    browser1.close()
-                    browser2.close()
+                    browser1.close();
+                    browser2.close();
                     done()
                 }
 
@@ -120,7 +120,7 @@ describe('dotvoting with github', function () {
                                 rightCardA.getText().then(function (rightValueA) {
                                     leftCardB.getText().then(function (leftValueB) {
                                         rightCardB.getText().then(function (rightValueB) {
-                                            expect(leftValueA).toEqual(leftValueB)
+                                            expect(leftValueA).toEqual(leftValueB);
                                             expect(rightValueA).toEqual(rightValueB)
                                         })
                                     })
@@ -134,4 +134,4 @@ describe('dotvoting with github', function () {
             console.log("Errore = "+e);
         })
     })
-})
+});

@@ -63,7 +63,7 @@ class ColumnSelection extends React.Component {
                     })
                 })
             } else {
-                component.props.BoardApi.checkPermissions(component.props.extId).then(function(res){
+                component.props.BoardApi.checkPermissions(component.props.extId).then(function(){
                     component.retrieveCardsByListId(component.props.extId)
                 }, function () {
                     component.setState({
@@ -77,7 +77,7 @@ class ColumnSelection extends React.Component {
                 component.setState({
                     username: username
                 })
-            }, function (e) {
+            }, function () {
                 console.log("error username");
             });
         }

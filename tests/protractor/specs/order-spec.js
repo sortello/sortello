@@ -1,9 +1,9 @@
 describe('sort list', function () {
   it('prioritizes the test column in defined order', function () {
-    let targetOrder = ['6', '9', '5', '4', '1', '8', '3', '10', '2', '7']
+    let targetOrder = ['6', '9', '5', '4', '1', '8', '3', '10', '2', '7'];
 
     browser.ignoreSynchronization = true;
-    protractor.simpleAccessFromChromeExtension.accessFromChromeExtension()
+    protractor.simpleAccessFromChromeExtension.accessFromChromeExtension();
     let EC = protractor.ExpectedConditions;
 
     function nextChoice () {

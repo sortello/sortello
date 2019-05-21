@@ -7,7 +7,7 @@ describe("Card", () => {
         return shallow(
             <Card {...props} />
         );
-    }
+    };
 
     beforeEach(() => {
         jest.mock(
@@ -57,12 +57,12 @@ describe("Card", () => {
             handleClick: () => {
             },
         };
-        let wrapper = card(props)
+        let wrapper = card(props);
 
         expect(wrapper.find('CardVoters').exists()).toEqual(false);
         expect(wrapper.find('.card-button__continue').exists()).toEqual(false)
 
-    })
+    });
 
     it("shows votes and continue buttons after everybody in the room voted", () => {
         let props = {
@@ -98,12 +98,12 @@ describe("Card", () => {
             handleClick: () => {
             },
         };
-        let wrapper = card(props)
+        let wrapper = card(props);
 
         expect(wrapper.find('CardVoters').exists()).toEqual(true);
-        expect(wrapper.find('CardVoters').props().voters).toEqual(props.voters)
+        expect(wrapper.find('CardVoters').props().voters).toEqual(props.voters);
         expect(wrapper.find('CardButtons').props().continueButton).not.toBe(null)
-    })
+    });
 
     it("show CardButtons when needed", () => {
         let props = {
@@ -141,9 +141,9 @@ describe("Card", () => {
             },
         };
 
-        let wrapper = card(props)
+        let wrapper = card(props);
         expect(wrapper.find('CardButtons')).toBeTruthy();
-    })
+    });
 
     it("upgrade className of a div when is selected", () => {
         let props = {
@@ -181,9 +181,9 @@ describe("Card", () => {
             },
         };
 
-        let wrapper = card(props)
+        let wrapper = card(props);
         expect(wrapper.find("div").at(1).props().className).toEqual("container__card container__card-selected")
-    })
+    });
 
     it("don't upgrade className of a div when isn't selected", () => {
         let props = {
@@ -221,9 +221,9 @@ describe("Card", () => {
             },
         };
 
-        let wrapper = card(props)
+        let wrapper = card(props);
         expect(wrapper.find("div").at(1).props().className).toEqual("container__card ")
-    })
+    });
 
     it("check if other components are created with correct values", () => {
         let props = {
@@ -262,7 +262,7 @@ describe("Card", () => {
             },
         };
 
-        let wrapper = card(props)
+        let wrapper = card(props);
         expect(wrapper.find("CardLabels").props().labels).toHaveLength(2);
         expect(wrapper.find("CardLabels").props().labels).toEqual(props.data.labels);
         expect(wrapper.find("CardVoters").props().voters).toHaveLength(2);
@@ -273,4 +273,4 @@ describe("Card", () => {
         expect(wrapper.find("CardButtons").props().forget).toEqual(props.forget);
     })
 
-})
+});

@@ -2,7 +2,7 @@ describe('handle 0-1 card error', function () {
     it('handle 0-1 card error', function () {
 
         browser.ignoreSynchronization = true;
-        protractor.simpleAccessFromChromeExtension.accessFromChromeExtension()
+        protractor.simpleAccessFromChromeExtension.accessFromChromeExtension();
         let EC = protractor.ExpectedConditions;
 
         browser.get('/app.html?extId=error');

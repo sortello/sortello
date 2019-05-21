@@ -31,7 +31,7 @@ describe('sort with multiple undo clicks', function () {
                   // ProgressValue check avoids selecting wrong card as last choice
                   if (Math.random() < 0.2 && progressValue < 80) {
                     // console.log("Making the wrong choice with progressValue = "+progressValue);
-                    element(by.css('#left_button .container__card')).click()
+                    element(by.css('#left_button .container__card')).click();
                     // console.log(leftValue);
                     shouldUndo = true;
                   } else {
@@ -41,7 +41,7 @@ describe('sort with multiple undo clicks', function () {
                 } else {
                   if (Math.random() < 0.2 && progressValue < 80) {
                     // console.log("Making the wrong choice with progressValue = " + progressValue);
-                    element(by.css('#right_button .container__card')).click()
+                    element(by.css('#right_button .container__card')).click();
                     // console.log(rightValue);
                     shouldUndo = true;
                   } else {
