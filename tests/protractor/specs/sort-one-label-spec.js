@@ -30,7 +30,7 @@ describe('sort list asc', function () {
       let recapButton = element.all(by.css(".trigger-recap__button"));
       browser.wait(EC.presenceOf(recapButton),2000).then(function(){
           recapButton.click();
-          let blueLabel = element.all(by.css(".recap__content")).get(1);
+          let blueLabel = element.all(by.cssContainingText(".recap__content", 'Blue'));
           browser.wait(EC.presenceOf(blueLabel),2000).then(function(){
               blueLabel.click();
               let buttonStart = element(by.css('.button__start-prioritizing'));

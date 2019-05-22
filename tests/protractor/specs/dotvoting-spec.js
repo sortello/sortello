@@ -44,7 +44,7 @@ describe('dotvoting', function () {
 
           let recapButton = element.all(by.css(".trigger-recap__button"));
             recapButton.click();
-            let allLabels = element.all(by.css(".recap__content")).get(0);
+            let allLabels = element.all(by.css(".recap__item")).get(0);
             browser1.wait(EC.presenceOf(allLabels),20000).then(function() {
               browser1.actions().mouseMove(allLabels).click().perform();
               let buttonStart = element(by.css('.button__start-prioritizing'));
