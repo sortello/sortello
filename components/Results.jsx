@@ -55,7 +55,7 @@ class Results extends React.Component {
         if (gaTrackingId && this.state.duration !== null) {
             this.sendInfoGa(putCalls);
         }
-        let BoardApi = this.props.BoardApi
+        let BoardApi = this.props.BoardApi;
         let nextCardIndex = 0;
 
         function placeNextCard() {
@@ -63,7 +63,7 @@ class Results extends React.Component {
                 showUploadDone();
                 return;
             }
-            BoardApi.putCards(reorderedNodes[nextCardIndex].value.id, 'top', placeNextCard, restart)
+            BoardApi.putCards(reorderedNodes[nextCardIndex].value.id, 'top', placeNextCard, restart);
             nextCardIndex++;
         }
 
@@ -156,6 +156,6 @@ class Results extends React.Component {
             </div>
         )
     }
-};
+}
 
 export default Results

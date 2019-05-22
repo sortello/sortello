@@ -20,11 +20,11 @@ const params = queryString.parse(location.search);
 class Choices extends React.Component {
     constructor(props) {
         super(props);
-        let component = this
-        this.handleCardClicked = this.handleCardClicked.bind(this)
-        this.renderForbidden = this.renderForbidden.bind(this)
-        this.renderLoading = this.renderLoading.bind(this)
-        this.BoardApi = this.props.BoardApi
+        let component = this;
+        this.handleCardClicked = this.handleCardClicked.bind(this);
+        this.renderForbidden = this.renderForbidden.bind(this);
+        this.renderLoading = this.renderLoading.bind(this);
+        this.BoardApi = this.props.BoardApi;
         this.room = false;
         this.state = {
             leftCard: null,
