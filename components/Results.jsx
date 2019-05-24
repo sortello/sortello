@@ -1,5 +1,5 @@
 import React from "react"
-import Header from './Header.jsx';
+import Header from './Logout.jsx';
 import traverseTree from "../model/traverseTree"
 import AlmostDoneAnimation from './AlmostDoneAnimation.jsx';
 import Recap from './Recap.jsx';

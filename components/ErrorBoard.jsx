@@ -1,6 +1,6 @@
 import React from "react";
 import AccessdeniedAnimation from './AccessdeniedAnimation.jsx';
-import Header from './Header.jsx';
+import Header from './Logout.jsx';
 import Footer from './Footer.jsx';
 
 class ErrorBoard extends React.Component {

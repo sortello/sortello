@@ -1,5 +1,5 @@
 import React from "react";
-import Header from '../Header.jsx';
+import Header from '../Logout.jsx';
 import Card from '../Card.jsx';
 import Footer from "../Footer.jsx"
 import Avatars from '../Avatars.jsx'
@@ -77,7 +77,6 @@ class ChoicesView extends React.Component {
                     </div>
                     {this.printCard('left_button', 'node', this.props.leftCard.value, this.props.voters.left)}
                     {this.printCard('right_button', 'compareNode', this.props.rightCard.value, this.props.voters.right)}
-                    {/*<TreeDraw tree={this.state.rootNode}></TreeDraw>*/}
 
                     <div className="container__actions-bar">
                         {undoButton}

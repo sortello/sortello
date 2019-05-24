@@ -1,6 +1,6 @@
 import React from "react"
 import {find} from "lodash"
-import Header from './Header.jsx';
+import Header from './Logout.jsx';
 import BoardSelector from './BoardSelector.jsx'
 import ListSelector from './ListSelector.jsx'
 import LabelSelector from './LabelSelector.jsx'
