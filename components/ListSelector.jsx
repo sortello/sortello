@@ -1,7 +1,7 @@
 import React from 'react'
 import Select from './Select.jsx'
 
-export default (onChange, lists) => (
+export default ({onChange, lists}) => (
     <div className="selection-form">
         <div className="board-selection__microcopy">Select the correct column</div>
         <Select
