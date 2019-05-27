@@ -41,10 +41,10 @@ describe('dotvoting', function () {
         protractor.accessFromChromeExtension.accessFromChromeExtension(browser3, browser1.params.testTrello3Username, browser1.params.testTrello3Password).then(function () {
 
           let EC = protractor.ExpectedConditions;
+          let allLabels = element.all(by.css(".recap__content")).get(0);
 
           let recapButton = element.all(by.css(".trigger-recap__button"));
             recapButton.click();
-            let allLabels = element.all(by.css(".recap__item")).get(0);
             browser1.wait(EC.presenceOf(allLabels),20000).then(function() {
               browser1.actions().mouseMove(allLabels).click().perform();
               let buttonStart = element(by.css('.button__start-prioritizing'));
