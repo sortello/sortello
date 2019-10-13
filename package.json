@@ -23,7 +23,9 @@
     "protractor-integration": "./node_modules/protractor/bin/protractor protractor.conf.js --specs tests/protractor/specs/dotvoting-spec.js && ./node_modules/protractor/bin/protractor protractor.conf.js --specs tests/protractor/specs/dotvoting-multiple-rooms-spec.js && ./node_modules/protractor/bin/protractor protractor.conf.js --specs tests/protractor/specs/voter-board-permissions-spec.js"
   },
   "jest": {
-    "setupTestFrameworkScriptFile": "./localStorageMock.js"
+    "setupFilesAfterEnv": [
+      "./localStorageMock.js"
+    ]
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",
