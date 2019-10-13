@@ -13,8 +13,6 @@ jobs:
     steps:
     - checkout
     - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
-    - run:
-        working_directory: ~/sortello/sortello
     - restore_cache:
         keys:
         - v1-dep-{{ .Branch }}-
