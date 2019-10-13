@@ -12,6 +12,8 @@ To run sortello on your machine:
 
 `git clone git@github.com:mazzcris/sortello.git`
 
+`nvm use`
+
 `npm install`
 
 `npm start`
