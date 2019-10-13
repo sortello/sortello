@@ -8,19 +8,19 @@ jobs:
       CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
       CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
     docker:
-    - image: circleci/build-image:ubuntu-14.04-XXL-upstart-1189-5614f37
+    - image: circleci/node:10.16.3
       command: /sbin/init
     steps:
     - checkout
     - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
     - run:
         working_directory: ~/sortello/sortello
-        command: nvm install 10.16.3 && nvm alias default 10.16.3
     - restore_cache:
         keys:
         - v1-dep-{{ .Branch }}-
         - v1-dep-master-
         - v1-dep-
+    - run: nvm use
     - run: npm install
     - run: npm install webpack@^4.41.1 -g
     - run: npm install webpack-cli@^3.3.9" -g
