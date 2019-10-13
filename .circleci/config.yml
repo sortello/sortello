@@ -13,36 +13,36 @@ jobs:
     steps:
     - checkout
     - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
-    - restore_cache:
-        keys:
-        - v1-dep-{{ .Branch }}-
-        - v1-dep-master-
-        - v1-dep-
-    - run: nvm use
-    - run: npm install
-    - run: npm install webpack@^4.41.1 -g
-    - run: npm install webpack-cli@^3.3.9" -g
-    - run: webpack
-    - save_cache:
-        key: v1-dep-{{ .Branch }}-{{ epoch }}
-        paths:
-        - vendor/bundle
-        - ~/virtualenvs
-        - ~/.m2
-        - ~/.ivy2
-        - ~/.bundle
-        - ~/.go_workspace
-        - ~/.gradle
-        - ~/.cache/bower
-        - ./node_modules
-    - run: npm run unit
-    - store_test_results:
-        path: /tmp/circleci-test-results
-    - store_artifacts:
-        path: /tmp/circleci-artifacts
-    - store_artifacts:
-        path: /tmp/circleci-test-results
-notify:
-  webhooks:
-  # gitter hook
-  - url: https://webhooks.gitter.im/e/7af68d739c18dcd6a78f
+#    - restore_cache:
+#        keys:
+#        - v1-dep-{{ .Branch }}-
+#        - v1-dep-master-
+#        - v1-dep-
+#    - run: nvm use
+#    - run: npm install
+#    - run: npm install webpack@^4.41.1 -g
+#    - run: npm install webpack-cli@^3.3.9" -g
+#    - run: webpack
+#    - save_cache:
+#        key: v1-dep-{{ .Branch }}-{{ epoch }}
+#        paths:
+#        - vendor/bundle
+#        - ~/virtualenvs
+#        - ~/.m2
+#        - ~/.ivy2
+#        - ~/.bundle
+#        - ~/.go_workspace
+#        - ~/.gradle
+#        - ~/.cache/bower
+#        - ./node_modules
+#    - run: npm run unit
+#    - store_test_results:
+#        path: /tmp/circleci-test-results
+#    - store_artifacts:
+#        path: /tmp/circleci-artifacts
+#    - store_artifacts:
+#        path: /tmp/circleci-test-results
+#notify:
+#  webhooks:
+#  # gitter hook
+#  - url: https://webhooks.gitter.im/e/7af68d739c18dcd6a78f
