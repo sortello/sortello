@@ -15,15 +15,15 @@ jobs:
     - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
     - run:
         working_directory: ~/sortello/sortello
-        command: nvm install 6.7.0 && nvm alias default 6.7.0
+        command: nvm install 10.16.3 && nvm alias default 10.16.3
     - restore_cache:
         keys:
         - v1-dep-{{ .Branch }}-
         - v1-dep-master-
         - v1-dep-
     - run: npm install
-    - run: npm install webpack@1.15.0 -g
-    - run: npm install webpack-cli@1.5.3 -g
+    - run: npm install webpack@^4.41.1 -g
+    - run: npm install webpack-cli@^3.3.9" -g
     - run: webpack
     - save_cache:
         key: v1-dep-{{ .Branch }}-{{ epoch }}
