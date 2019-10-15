@@ -12,7 +12,7 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - "92:08:dd:2c:76:17:fc:09:42:c5:27:e9:dc:9a:f7:59"
+            - "ea:03:af:b8:8d:42:04:dd:e4:52:17:e5:02:55:03:84"
     - checkout
     - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
     - restore_cache:
