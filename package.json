@@ -13,7 +13,8 @@
   "scripts": {
     "start": "webpack-dev-server --host sortello.ideato.it --https --progress --inline --hot --port 4000",
     "dev": "webpack-dev-server --progress --inline --hot --port 4000",
-    "build": "npm test && npm run clean && npm run build:bundle",
+    // "build": "npm test && npm run clean && npm run build:bundle",
+    "build": "npm unit && npm run clean && npm run build:bundle",
     "clean": "rimraf build",
     "build:bundle": "webpack -p",
     "test": "npm run protractor && npm run protractor-integration && npm run unit",
@@ -57,6 +58,7 @@
     "query-string": "^5.0.1",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
-    "socket.io-client": "^2.3.0"
+    "socket.io-client": "^2.3.0",
+    "webdriver-manager": "^12.1.7"
   }
 }
