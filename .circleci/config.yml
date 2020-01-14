@@ -7,6 +7,7 @@ jobs:
     environment:
       CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
       CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+      BASH_ENV: ~/.nvm/nvm.sh
     docker:
     - image: buildpack-deps:trusty
     steps:
