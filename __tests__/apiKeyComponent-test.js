@@ -1,7 +1,10 @@
 jest.dontMock('../components/ApiKey.jsx');
 import React from 'react';
-import {shallow} from 'enzyme';
+import {shallow, configure} from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 import ApiKey from '../components/ApiKey';
+
+configure({ adapter: new Adapter() });
 
 it('calls saveAPIKey on click', () => {
   let setApiKey = jest.fn();
