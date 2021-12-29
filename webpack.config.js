@@ -4,29 +4,44 @@ const loaders = [
   {
     test: /\.jsx?$/,         // Match both .js and .jsx files
     exclude: /node_modules/,
-    loader: "babel-loader",
+    loader: 'babel-loader',
   },
   {
     test: /\.css$/,
-    loader: "style-loader!css-loader"
+    use: ['style-loader', 'css-loader'],
   }, {
     test: /\.png$/,
-    loader: "url-loader?limit=100000"
+    loader: 'url-loader',
+    options: {
+      limit: 100000
+    }
   }, {
     test: /\.jpg$/,
-    loader: "file-loader"
+    loader: 'file-loader'
   }, {
     test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
-    loader: 'url?limit=10000&mimetype=application/font-woff'
+    loader: 'url',
+    options: {
+      limit: 10000,
+      mimetype: 'application/font-woff'
+    }
   }, {
     test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-    loader: 'url?limit=10000&mimetype=application/octet-stream'
+    loader: 'url',
+    options: {
+      limit: 10000,
+      mimetype: 'application/octet-stream'
+    }
   }, {
     test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
     loader: 'file'
   }, {
     test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-    loader: 'url?limit=10000&mimetype=image/svg+xml'
+    loader: 'url',
+    options: {
+      limit: 10000,
+      mimetype: 'image/svg+xml'
+    }
   }
 ]
 
