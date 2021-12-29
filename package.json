@@ -25,7 +25,8 @@
   "jest": {
     "setupFilesAfterEnv": [
       "./localStorageMock.js"
-    ]
+    ],
+    "testEnvironment": "jsdom"
   },
   "devDependencies": {
     "@babel/core": "^7.16.5",
