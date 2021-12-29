@@ -3,12 +3,12 @@ jobs:
   build:
     working_directory: ~/sortello/sortello
     docker:
-      - image: circleci/node:10.16.3
+      - image: circleci/node:16.13.1
     steps:
       - checkout
       - run:
           name: update-npm
-          command: 'sudo npm install -g npm@latest'
+          command: "sudo npm install -g npm@latest"
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
@@ -22,7 +22,6 @@ jobs:
       - run:
           name: test
           command: npm run unit
-
 # version: 2
 # jobs:
 #   build:
@@ -70,6 +69,6 @@ jobs:
 #     - store_artifacts:
 #         path: /tmp/circleci-test-results
 # notify:
-  # webhooks:
-  # gitter hook
-  # - url: https://webhooks.gitter.im/e/7af68d739c18dcd6a78f
+# webhooks:
+# gitter hook
+# - url: https://webhooks.gitter.im/e/7af68d739c18dcd6a78f
