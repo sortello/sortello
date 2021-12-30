@@ -45,7 +45,8 @@ const loaders = [
   }
 ]
 
-module.exports = [{
+module.exports = [
+{
   entry: "./index.js",
   output: {
     path: path.resolve(__dirname, 'build'),       // target dir
@@ -54,6 +55,14 @@ module.exports = [{
   },
   module: {
     rules: [...loaders]
+  },
+  devServer: {
+    https: true,
+    port: 4000,
+    static: {                               
+      directory: path.join(__dirname, './'),  
+      watch: true
+    }
   }
 },
 {

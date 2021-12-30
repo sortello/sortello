@@ -11,7 +11,7 @@
     "url": "https://github.com/mazzcris/sortello"
   },
   "scripts": {
-    "start": "webpack-dev-server --host sortello.ideato.it --https --progress --hot --port 4000",
+    "start": "webpack-dev-server --progress --hot --port 4000",
     "dev": "webpack-dev-server --progress --hot --port 4000",
     "build": "npm run unit && npm run clean && npm run build:bundle",
     "clean": "rimraf build",
@@ -43,6 +43,7 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",
     "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.5.0",
     "jest": "^27.4.5",
     "lorem-ipsum": "^2.0.4",
     "protractor": "^7.0.0",
