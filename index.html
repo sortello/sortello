@@ -72,7 +72,7 @@
         <div class="step__image">
             <img src="assets/steps/Authorize-sortello.png" alt="">
         </div>
-        <div class="step__description">Install the Sortello Chrome Extension from the Chrome Web Store
+        <div class="step__description">Authorize Sortello to access your Trello boards
         </div>
     </div>
     <div class="step__container">
@@ -138,16 +138,6 @@
 </div>
 <div class="pricing__container">
     <div class="pricing__heading">Pricing? No, it's free!</div>
-    <a target="_blank"
-       href="https://chrome.google.com/webstore/detail/sortello-chrome-extension/imiedhifioaeddolanigfdkiifnlmfdh"
-       class="chrome-desktop pricing__button">
-        <div class="button__primary button__text">Get the extension</div>
-    </a>
-    <a target="_blank"
-       href="https://addons.mozilla.org/it/firefox/addon/sortello-extension/"
-       class="firefox-desktop pricing__button">
-        <div class="button__primary button__text">Get the extension</div>
-    </a>
     <a href="/app.html"
        class="other-desktop mobile-other pricing__button">
         <div class="button__primary button__text">Get started</div>
@@ -194,12 +184,6 @@
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)) {
       $('.mobile-other').show();
     }
-    else if (/Chrome/i.test(ua)) {
-      $('.chrome-desktop').show();
-    }
-    else if (/Firefox/i.test(ua)) {
-        $('.firefox-desktop').show();
-    }
     else {
       $('.other-desktop').show();
     }
@@ -217,22 +201,7 @@
     if(res !== null){
       window.location.replace(window.location.href.replace("/?extId=", "/app.html?extId="))
     }
-
-
   });
-
-  if(gaTrackingId){
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-    ga('create', gaTrackingId,  {'siteSpeedSampleRate': 100, 'anonymizeIp': true, 'storage': 'none', 'clientId': window.localStorage.getItem('ga_clientId')});
-    ga(function(tracker) {
-      window.localStorage.setItem('ga_clientId', tracker.get('clientId'));
-    });
-    ga('send', 'pageview');
-  }
 </script>
 
 <a class="forkMeRibbon" href="https://github.com/mazzcris/sortello" target="_blank">
