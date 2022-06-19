@@ -1,7 +1,6 @@
 import React from "react"
 import PrioritizationEnd from "./components/PrioritizationEnd.jsx"
 import ChoicesView from "./components/view/ChoicesView.jsx"
-import ChoicesVoter from "./components/ChoicesVoter.jsx"
 import loremIpsum from 'lorem-ipsum'
 import RoomLink from './components/RoomLink.jsx'
 
@@ -121,7 +120,6 @@ class StyleguideApp extends React.Component {
                 <PrioritizationEnd/>
                 <hr/>
                 <h2>No board permissions message</h2>
-                <ChoicesVoter/>
             </div>
         )
     }

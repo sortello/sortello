@@ -12,13 +12,6 @@ function openOverlay() {
     document.getElementById('overlay__share-room').style.opacity = "1";
 }
 
-let socket = false;
-if (typeof socketAddress !== 'undefined') {
-    if (socketAddress !== null) {
-        socket = io(socketAddress);
-    }
-}
-
 const getRandomKey = () => {
     let randomKey = '';
     let chars = '0123456789abcdefghijklmnopqrstuvwxyz';

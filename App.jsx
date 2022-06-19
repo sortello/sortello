@@ -2,7 +2,6 @@ import React from "react"
 import ApiKey from "./components/ApiKey.jsx"
 import ColumnSelection from "./components/ColumnSelection.jsx"
 import Choices from "./components/Choices.jsx"
-import ChoicesVoter from "./components/ChoicesVoter.jsx"
 import Results from "./components/Results.jsx"
 import treeNodeFactory from "./model/treeNodeFactory"
 import queryString from "query-string"
@@ -36,17 +35,9 @@ class App extends React.Component {
 
     handleAuthentication () {
         const params = queryString.parse(location.search);
-        if (params.roomKey !== undefined) {
-            this.setState({
-                rootNode: [],
-                nodes: [],
-                currentView: 5
-            })
-        } else {
-            this.setState({
-                currentView: 2
-            });
-        }
+        this.setState({
+            currentView: 2
+        });
     }
 
     handleCards (listCards, boardId) {
@@ -87,16 +78,6 @@ class App extends React.Component {
         return <ColumnSelection Trello={this.state.Trello} handleCards={this.handleCards}/>
     }
 
-    renderChoicesVoter () {
-        return (
-            <ChoicesVoter Trello={this.state.Trello}
-                          ref="choicesVoter" setSortedRootNode={this.setSortedRootNode}
-                          setStartTimeStamp={this.setStartTimeStamp}
-                          nodes={this.state.nodes}
-                          rootNode={this.state.rootNode}/>
-        )
-    }
-
     renderChoices () {
         return (
             <Choices Trello={this.state.Trello}
@@ -129,8 +110,6 @@ class App extends React.Component {
                 return this.renderChoices()
             case 4:
                 return this.renderResults()
-            case 5:
-                return this.renderChoicesVoter()
             default:
                 return this.renderError()
         }
