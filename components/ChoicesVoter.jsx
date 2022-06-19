@@ -2,7 +2,6 @@ import React from 'react';
 import {clone} from 'lodash'
 import queryString from 'query-string';
 import PrioritizationEnd from './PrioritizationEnd.jsx'
-import Room from '../model/Room.js'
 import ChoicesView from './view/ChoicesView.jsx'
 import AccessdeniedAnimation from './AccessdeniedAnimation.jsx';
 

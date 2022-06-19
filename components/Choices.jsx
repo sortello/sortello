@@ -4,8 +4,6 @@ import {clone} from "lodash"
 import Engine from "../model/Engine.js"
 import {find} from "lodash"
 import {findIndex} from "lodash"
-import {remove} from "lodash"
-import Room from "../model/Room.js"
 import ChoicesView from './view/ChoicesView.jsx'
 import RoomLink from './RoomLink.jsx'
 
