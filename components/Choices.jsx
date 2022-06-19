@@ -5,12 +5,6 @@ import Engine from "../model/Engine.js"
 import {find} from "lodash"
 import {findIndex} from "lodash"
 import ChoicesView from './view/ChoicesView.jsx'
-import RoomLink from './RoomLink.jsx'
-
-function openOverlay() {
-    document.getElementById('overlay__share-room').style.height = "100%";
-    document.getElementById('overlay__share-room').style.opacity = "1";
-}
 
 const getRandomKey = () => {
     let randomKey = '';
@@ -282,23 +276,6 @@ class Choices extends React.Component {
         return <RoomLink roomId={this.state.roomId}/>
     }
 
-
-    renderNewRoomButton () {
-        if (socket) {
-            return (
-                <div>
-                    <div onClick={() => { openOverlay() }}>
-                        <a href="#" id="new-room-button" onClick={this.createRoom}>
-                            <div className="share-room__button">
-                                {this.room ? 'Share room' : 'Open new room' }</div>
-                        </a>
-                    </div>
-                </div>
-            )
-        }
-        return ''
-    }
-
     renderLoading () {
         return (<div><span>Loading...</span></div>)
     }
@@ -325,9 +302,6 @@ class Choices extends React.Component {
 
         return (
             <ChoicesView
-                newRoomButton={this.renderNewRoomButton()}
-                roomLink={this.renderRoomLink()}
-                roomVoters={this.getAllRoomVoters()}
                 leftCard={this.state.leftCard}
                 rightCard={this.state.rightCard}
                 everybodyVoted={this.state.everybodyVoted}

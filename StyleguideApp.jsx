@@ -2,7 +2,6 @@ import React from "react"
 import PrioritizationEnd from "./components/PrioritizationEnd.jsx"
 import ChoicesView from "./components/view/ChoicesView.jsx"
 import loremIpsum from 'lorem-ipsum'
-import RoomLink from './components/RoomLink.jsx'
 
 const randomColor = () => {
     return ['red', 'green', 'blue', 'yellow'][randInt(0, 3)]
