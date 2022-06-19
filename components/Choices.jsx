@@ -2,7 +2,6 @@ import React from "react";
 import Card from './Card.jsx';
 import {clone} from "lodash"
 import Engine from "../model/Engine.js"
-import io from 'socket.io-client';
 import {find} from "lodash"
 import {findIndex} from "lodash"
 import {remove} from "lodash"
