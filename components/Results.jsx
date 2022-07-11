@@ -49,16 +49,6 @@ class Results extends React.Component {
         }
 
         let reorderedNodes = this.getReorderedNodes().reverse();
-        let putCalls = reorderedNodes.length;
-        if (gaTrackingId && this.state.duration !== null) {
-            console.log('Finished in ' + this.state.duration + ' ms with ' + putCalls + ' cards');
-            ga('send', {
-                hitType: 'event',
-                eventCategory: 'Time stats',
-                eventAction: putCalls,
-                eventLabel: this.state.duration
-            });
-        }
         let Trello = this.props.Trello;
 
         let nextCardIndex = 0;
