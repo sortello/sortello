@@ -1,6 +1,5 @@
 import React from 'react';
 import CardButtons from './CardButtons.jsx'
-import CardVoters from './CardVoters.jsx';
 import CardLabels from './CardLabels.jsx';
 
 class Card extends React.Component {
