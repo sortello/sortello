@@ -159,8 +159,6 @@ class Choices extends React.Component {
                 voters={this.state.voters}
                 handleAddToBlacklist={null}
                 handleCardClicked={this.handleCardClicked}
-                handleGoToNextVoting={() => {
-                }}
                 progress={0}
                 selectedSide={this.state.selectedSide}
                 role="voter"

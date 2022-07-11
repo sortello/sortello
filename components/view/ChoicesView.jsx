@@ -26,7 +26,6 @@ class ChoicesView extends React.Component {
                      forget={this.props.handleAddToBlacklist} data={data}
                      voters={voters}
                      everybodyVoted={this.props.everybodyVoted}
-                     handleGoToNextVoting={this.props.handleGoToNextVoting}
                      selected={this.props.selectedSide === side}
         />
     }

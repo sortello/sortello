@@ -75,8 +75,6 @@ class StyleguideApp extends React.Component {
                 handleAddToBlacklist={null}
                 handleCardClicked={() => {
                 }}
-                handleGoToNextVoting={() => {
-                }}
                 progress={75}
                 selectedSide={'compareNode'}
                 role="voter"
@@ -98,8 +96,6 @@ class StyleguideApp extends React.Component {
                 handleCardClicked={() => {
                 }}
                 handleUndoClicked={() => {
-                }}
-                handleGoToNextVoting={() => {
                 }}
                 progress={60}
                 selectedSide={null}

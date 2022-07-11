@@ -42,7 +42,6 @@ class Choices extends React.Component {
         this.createRoom = this.createRoom.bind(this)
         this.removeVoter = this.removeVoter.bind(this)
         this.addVoter = this.addVoter.bind(this)
-        this.handleGoToNextVoting = this.handleGoToNextVoting.bind(this)
         this.registerVote = this.registerVote.bind(this)
         this.addVoteToVoters = this.addVoteToVoters.bind(this)
         this.getTrelloUserData(this);
@@ -249,10 +248,6 @@ class Choices extends React.Component {
         this.getNextChoice()
     }
 
-    handleGoToNextVoting (side) {
-        this.cardClicked(side)
-    }
-
     handleCardClicked (side) {
         if (this.state.roomVoters.length === 0) {
             this.cardClicked(side)
@@ -345,7 +340,6 @@ class Choices extends React.Component {
                 handleAddToBlacklist={this.handleAddToBlacklist}
                 handleCardClicked={this.handleCardClicked}
                 handleUndoClicked={this.handleUndoClicked}
-                handleGoToNextVoting={this.handleGoToNextVoting}
                 progress={this.getProgress()}
                 selectedSide={this.state.selectedSide}
             />

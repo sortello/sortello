@@ -105,6 +105,5 @@ describe("Card", () => {
 
     expect(wrapper.find('CardVoters').exists()).toEqual(true);
     expect(wrapper.find('CardVoters').props().voters).toEqual(props.voters)
-    expect(wrapper.find('CardButtons').props().continueButton).not.toBe(null)
   })
 })
