@@ -2,23 +2,13 @@ import React from "react";
 import Card from './Card.jsx';
 import {clone} from "lodash"
 import Engine from "../model/Engine.js"
-import io from 'socket.io-client';
 import {find} from "lodash"
 import {findIndex} from "lodash"
-import {remove} from "lodash"
-import Room from "../model/Room.js"
 import ChoicesView from './view/ChoicesView.jsx'
 
 function openOverlay() {
     document.getElementById('overlay__share-room').style.height = "100%";
     document.getElementById('overlay__share-room').style.opacity = "1";
-}
-
-let socket = false;
-if (typeof socketAddress !== 'undefined') {
-    if (socketAddress !== null) {
-        socket = io(socketAddress);
-    }
 }
 
 const getRandomKey = () => {
@@ -38,7 +28,6 @@ class Choices extends React.Component {
         this.handleAddToBlacklist = this.handleAddToBlacklist.bind(this)
         this.handleUndoClicked = this.handleUndoClicked.bind(this)
         this.startChoices = this.startChoices.bind(this)
-        this.createRoom = this.createRoom.bind(this)
         this.removeVoter = this.removeVoter.bind(this)
         this.addVoter = this.addVoter.bind(this)
         this.registerVote = this.registerVote.bind(this)
@@ -68,42 +57,6 @@ class Choices extends React.Component {
         }, function (e) {
             console.log(e);
         });
-    }
-
-    createRoom () {
-        if(this.room){
-            return;
-        }
-        let component = this;
-        let randomKey = getRandomKey()
-        this.room = new Room(socket, randomKey)
-        this.room.open(randomKey)
-        socket.on('newRoomOpened', roomId => {
-            console.log("new room opened")
-            component.setState({
-                roomId: roomId
-            })
-        })
-
-        socket.on('voterJoined', function (voterId, trelloAvatar) {
-            component.addVoter(voterId, trelloAvatar);
-        })
-
-        socket.on('voterLeft', function (voterId) {
-            component.removeVoter(voterId)
-        })
-
-        socket.on('getCurrentChoice', function () {
-            component.room.castNextChoice(component.state.leftCard, component.state.rightCard)
-        })
-
-        socket.on('cardClicked', function (side, trelloId, trelloAvatar) {
-            component.registerVote(side, trelloId, trelloAvatar)
-        })
-
-        socket.on('getBoardIdFromMaster', function () {
-            component.room.castBoardId(component.props.boardId)
-        })
     }
 
     addVoteToVoters (side, voter) {
@@ -282,22 +235,6 @@ class Choices extends React.Component {
         )
     }
 
-    renderNewRoomButton () {
-        if (socket) {
-            return (
-                <div>
-                    <div onClick={() => { openOverlay() }}>
-                        <a href="#" id="new-room-button" onClick={this.createRoom}>
-                            <div className="share-room__button">
-                                {this.room ? 'Share room' : 'Open new room' }</div>
-                        </a>
-                    </div>
-                </div>
-            )
-        }
-        return ''
-    }
-
     renderLoading () {
         return (<div><span>Loading...</span></div>)
     }
@@ -324,7 +261,6 @@ class Choices extends React.Component {
 
         return (
             <ChoicesView
-                newRoomButton={this.renderNewRoomButton()}
                 roomVoters={this.getAllRoomVoters()}
                 leftCard={this.state.leftCard}
                 rightCard={this.state.rightCard}

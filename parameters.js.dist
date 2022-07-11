@@ -1,3 +1,2 @@
 const trelloApiKey = null;
 const showCookieBanner = false;
-const socketAddress = null
