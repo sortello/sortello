@@ -8,7 +8,6 @@ import {findIndex} from "lodash"
 import {remove} from "lodash"
 import Room from "../model/Room.js"
 import ChoicesView from './view/ChoicesView.jsx'
-import RoomLink from './RoomLink.jsx'
 
 function openOverlay() {
     document.getElementById('overlay__share-room').style.height = "100%";
@@ -283,11 +282,6 @@ class Choices extends React.Component {
         )
     }
 
-    renderRoomLink () {
-        return <RoomLink roomId={this.state.roomId}/>
-    }
-
-
     renderNewRoomButton () {
         if (socket) {
             return (
@@ -331,7 +325,6 @@ class Choices extends React.Component {
         return (
             <ChoicesView
                 newRoomButton={this.renderNewRoomButton()}
-                roomLink={this.renderRoomLink()}
                 roomVoters={this.getAllRoomVoters()}
                 leftCard={this.state.leftCard}
                 rightCard={this.state.rightCard}

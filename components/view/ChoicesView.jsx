@@ -103,7 +103,6 @@ class ChoicesView extends React.Component {
                             }}/>
                         </div>
                         <div className="share-room__heading">Share this link to invite your team mates</div>
-                        {this.props.roomLink}
                     </div>
                 </div>
                 

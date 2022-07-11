@@ -3,7 +3,6 @@ import PrioritizationEnd from "./components/PrioritizationEnd.jsx"
 import ChoicesView from "./components/view/ChoicesView.jsx"
 import ChoicesVoter from "./components/ChoicesVoter.jsx"
 import loremIpsum from 'lorem-ipsum'
-import RoomLink from './components/RoomLink.jsx'
 
 const randomColor = () => {
     return ['red', 'green', 'blue', 'yellow'][randInt(0, 3)]
@@ -60,10 +59,6 @@ class StyleguideApp extends React.Component {
         super(props)
     }
 
-    renderRoomLink () {
-        return (<RoomLink roomId={"9812u9812uej1298e2j88ewu8ewfu89"}/>)
-    }
-
     renderChoicesViewForVoter () {
         return (
             <ChoicesView
@@ -86,7 +81,6 @@ class StyleguideApp extends React.Component {
         return (
             <ChoicesView
                 newRoomButton={""}
-                roomLink={this.renderRoomLink()}
                 roomVoters={roomVoters}
                 leftCard={createCardData()}
                 rightCard={createCardData()}
