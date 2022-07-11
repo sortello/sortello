@@ -2,7 +2,12 @@ import React from "react";
 import Header from '../Header.jsx';
 import Card from '../Card.jsx';
 import Footer from "../Footer.jsx"
-import Avatars from '../Avatars.jsx'
+
+function closeOverlay() {
+    document.getElementById('overlay__share-room').style.height = "0%";
+    document.getElementById('overlay__share-room').style.opacity = "0";
+}
+
 
 class ChoicesView extends React.Component {
 
@@ -16,7 +21,6 @@ class ChoicesView extends React.Component {
                      forget={this.props.handleAddToBlacklist} data={data}
                      voters={voters}
                      everybodyVoted={this.props.everybodyVoted}
-                     handleGoToNextVoting={this.props.handleGoToNextVoting}
                      selected={this.props.selectedSide === side}
         />
     }
@@ -61,17 +65,25 @@ class ChoicesView extends React.Component {
                     
                     <div className="container__actions-bar">
                         {undoButton}
-                        <div className="container__avatars" >
-                            <div className="guest__label">Guests</div>
-                            <Avatars users={this.props.roomVoters} />
-                            {this.props.newRoomButton}
-                        </div>
                     </div>
                 </div>
                 <div className={"footer"}>
                     <Footer/>
                     <Header/>
                 </div>
+
+                <div className="overlay__share-room" id="overlay__share-room">
+                    <div className="share-room__container">
+                        <div className="share-room__close" >
+                            <img id="share-room__close" src="assets/icons/quit.svg" alt="" onClick={() => {
+                                closeOverlay()
+                            }}/>
+                        </div>
+                        <div className="share-room__heading">Share this link to invite your team mates</div>
+                    </div>
+                </div>
+                
+                
             </div>
         )
     }

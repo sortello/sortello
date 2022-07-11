@@ -6,6 +6,11 @@ import {find} from "lodash"
 import {findIndex} from "lodash"
 import ChoicesView from './view/ChoicesView.jsx'
 
+function openOverlay() {
+    document.getElementById('overlay__share-room').style.height = "100%";
+    document.getElementById('overlay__share-room').style.opacity = "1";
+}
+
 const getRandomKey = () => {
     let randomKey = '';
     let chars = '0123456789abcdefghijklmnopqrstuvwxyz';
@@ -23,10 +28,8 @@ class Choices extends React.Component {
         this.handleAddToBlacklist = this.handleAddToBlacklist.bind(this)
         this.handleUndoClicked = this.handleUndoClicked.bind(this)
         this.startChoices = this.startChoices.bind(this)
-        this.createRoom = this.createRoom.bind(this)
         this.removeVoter = this.removeVoter.bind(this)
         this.addVoter = this.addVoter.bind(this)
-        this.handleGoToNextVoting = this.handleGoToNextVoting.bind(this)
         this.registerVote = this.registerVote.bind(this)
         this.addVoteToVoters = this.addVoteToVoters.bind(this)
         this.getTrelloUserData(this);
@@ -47,49 +50,9 @@ class Choices extends React.Component {
     getTrelloUserData (component) {
         component.props.Trello.members.get('me', {}, function (data) {
             component.trelloId = data.id
-            component.trelloAvatar = '//trello-avatars.s3.amazonaws.com/' + data.avatarHash + '/50.png'
-            if (data.avatarHash === null) {
-                component.trelloAvatar = '//www.gravatar.com/avatar/' + data.gravatarHash + '?s=64&d=identicon'
-            }
         }, function (e) {
             console.log(e);
         });
-    }
-
-    createRoom () {
-        if(this.room){
-            return;
-        }
-        let component = this;
-        let randomKey = getRandomKey()
-        this.room = new Room(socket, randomKey)
-        this.room.open(randomKey)
-        socket.on('newRoomOpened', roomId => {
-            console.log("new room opened")
-            component.setState({
-                roomId: roomId
-            })
-        })
-
-        socket.on('voterJoined', function (voterId, trelloAvatar) {
-            component.addVoter(voterId, trelloAvatar);
-        })
-
-        socket.on('voterLeft', function (voterId) {
-            component.removeVoter(voterId)
-        })
-
-        socket.on('getCurrentChoice', function () {
-            component.room.castNextChoice(component.state.leftCard, component.state.rightCard)
-        })
-
-        socket.on('cardClicked', function (side, trelloId, trelloAvatar) {
-            component.registerVote(side, trelloId, trelloAvatar)
-        })
-
-        socket.on('getBoardIdFromMaster', function () {
-            component.room.castBoardId(component.props.boardId)
-        })
     }
 
     addVoteToVoters (side, voter) {
@@ -233,10 +196,6 @@ class Choices extends React.Component {
         this.getNextChoice()
     }
 
-    handleGoToNextVoting (side) {
-        this.cardClicked(side)
-    }
-
     handleCardClicked (side) {
         if (this.state.roomVoters.length === 0) {
             this.cardClicked(side)
@@ -272,10 +231,6 @@ class Choices extends React.Component {
         )
     }
 
-    renderRoomLink () {
-        return <RoomLink roomId={this.state.roomId}/>
-    }
-
     renderLoading () {
         return (<div><span>Loading...</span></div>)
     }
@@ -302,6 +257,7 @@ class Choices extends React.Component {
 
         return (
             <ChoicesView
+                roomVoters={this.getAllRoomVoters()}
                 leftCard={this.state.leftCard}
                 rightCard={this.state.rightCard}
                 everybodyVoted={this.state.everybodyVoted}
@@ -309,7 +265,6 @@ class Choices extends React.Component {
                 handleAddToBlacklist={this.handleAddToBlacklist}
                 handleCardClicked={this.handleCardClicked}
                 handleUndoClicked={this.handleUndoClicked}
-                handleGoToNextVoting={this.handleGoToNextVoting}
                 progress={this.getProgress()}
                 selectedSide={this.state.selectedSide}
             />

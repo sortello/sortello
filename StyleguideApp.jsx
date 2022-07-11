@@ -1,6 +1,7 @@
 import React from "react"
 import PrioritizationEnd from "./components/PrioritizationEnd.jsx"
 import ChoicesView from "./components/view/ChoicesView.jsx"
+import ChoicesVoter from "./components/ChoicesVoter.jsx"
 import loremIpsum from 'lorem-ipsum'
 
 const randomColor = () => {
@@ -58,10 +59,6 @@ class StyleguideApp extends React.Component {
         super(props)
     }
 
-    renderRoomLink () {
-        return (<RoomLink roomId={"9812u9812uej1298e2j88ewu8ewfu89"}/>)
-    }
-
     renderChoicesViewForVoter () {
         return (
             <ChoicesView
@@ -72,8 +69,6 @@ class StyleguideApp extends React.Component {
                 voters={voters}
                 handleAddToBlacklist={null}
                 handleCardClicked={() => {
-                }}
-                handleGoToNextVoting={() => {
                 }}
                 progress={75}
                 selectedSide={'compareNode'}
@@ -86,7 +81,6 @@ class StyleguideApp extends React.Component {
         return (
             <ChoicesView
                 newRoomButton={""}
-                roomLink={this.renderRoomLink()}
                 roomVoters={roomVoters}
                 leftCard={createCardData()}
                 rightCard={createCardData()}
@@ -96,8 +90,6 @@ class StyleguideApp extends React.Component {
                 handleCardClicked={() => {
                 }}
                 handleUndoClicked={() => {
-                }}
-                handleGoToNextVoting={() => {
                 }}
                 progress={60}
                 selectedSide={null}
@@ -119,6 +111,7 @@ class StyleguideApp extends React.Component {
                 <PrioritizationEnd/>
                 <hr/>
                 <h2>No board permissions message</h2>
+                <ChoicesVoter/>
             </div>
         )
     }
