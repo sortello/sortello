@@ -302,25 +302,6 @@
   width: 800px;
   transition: all .5s ease-in-out;
 }
-.card__voter{
-  height: 36px;
-  margin-right: -8px;
-  border-radius: 18px;
-}
-.card__admin{
-  height: 36px;
-  margin-right: -8px;
-  border-radius: 20px;
-  border: #68e0e6 solid 2px;
-  box-sizing: content-box;
-} 
-
-.card__voters{
-  display: flex;
-  flex-direction: row;
-  margin-top: 20px;
-  align-self: flex-end;
-}
 
 .container__actions-bar {
   display: flex;
@@ -328,33 +309,6 @@
   margin-top: 32px;
   justify-content: space-between;
   width: 100%;
-}
-
-.container__voter-info {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.voter-info__dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 24px;
-  background-color: #2AEA8A;
-  margin-right: 8px;
-}
-
-.voter-info__text {
-  font-family: "Fira Sans", sans-serif;
-  font-size: 14px;
-  line-height: 10px;
-  color: rgba(0,0,0,0.7);
-}
-
-.container__avatars {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
 }
 
 .guest__label {

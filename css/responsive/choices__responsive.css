@@ -53,14 +53,6 @@
     .container__choose-card {
     	padding: 32px 32px 40px;
 	}
-	.share-room__container {
-		margin: 20vh 56px;
-		padding: 32px 0;
-	}
-	.share-room__heading {
-		font-size: 20px;
-		line-height: 32px;
-	}
 	#second_div {
     padding: 56px 56px 32px;
 	}
@@ -77,19 +69,6 @@
 	}
 	#second_div {
 		padding: 56px 48px 32px;
-	}
-	.share-room__container {
-		margin: 10vh 5vw;
-		padding: 32px 0;
-	}
-	.share-room__heading {
-		font-size: 16px;
-		line-height: 24px;
-	}
-	#room-link {
-		width: 90%;
-		margin-bottom: 16px;
-		font-size: 12px;
 	}
 }
 
@@ -146,11 +125,6 @@
 	.wrapper__card {
 		padding: 0;
 	}
-	.share-room__button {
-		font-size: 10px;
-		margin: 0px 8px 0 16px;
-		padding: 8px;
-	}
 	.card__voter{
 		height: 16px;
 	}
@@ -188,22 +162,6 @@
 	.progressive-bar__status-structure {
 		margin: 8px 8px 16px;
 	}
-	.share-room__container {
-		margin: 10vh 16px;
-		padding: 20px 0;
-	}
-	.share-room__heading {
-		font-size: 14px;
-		line-height: 20px;
-		margin-top: 32px;
-	}
-	#room-link {
-		width: 90%;
-		margin-bottom: 16px;
-		font-size: 12px;
-	}
-
-
 }
 
 @media (max-width: 320px) {

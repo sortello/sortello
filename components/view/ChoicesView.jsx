@@ -30,18 +30,6 @@ class ChoicesView extends React.Component {
         />
     }
 
-    renderVoterInfo() {
-        if (this.props.role==='voter') {
-            return (
-                <div className="container__voter-info">
-                    <div className="voter-info__dot"></div>
-                    <div className="voter-info__text">You are in a shared room</div>
-                </div>
-            )
-        } 
-        return null
-    }
-
     render () {
         let undoButton = ''
         if (this.props.handleUndoClicked) {
@@ -82,7 +70,6 @@ class ChoicesView extends React.Component {
                     
                     <div className="container__actions-bar">
                         {undoButton}
-                        {this.renderVoterInfo()}
                         <div className="container__avatars" >
                             <div className="guest__label">Guests</div>
                             <Avatars users={this.props.roomVoters} />
