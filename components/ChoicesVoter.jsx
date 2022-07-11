@@ -4,8 +4,6 @@ import PrioritizationEnd from './PrioritizationEnd.jsx'
 import ChoicesView from './view/ChoicesView.jsx'
 import AccessdeniedAnimation from './AccessdeniedAnimation.jsx';
 
-const params = queryString.parse(location.search);
-
 class Choices extends React.Component {
     constructor (props) {
         super(props);

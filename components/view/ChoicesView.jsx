@@ -2,11 +2,6 @@ import React from "react";
 import Header from '../Header.jsx';
 import Card from '../Card.jsx';
 import Footer from "../Footer.jsx"
-import {clone} from "lodash"
-import {find} from "lodash"
-import {findIndex} from "lodash"
-import {remove} from "lodash"
-import Avatars from '../Avatars.jsx'
 
 function closeOverlay() {
     document.getElementById('overlay__share-room').style.height = "0%";
@@ -70,11 +65,6 @@ class ChoicesView extends React.Component {
                     
                     <div className="container__actions-bar">
                         {undoButton}
-                        <div className="container__avatars" >
-                            <div className="guest__label">Guests</div>
-                            <Avatars users={this.props.roomVoters} />
-                            {this.props.newRoomButton}
-                        </div>
                     </div>
                 </div>
                 <div className={"footer"}>

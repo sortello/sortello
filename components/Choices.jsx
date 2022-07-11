@@ -50,10 +50,6 @@ class Choices extends React.Component {
     getTrelloUserData (component) {
         component.props.Trello.members.get('me', {}, function (data) {
             component.trelloId = data.id
-            component.trelloAvatar = '//trello-avatars.s3.amazonaws.com/' + data.avatarHash + '/50.png'
-            if (data.avatarHash === null) {
-                component.trelloAvatar = '//www.gravatar.com/avatar/' + data.gravatarHash + '?s=64&d=identicon'
-            }
         }, function (e) {
             console.log(e);
         });
