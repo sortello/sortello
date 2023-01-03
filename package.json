@@ -34,7 +34,7 @@
     "@babel/preset-react": "^7.16.5",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.4.1",
     "babel-jest": "^27.4.5",
-    "babel-loader": "^8.2.3",
+    "babel-loader": "^8.3.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "babel-preset-react": "^6.24.1",
     "babel-preset-react-hmre": "^1.1.1",
